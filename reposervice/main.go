@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 	"time"
 )
 
@@ -23,7 +22,7 @@ func getCurrentTime() string {
 }
 
 func getLocalPort(config *Configuration) string {
-	return ":" + strconv.Itoa(config.Port)
+
 }
 
 func readConfig(path string) *Configuration {
@@ -42,7 +41,7 @@ func readConfig(path string) *Configuration {
 func logError(err error) {
 	if terr, ok := err.(*json.UnmarshalTypeError); ok {
 		log.Printf("Failed to unmarshal field %s \n", terr.Field)
-	} else if terr, ok :=err.(*json.InvalidUnmarshalError); ok {
+	} else if terr, ok := err.(*json.InvalidUnmarshalError); ok {
 		log.Printf("Failed to unmarshal object %s \n", terr.Error())
 	} else {
 		log.Println(err)
@@ -52,7 +51,7 @@ func logError(err error) {
 func main() {
 	log.Printf("Application started at: %s\n", getCurrentTime())
 
-	file, err := os.OpenFile("error.log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+	file, err := os.OpenFile("error.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
