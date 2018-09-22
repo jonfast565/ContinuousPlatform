@@ -6,7 +6,6 @@ import (
 	"../models/repos/teamservices"
 	"../models/web"
 	"../utilities"
-	"encoding/json"
 	"net/http"
 	"strings"
 )
@@ -92,17 +91,16 @@ func (e TeamServicesEndpoint) getRepositoryInformation() (*teamservices.TeamServ
 	}
 	buildTeamServiceAuthHeader(request, e)
 	utilities.AddJsonHeader(request)
-	body, err := utilities.ExecuteRequestAndReadBodyAsString(&e.Client, request)
 	var result teamservices.TeamServicesGitRepositoryList
-	if err := json.Unmarshal(*body, &result); err != nil {
+	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, result)
+	if err != nil {
 		return nil, err
 	}
 	return &result, nil
 }
 
 func buildTeamServiceAuthHeader(request *http.Request, e TeamServicesEndpoint) {
-	request.Header.Add(utilities.AuthorizationHeader, utilities.BasicAuthHeaderValue(
-		teamservices.BuildAuthorizationHeader(e.Configuration.Username, e.Configuration.PersonalAccessToken)))
+	request.SetBasicAuth(e.Configuration.Username, e.Configuration.PersonalAccessToken)
 }
 
 func (e TeamServicesEndpoint) getFileInformation(
@@ -121,9 +119,9 @@ func (e TeamServicesEndpoint) getFileInformation(
 	}
 	buildTeamServiceAuthHeader(request, e)
 	utilities.AddOctetHeader(request)
-	body, err := utilities.ExecuteRequestAndReadBodyAsString(&e.Client, request)
 	var result web.FilePayload
-	if err := json.Unmarshal(*body, &result); err != nil {
+	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, result)
+	if err != nil {
 		return nil, err
 	}
 	return &result, nil
@@ -138,9 +136,9 @@ func (e TeamServicesEndpoint) getBranchInformation(
 	}
 	buildTeamServiceAuthHeader(request, e)
 	utilities.AddJsonHeader(request)
-	body, err := utilities.ExecuteRequestAndReadBodyAsString(&e.Client, request)
 	var result teamservices.TeamServicesGitRefsList
-	if err := json.Unmarshal(*body, &result); err != nil {
+	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, result)
+	if err != nil {
 		return nil, err
 	}
 	return &result, nil
@@ -161,9 +159,9 @@ func (e TeamServicesEndpoint) getBranchFileList(
 	}
 	buildTeamServiceAuthHeader(request, e)
 	utilities.AddJsonHeader(request)
-	body, err := utilities.ExecuteRequestAndReadBodyAsString(&e.Client, request)
 	var result teamservices.TeamServicesGitFileList
-	if err := json.Unmarshal(*body, &result); err != nil {
+	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, result)
+	if err != nil {
 		return nil, err
 	}
 	return &result, nil

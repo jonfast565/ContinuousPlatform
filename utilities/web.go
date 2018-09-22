@@ -1,13 +1,11 @@
 package utilities
 
 import (
-	"io/ioutil"
+	"encoding/json"
 	"net/http"
 )
 
 const (
-	AuthorizationHeader              string = "Authentication"
-	AuthorizationTypeString          string = "Basic"
 	ContentTypeHeader                string = "Content-Type"
 	ApplicationJsonHeaderContentType string = "application/json"
 	OctetStreamHeaderContentType     string = "application/octet-stream"
@@ -21,19 +19,14 @@ func AddOctetHeader(request *http.Request) {
 	request.Header.Add(ContentTypeHeader, OctetStreamHeaderContentType)
 }
 
-func BasicAuthHeaderValue(token string) string {
-	return "Basic" + " " + token
-}
-
-func ExecuteRequestAndReadBodyAsString(c *http.Client, r *http.Request) (*[]byte, error) {
+func ExecuteRequestAndReadJsonBody(c *http.Client, r *http.Request, object interface{}) error {
 	response, err := c.Do(r)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer response.Body.Close()
-	body, err := ioutil.ReadAll(response.Body)
+	err := json.NewDecoder(response.Body).Decode(&object)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return &body, nil
 }
