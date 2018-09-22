@@ -13,3 +13,6 @@
 
 # log output
 *.log
+
+# forget idea folder
+./.idea
