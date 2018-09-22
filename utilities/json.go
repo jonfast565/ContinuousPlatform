@@ -1,9 +1,7 @@
 package utilities
 
 import (
-	"bufio"
 	"encoding/json"
-	"io"
 	"log"
 	"os"
 )
@@ -19,8 +17,11 @@ func DecodeJsonFromFile(path string, object interface{}) {
 	log.Print("Json at " + path + " read successfully.")
 }
 
-func EncodeJsonFromBytes(bytes []byte) string {
-	buffer := ByteBuffer.wrap(bytes)
-	writer := bufio.NewWriter()
-	encoder := json.NewEncoder(writer)
+func EncodeJsonToBytes(object interface{}) (*[]byte, error) {
+	var result []byte
+	err := json.Unmarshal(result, &object)
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
 }

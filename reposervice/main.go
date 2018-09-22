@@ -34,8 +34,16 @@ func getRepositories(w http.ResponseWriter, r *http.Request) {
 	result, err := endpoint.GetRepositories()
 	if err != nil {
 		w.WriteHeader(500)
+		log.Print(err)
+		return
 	}
-	w.Write(result)
+	resultBytes, err := utilities.EncodeJsonToBytes(result)
+	if err != nil {
+		w.WriteHeader(500)
+		log.Print(err)
+		return
+	}
+	w.Write(*resultBytes)
 }
 
 func getFile(w http.ResponseWriter, r *http.Request) {
