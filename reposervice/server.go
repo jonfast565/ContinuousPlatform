@@ -101,8 +101,8 @@ func (e TeamServicesEndpoint) getRepositoryInformation() (*teamservices.TeamServ
 }
 
 func buildTeamServiceAuthHeader(request *http.Request, e TeamServicesEndpoint) {
-	request.Header.Add(utilities.AuthorizationHeader, utilities.AuthorizationTypeString+
-		teamservices.BuildAuthorizationHeader(e.Configuration.Username, e.Configuration.PersonalAccessToken))
+	request.Header.Add(utilities.AuthorizationHeader, utilities.BasicAuthHeaderValue(
+		teamservices.BuildAuthorizationHeader(e.Configuration.Username, e.Configuration.PersonalAccessToken)))
 }
 
 func (e TeamServicesEndpoint) getFileInformation(
