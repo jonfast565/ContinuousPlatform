@@ -80,7 +80,8 @@ func (e TeamServicesEndpoint) GetRepositories() (*repos.RepositoryPackage, error
 }
 
 func (e TeamServicesEndpoint) GetFile(file repos.RepositoryFileMetadata) (*web.FilePayload, error) {
-
+	// TODO: Implement this
+	return nil, nil
 }
 
 func (e TeamServicesEndpoint) getRepositoryInformation() (*teamservices.TeamServicesGitRepositoryList, error) {
