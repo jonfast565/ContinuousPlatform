@@ -21,6 +21,10 @@ func AddOctetHeader(request *http.Request) {
 	request.Header.Add(ContentTypeHeader, OctetStreamHeaderContentType)
 }
 
+func BasicAuthHeaderValue(token string) string {
+	return "Basic" + " " + token
+}
+
 func ExecuteRequestAndReadBodyAsString(c *http.Client, r *http.Request) (*[]byte, error) {
 	response, err := c.Do(r)
 	if err != nil {

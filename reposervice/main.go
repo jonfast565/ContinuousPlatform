@@ -18,7 +18,7 @@ func main() {
 	}
 	defer file.Close()
 
-	utilities.DecodeJsonFromFile("./appsettings.json", configuration)
+	utilities.DecodeJsonFromFile("./appsettings.json", &configuration)
 	endpoint = NewTeamServicesEndpoint(configuration)
 
 	router := mux.NewRouter()
@@ -34,13 +34,13 @@ func getRepositories(w http.ResponseWriter, r *http.Request) {
 	result, err := endpoint.GetRepositories()
 	if err != nil {
 		w.WriteHeader(500)
-		log.Print(err)
+		utilities.LogError(err)
 		return
 	}
 	resultBytes, err := utilities.EncodeJsonToBytes(result)
 	if err != nil {
 		w.WriteHeader(500)
-		log.Print(err)
+		utilities.LogError(err)
 		return
 	}
 	w.Write(*resultBytes)
