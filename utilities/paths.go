@@ -48,6 +48,13 @@ type PathActionSeries struct {
 	ActionItems *[]Namer
 }
 
+func GetLastPathComponent(path string) string {
+	parser := new(PathParser)
+	parser.SetActionSeries(path)
+	lastItem := parser.GetLastItem()
+	return lastItem
+}
+
 func (actionSeries *PathActionSeries) New(actionItems *[]Namer) {
 	actionSeries.ActionItems = actionItems
 }
@@ -79,9 +86,9 @@ func (parser *PathParser) SetActionSeries(path string) {
 
 func (parser *PathParser) GetLastItem() string {
 	result := linq.From(parser.Series.ActionItems).SelectT(
-		func (iterator Namer) string {
-		return iterator.GetName()
-	}).Last()
+		func(iterator Namer) string {
+			return iterator.GetName()
+		}).Last()
 
 	if str, ok := result.(string); ok {
 		return str
@@ -101,7 +108,7 @@ func (parser *PathParser) GetPathString(includeStartDelimiter bool) string {
 	var seriesList = *parser.Series.ActionItems
 	for counter, action := range seriesList {
 		result += action.GetName()
-		if counter != len(seriesList) - 1 {
+		if counter != len(seriesList)-1 {
 			result += "/"
 		}
 	}
@@ -117,9 +124,9 @@ func NullZipSeries(series1 PathActionSeries, series2 PathActionSeries, strictLen
 	zippedSeries := make([]PathActionZipped, 0)
 	items1Length := len(*series1.ActionItems)
 	for counter, item1 := range *series1.ActionItems {
-		if counter >= items1Length - 1 && strictLength {
+		if counter >= items1Length-1 && strictLength {
 			break
-		} else if counter >= items1Length - 1 && !strictLength {
+		} else if counter >= items1Length-1 && !strictLength {
 			zippedSeries = append(zippedSeries, PathActionZipped{
 				item1: item1,
 				item2: nil,
@@ -137,4 +144,3 @@ func NullZipSeries(series1 PathActionSeries, series2 PathActionSeries, strictLen
 func (parser *PathParser) ContainsOrEquals(series2 PathActionSeries, strictLength bool) {
 
 }
-
