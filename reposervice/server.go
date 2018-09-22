@@ -31,7 +31,7 @@ func NewTeamServicesEndpoint(configuration TeamServicesConfiguration) *TeamServi
 	return result
 }
 
-func (e TeamServicesEndpoint) GetRepositories() ([]repos.RepositoryMetadata, error) {
+func (e TeamServicesEndpoint) GetRepositories() (*repos.RepositoryPackage, error) {
 	results := make([]repos.RepositoryMetadata, 0)
 	resultsChan := make(chan repos.RepositoryMetadata)
 	repositories, err := e.getRepositoryInformation()
@@ -72,7 +72,11 @@ func (e TeamServicesEndpoint) GetRepositories() ([]repos.RepositoryMetadata, err
 			results = append(results, result)
 		}
 	}
-	return results, nil
+	amalgamation := repos.RepositoryPackage{
+		Metadata: results,
+		Type:     repos.AzureDevOps,
+	}
+	return &amalgamation, nil
 }
 
 func (e TeamServicesEndpoint) GetFile(file repos.RepositoryFileMetadata) (*web.FilePayload, error) {
