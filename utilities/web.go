@@ -25,8 +25,9 @@ func ExecuteRequestAndReadJsonBody(c *http.Client, r *http.Request, object inter
 		return err
 	}
 	defer response.Body.Close()
-	err := json.NewDecoder(response.Body).Decode(&object)
+	err = json.NewDecoder(response.Body).Decode(&object)
 	if err != nil {
 		return err
 	}
+	return nil
 }
