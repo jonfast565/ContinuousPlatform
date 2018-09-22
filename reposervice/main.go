@@ -11,7 +11,6 @@ var configuration TeamServicesConfiguration
 var endpoint *TeamServicesEndpoint
 
 func main() {
-
 	utilities.LogApplicationStart()
 	file, err := utilities.CreateLog()
 	if err != nil {
@@ -32,7 +31,11 @@ func main() {
 }
 
 func getRepositories(w http.ResponseWriter, r *http.Request) {
-	// endpoint.
+	result, err := endpoint.GetRepositories()
+	if err != nil {
+		w.WriteHeader(500)
+	}
+	w.Write(result)
 }
 
 func getFile(w http.ResponseWriter, r *http.Request) {
