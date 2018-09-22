@@ -92,7 +92,7 @@ func (e TeamServicesEndpoint) getRepositoryInformation() (*teamservices.TeamServ
 	buildTeamServiceAuthHeader(request, e)
 	utilities.AddJsonHeader(request)
 	var result teamservices.TeamServicesGitRepositoryList
-	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, result)
+	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
 	if err != nil {
 		return nil, err
 	}
@@ -120,7 +120,7 @@ func (e TeamServicesEndpoint) getFileInformation(
 	buildTeamServiceAuthHeader(request, e)
 	utilities.AddOctetHeader(request)
 	var result web.FilePayload
-	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, result)
+	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
 	if err != nil {
 		return nil, err
 	}
@@ -137,7 +137,7 @@ func (e TeamServicesEndpoint) getBranchInformation(
 	buildTeamServiceAuthHeader(request, e)
 	utilities.AddJsonHeader(request)
 	var result teamservices.TeamServicesGitRefsList
-	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, result)
+	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
 	if err != nil {
 		return nil, err
 	}
@@ -160,7 +160,7 @@ func (e TeamServicesEndpoint) getBranchFileList(
 	buildTeamServiceAuthHeader(request, e)
 	utilities.AddJsonHeader(request)
 	var result teamservices.TeamServicesGitFileList
-	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, result)
+	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
 	if err != nil {
 		return nil, err
 	}
