@@ -2,6 +2,6 @@ package utilities
 
 import "strconv"
 
-func getLocalPort(port int) string {
+func GetLocalPort(port int) string {
 	return ":" + strconv.Itoa(port)
 }

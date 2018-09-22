@@ -2,6 +2,6 @@ package utilities
 
 import "time"
 
-func getCurrentTime() string {
+func GetCurrentTime() string {
 	return time.Now().Format(time.RFC850)
 }
