@@ -18,8 +18,7 @@ func DecodeJsonFromFile(path string, object interface{}) {
 }
 
 func EncodeJsonToBytes(object interface{}) (*[]byte, error) {
-	var result []byte
-	err := json.Unmarshal(result, &object)
+	result, err := json.Marshal(&object)
 	if err != nil {
 		return nil, err
 	}

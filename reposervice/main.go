@@ -37,7 +37,7 @@ func getRepositories(w http.ResponseWriter, r *http.Request) {
 		utilities.LogError(err)
 		return
 	}
-	resultBytes, err := utilities.EncodeJsonToBytes(result)
+	resultBytes, err := utilities.EncodeJsonToBytes(&result)
 	if err != nil {
 		w.WriteHeader(500)
 		utilities.LogError(err)
