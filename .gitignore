@@ -13,6 +13,7 @@
 
 # log output
 *.log
+*.log.gz
 
 # forget idea folder
 ./.idea

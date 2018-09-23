@@ -21,7 +21,7 @@ type RepositoryMetadata struct {
 }
 
 func (rm RepositoryMetadata) String() string {
-	return fmt.Sprintf("Name: %s\nBranch: %s\nUrl: %s\n",
+	return fmt.Sprintf("Repo: %s\nBranch: %s\nUrl: %s\n",
 		rm.Name,
 		rm.Branch,
 		rm.Url)
@@ -37,6 +37,13 @@ type RepositoryFileMetadata struct {
 	Repo   string
 	Branch string
 	File   filesystem.FileSystemMetadata
+}
+
+func (rfm RepositoryFileMetadata) String() string {
+	return fmt.Sprintf("Repo: %s\nBranch: %s\nFilePath: %s\n",
+		rfm.Name,
+		rfm.Branch,
+		rfm.File.Path)
 }
 
 func MapToRepositoryMetadata(metadata filesystem.FileSystemMetadata,
