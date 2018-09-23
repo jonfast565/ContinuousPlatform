@@ -1,28 +1,57 @@
 package utilities
 
 import (
+	"gopkg.in/natefinch/lumberjack.v2"
 	"io"
 	"log"
 	"os"
 )
 
-func CreateLog() (*os.File, error) {
-	file, err := os.OpenFile("error.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
+const (
+	Filename   = "./error.log"
+	MaxSize    = 50
+	MaxBackups = 1
+	MaxAge     = 10
+	Compress   = true
+)
 
-	mw := io.MultiWriter(os.Stdout, file)
+const Header = "\n    _____            __                 __________\n" +
+	"   / ___/__  _______/ /____  ____ ___  / ____/  _/\n" +
+	"  \\__ \\/ / / / ___/ __/ _ \\/ __ `__ \\/ /    / /\n" +
+	" ___/ / /_/ (__  ) /_/  __/ / / / / / /____/ /\n" +
+	"/____/\\__, /____/\\__/\\___/_/ /_/ /_/\\____/___/\n" +
+	"     /____/\n\n"
+
+const Divider = "-----------------------------------------------"
+
+func CreateLog() {
+	logger := &lumberjack.Logger{
+		Filename:   Filename,
+		MaxSize:    MaxSize,
+		MaxBackups: MaxBackups,
+		MaxAge:     MaxAge,
+		Compress:   Compress,
+	}
+	mw := io.MultiWriter(os.Stdout, logger)
 	log.SetOutput(mw)
 	log.Printf("Log file created.")
-	return file, nil
+}
+
+func LogHeader(applicationName string) {
+	log.Print(Header)
+	log.Print(Divider)
+	log.Print("Application: " + applicationName)
+	log.Print(Divider)
 }
 
 func LogApplicationStart() {
-
+	log.Print("Application started...")
 }
 
 func LogApplicationEnd() {
+	log.Print("Application finished.")
+}
 
+func LogContentService(portString string) {
+	log.Print("Serving content @ " + portString)
 }

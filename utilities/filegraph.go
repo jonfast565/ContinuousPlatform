@@ -20,7 +20,7 @@ type FileGraphFile struct {
 }
 
 type FileGraphFolder struct {
-	Name string
+	Name     string
 	Children *list.List
 }
 

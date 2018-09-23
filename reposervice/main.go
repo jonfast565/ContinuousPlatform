@@ -11,12 +11,9 @@ var configuration TeamServicesConfiguration
 var endpoint *TeamServicesEndpoint
 
 func main() {
+	utilities.CreateLog()
+	utilities.LogHeader("RepoService")
 	utilities.LogApplicationStart()
-	file, err := utilities.CreateLog()
-	if err != nil {
-		panic("Log not created")
-	}
-	defer file.Close()
 
 	utilities.DecodeJsonFromFile("./appsettings.json", &configuration)
 	endpoint = NewTeamServicesEndpoint(configuration)
@@ -25,8 +22,9 @@ func main() {
 	router.HandleFunc("/repositories", getRepositories).Methods(utilities.PostMethod)
 	router.HandleFunc("/file", getFile).Methods(utilities.PostMethod)
 
-	log.Print("Serving content...")
-	log.Fatal(http.ListenAndServe(utilities.GetLocalPort(configuration.Port), router))
+	localPort := utilities.GetLocalPort(configuration.Port)
+	utilities.LogContentService(localPort)
+	log.Fatal(http.ListenAndServe(localPort, router))
 	utilities.LogApplicationEnd()
 }
 
