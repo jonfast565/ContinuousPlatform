@@ -1,11 +1,11 @@
 package teamservices
 
-type TeamServicesGitFileList struct {
-	Value []TeamServicesGitFileModel
+type TsGitFileList struct {
+	Value []TsGitFileModel
 	Count int
 }
 
-type TeamServicesGitFileModel struct {
+type TsGitFileModel struct {
 	ObjectId      string
 	GitObjectType string
 	CommitId      string
@@ -13,31 +13,31 @@ type TeamServicesGitFileModel struct {
 	Url           string
 }
 
-type TeamServicesGitRefsList struct {
-	Value []TeamServicesGitRefsModel
+type TsGitRefsList struct {
+	Value []TsGitRefsModel
 	Count int
 }
 
-type TeamServicesGitRefsModel struct {
+type TsGitRefsModel struct {
 	Name     string
 	ObjectId string
 	Url      string
 }
 
-type TeamServicesGitRepositoryList struct {
-	Value []TeamServicesGitRepositoryModel
+type TsGitRepositoryList struct {
+	Value []TsGitRepositoryModel
 	Count int
 }
 
-type TeamServicesGitRepositoryModel struct {
+type TsGitRepositoryModel struct {
 	Id        string
 	Name      string
 	Url       string
-	Project   TeamServicesGitRepositoryProjectModel
+	Project   TsGitRepositoryProjectModel
 	RemoteUrl string
 }
 
-type TeamServicesGitRepositoryProjectModel struct {
+type TsGitRepositoryProjectModel struct {
 	Id    string
 	Name  string
 	Url   string
