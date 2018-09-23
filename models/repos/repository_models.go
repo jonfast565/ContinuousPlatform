@@ -3,6 +3,7 @@ package repos
 import (
 	"../../utilities"
 	"../filesystem"
+	"fmt"
 )
 
 type SourceControlProviderType int
@@ -17,6 +18,13 @@ type RepositoryMetadata struct {
 	Branch   string
 	Url      string
 	Metadata []filesystem.FileSystemMetadata
+}
+
+func (rm RepositoryMetadata) String() string {
+	return fmt.Sprintf("Name: %s\nBranch: %s\nUrl: %s\n",
+		rm.Name,
+		rm.Branch,
+		rm.Url)
 }
 
 type RepositoryMetadataGraphPair struct {

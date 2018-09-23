@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="RepoService" type="GoApplicationRunConfiguration" factoryName="Go Application" singleton="true">
+    <module name="SystemCI" />
+    <working_directory value="$PROJECT_DIR$/reposervice" />
+    <go_parameters value="-i" />
+    <kind value="DIRECTORY" />
+    <filePath value="$PROJECT_DIR$/" />
+    <directory value="$PROJECT_DIR$/reposervice" />
+    <output_directory value="$PROJECT_DIR$/reposervice" />
+    <method v="2" />
+  </configuration>
+</component>
