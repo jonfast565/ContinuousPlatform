@@ -55,3 +55,17 @@ func LogApplicationEnd() {
 func LogContentService(portString string) {
 	log.Print("Serving content @ " + portString)
 }
+
+func LogInfo(logLine string) {
+	log.Printf("[Info] %s", logLine)
+}
+
+func LogInfoMultiline(logLines ...string) {
+	for i, line := range logLines {
+		if i == 0 {
+			log.Printf("[Info] %s", line)
+		} else {
+			log.Printf("     - %s", line)
+		}
+	}
+}
