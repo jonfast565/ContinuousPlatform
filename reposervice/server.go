@@ -6,7 +6,7 @@ import (
 	"../models/repos/teamservices"
 	"../models/web"
 	"../utilities"
-	"log"
+	"fmt"
 	"net/http"
 	"strings"
 	"sync"
@@ -53,7 +53,7 @@ func (e TeamServicesEndpoint) GetRepositories() (*repos.RepositoryPackage, error
 		case msg := <-resultsChannel:
 			results = append(results, msg)
 		default:
-			log.Print("No more repositories/branches received")
+			utilities.LogInfo("No more repositories/branches received")
 			noMore = true
 		}
 		if noMore {
@@ -97,7 +97,11 @@ func (e *TeamServicesEndpoint) getRepositoryBranchFiles(
 		panic("Files not retrieved")
 	}
 	result := e.buildRepositoryMetadata(repository, branch, files)
-	log.Printf("Result built:\n%s", result)
+	utilities.LogInfoMultiline("Result built: ",
+		fmt.Sprintf("Repo: %s", result.Name),
+		fmt.Sprintf("Branch: %s", result.Branch),
+		fmt.Sprintf("Url: %s", result.Url),
+	)
 	go func() { resultsChannel <- result }()
 	wg.Done()
 }
