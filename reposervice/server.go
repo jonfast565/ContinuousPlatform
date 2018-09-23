@@ -50,6 +50,9 @@ func (e TeamServicesEndpoint) GetRepositories() (*repos.RepositoryPackage, error
 	for _, repository := range repositories.Value {
 		var ref = <-refs
 		for _, branch := range ref.Value {
+			if !strings.Contains(branch.Name, teamservices.RefsHeadsConstants) {
+				continue
+			}
 			go func(branch teamservices.TeamServicesGitRefsModel) {
 				files, err := e.getBranchFileList(repository, branch)
 				if err != nil {
@@ -57,18 +60,18 @@ func (e TeamServicesEndpoint) GetRepositories() (*repos.RepositoryPackage, error
 				}
 				result := repos.RepositoryMetadata{
 					Name:     repository.Name,
-					Branch:   branch.Name,
+					Branch:   strings.Replace(branch.Name, teamservices.RefsHeadsConstants, "", -1),
 					Url:      repository.RemoteUrl,
-					Metadata: getFileSystemMetadataFromList(*files),
+					Metadata: *getFileSystemMetadataFromList(*files),
 				}
 				resultsChan <- result
 			}(branch)
-		}
-	}
-	select {
-	case result, ok := <-resultsChan:
-		if ok {
-			results = append(results, result)
+			select {
+			case result, ok := <-resultsChan:
+				if ok {
+					results = append(results, result)
+				}
+			}
 		}
 	}
 	amalgamation := repos.RepositoryPackage{
@@ -167,7 +170,7 @@ func (e TeamServicesEndpoint) getBranchFileList(
 	return &result, nil
 }
 
-func getFileSystemMetadataFromList(fileList teamservices.TeamServicesGitFileList) []filesystem.FileSystemMetadata {
+func getFileSystemMetadataFromList(fileList teamservices.TeamServicesGitFileList) *[]filesystem.FileSystemMetadata {
 	result := make([]filesystem.FileSystemMetadata, 0)
 	for _, file := range fileList.Value {
 		result = append(result, filesystem.FileSystemMetadata{
@@ -176,7 +179,7 @@ func getFileSystemMetadataFromList(fileList teamservices.TeamServicesGitFileList
 			Type:             getGitObjectType(file.GitObjectType),
 		})
 	}
-	return result
+	return &result
 }
 
 func getGitObjectType(objectType string) filesystem.FileSystemObjectType {
