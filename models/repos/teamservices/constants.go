@@ -2,7 +2,7 @@ package teamservices
 
 import (
 	"../../../utilities"
-	"html"
+	"net/url"
 )
 
 const (
@@ -35,9 +35,9 @@ func GetApiFilesPath(collectionUrl string,
 		scopePath = optionalScopePath
 	}
 	return collectionUrl + "/" + projectName + RepositoryApiSubpath + "/" +
-		repositoryId + "/items" + "?" + "scopePath=" + html.EscapeString(scopePath) +
+		repositoryId + "/items" + "?" + "scopePath=" + url.QueryEscape(scopePath) +
 		"&recursionLevel=Full&includeContentMetadata=true" +
-		"&versionType=branch&version=" + html.EscapeString(branchName) + "&" + GetApiVersionParams()
+		"&versionType=branch&version=" + url.QueryEscape(branchName) + "&" + GetApiVersionParams()
 }
 
 func GetBranchApiPath(collectionUrl string, projectName string, repositoryId string) string {
