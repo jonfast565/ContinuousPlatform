@@ -105,7 +105,7 @@ func (e *TeamServicesEndpoint) getRepositoryBranchFiles(
 	utilities.LogInfoMultiline("Repository metadata built: ",
 		fmt.Sprintf("Repo: %s", result.Name),
 		fmt.Sprintf("Branch: %s", result.Branch),
-		fmt.Sprintf("Url: %s", result.Url),
+		fmt.Sprintf("Url: %s", result.OptionalUrl),
 	)
 	go func() { resultsChannel <- result }()
 }
@@ -115,10 +115,10 @@ func (e TeamServicesEndpoint) buildRepositoryMetadata(
 	branch teamservices.TsGitRefsModel,
 	files *teamservices.TsGitFileList) repos.RepositoryMetadata {
 	return repos.RepositoryMetadata{
-		Name:     repository.Name,
-		Branch:   getCleanBranchName(branch),
-		Url:      repository.RemoteUrl,
-		Metadata: *getFileSystemMetadataFromList(*files),
+		Name:        repository.Name,
+		Branch:      getCleanBranchName(branch),
+		OptionalUrl: repository.RemoteUrl,
+		Files:       *getFileSystemMetadataFromList(*files),
 	}
 }
 
@@ -226,7 +226,7 @@ func (e TeamServicesEndpoint) getFileInformation(
 	}
 
 	result = web.FilePayload{
-		Name:  path,
+		Name:  "." + path,
 		Bytes: *resultBytes,
 	}
 	return &result, nil

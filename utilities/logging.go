@@ -2,6 +2,7 @@ package utilities
 
 import (
 	"encoding/json"
+	"fmt"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"io"
 	"log"
@@ -66,13 +67,15 @@ func LogFatal(logLine string) {
 }
 
 func LogInfoMultiline(logLines ...string) {
+	result := ""
 	for i, line := range logLines {
 		if i == 0 {
-			log.Printf("[Info] %s", line)
+			result += fmt.Sprintf("[Info] %s\n", line)
 		} else {
-			log.Printf("     - %s", line)
+			result += fmt.Sprintf("     - %s\n", line)
 		}
 	}
+	log.Printf(result)
 }
 
 func LogError(err error) {
