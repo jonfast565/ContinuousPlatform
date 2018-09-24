@@ -10,19 +10,18 @@ import (
 	"strings"
 )
 
-var config *Configuration
+var config Configuration
 
 func main() {
 	utilities.CreateLog()
 	utilities.LogHeader("Teams Notifier")
 	utilities.LogApplicationStart()
 
-	var configuration Configuration
-	utilities.DecodeJsonFromFile("./appsettings.json", &configuration)
+	utilities.DecodeJsonFromFile("./appsettings.json", &config)
 	router := mux.NewRouter()
 	router.HandleFunc("/message", sendMessage).Methods(utilities.PostMethod)
 
-	localPort := utilities.GetLocalPort(configuration.Port)
+	localPort := utilities.GetLocalPort(config.Port)
 	utilities.LogContentService(localPort)
 	log.Fatal(http.ListenAndServe(localPort, router))
 	utilities.LogApplicationEnd()
@@ -47,7 +46,7 @@ func sendMessage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	responseBytes, err := SendMessage(&inputMessage)
+	responseBytes, err := SendMessage(&inputMessage, &config)
 	if err != nil {
 		utilities.LogError(err)
 		w.WriteHeader(500)
