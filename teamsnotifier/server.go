@@ -26,7 +26,7 @@ type OutputMessage struct {
 	Markdown string `json:"markdown"`
 }
 
-func SendMessage(inputMessage *InputMessage) (*[]byte, error) {
+func SendMessage(inputMessage *InputMessage, config *Configuration) (*[]byte, error) {
 	client := &http.Client{}
 	outputMessage := getOutputMessage(inputMessage, config)
 	outputBytes, err := json.Marshal(outputMessage)
@@ -40,7 +40,6 @@ func SendMessage(inputMessage *InputMessage) (*[]byte, error) {
 		return nil, err
 	}
 
-	utilities.LogInfo(string(outputBytes))
 	utilities.AddBearerToken(req, config.TeamsAuthToken)
 	utilities.AddJsonHeader(req)
 	resp, err := client.Do(req)
