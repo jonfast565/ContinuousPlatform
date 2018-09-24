@@ -3,6 +3,7 @@ package utilities
 import (
 	"encoding/json"
 	"log"
+	"net/http"
 	"os"
 )
 
@@ -15,6 +16,15 @@ func DecodeJsonFromFile(path string, object interface{}) {
 		panic(err)
 	}
 	log.Print("Json at " + path + " read successfully.")
+}
+
+func DecodeJsonFromBody(r *http.Request, object interface{}) error {
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&object)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func EncodeJsonToBytes(object interface{}) (*[]byte, error) {

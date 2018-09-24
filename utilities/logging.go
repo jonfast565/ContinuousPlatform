@@ -60,6 +60,10 @@ func LogInfo(logLine string) {
 	log.Printf("[Info] %s", logLine)
 }
 
+func LogFatal(logLine string) {
+	log.Printf("[Fatal] %s", logLine)
+}
+
 func LogInfoMultiline(logLines ...string) {
 	for i, line := range logLines {
 		if i == 0 {

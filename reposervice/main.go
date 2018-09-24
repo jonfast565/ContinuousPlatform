@@ -1,6 +1,7 @@
 package main
 
 import (
+	"../models/repos"
 	"../utilities"
 	"github.com/gorilla/mux"
 	"log"
@@ -45,5 +46,24 @@ func getRepositories(w http.ResponseWriter, r *http.Request) {
 }
 
 func getFile(w http.ResponseWriter, r *http.Request) {
-	// endpoint.
+	var repositoryFileMetadata repos.RepositoryFileMetadata
+	err := utilities.DecodeJsonFromBody(r, &repositoryFileMetadata)
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
+	result, err := endpoint.GetFile(repositoryFileMetadata)
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
+	resultBytes, err := utilities.EncodeJsonToBytes(&result)
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
+	w.Write(*resultBytes)
 }

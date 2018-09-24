@@ -6,7 +6,9 @@ import (
 	"../models/repos/teamservices"
 	"../models/web"
 	"../utilities"
+	"errors"
 	"fmt"
+	"github.com/ahmetb/go-linq"
 	"net/http"
 	"strings"
 	"sync"
@@ -72,8 +74,10 @@ func (e *TeamServicesEndpoint) getRepositoryBranches(
 	repository teamservices.TsGitRepositoryModel,
 	wg *sync.WaitGroup,
 	resultsChannel chan repos.RepositoryMetadata) {
+	defer wg.Done()
 	branches, err := e.getBranchInformation(repository)
 	if err != nil {
+		utilities.LogFatal(err.Error())
 		panic("Branch information not retrieved")
 	}
 	wg.Add(len(branches.Value))
@@ -84,7 +88,6 @@ func (e *TeamServicesEndpoint) getRepositoryBranches(
 		}
 		go e.getRepositoryBranchFiles(repository, branch, wg, resultsChannel)
 	}
-	wg.Done()
 }
 
 func (e *TeamServicesEndpoint) getRepositoryBranchFiles(
@@ -92,18 +95,19 @@ func (e *TeamServicesEndpoint) getRepositoryBranchFiles(
 	branch teamservices.TsGitRefsModel,
 	wg *sync.WaitGroup,
 	resultsChannel chan repos.RepositoryMetadata) {
+	defer wg.Done()
 	files, err := e.getBranchFileList(repository, branch)
 	if err != nil {
+		utilities.LogFatal(err.Error())
 		panic("Files not retrieved")
 	}
 	result := e.buildRepositoryMetadata(repository, branch, files)
-	utilities.LogInfoMultiline("Result built: ",
+	utilities.LogInfoMultiline("Repository metadata built: ",
 		fmt.Sprintf("Repo: %s", result.Name),
 		fmt.Sprintf("Branch: %s", result.Branch),
 		fmt.Sprintf("Url: %s", result.Url),
 	)
 	go func() { resultsChannel <- result }()
-	wg.Done()
 }
 
 func (e TeamServicesEndpoint) buildRepositoryMetadata(
@@ -119,8 +123,47 @@ func (e TeamServicesEndpoint) buildRepositoryMetadata(
 }
 
 func (e TeamServicesEndpoint) GetFile(file repos.RepositoryFileMetadata) (*web.FilePayload, error) {
-	// TODO: Implement this
-	return nil, nil
+	utilities.LogInfo(fmt.Sprintf("Downloading file: %s", file.File.Path))
+	filePath := file.File.Path[1:len(file.File.Path)]
+
+	repoInfo, err := e.getRepositoryInformation()
+	if err != nil {
+		return nil, err
+	}
+	repo := linq.From(repoInfo.Value).FirstWithT(func(r teamservices.TsGitRepositoryModel) bool {
+		return r.Name == file.Repo
+	})
+
+	if repo == nil {
+		return nil, errors.New(fmt.Sprintf("Repository not found: %s", file.Repo))
+	}
+
+	repoTyped := repo.(teamservices.TsGitRepositoryModel)
+	branches, err := e.getBranchInformation(repoTyped)
+	if err != nil {
+		return nil, err
+	}
+
+	branch := linq.From(branches.Value).FirstWithT(func(ref teamservices.TsGitRefsModel) bool {
+		return getCleanBranchName(ref) == file.Branch
+	})
+
+	if branch == nil {
+		return nil, errors.New(fmt.Sprintf("Branch not found: %s", file.Branch))
+	}
+
+	branchTyped := repo.(teamservices.TsGitRefsModel)
+	utilities.LogInfo(fmt.Sprintf("Getting file %s from %s b. %s",
+		file.Name,
+		file.Repo,
+		file.Branch))
+
+	fileValue, err := e.getFileInformation(repoTyped, branchTyped, filePath)
+	if err != nil {
+		return nil, err
+	}
+
+	return fileValue, nil
 }
 
 func (e TeamServicesEndpoint) getRepositoryInformation() (*teamservices.TsGitRepositoryList, error) {
@@ -133,11 +176,13 @@ func (e TeamServicesEndpoint) getRepositoryInformation() (*teamservices.TsGitRep
 	}
 	buildTeamServiceAuthHeader(request, e)
 	utilities.AddJsonHeader(request)
+
 	var result teamservices.TsGitRepositoryList
 	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
 	if err != nil {
 		return nil, err
 	}
+
 	return &result, nil
 }
 
@@ -155,17 +200,21 @@ func (e TeamServicesEndpoint) getFileInformation(
 		repository.Id,
 		getCleanBranchName(branch),
 		path)
+
 	request, err := http.NewRequest(utilities.GetMethod, url, nil)
 	if err != nil {
 		return nil, err
 	}
+
 	buildTeamServiceAuthHeader(request, e)
 	utilities.AddOctetHeader(request)
+
 	var result web.FilePayload
 	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
 	if err != nil {
 		return nil, err
 	}
+
 	return &result, nil
 }
 
@@ -179,13 +228,16 @@ func (e TeamServicesEndpoint) getBranchInformation(
 	if err != nil {
 		return nil, err
 	}
+
 	buildTeamServiceAuthHeader(request, e)
 	utilities.AddJsonHeader(request)
+
 	var result teamservices.TsGitRefsList
 	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
 	if err != nil {
 		return nil, err
 	}
+
 	return &result, nil
 }
 
@@ -198,17 +250,21 @@ func (e TeamServicesEndpoint) getBranchFileList(
 		repository.Id,
 		getCleanBranchName(branch),
 		"")
+
 	request, err := http.NewRequest(utilities.GetMethod, url, nil)
 	if err != nil {
 		return nil, err
 	}
+
 	buildTeamServiceAuthHeader(request, e)
 	utilities.AddJsonHeader(request)
+
 	var result teamservices.TsGitFileList
 	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
 	if err != nil {
 		return nil, err
 	}
+
 	return &result, nil
 }
 
@@ -222,6 +278,7 @@ func getFileSystemMetadataFromList(
 			Type:             getGitObjectType(file.GitObjectType),
 		})
 	}
+
 	return &result
 }
 
