@@ -1,7 +1,6 @@
 package teamservices
 
 import (
-	"../../../utilities"
 	"net/url"
 )
 
@@ -12,16 +11,6 @@ const (
 	RefsHeadsConstants   string = "refs/heads/"
 	BlobConstant         string = "blob"
 )
-
-func buildAccessToken(username string, personalAccessToken string) string {
-	return username + ":" + personalAccessToken
-}
-
-func BuildAuthorizationHeader(username string, personalAccessToken string) string {
-	accessToken := buildAccessToken(username, personalAccessToken)
-	base64AccessToken := utilities.EncodeBase64String(accessToken)
-	return base64AccessToken
-}
 
 func GetApiFilesPath(collectionUrl string,
 	projectName string,
