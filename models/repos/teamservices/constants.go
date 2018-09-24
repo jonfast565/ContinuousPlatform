@@ -31,7 +31,10 @@ func GetApiFilesPath(collectionUrl string,
 	var scopePath = ""
 	if optionalScopePath == "" {
 		scopePath = "/"
+	} else {
+		scopePath = optionalScopePath
 	}
+	scopePath = html.EscapeString(scopePath)
 	return collectionUrl + "/" + projectName + RepositoryApiSubpath + "/" +
 		repositoryId + "/items" + "?" + "scopePath=" + scopePath +
 		"&recursionLevel=Full&includeContentMetadata=true" +

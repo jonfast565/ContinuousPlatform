@@ -124,6 +124,10 @@ func (e TeamServicesEndpoint) buildRepositoryMetadata(
 
 func (e TeamServicesEndpoint) GetFile(file repos.RepositoryFileMetadata) (*web.FilePayload, error) {
 	utilities.LogInfo(fmt.Sprintf("Downloading file: %s", file.File.Path))
+
+	if len(file.File.Path) == 0 {
+		return nil, errors.New("file path not specified")
+	}
 	filePath := file.File.Path[1:len(file.File.Path)]
 
 	repoInfo, err := e.getRepositoryInformation()
@@ -135,7 +139,7 @@ func (e TeamServicesEndpoint) GetFile(file repos.RepositoryFileMetadata) (*web.F
 	})
 
 	if repo == nil {
-		return nil, errors.New(fmt.Sprintf("Repository not found: %s", file.Repo))
+		return nil, errors.New(fmt.Sprintf("repository not found: '%s'", file.Repo))
 	}
 
 	repoTyped := repo.(teamservices.TsGitRepositoryModel)
@@ -149,10 +153,10 @@ func (e TeamServicesEndpoint) GetFile(file repos.RepositoryFileMetadata) (*web.F
 	})
 
 	if branch == nil {
-		return nil, errors.New(fmt.Sprintf("Branch not found: %s", file.Branch))
+		return nil, errors.New(fmt.Sprintf("branch not found: %s", file.Branch))
 	}
 
-	branchTyped := repo.(teamservices.TsGitRefsModel)
+	branchTyped := branch.(teamservices.TsGitRefsModel)
 	utilities.LogInfo(fmt.Sprintf("Getting file %s from %s b. %s",
 		file.Name,
 		file.Repo,
@@ -161,6 +165,10 @@ func (e TeamServicesEndpoint) GetFile(file repos.RepositoryFileMetadata) (*web.F
 	fileValue, err := e.getFileInformation(repoTyped, branchTyped, filePath)
 	if err != nil {
 		return nil, err
+	}
+
+	if fileValue.Bytes == nil {
+		return nil, errors.New(fmt.Sprintf("file not found: %s", file.Name))
 	}
 
 	return fileValue, nil
@@ -210,11 +218,16 @@ func (e TeamServicesEndpoint) getFileInformation(
 	utilities.AddOctetHeader(request)
 
 	var result web.FilePayload
-	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
+	var resultBytes *[]byte
+	resultBytes, err = utilities.ExecuteRequestAndReadBinaryBody(&e.Client, request)
 	if err != nil {
 		return nil, err
 	}
 
+	result = web.FilePayload{
+		Name:  path,
+		Bytes: *resultBytes,
+	}
 	return &result, nil
 }
 
