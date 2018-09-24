@@ -6,6 +6,7 @@ import (
 )
 
 const (
+	AuthorizationHeader              string = "Authorization"
 	ContentTypeHeader                string = "Content-Type"
 	ApplicationJsonHeaderContentType string = "application/json"
 	OctetStreamHeaderContentType     string = "application/octet-stream"
@@ -17,6 +18,10 @@ func AddJsonHeader(request *http.Request) {
 
 func AddOctetHeader(request *http.Request) {
 	request.Header.Add(ContentTypeHeader, OctetStreamHeaderContentType)
+}
+
+func AddBearerToken(request *http.Request, bearerToken string) {
+	request.Header.Add(AuthorizationHeader, "Bearer "+bearerToken)
 }
 
 func ExecuteRequestAndReadJsonBody(c *http.Client, r *http.Request, object interface{}) error {
