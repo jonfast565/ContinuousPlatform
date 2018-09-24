@@ -11,7 +11,7 @@ func DecodeJsonFromFile(path string, object interface{}) {
 	file, _ := os.OpenFile(path, os.O_RDONLY, 0666)
 	defer file.Close()
 	decoder := json.NewDecoder(file)
-	err := decoder.Decode(&object)
+	err := decoder.Decode(object)
 	if err != nil {
 		panic(err)
 	}
