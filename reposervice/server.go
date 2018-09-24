@@ -171,6 +171,7 @@ func (e TeamServicesEndpoint) GetFile(file repos.RepositoryFileMetadata) (*web.F
 		return nil, errors.New(fmt.Sprintf("file not found: %s", file.Name))
 	}
 
+	utilities.LogInfo("File downloaded!")
 	return fileValue, nil
 }
 
