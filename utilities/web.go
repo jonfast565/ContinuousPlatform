@@ -2,6 +2,7 @@ package utilities
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -35,4 +36,17 @@ func ExecuteRequestAndReadJsonBody(c *http.Client, r *http.Request, object inter
 		return err
 	}
 	return nil
+}
+
+func ExecuteRequestAndReadBinaryBody(c *http.Client, r *http.Request) (*[]byte, error) {
+	response, err := c.Do(r)
+	defer response.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+	resultBytes, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return nil, err
+	}
+	return &resultBytes, nil
 }

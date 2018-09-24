@@ -1,6 +1,7 @@
 package utilities
 
 import (
+	"encoding/json"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"io"
 	"log"
@@ -71,5 +72,15 @@ func LogInfoMultiline(logLines ...string) {
 		} else {
 			log.Printf("     - %s", line)
 		}
+	}
+}
+
+func LogError(err error) {
+	if terr, ok := err.(*json.UnmarshalTypeError); ok {
+		log.Printf("[Error] failed to unmarshal field %s \n", terr.Field)
+	} else if terr, ok := err.(*json.InvalidUnmarshalError); ok {
+		log.Printf("[Error] failed to unmarshal object %s \n", terr.Error())
+	} else {
+		log.Printf("[Error] %s", err.Error())
 	}
 }
