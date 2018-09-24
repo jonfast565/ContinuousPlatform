@@ -14,17 +14,17 @@ const (
 )
 
 type RepositoryMetadata struct {
-	Name     string
-	Branch   string
-	Url      string
-	Metadata []filesystem.FileSystemMetadata
+	Name        string
+	Branch      string
+	OptionalUrl string
+	Files       []filesystem.FileSystemMetadata
 }
 
 func (rm RepositoryMetadata) String() string {
 	return fmt.Sprintf("Repo: %s\nBranch: %s\nUrl: %s\n",
 		rm.Name,
 		rm.Branch,
-		rm.Url)
+		rm.OptionalUrl)
 }
 
 type RepositoryMetadataGraphPair struct {

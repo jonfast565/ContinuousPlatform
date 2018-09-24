@@ -20,8 +20,8 @@ func main() {
 	endpoint = NewTeamServicesEndpoint(configuration)
 
 	router := mux.NewRouter()
-	router.HandleFunc("/repositories", getRepositories).Methods(utilities.PostMethod)
-	router.HandleFunc("/file", getFile).Methods(utilities.PostMethod)
+	router.HandleFunc("/Daemon/GetRepositories", getRepositories).Methods(utilities.PostMethod)
+	router.HandleFunc("/Daemon/GetFile", getFile).Methods(utilities.PostMethod)
 
 	localPort := utilities.GetLocalPort(configuration.Port)
 	utilities.LogContentService(localPort)

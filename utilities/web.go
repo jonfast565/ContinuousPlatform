@@ -1,6 +1,7 @@
 package utilities
 
 import (
+	"bytes"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -12,6 +13,9 @@ const (
 	ApplicationJsonHeaderContentType string = "application/json"
 	OctetStreamHeaderContentType     string = "application/octet-stream"
 )
+
+var windowsNewLines = []byte{13, 10}
+var unixNewLines = []byte{10}
 
 func AddJsonHeader(request *http.Request) {
 	request.Header.Add(ContentTypeHeader, ApplicationJsonHeaderContentType)
@@ -48,5 +52,6 @@ func ExecuteRequestAndReadBinaryBody(c *http.Client, r *http.Request) (*[]byte, 
 	if err != nil {
 		return nil, err
 	}
+	resultBytes = bytes.Replace(resultBytes, unixNewLines, windowsNewLines, -1)
 	return &resultBytes, nil
 }
