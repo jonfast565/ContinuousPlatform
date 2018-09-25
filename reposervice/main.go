@@ -13,7 +13,7 @@ var endpoint *TeamServicesEndpoint
 
 func main() {
 	utilities.CreateLog()
-	utilities.LogHeader("RepoService")
+	utilities.LogHeader("Repo Service")
 	utilities.LogApplicationStart()
 
 	utilities.DecodeJsonFromFile("./appsettings.json", &configuration)
