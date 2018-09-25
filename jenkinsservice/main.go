@@ -23,7 +23,7 @@ func main() {
 	router.HandleFunc("/Daemon/GetJenkinsMetadata", getJenkinsMetadata).Methods(utilities.PostMethod)
 	router.HandleFunc("/Daemon/GetJenkinsCrumb", getJenkinsCrumb).Methods(utilities.PostMethod)
 
-	localPort := utilities.GetLocalPort(1212) // TODO: Replace
+	localPort := utilities.GetLocalPort(configuration.Port)
 	utilities.LogContentService(localPort)
 	log.Fatal(http.ListenAndServe(localPort, router))
 	utilities.LogApplicationEnd()
