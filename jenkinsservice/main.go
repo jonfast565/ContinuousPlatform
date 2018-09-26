@@ -8,6 +8,7 @@ import (
 )
 
 var configuration JenkinsConfiguration
+var endpoint JenkinsEndpoint
 
 func main() {
 	utilities.CreateLog()
@@ -17,6 +18,7 @@ func main() {
 	utilities.DecodeJsonFromFile("./appsettings.json", &configuration)
 
 	router := mux.NewRouter()
+	endpoint = NewJenkinsEndpoint(configuration)
 	router.HandleFunc("/Daemon/CreateUpdateJob", createUpdateJob).Methods(utilities.PostMethod)
 	router.HandleFunc("/Daemon/CreateFolder", createFolder).Methods(utilities.PostMethod)
 	router.HandleFunc("/Daemon/DeleteJobOrFolder", deleteJobOrFolder).Methods(utilities.PostMethod)
@@ -30,21 +32,47 @@ func main() {
 }
 
 func createUpdateJob(w http.ResponseWriter, r *http.Request) {
-
+	result, err := endpoint.CreateUpdateJob()
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
 }
 
 func createFolder(w http.ResponseWriter, r *http.Request) {
-
+	result, err := endpoint.CreateFolder()
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
 }
 
 func deleteJobOrFolder(w http.ResponseWriter, r *http.Request) {
-
+	result, err := endpoint.DeleteJobOrFolder()
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
 }
 
 func getJenkinsMetadata(w http.ResponseWriter, r *http.Request) {
-
+	result, err := endpoint.GetJenkinsMetadata()
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
 }
 
 func getJenkinsCrumb(w http.ResponseWriter, r *http.Request) {
-
+	result, err := endpoint.GetJenkinsCrumb()
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
+	w.Write(result)
 }
