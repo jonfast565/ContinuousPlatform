@@ -49,6 +49,10 @@ func (je *JenkinsEndpoint) addAuthHeader(r *http.Request) {
 	r.SetBasicAuth(je.configuration.Username, je.configuration.AccessToken)
 }
 
+func addCrumbHeader(crumb jenkins.Crumb, r *http.Request) {
+	r.Header.Add(crumb.CrumbRequestField, crumb.Crumb)
+}
+
 func (je *JenkinsEndpoint) buildCrumbUrl() string {
 	return je.configuration.JenkinsUrl + "/crumbIssuer/api/json"
 }
