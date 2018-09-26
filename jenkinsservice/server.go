@@ -1,6 +1,8 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+)
 
 type JenkinsConfiguration struct {
 	Port               int    `json:"port"`
