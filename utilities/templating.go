@@ -15,5 +15,5 @@ func RunTemplate(template string, input interface{}) (*string, error) {
 }
 
 func RunTemplateFromFile(path string, input interface{}) (*string, error) {
-
+	return nil, nil
 }

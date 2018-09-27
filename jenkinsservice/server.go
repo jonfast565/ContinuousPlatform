@@ -2,7 +2,9 @@ package main
 
 import (
 	"../models/jenkins"
+	"../utilities"
 	"net/http"
+	"strconv"
 )
 
 type JenkinsConfiguration struct {
@@ -26,23 +28,65 @@ func NewJenkinsEndpoint(configuration JenkinsConfiguration) JenkinsEndpoint {
 }
 
 func (je *JenkinsEndpoint) CreateUpdateJob() error {
-
+	return nil
 }
 
 func (je *JenkinsEndpoint) CreateFolder() error {
-
+	return nil
 }
 
 func (je *JenkinsEndpoint) DeleteJobOrFolder() error {
-
+	return nil
 }
 
-func (je *JenkinsEndpoint) GetJenkinsMetadata() (*jenkins.JobMetadata, error) {
+func (je *JenkinsEndpoint) GetJenkinsMetadata(crumb jenkins.Crumb) (*jenkins.JobMetadata, error) {
+	utilities.LogInfo("Get Jenkins Job Metadata")
+	metadataUrl := je.buildJobMetadataUrl()
+	request, err := http.NewRequest(utilities.GetMethod, metadataUrl, nil)
+	if err != nil {
+		return nil, err
+	}
 
+	je.addAuthHeader(request)
+	addCrumbHeader(crumb, request)
+	utilities.AddJsonHeader(request)
+
+	var result jenkins.JobMetadata
+	err = utilities.ExecuteRequestAndReadJsonBody(&je.client, request, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	// give parent meaningful data
+	result.Name = "Build Server"
+	result.Url = je.configuration.JenkinsUrl
+	utilities.LogInfo("Metadata retrieved")
+
+	return &result, nil
 }
 
 func (je *JenkinsEndpoint) GetJenkinsCrumb() (*jenkins.Crumb, error) {
+	utilities.LogInfo("Get Jenkins Crumb")
+	request, err := http.NewRequest(utilities.GetMethod, je.buildCrumbUrl(), nil)
+	if err != nil {
+		return nil, err
+	}
 
+	je.addAuthHeader(request)
+	utilities.AddJsonHeader(request)
+
+	var result jenkins.Crumb
+	err = utilities.ExecuteRequestAndReadJsonBody(&je.client, request, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	utilities.LogInfoMultiline(
+		"Crumb reads: ",
+		"Request Field: "+result.CrumbRequestField,
+		"Crumb: "+result.Crumb)
+
+	return &result, nil
 }
 
 func (je *JenkinsEndpoint) addAuthHeader(r *http.Request) {
@@ -54,10 +98,11 @@ func addCrumbHeader(crumb jenkins.Crumb, r *http.Request) {
 }
 
 func (je *JenkinsEndpoint) buildCrumbUrl() string {
-	return je.configuration.JenkinsUrl + "/crumbIssuer/api/json"
+	return je.configuration.JenkinsUrl + "crumbIssuer/api/json"
 }
 
-func (je *JenkinsEndpoint) buildJobUrl() string {
-	return je.configuration.JenkinsUrl + "/api/json?depth=" +
-		string(jenkins.MaximumJobDepth) + "&pretty=false"
+func (je *JenkinsEndpoint) buildJobMetadataUrl() string {
+	jobDepthString := strconv.Itoa(jenkins.MaximumJobDepth)
+	return je.configuration.JenkinsUrl + "api/json?depth=" +
+		jobDepthString + "&pretty=false"
 }
