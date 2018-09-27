@@ -18,10 +18,9 @@ type Crumb struct {
 }
 
 type JobMetadata struct {
-	Name      string
-	Url       string
-	Jobs      []JobMetadata
-	JobRecord JobRecord
+	Name string
+	Url  string
+	Jobs []JobMetadata
 }
 
 type JobRecord struct {
