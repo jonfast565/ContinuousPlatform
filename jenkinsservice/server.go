@@ -27,16 +27,61 @@ func NewJenkinsEndpoint(configuration JenkinsConfiguration) JenkinsEndpoint {
 	}
 }
 
-func (je *JenkinsEndpoint) CreateUpdateJob() error {
-	return nil
+func (je *JenkinsEndpoint) CreateUpdateJob(crumb jenkins.Crumb, jobFolderUrl string, jobContents string) (*string, error) {
+	utilities.LogInfo("Create/update job -> " + jobFolderUrl)
+	request, err := http.NewRequest(utilities.PostMethod, jobFolderUrl, /* jobContents */nil)
+	if err != nil {
+		return nil, err
+	}
+
+	je.addAuthHeader(request)
+	addCrumbHeader(crumb, request)
+	utilities.AddJsonHeader(request)
+
+	result, err := utilities.ExecuteRequestAndReadStringBody(&je.client, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
 
-func (je *JenkinsEndpoint) CreateFolder() error {
-	return nil
+func (je *JenkinsEndpoint) CreateFolder(crumb jenkins.Crumb, jobFolderUrl string) (*string, error) {
+	utilities.LogInfo("Create folder -> " + jobFolderUrl)
+	request, err := http.NewRequest(utilities.PostMethod, jobFolderUrl, /* folderContents */nil)
+	if err != nil {
+		return nil, err
+	}
+
+	je.addAuthHeader(request)
+	addCrumbHeader(crumb, request)
+	utilities.AddJsonHeader(request)
+
+	result, err := utilities.ExecuteRequestAndReadStringBody(&je.client, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
 
-func (je *JenkinsEndpoint) DeleteJobOrFolder() error {
-	return nil
+func (je *JenkinsEndpoint) DeleteJobOrFolder(crumb jenkins.Crumb, jobFolderUrl string) (*string, error) {
+	utilities.LogInfo("Delete job or folder -> " + jobFolderUrl)
+	request, err := http.NewRequest(utilities.PostMethod, jobFolderUrl,nil)
+	if err != nil {
+		return nil, err
+	}
+
+	je.addAuthHeader(request)
+	addCrumbHeader(crumb, request)
+	utilities.AddJsonHeader(request)
+
+	result, err := utilities.ExecuteRequestAndReadStringBody(&je.client, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
 
 func (je *JenkinsEndpoint) GetJenkinsMetadata(crumb jenkins.Crumb) (*jenkins.JobMetadata, error) {

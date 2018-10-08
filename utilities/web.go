@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 const (
@@ -14,8 +15,10 @@ const (
 	OctetStreamHeaderContentType     string = "application/octet-stream"
 )
 
-var windowsNewLines = []byte{13, 10}
-var unixNewLines = []byte{10}
+var windowsNewLines = "\r\n"
+var windowsNewLinesByte = []byte{13, 10}
+var unixNewLines = "\n"
+var unixNewLinesByte = []byte{10}
 
 func AddJsonHeader(request *http.Request) {
 	request.Header.Add(ContentTypeHeader, ApplicationJsonHeaderContentType)
@@ -52,6 +55,28 @@ func ExecuteRequestAndReadBinaryBody(c *http.Client, r *http.Request) (*[]byte, 
 	if err != nil {
 		return nil, err
 	}
-	resultBytes = bytes.Replace(resultBytes, unixNewLines, windowsNewLines, -1)
+	resultBytes = bytes.Replace(resultBytes, unixNewLinesByte, windowsNewLinesByte, -1)
 	return &resultBytes, nil
+}
+
+func ExecuteRequestAndReadStringBody(c *http.Client, r *http.Request) (*string, error) {
+	response, err := c.Do(r)
+	defer response.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+	resultBytes, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	// build a string and return
+	// TODO: Ensure correctness
+	builder := strings.Builder{}
+	builder.Write(resultBytes)
+	var s string
+	builder.WriteString(s)
+
+	s = strings.Replace(s, windowsNewLines, unixNewLines, -1)
+	return &s, nil
 }

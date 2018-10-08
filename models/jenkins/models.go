@@ -52,3 +52,9 @@ func CreateFolderRequest(name string) NewFolderRequest {
 		Submit: "OK",
 	}
 }
+
+
+type JobFolderRequest struct {
+	JobName string
+	JobUrl string
+}

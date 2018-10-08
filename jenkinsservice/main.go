@@ -32,7 +32,7 @@ func main() {
 }
 
 func createUpdateJob(w http.ResponseWriter, r *http.Request) {
-	err := endpoint.CreateUpdateJob()
+	_, err := endpoint.CreateUpdateJob()
 	if err != nil {
 		w.WriteHeader(500)
 		utilities.LogError(err)
@@ -41,7 +41,7 @@ func createUpdateJob(w http.ResponseWriter, r *http.Request) {
 }
 
 func createFolder(w http.ResponseWriter, r *http.Request) {
-	err := endpoint.CreateFolder()
+	_, err := endpoint.CreateFolder()
 	if err != nil {
 		w.WriteHeader(500)
 		utilities.LogError(err)
@@ -50,7 +50,7 @@ func createFolder(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteJobOrFolder(w http.ResponseWriter, r *http.Request) {
-	err := endpoint.DeleteJobOrFolder()
+	_, err := endpoint.DeleteJobOrFolder()
 	if err != nil {
 		w.WriteHeader(500)
 		utilities.LogError(err)
