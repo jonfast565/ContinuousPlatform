@@ -28,8 +28,8 @@ func NewJenkinsEndpoint(configuration JenkinsConfiguration) JenkinsEndpoint {
 }
 
 func (je *JenkinsEndpoint) CreateUpdateJob(crumb jenkins.Crumb, jobFolderUrl string, jobContents string) (*string, error) {
-	utilities.LogInfo("Create/update job -> " + jobFolderUrl)
-	request, err := http.NewRequest(utilities.PostMethod, jobFolderUrl, /* jobContents */nil)
+	utilities.LogInfo("Create/Update Jenkins Job -> " + jobFolderUrl)
+	request, err := http.NewRequest(utilities.PostMethod, jobFolderUrl /* jobContents */, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -47,8 +47,8 @@ func (je *JenkinsEndpoint) CreateUpdateJob(crumb jenkins.Crumb, jobFolderUrl str
 }
 
 func (je *JenkinsEndpoint) CreateFolder(crumb jenkins.Crumb, jobFolderUrl string) (*string, error) {
-	utilities.LogInfo("Create folder -> " + jobFolderUrl)
-	request, err := http.NewRequest(utilities.PostMethod, jobFolderUrl, /* folderContents */nil)
+	utilities.LogInfo("Create Jenkins Folder -> " + jobFolderUrl)
+	request, err := http.NewRequest(utilities.PostMethod, jobFolderUrl /* folderContents */, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -66,8 +66,8 @@ func (je *JenkinsEndpoint) CreateFolder(crumb jenkins.Crumb, jobFolderUrl string
 }
 
 func (je *JenkinsEndpoint) DeleteJobOrFolder(crumb jenkins.Crumb, jobFolderUrl string) (*string, error) {
-	utilities.LogInfo("Delete job or folder -> " + jobFolderUrl)
-	request, err := http.NewRequest(utilities.PostMethod, jobFolderUrl,nil)
+	utilities.LogInfo("Delete Jenkins Job/Folder -> " + jobFolderUrl)
+	request, err := http.NewRequest(utilities.PostMethod, jobFolderUrl, nil)
 	if err != nil {
 		return nil, err
 	}
