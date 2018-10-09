@@ -53,8 +53,8 @@ func CreateFolderRequest(name string) NewFolderRequest {
 	}
 }
 
-
 type JobFolderRequest struct {
-	JobName string
-	JobUrl string
+	JobName  string
+	JobUrl   string
+	Contents string
 }

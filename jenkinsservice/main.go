@@ -32,7 +32,14 @@ func main() {
 }
 
 func createUpdateJob(w http.ResponseWriter, r *http.Request) {
-	_, err := endpoint.CreateUpdateJob()
+	crumb, err := endpoint.GetJenkinsCrumb()
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
+
+	_, err = endpoint.CreateUpdateJob(*crumb, "", "")
 	if err != nil {
 		w.WriteHeader(500)
 		utilities.LogError(err)
@@ -41,7 +48,14 @@ func createUpdateJob(w http.ResponseWriter, r *http.Request) {
 }
 
 func createFolder(w http.ResponseWriter, r *http.Request) {
-	_, err := endpoint.CreateFolder()
+	crumb, err := endpoint.GetJenkinsCrumb()
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
+
+	_, err = endpoint.CreateFolder(*crumb, "")
 	if err != nil {
 		w.WriteHeader(500)
 		utilities.LogError(err)
@@ -50,7 +64,14 @@ func createFolder(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteJobOrFolder(w http.ResponseWriter, r *http.Request) {
-	_, err := endpoint.DeleteJobOrFolder()
+	crumb, err := endpoint.GetJenkinsCrumb()
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
+
+	_, err = endpoint.DeleteJobOrFolder(*crumb, "")
 	if err != nil {
 		w.WriteHeader(500)
 		utilities.LogError(err)
