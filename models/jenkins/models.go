@@ -30,6 +30,11 @@ type JobRecord struct {
 	BottomLevelFolder string
 }
 
+type JobRequest struct {
+	FolderUrl string
+	Record    JobRecord
+}
+
 type Edit struct {
 	Name      string
 	Url       string
@@ -44,17 +49,11 @@ type NewFolderRequest struct {
 	Submit string
 }
 
-func CreateFolderRequest(name string) NewFolderRequest {
+func CreateNewFolderRequest(name string) NewFolderRequest {
 	return NewFolderRequest{
 		Name:   name,
 		Mode:   "com.cloudbees.hudson.plugins.folder.Folder",
 		From:   "",
 		Submit: "OK",
 	}
-}
-
-type JobFolderRequest struct {
-	JobName  string
-	JobUrl   string
-	Contents string
 }
