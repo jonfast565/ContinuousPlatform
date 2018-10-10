@@ -27,37 +27,18 @@ func NewJenkinsEndpoint(configuration JenkinsConfiguration) JenkinsEndpoint {
 	}
 }
 
-func (je *JenkinsEndpoint) CreateUpdateJob(crumb jenkins.Crumb, jobFolderUrl string, jobContents string) (*string, error) {
-	utilities.LogInfo("Create/Update Jenkins Job -> " + jobFolderUrl)
-	request, err := http.NewRequest(utilities.PostMethod, jobFolderUrl /* jobContents */, nil)
+func (je *JenkinsEndpoint) CreateUpdateJob(crumb jenkins.Crumb, request jenkins.JobRequest) (*string, error) {
+	utilities.LogInfo("Create/Update Jenkins Job -> " + request.FolderUrl)
+	req, err := http.NewRequest(utilities.PostMethod, request.FolderUrl /* jobContents */, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	je.addAuthHeader(request)
-	addCrumbHeader(crumb, request)
-	utilities.AddJsonHeader(request)
+	je.addAuthHeader(req)
+	addCrumbHeader(crumb, req)
+	utilities.AddJsonHeader(req)
 
-	result, err := utilities.ExecuteRequestAndReadStringBody(&je.client, request)
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
-}
-
-func (je *JenkinsEndpoint) CreateFolder(crumb jenkins.Crumb, jobFolderUrl string) (*string, error) {
-	utilities.LogInfo("Create Jenkins Folder -> " + jobFolderUrl)
-	request, err := http.NewRequest(utilities.PostMethod, jobFolderUrl /* folderContents */, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	je.addAuthHeader(request)
-	addCrumbHeader(crumb, request)
-	utilities.AddJsonHeader(request)
-
-	result, err := utilities.ExecuteRequestAndReadStringBody(&je.client, request)
+	result, err := utilities.ExecuteRequestAndReadStringBody(&je.client, req)
 	if err != nil {
 		return nil, err
 	}
@@ -65,18 +46,38 @@ func (je *JenkinsEndpoint) CreateFolder(crumb jenkins.Crumb, jobFolderUrl string
 	return result, nil
 }
 
-func (je *JenkinsEndpoint) DeleteJobOrFolder(crumb jenkins.Crumb, jobFolderUrl string) (*string, error) {
-	utilities.LogInfo("Delete Jenkins Job/Folder -> " + jobFolderUrl)
-	request, err := http.NewRequest(utilities.PostMethod, jobFolderUrl, nil)
+func (je *JenkinsEndpoint) CreateFolder(crumb jenkins.Crumb, request jenkins.JobRequest) (*string, error) {
+	utilities.LogInfo("Create Jenkins Folder -> " + request.FolderUrl)
+	// folderRequest := jenkins.CreateNewFolderRequest(request.FolderUrl) // TODO: Wrong
+	req, err := http.NewRequest(utilities.PostMethod, request.FolderUrl /* folderContents */, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	je.addAuthHeader(request)
-	addCrumbHeader(crumb, request)
-	utilities.AddJsonHeader(request)
+	je.addAuthHeader(req)
+	addCrumbHeader(crumb, req)
+	utilities.AddJsonHeader(req)
 
-	result, err := utilities.ExecuteRequestAndReadStringBody(&je.client, request)
+	result, err := utilities.ExecuteRequestAndReadStringBody(&je.client, req)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (je *JenkinsEndpoint) DeleteJobOrFolder(crumb jenkins.Crumb, request jenkins.JobRequest) (*string, error) {
+	utilities.LogInfo("Delete Jenkins Job/Folder -> " + request.FolderUrl)
+	req, err := http.NewRequest(utilities.PostMethod, request.FolderUrl, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	je.addAuthHeader(req)
+	addCrumbHeader(crumb, req)
+	utilities.AddJsonHeader(req)
+
+	result, err := utilities.ExecuteRequestAndReadStringBody(&je.client, req)
 	if err != nil {
 		return nil, err
 	}
