@@ -48,7 +48,13 @@ func (je *JenkinsEndpoint) CreateUpdateJob(crumb jenkins.Crumb, request jenkins.
 
 func (je *JenkinsEndpoint) CreateFolder(crumb jenkins.Crumb, request jenkins.JobRequest) (*string, error) {
 	utilities.LogInfo("Create Jenkins Folder -> " + request.FolderUrl)
-	// folderRequest := jenkins.CreateNewFolderRequest(request.FolderUrl) // TODO: Wrong
+	checkFrag := jenkins.GetJenkinsJobFolderUrlFragment(
+		je.configuration.JenkinsUrl, request.FolderUrl, false)
+	folderTemplate, err := utilities.RunTemplateFromFile(je.configuration.FolderTemplatePath, utilities.Empty{})
+	if err != nil {
+		return nil, err
+	}
+
 	req, err := http.NewRequest(utilities.PostMethod, request.FolderUrl /* folderContents */, nil)
 	if err != nil {
 		return nil, err

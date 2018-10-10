@@ -1,6 +1,7 @@
-package utilities
+package iteration
 
 import (
+	"../../utilities"
 	"github.com/ahmetb/go-linq"
 	"strings"
 )
@@ -11,7 +12,7 @@ const stay string = "."
 const server string = "$"
 const shebangHalf string = "!"
 
-var pathSplitterChar rune = '/'
+var pathSplitterChar = '/'
 
 func NormalizePath(str string) string {
 	result := strings.Replace(str, "\\", "/", -1)
@@ -41,26 +42,23 @@ func (pa PathActionStay) GetName() string {
 }
 
 type PathParser struct {
-	Series *PathActionSeries
-}
-
-type PathActionSeries struct {
-	ActionItems *[]Namer
+	ActionSeries *[]utilities.Namer
 }
 
 func GetLastPathComponent(path string) string {
-	parser := new(PathParser)
-	parser.SetActionSeries(path)
+	parser := NewPathParserFromString(path)
 	lastItem := parser.GetLastItem()
 	return lastItem
 }
 
-func (actionSeries *PathActionSeries) New(actionItems *[]Namer) {
-	actionSeries.ActionItems = actionItems
+func NewPathParserFromString(path string) *PathParser {
+	parser := new(PathParser)
+	parser.SetActionSeries(path)
+	return parser
 }
 
 func (parser *PathParser) SetActionSeries(path string) {
-	items := make([]Namer, 0)
+	items := make([]utilities.Namer, 0)
 	normalizedPath := NormalizePath(path)
 	splitFn := func(c rune) bool {
 		return c == pathSplitterChar
@@ -80,13 +78,12 @@ func (parser *PathParser) SetActionSeries(path string) {
 			items = append(items, PathActionGoAhead{Name: pathPart})
 		}
 	}
-	result := PathActionSeries{ActionItems: &items}
-	parser.Series = &result
+	parser.ActionSeries = &items
 }
 
 func (parser *PathParser) GetLastItem() string {
-	result := linq.From(parser.Series.ActionItems).SelectT(
-		func(iterator Namer) string {
+	result := linq.From(*parser.ActionSeries).SelectT(
+		func(iterator utilities.Namer) string {
 			return iterator.GetName()
 		}).Last()
 
@@ -102,10 +99,10 @@ func (parser *PathParser) GetPathString(includeStartDelimiter bool) string {
 	if includeStartDelimiter {
 		result += "./"
 	}
-	if !linq.From(parser.Series).Any() {
+	if !linq.From(*parser.ActionSeries).Any() {
 		return result
 	}
-	var seriesList = *parser.Series.ActionItems
+	var seriesList = *parser.ActionSeries
 	for counter, action := range seriesList {
 		result += action.GetName()
 		if counter != len(seriesList)-1 {
@@ -116,14 +113,14 @@ func (parser *PathParser) GetPathString(includeStartDelimiter bool) string {
 }
 
 type PathActionZipped struct {
-	item1 Namer
-	item2 Namer
+	item1 utilities.Namer
+	item2 utilities.Namer
 }
 
-func NullZipSeries(series1 PathActionSeries, series2 PathActionSeries, strictLength bool) []PathActionZipped {
+func (parser *PathParser) NullZipSeries(parser2 *PathParser, strictLength bool) []PathActionZipped {
 	zippedSeries := make([]PathActionZipped, 0)
-	items1Length := len(*series1.ActionItems)
-	for counter, item1 := range *series1.ActionItems {
+	items1Length := len(*parser.ActionSeries)
+	for counter, item1 := range *parser.ActionSeries {
 		if counter >= items1Length-1 && strictLength {
 			break
 		} else if counter >= items1Length-1 && !strictLength {
@@ -134,13 +131,20 @@ func NullZipSeries(series1 PathActionSeries, series2 PathActionSeries, strictLen
 		} else {
 			zippedSeries = append(zippedSeries, PathActionZipped{
 				item1: item1,
-				item2: (*series2.ActionItems)[counter],
+				item2: (*parser2.ActionSeries)[counter],
 			})
 		}
 	}
 	return zippedSeries
 }
 
-func (parser *PathParser) ContainsOrEquals(series2 PathActionSeries, strictLength bool) {
-
+func (parser *PathParser) RemoveLastNActions(nActions int) {
+	if len(*parser.ActionSeries) <= 0 {
+		return
+	}
+	for i := 0; i < nActions; i++ {
+		if len(*parser.ActionSeries) > 0 {
+			*parser.ActionSeries = (*parser.ActionSeries)[:len(*parser.ActionSeries)-1]
+		}
+	}
 }

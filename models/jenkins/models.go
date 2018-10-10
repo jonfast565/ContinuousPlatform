@@ -41,19 +41,3 @@ type Edit struct {
 	EditType  EditType
 	JobRecord JobRecord
 }
-
-type NewFolderRequest struct {
-	Name   string
-	Mode   string
-	From   string
-	Submit string
-}
-
-func CreateNewFolderRequest(name string) NewFolderRequest {
-	return NewFolderRequest{
-		Name:   name,
-		Mode:   "com.cloudbees.hudson.plugins.folder.Folder",
-		From:   "",
-		Submit: "OK",
-	}
-}
