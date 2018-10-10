@@ -112,8 +112,9 @@ func (je *JenkinsEndpoint) GetJenkinsMetadata(crumb jenkins.Crumb) (*jenkins.Job
 	// give parent meaningful data
 	result.Name = "Build Server"
 	result.Url = je.configuration.JenkinsUrl
-	utilities.LogInfo("Metadata retrieved")
-
+	utilities.LogInfoMultiline(
+		"Metadata retrieved: ",
+		"Num Top-Level Jobs: "+strconv.Itoa(len(result.Jobs)))
 	return &result, nil
 }
 
