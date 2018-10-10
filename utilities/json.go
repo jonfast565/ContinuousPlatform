@@ -7,6 +7,9 @@ import (
 	"os"
 )
 
+type Empty struct {
+}
+
 func DecodeJsonFromFile(path string, object interface{}) {
 	file, _ := os.OpenFile(path, os.O_RDONLY, 0666)
 	defer file.Close()

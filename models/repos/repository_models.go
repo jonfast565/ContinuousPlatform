@@ -1,7 +1,7 @@
 package repos
 
 import (
-	"../../utilities"
+	"../../utilities/iteration"
 	"../filesystem"
 	"fmt"
 )
@@ -52,7 +52,7 @@ func MapToRepositoryMetadata(metadata filesystem.FileSystemMetadata,
 		Repo:   repositoryMetadata.Name,
 		Branch: repositoryMetadata.Branch,
 		File:   metadata,
-		Name:   utilities.GetLastPathComponent(metadata.Path),
+		Name:   iteration.GetLastPathComponent(metadata.Path),
 	}
 }
 
