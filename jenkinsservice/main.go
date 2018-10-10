@@ -1,6 +1,7 @@
 package main
 
 import (
+	"../models/jenkins"
 	"../utilities"
 	"github.com/gorilla/mux"
 	"log"
@@ -32,6 +33,14 @@ func main() {
 }
 
 func createUpdateJob(w http.ResponseWriter, r *http.Request) {
+	var jobRequest jenkins.JobRequest
+	err := utilities.DecodeJsonFromBody(r, &jobRequest)
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
+
 	crumb, err := endpoint.GetJenkinsCrumb()
 	if err != nil {
 		w.WriteHeader(500)
@@ -39,15 +48,25 @@ func createUpdateJob(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = endpoint.CreateUpdateJob(*crumb, "", "")
+	_, err = endpoint.CreateUpdateJob(*crumb, jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
 		utilities.LogError(err)
 		return
 	}
+
+	w.WriteHeader(200)
 }
 
 func createFolder(w http.ResponseWriter, r *http.Request) {
+	var jobRequest jenkins.JobRequest
+	err := utilities.DecodeJsonFromBody(r, &jobRequest)
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
+
 	crumb, err := endpoint.GetJenkinsCrumb()
 	if err != nil {
 		w.WriteHeader(500)
@@ -55,15 +74,25 @@ func createFolder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = endpoint.CreateFolder(*crumb, "")
+	_, err = endpoint.CreateFolder(*crumb, jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
 		utilities.LogError(err)
 		return
 	}
+
+	w.WriteHeader(200)
 }
 
 func deleteJobOrFolder(w http.ResponseWriter, r *http.Request) {
+	var jobRequest jenkins.JobRequest
+	err := utilities.DecodeJsonFromBody(r, &jobRequest)
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
+
 	crumb, err := endpoint.GetJenkinsCrumb()
 	if err != nil {
 		w.WriteHeader(500)
@@ -71,12 +100,14 @@ func deleteJobOrFolder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = endpoint.DeleteJobOrFolder(*crumb, "")
+	_, err = endpoint.DeleteJobOrFolder(*crumb, jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
 		utilities.LogError(err)
 		return
 	}
+
+	w.WriteHeader(200)
 }
 
 func getJenkinsMetadata(w http.ResponseWriter, r *http.Request) {
@@ -86,18 +117,21 @@ func getJenkinsMetadata(w http.ResponseWriter, r *http.Request) {
 		utilities.LogError(err)
 		return
 	}
+
 	result, err := endpoint.GetJenkinsMetadata(*crumb)
 	if err != nil {
 		w.WriteHeader(500)
 		utilities.LogError(err)
 		return
 	}
+
 	resultBytes, err := utilities.EncodeJsonToBytes(&result)
 	if err != nil {
 		w.WriteHeader(500)
 		utilities.LogError(err)
 		return
 	}
+
 	w.Write(*resultBytes)
 }
 
@@ -108,11 +142,13 @@ func getJenkinsCrumb(w http.ResponseWriter, r *http.Request) {
 		utilities.LogError(err)
 		return
 	}
+
 	resultBytes, err := utilities.EncodeJsonToBytes(&result)
 	if err != nil {
 		w.WriteHeader(500)
 		utilities.LogError(err)
 		return
 	}
+
 	w.Write(*resultBytes)
 }
