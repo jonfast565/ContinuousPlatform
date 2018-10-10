@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strings"
 )
+import b64 "encoding/base64"
 
 const (
 	AuthorizationHeader              string = "Authorization"
@@ -79,4 +80,9 @@ func ExecuteRequestAndReadStringBody(c *http.Client, r *http.Request) (*string, 
 
 	s = strings.Replace(s, windowsNewLines, unixNewLines, -1)
 	return &s, nil
+}
+
+func EncodeBase64String(someString string) string {
+	stringEncoding := b64.StdEncoding.EncodeToString([]byte(someString))
+	return stringEncoding
 }

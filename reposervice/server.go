@@ -6,6 +6,7 @@ import (
 	"../models/repos/teamservices"
 	"../models/web"
 	"../utilities"
+	"../utilities/iteration"
 	"errors"
 	"fmt"
 	"github.com/ahmetb/go-linq"
@@ -226,7 +227,7 @@ func (e TeamServicesEndpoint) getFileInformation(
 	}
 
 	result = web.FilePayload{
-		Name:  "." + path,
+		Name:  iteration.GetLastPathComponent("." + path),
 		Bytes: *resultBytes,
 	}
 	return &result, nil
