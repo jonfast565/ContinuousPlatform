@@ -2,11 +2,12 @@ package main
 
 import (
 	"../models/filesystem"
+	"../models/payload"
 	"../models/repos"
 	"../models/repos/teamservices"
-	"../models/web"
 	"../utilities"
 	"../utilities/iteration"
+	"../utilities/web"
 	"errors"
 	"fmt"
 	"github.com/ahmetb/go-linq"
@@ -123,7 +124,7 @@ func (e TeamServicesEndpoint) buildRepositoryMetadata(
 	}
 }
 
-func (e TeamServicesEndpoint) GetFile(file repos.RepositoryFileMetadata) (*web.FilePayload, error) {
+func (e TeamServicesEndpoint) GetFile(file repos.RepositoryFileMetadata) (*payload.FilePayload, error) {
 	utilities.LogInfo(fmt.Sprintf("Downloading file: %s", file.File.Path))
 
 	if len(file.File.Path) == 0 {
@@ -185,10 +186,10 @@ func (e TeamServicesEndpoint) getRepositoryInformation() (*teamservices.TsGitRep
 		return nil, err
 	}
 	buildTeamServiceAuthHeader(request, e)
-	utilities.AddJsonHeader(request)
+	web.AddJsonHeader(request)
 
 	var result teamservices.TsGitRepositoryList
-	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
+	err = web.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
 	if err != nil {
 		return nil, err
 	}
@@ -203,7 +204,7 @@ func buildTeamServiceAuthHeader(request *http.Request, e TeamServicesEndpoint) {
 func (e TeamServicesEndpoint) getFileInformation(
 	repository teamservices.TsGitRepositoryModel,
 	branch teamservices.TsGitRefsModel,
-	path string) (*web.FilePayload, error) {
+	path string) (*payload.FilePayload, error) {
 	url := teamservices.GetApiFilesPath(
 		e.Configuration.CollectionUrl,
 		e.Configuration.ProjectName,
@@ -217,16 +218,16 @@ func (e TeamServicesEndpoint) getFileInformation(
 	}
 
 	buildTeamServiceAuthHeader(request, e)
-	utilities.AddOctetHeader(request)
+	web.AddOctetHeader(request)
 
-	var result web.FilePayload
+	var result payload.FilePayload
 	var resultBytes *[]byte
-	resultBytes, err = utilities.ExecuteRequestAndReadBinaryBody(&e.Client, request)
+	resultBytes, err = web.ExecuteRequestAndReadBinaryBody(&e.Client, request)
 	if err != nil {
 		return nil, err
 	}
 
-	result = web.FilePayload{
+	result = payload.FilePayload{
 		Name:  iteration.GetLastPathComponent("." + path),
 		Bytes: *resultBytes,
 	}
@@ -245,10 +246,10 @@ func (e TeamServicesEndpoint) getBranchInformation(
 	}
 
 	buildTeamServiceAuthHeader(request, e)
-	utilities.AddJsonHeader(request)
+	web.AddJsonHeader(request)
 
 	var result teamservices.TsGitRefsList
-	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
+	err = web.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
 	if err != nil {
 		return nil, err
 	}
@@ -272,10 +273,10 @@ func (e TeamServicesEndpoint) getBranchFileList(
 	}
 
 	buildTeamServiceAuthHeader(request, e)
-	utilities.AddJsonHeader(request)
+	web.AddJsonHeader(request)
 
 	var result teamservices.TsGitFileList
-	err = utilities.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
+	err = web.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
 	if err != nil {
 		return nil, err
 	}

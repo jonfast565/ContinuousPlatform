@@ -46,7 +46,3 @@ func TestPathParser_GetPathString(t *testing.T) {
 		t.Logf("%s == ./Something/Hello.csproj", pathString)
 	}
 }
-
-func TestPathParser_SetActionSeries(t *testing.T) {
-
-}
