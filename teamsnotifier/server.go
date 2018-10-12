@@ -2,6 +2,7 @@ package main
 
 import (
 	"../utilities"
+	"../utilities/web"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -40,8 +41,8 @@ func SendMessage(inputMessage *InputMessage, config *Configuration) (*[]byte, er
 		return nil, err
 	}
 
-	utilities.AddBearerToken(req, config.TeamsAuthToken)
-	utilities.AddJsonHeader(req)
+	web.AddBearerToken(req, config.TeamsAuthToken)
+	web.AddJsonHeader(req)
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err

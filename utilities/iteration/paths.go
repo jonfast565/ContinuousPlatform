@@ -57,8 +57,16 @@ func NewPathParserFromString(path string) *PathParser {
 	return parser
 }
 
+func (parser *PathParser) AddGoAheadAction(pathFragment string) {
+	*parser.ActionSeries = append(*parser.ActionSeries, PathActionGoAhead{Name: pathFragment})
+}
+
 func (parser *PathParser) SetActionSeries(path string) {
 	items := make([]utilities.Namer, 0)
+	if path == "" {
+		parser.ActionSeries = &items
+		return
+	}
 	normalizedPath := NormalizePath(path)
 	splitFn := func(c rune) bool {
 		return c == pathSplitterChar

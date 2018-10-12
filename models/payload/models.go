@@ -1,4 +1,4 @@
-package web
+package payload
 
 type FilePayload struct {
 	Bytes []byte
