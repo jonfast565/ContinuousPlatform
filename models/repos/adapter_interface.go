@@ -1,8 +1,8 @@
 package repos
 
-import "../web"
+import "../payload"
 
 type SourceControlEndpoint interface {
 	GetRepositories() ([]RepositoryMetadata, error)
-	GetFile(file RepositoryFileMetadata) (web.FilePayload, error)
+	GetFile(file RepositoryFileMetadata) (payload.FilePayload, error)
 }

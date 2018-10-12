@@ -20,16 +20,43 @@ func main() {
 
 	router := mux.NewRouter()
 	endpoint = NewJenkinsEndpoint(configuration)
-	router.HandleFunc("/Daemon/CreateUpdateJob", createUpdateJob).Methods(utilities.PostMethod)
-	router.HandleFunc("/Daemon/CreateFolder", createFolder).Methods(utilities.PostMethod)
-	router.HandleFunc("/Daemon/DeleteJobOrFolder", deleteJobOrFolder).Methods(utilities.PostMethod)
 	router.HandleFunc("/Daemon/GetJenkinsMetadata", getJenkinsMetadata).Methods(utilities.PostMethod)
 	router.HandleFunc("/Daemon/GetJenkinsCrumb", getJenkinsCrumb).Methods(utilities.PostMethod)
+	router.HandleFunc("/Daemon/CreateUpdateJob", createUpdateJob).Methods(utilities.PostMethod)
+	router.HandleFunc("/Daemon/CheckJob", checkJob).Methods(utilities.PostMethod)
+	router.HandleFunc("/Daemon/CreateFolder", createFolder).Methods(utilities.PostMethod)
+	router.HandleFunc("/Daemon/DeleteJobOrFolder", deleteJobOrFolder).Methods(utilities.PostMethod)
 
 	localPort := utilities.GetLocalPort(configuration.Port)
 	utilities.LogContentService(localPort)
 	log.Fatal(http.ListenAndServe(localPort, router))
 	utilities.LogApplicationEnd()
+}
+
+func checkJob(w http.ResponseWriter, r *http.Request) {
+	var jobRequest jenkins.JobRequest
+	err := utilities.DecodeJsonFromBody(r, &jobRequest)
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
+
+	crumb, err := endpoint.GetJenkinsCrumb()
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
+
+	_, err = endpoint.CheckJobExistence(*crumb, jobRequest)
+	if err != nil {
+		w.WriteHeader(500)
+		utilities.LogError(err)
+		return
+	}
+
+	w.WriteHeader(200)
 }
 
 func createUpdateJob(w http.ResponseWriter, r *http.Request) {

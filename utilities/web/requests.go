@@ -1,4 +1,4 @@
-package utilities
+package web
 
 import (
 	"bytes"
@@ -14,6 +14,8 @@ const (
 	ContentTypeHeader                string = "Content-Type"
 	ApplicationJsonHeaderContentType string = "application/json"
 	OctetStreamHeaderContentType     string = "application/octet-stream"
+	XmlHeaderContentType             string = "text/xml"
+	FormUnEncodedHeaderContentType   string = "application/x-www-form-urlencoded"
 )
 
 var windowsNewLines = "\r\n"
@@ -27,6 +29,14 @@ func AddJsonHeader(request *http.Request) {
 
 func AddOctetHeader(request *http.Request) {
 	request.Header.Add(ContentTypeHeader, OctetStreamHeaderContentType)
+}
+
+func AddXmlHeader(request *http.Request) {
+	request.Header.Add(ContentTypeHeader, XmlHeaderContentType)
+}
+
+func AddFormHeader(request *http.Request) {
+	request.Header.Add(ContentTypeHeader, FormUnEncodedHeaderContentType)
 }
 
 func AddBearerToken(request *http.Request, bearerToken string) {
@@ -82,6 +92,7 @@ func ExecuteRequestAndReadStringBody(c *http.Client, r *http.Request) (*string, 
 	return &s, nil
 }
 
+// obsolete?
 func EncodeBase64String(someString string) string {
 	stringEncoding := b64.StdEncoding.EncodeToString([]byte(someString))
 	return stringEncoding
