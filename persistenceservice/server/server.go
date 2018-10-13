@@ -1,5 +1,9 @@
 package server
 
+import (
+	"../../models"
+)
+
 type PersistenceServiceConfiguration struct {
 	Port             int    `json:"port"`
 	ConnectionString string `json:"connectionString"`
@@ -15,18 +19,18 @@ func NewPersistenceServiceEndpoint(configuration PersistenceServiceConfiguration
 	return result
 }
 
-func (p *PersistenceServiceEndpoint) SetKeyValueCache() {
-
+func (p *PersistenceServiceEndpoint) SetKeyValueCache() (*models.KeyValueResult, error) {
+	return nil, nil
 }
 
-func (p *PersistenceServiceEndpoint) GetKeyValueCache() {
-
+func (p *PersistenceServiceEndpoint) GetKeyValueCache() (*models.KeyValueResult, error) {
+	return nil, nil
 }
 
-func (p *PersistenceServiceEndpoint) GetInfrastructureMetadata() {
-
+func (p *PersistenceServiceEndpoint) GetInfrastructureMetadata() (*models.InfrastructureMetadata, error) {
+	return nil, nil
 }
 
-func (p *PersistenceServiceEndpoint) SetLogRecord() {
-
+func (p *PersistenceServiceEndpoint) SetLogRecord() error {
+	return nil
 }
