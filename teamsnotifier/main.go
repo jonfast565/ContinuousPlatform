@@ -1,54 +1,48 @@
 package main
 
 import (
-	"../utilities"
+	"../constants"
+	"../jsonutil"
+	"../logging"
+	"../networking"
+	"./server"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
-	"strings"
 )
 
-var config Configuration
+var config server.Configuration
 
 func main() {
-	utilities.CreateLog()
-	utilities.LogHeader("Teams Notifier")
-	utilities.LogApplicationStart()
+	logging.CreateLog()
+	logging.LogHeader("Teams Notifier")
+	logging.LogApplicationStart()
 
-	utilities.DecodeJsonFromFile("./appsettings.json", &config)
+	jsonutil.DecodeJsonFromFile("./appsettings.json", &config)
 	router := mux.NewRouter()
-	router.HandleFunc("/message", sendMessage).Methods(utilities.PostMethod)
+	router.HandleFunc("/message", sendMessage).Methods(constants.PostMethod)
 
-	localPort := utilities.GetLocalPort(config.Port)
-	utilities.LogContentService(localPort)
+	localPort := networking.GetLocalPort(config.Port)
+	logging.LogContentService(localPort)
 	log.Fatal(http.ListenAndServe(localPort, router))
-	utilities.LogApplicationEnd()
-}
-
-func getOutputMessage(message *InputMessage, configuration *Configuration) OutputMessage {
-	return OutputMessage{
-		RoomId: configuration.RoomId,
-		// The newline character is supposed to work, but Cisco is lying about it
-		// on their api documentation site. Stick with <br> for now, since it works
-		Markdown: strings.Join(message.Message, "<br>"),
-	}
+	logging.LogApplicationEnd()
 }
 
 func sendMessage(w http.ResponseWriter, r *http.Request) {
-	var inputMessage InputMessage
+	var inputMessage server.InputMessage
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&inputMessage)
 	if err != nil {
-		utilities.LogError(err)
+		logging.LogError(err)
 		w.WriteHeader(500)
 		return
 	}
 
-	responseBytes, err := SendMessage(&inputMessage, &config)
+	responseBytes, err := server.SendMessage(&inputMessage, &config)
 	if err != nil {
-		utilities.LogError(err)
+		logging.LogError(err)
 		w.WriteHeader(500)
 		return
 	}
