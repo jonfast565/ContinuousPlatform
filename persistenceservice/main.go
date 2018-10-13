@@ -33,14 +33,14 @@ func main() {
 
 func getStuff(w http.ResponseWriter, r *http.Request) {
 	/*
-		var repositoryFileMetadata models.RepositoryFileMetadata
-		err := jsonutil.DecodeJsonFromBody(r, &repositoryFileMetadata)
+		var model models.Model
+		err := jsonutil.DecodeJsonFromBody(r, &model)
 		if err != nil {
 			w.WriteHeader(500)
 			logging.LogError(err)
 			return
 		}
-		result, err := endpoint.GetFile(repositoryFileMetadata)
+		result, err := endpoint.something(something)
 		if err != nil {
 			w.WriteHeader(500)
 			logging.LogError(err)
