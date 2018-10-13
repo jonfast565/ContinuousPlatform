@@ -1,58 +1,62 @@
 package main
 
 import (
-	"../models/jenkins"
-	"../utilities"
+	"../constants"
+	"../jsonutil"
+	"../logging"
+	"../models"
+	"../networking"
+	"./server"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 )
 
-var configuration JenkinsConfiguration
-var endpoint JenkinsEndpoint
+var configuration server.JenkinsConfiguration
+var endpoint server.JenkinsEndpoint
 
 func main() {
-	utilities.CreateLog()
-	utilities.LogHeader("Jenkins Service")
-	utilities.LogApplicationStart()
+	logging.CreateLog()
+	logging.LogHeader("Jenkins Service")
+	logging.LogApplicationStart()
 
-	utilities.DecodeJsonFromFile("./appsettings.json", &configuration)
+	jsonutil.DecodeJsonFromFile("./appsettings.json", &configuration)
 
 	router := mux.NewRouter()
-	endpoint = NewJenkinsEndpoint(configuration)
-	router.HandleFunc("/Daemon/GetJenkinsMetadata", getJenkinsMetadata).Methods(utilities.PostMethod)
-	router.HandleFunc("/Daemon/GetJenkinsCrumb", getJenkinsCrumb).Methods(utilities.PostMethod)
-	router.HandleFunc("/Daemon/CreateUpdateJob", createUpdateJob).Methods(utilities.PostMethod)
-	router.HandleFunc("/Daemon/CheckJob", checkJob).Methods(utilities.PostMethod)
-	router.HandleFunc("/Daemon/CreateFolder", createFolder).Methods(utilities.PostMethod)
-	router.HandleFunc("/Daemon/DeleteJobOrFolder", deleteJobOrFolder).Methods(utilities.PostMethod)
+	endpoint = server.NewJenkinsEndpoint(configuration)
+	router.HandleFunc("/Daemon/GetJenkinsMetadata", getJenkinsMetadata).Methods(constants.PostMethod)
+	router.HandleFunc("/Daemon/GetJenkinsCrumb", getJenkinsCrumb).Methods(constants.PostMethod)
+	router.HandleFunc("/Daemon/CreateUpdateJob", createUpdateJob).Methods(constants.PostMethod)
+	router.HandleFunc("/Daemon/CheckJob", checkJob).Methods(constants.PostMethod)
+	router.HandleFunc("/Daemon/CreateFolder", createFolder).Methods(constants.PostMethod)
+	router.HandleFunc("/Daemon/DeleteJobOrFolder", deleteJobOrFolder).Methods(constants.PostMethod)
 
-	localPort := utilities.GetLocalPort(configuration.Port)
-	utilities.LogContentService(localPort)
+	localPort := networking.GetLocalPort(configuration.Port)
+	logging.LogContentService(localPort)
 	log.Fatal(http.ListenAndServe(localPort, router))
-	utilities.LogApplicationEnd()
+	logging.LogApplicationEnd()
 }
 
 func checkJob(w http.ResponseWriter, r *http.Request) {
-	var jobRequest jenkins.JobRequest
-	err := utilities.DecodeJsonFromBody(r, &jobRequest)
+	var jobRequest models.JenkinsJobRequest
+	err := jsonutil.DecodeJsonFromBody(r, &jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
 	crumb, err := endpoint.GetJenkinsCrumb()
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
 	_, err = endpoint.CheckJobExistence(*crumb, jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
@@ -60,25 +64,25 @@ func checkJob(w http.ResponseWriter, r *http.Request) {
 }
 
 func createUpdateJob(w http.ResponseWriter, r *http.Request) {
-	var jobRequest jenkins.JobRequest
-	err := utilities.DecodeJsonFromBody(r, &jobRequest)
+	var jobRequest models.JenkinsJobRequest
+	err := jsonutil.DecodeJsonFromBody(r, &jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
 	crumb, err := endpoint.GetJenkinsCrumb()
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
 	_, err = endpoint.CreateUpdateJob(*crumb, jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
@@ -86,25 +90,25 @@ func createUpdateJob(w http.ResponseWriter, r *http.Request) {
 }
 
 func createFolder(w http.ResponseWriter, r *http.Request) {
-	var jobRequest jenkins.JobRequest
-	err := utilities.DecodeJsonFromBody(r, &jobRequest)
+	var jobRequest models.JenkinsJobRequest
+	err := jsonutil.DecodeJsonFromBody(r, &jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
 	crumb, err := endpoint.GetJenkinsCrumb()
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
 	_, err = endpoint.CreateFolder(*crumb, jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
@@ -112,25 +116,25 @@ func createFolder(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteJobOrFolder(w http.ResponseWriter, r *http.Request) {
-	var jobRequest jenkins.JobRequest
-	err := utilities.DecodeJsonFromBody(r, &jobRequest)
+	var jobRequest models.JenkinsJobRequest
+	err := jsonutil.DecodeJsonFromBody(r, &jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
 	crumb, err := endpoint.GetJenkinsCrumb()
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
 	_, err = endpoint.DeleteJobOrFolder(*crumb, jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
@@ -141,21 +145,21 @@ func getJenkinsMetadata(w http.ResponseWriter, r *http.Request) {
 	crumb, err := endpoint.GetJenkinsCrumb()
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
 	result, err := endpoint.GetJenkinsMetadata(*crumb)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
-	resultBytes, err := utilities.EncodeJsonToBytes(&result)
+	resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
@@ -166,14 +170,14 @@ func getJenkinsCrumb(w http.ResponseWriter, r *http.Request) {
 	result, err := endpoint.GetJenkinsCrumb()
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
-	resultBytes, err := utilities.EncodeJsonToBytes(&result)
+	resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 
