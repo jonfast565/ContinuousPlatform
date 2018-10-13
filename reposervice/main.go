@@ -1,68 +1,72 @@
 package main
 
 import (
-	"../models/repos"
-	"../utilities"
+	"../constants"
+	"../jsonutil"
+	"../logging"
+	"../models"
+	"../networking"
+	"./server"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 )
 
-var configuration TeamServicesConfiguration
-var endpoint *TeamServicesEndpoint
+var configuration server.TeamServicesConfiguration
+var endpoint *server.TeamServicesEndpoint
 
 func main() {
-	utilities.CreateLog()
-	utilities.LogHeader("Repo Service")
-	utilities.LogApplicationStart()
+	logging.CreateLog()
+	logging.LogHeader("Repo Service")
+	logging.LogApplicationStart()
 
-	utilities.DecodeJsonFromFile("./appsettings.json", &configuration)
-	endpoint = NewTeamServicesEndpoint(configuration)
+	jsonutil.DecodeJsonFromFile("./appsettings.json", &configuration)
+	endpoint = server.NewTeamServicesEndpoint(configuration)
 
 	router := mux.NewRouter()
-	router.HandleFunc("/Daemon/GetRepositories", getRepositories).Methods(utilities.PostMethod)
-	router.HandleFunc("/Daemon/GetFile", getFile).Methods(utilities.PostMethod)
+	router.HandleFunc("/Daemon/GetRepositories", getRepositories).Methods(constants.PostMethod)
+	router.HandleFunc("/Daemon/GetFile", getFile).Methods(constants.PostMethod)
 
-	localPort := utilities.GetLocalPort(configuration.Port)
-	utilities.LogContentService(localPort)
+	localPort := networking.GetLocalPort(configuration.Port)
+	logging.LogContentService(localPort)
 	log.Fatal(http.ListenAndServe(localPort, router))
-	utilities.LogApplicationEnd()
+	logging.LogApplicationEnd()
 }
 
 func getRepositories(w http.ResponseWriter, r *http.Request) {
 	result, err := endpoint.GetRepositories()
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
-	resultBytes, err := utilities.EncodeJsonToBytes(&result)
+	resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 	w.Write(*resultBytes)
 }
 
 func getFile(w http.ResponseWriter, r *http.Request) {
-	var repositoryFileMetadata repos.RepositoryFileMetadata
-	err := utilities.DecodeJsonFromBody(r, &repositoryFileMetadata)
+	var repositoryFileMetadata models.RepositoryFileMetadata
+	err := jsonutil.DecodeJsonFromBody(r, &repositoryFileMetadata)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 	result, err := endpoint.GetFile(repositoryFileMetadata)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
-	resultBytes, err := utilities.EncodeJsonToBytes(&result)
+	resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
 	if err != nil {
 		w.WriteHeader(500)
-		utilities.LogError(err)
+		logging.LogError(err)
 		return
 	}
 	w.Write(*resultBytes)
