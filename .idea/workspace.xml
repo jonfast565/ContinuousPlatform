@@ -1,34 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="fnished jenkins service, starting on persistence service">
+    <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/persistenceservice/appsettings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jenkinsservice/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/jenkinsservice/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jenkinsservice/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/jenkinsservice/server/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/filesystem/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/filesystem_models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/jenkins/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/jenkins_models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/payload/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/payload_models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/repos/adapter_interface.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/repos/repository_models.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/repository_models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/repos/source_control_models.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/source_control_models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/repos/teamservices/constants.go" beforeDir="false" afterPath="$PROJECT_DIR$/constants/teamservices_constants.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/repos/teamservices/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/teamservices_models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reposervice/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/reposervice/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reposervice/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/reposervice/server/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teamsnotifier/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/teamsnotifier/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teamsnotifier/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/teamsnotifier/server/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/constants.go" beforeDir="false" afterPath="$PROJECT_DIR$/constants/web_constants.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/filegraph.go" beforeDir="false" afterPath="$PROJECT_DIR$/fileutil/filegraph.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/interfaces.go" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/generic_interfaces.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/iteration/paths.go" beforeDir="false" afterPath="$PROJECT_DIR$/pathutil/paths.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/iteration/paths_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/pathutil/paths_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/json.go" beforeDir="false" afterPath="$PROJECT_DIR$/jsonutil/json.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/logging.go" beforeDir="false" afterPath="$PROJECT_DIR$/logging/logging.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/networking.go" beforeDir="false" afterPath="$PROJECT_DIR$/networking/networking.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/templating.go" beforeDir="false" afterPath="$PROJECT_DIR$/templating/templating.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/time.go" beforeDir="false" afterPath="$PROJECT_DIR$/timeutil/time.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/web/requests.go" beforeDir="false" afterPath="$PROJECT_DIR$/webutil/requests.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/web/urls.go" beforeDir="false" afterPath="$PROJECT_DIR$/webutil/urls.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/persistenceservice/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/persistenceservice/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/server/server.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -59,58 +36,55 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="gitignore" value="1" />
-          <entry key="go" value="228" />
+          <entry key="go" value="236" />
           <entry key="hbs" value="1" />
-          <entry key="json" value="5" />
+          <entry key="json" value="6" />
           <entry key="log" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Go" value="228" />
-          <entry key="JSON" value="5" />
+          <entry key="Go" value="236" />
+          <entry key="JSON" value="6" />
           <entry key="PLAIN_TEXT" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gitignore" value="9" />
-          <entry key="go" value="16948" />
-          <entry key="json" value="306" />
-          <entry key="txt" value="842" />
+          <entry key="go" value="17174" />
+          <entry key="json" value="389" />
+          <entry key="txt" value="913" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="16948" />
-          <entry key="JSON" value="306" />
-          <entry key="PLAIN_TEXT" value="851" />
+          <entry key="Go" value="17174" />
+          <entry key="JSON" value="389" />
+          <entry key="PLAIN_TEXT" value="922" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/teamsnotifier/main.go">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/persistenceservice/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="30" column="1" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="1" />
+            <state relative-caret-position="-103">
+              <caret line="24" column="29" lean-forward="true" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
               <folding>
-                <element signature="e#14#178#0" expanded="true" />
+                <element signature="e#14#156#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/teamsnotifier/server/server.go">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/persistenceservice/server/server.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="58" column="54" lean-forward="true" selection-start-line="58" selection-start-column="54" selection-end-line="58" selection-end-column="54" />
-              <folding>
-                <element signature="e#16#117#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="187">
+              <caret line="11" column="34" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -182,6 +156,9 @@
         <option value="$PROJECT_DIR$/reposervice/server/server.go" />
         <option value="$PROJECT_DIR$/teamsnotifier/main.go" />
         <option value="$PROJECT_DIR$/teamsnotifier/server/server.go" />
+        <option value="$PROJECT_DIR$/persistenceservice/appsettings.json" />
+        <option value="$PROJECT_DIR$/persistenceservice/server/server.go" />
+        <option value="$PROJECT_DIR$/persistenceservice/main.go" />
       </list>
     </option>
   </component>
@@ -213,12 +190,23 @@
             <path>
               <item name="SystemCI" type="b2602c69:ProjectViewProjectNode" />
               <item name="SystemCI" type="462c0819:PsiDirectoryNode" />
-              <item name="teamsnotifier" type="462c0819:PsiDirectoryNode" />
+              <item name="persistenceservice" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SystemCI" type="b2602c69:ProjectViewProjectNode" />
               <item name="SystemCI" type="462c0819:PsiDirectoryNode" />
-              <item name="teamsnotifier" type="462c0819:PsiDirectoryNode" />
+              <item name="persistenceservice" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SystemCI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SystemCI" type="462c0819:PsiDirectoryNode" />
+              <item name="reposervice" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SystemCI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SystemCI" type="462c0819:PsiDirectoryNode" />
+              <item name="reposervice" type="462c0819:PsiDirectoryNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -238,13 +226,14 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\persistenceservice\server" />
       <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\teamsnotifier\server" />
       <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\reposervice\server" />
       <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\jenkinsservice\server" />
       <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\interfaces" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\constants" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\persistenceservice" />
       <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\offlinetester" />
       <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\jenkinsservice" />
     </key>
@@ -301,7 +290,7 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27685326" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22692889" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Messages" weight="0.3289689" />
@@ -314,7 +303,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.32569557" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32569557" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50075644" side_tool="true" weight="0.19609967" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -356,7 +345,9 @@
     <MESSAGE value="updated logging for metadata retrieval" />
     <MESSAGE value="continued work on jenkins utils" />
     <MESSAGE value="fnished jenkins service, starting on persistence service" />
-    <option name="LAST_COMMIT_MESSAGE" value="fnished jenkins service, starting on persistence service" />
+    <MESSAGE value="big refac and reorg" />
+    <MESSAGE value="file renames for a little consistency" />
+    <option name="LAST_COMMIT_MESSAGE" value="file renames for a little consistency" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -387,27 +378,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/offlinetester/appsettings.json" />
     <entry file="file://$PROJECT_DIR$/utilities/header.go" />
-    <entry file="file://$PROJECT_DIR$/timeutil/time.go">
+    <entry file="file://$PROJECT_DIR$/timeutil/timeutil.go">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/networking/networking.go">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/persistenceservice/main.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/persistenceservice/server.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="12" selection-start-column="12" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utilities/utilities.go" />
     <entry file="file://$PROJECT_DIR$/offlinetester/server.go" />
     <entry file="file://$PROJECT_DIR$/offlinetester/main.go" />
     <entry file="file://$PROJECT_DIR$/models/jenkins/utilities.go" />
-    <entry file="file://$PROJECT_DIR$/pathutil/paths_test.go">
+    <entry file="file://$PROJECT_DIR$/pathutil/pathutil_test.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="441">
           <caret line="47" column="1" selection-start-line="47" selection-start-column="1" selection-end-line="47" selection-end-column="1" />
@@ -448,14 +429,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jsonutil/json.go">
+    <entry file="file://$PROJECT_DIR$/jsonutil/jsonutil.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="17" column="19" lean-forward="true" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pathutil/paths.go">
+    <entry file="file://$PROJECT_DIR$/pathutil/pathutil.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-319">
           <caret line="124" column="20" selection-start-line="124" selection-start-column="20" selection-end-line="124" selection-end-column="20" />
@@ -482,7 +463,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fileutil/filegraph.go">
+    <entry file="file://$PROJECT_DIR$/fileutil/fileutil.go">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <folding>
@@ -563,26 +544,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/reposervice/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-17">
-          <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/reposervice/server/server.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2652">
-          <caret line="34" column="1" selection-start-line="34" selection-start-column="1" selection-end-line="34" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jenkinsservice/server/server.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
           <caret line="34" column="17" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="17" />
           <folding>
             <element signature="e#14#164#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/teamsnotifier/server/server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="986">
+          <caret line="58" column="54" lean-forward="true" selection-start-line="58" selection-start-column="54" selection-end-line="58" selection-end-column="54" />
+          <folding>
+            <element signature="e#16#117#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -597,12 +574,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/teamsnotifier/server/server.go">
+    <entry file="file://$PROJECT_DIR$/reposervice/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="58" column="54" lean-forward="true" selection-start-line="58" selection-start-column="54" selection-end-line="58" selection-end-column="54" />
+        <state relative-caret-position="204">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
           <folding>
-            <element signature="e#16#117#0" expanded="true" />
+            <element signature="e#14#156#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistenceservice/appsettings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="44" selection-start-line="2" selection-start-column="44" selection-end-line="2" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reposervice/server/server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="22" column="1" lean-forward="true" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistenceservice/server/server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="34" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistenceservice/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-103">
+          <caret line="24" column="29" lean-forward="true" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
+          <folding>
+            <element signature="e#14#156#0" expanded="true" />
           </folding>
         </state>
       </provider>
