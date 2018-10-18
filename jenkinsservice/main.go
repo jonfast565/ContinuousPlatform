@@ -4,7 +4,7 @@ import (
 	"../constants"
 	"../jsonutil"
 	"../logging"
-	"../models"
+	"../models/jenkinsmodel"
 	"../networking"
 	"./server"
 	"github.com/gorilla/mux"
@@ -12,8 +12,10 @@ import (
 	"net/http"
 )
 
-var configuration server.JenkinsConfiguration
-var endpoint server.JenkinsEndpoint
+var (
+	configuration server.JenkinsConfiguration
+	endpoint      server.JenkinsEndpoint
+)
 
 func main() {
 	logging.CreateLog()
@@ -38,7 +40,7 @@ func main() {
 }
 
 func checkJob(w http.ResponseWriter, r *http.Request) {
-	var jobRequest models.JenkinsJobRequest
+	var jobRequest jenkinsmodel.JenkinsJobRequest
 	err := jsonutil.DecodeJsonFromBody(r, &jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
@@ -64,7 +66,7 @@ func checkJob(w http.ResponseWriter, r *http.Request) {
 }
 
 func createUpdateJob(w http.ResponseWriter, r *http.Request) {
-	var jobRequest models.JenkinsJobRequest
+	var jobRequest jenkinsmodel.JenkinsJobRequest
 	err := jsonutil.DecodeJsonFromBody(r, &jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
@@ -90,7 +92,7 @@ func createUpdateJob(w http.ResponseWriter, r *http.Request) {
 }
 
 func createFolder(w http.ResponseWriter, r *http.Request) {
-	var jobRequest models.JenkinsJobRequest
+	var jobRequest jenkinsmodel.JenkinsJobRequest
 	err := jsonutil.DecodeJsonFromBody(r, &jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
@@ -116,7 +118,7 @@ func createFolder(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteJobOrFolder(w http.ResponseWriter, r *http.Request) {
-	var jobRequest models.JenkinsJobRequest
+	var jobRequest jenkinsmodel.JenkinsJobRequest
 	err := jsonutil.DecodeJsonFromBody(r, &jobRequest)
 	if err != nil {
 		w.WriteHeader(500)

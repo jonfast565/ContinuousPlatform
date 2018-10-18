@@ -4,7 +4,7 @@ import (
 	"../../constants"
 	"../../jsonutil"
 	"../../logging"
-	"../../models"
+	"../../models/jenkinsmodel"
 	"../../templating"
 	"../../webutil"
 	"encoding/json"
@@ -47,7 +47,7 @@ func NewJenkinsEndpoint(configuration JenkinsConfiguration) JenkinsEndpoint {
 	}
 }
 
-func (je *JenkinsEndpoint) CheckJobExistence(crumb models.JenkinsCrumb, request models.JenkinsJobRequest) (*string, error) {
+func (je *JenkinsEndpoint) CheckJobExistence(crumb jenkinsmodel.JenkinsCrumb, request jenkinsmodel.JenkinsJobRequest) (*string, error) {
 	logging.LogInfo("Check Existence Jenkins Job -> " + request.GetJobFragmentUrl())
 	checkUrl := je.buildCheckUrl(request)
 	logging.LogInfo("Check Existence Job URL: " + checkUrl)
@@ -69,7 +69,7 @@ func (je *JenkinsEndpoint) CheckJobExistence(crumb models.JenkinsCrumb, request 
 	return result, nil
 }
 
-func (je *JenkinsEndpoint) CreateUpdateJob(crumb models.JenkinsCrumb, request models.JenkinsJobRequest) (*string, error) {
+func (je *JenkinsEndpoint) CreateUpdateJob(crumb jenkinsmodel.JenkinsCrumb, request jenkinsmodel.JenkinsJobRequest) (*string, error) {
 	logging.LogInfo("Create/Update Jenkins Job -> " + request.GetJobFragmentUrl())
 	createUpdateUrl := je.buildCreateUpdateUrl(request)
 	logging.LogInfo("Create/Update Job URL: " + createUpdateUrl)
@@ -91,7 +91,7 @@ func (je *JenkinsEndpoint) CreateUpdateJob(crumb models.JenkinsCrumb, request mo
 	return result, nil
 }
 
-func (je *JenkinsEndpoint) CreateFolder(crumb models.JenkinsCrumb, request models.JenkinsJobRequest) (*string, error) {
+func (je *JenkinsEndpoint) CreateFolder(crumb jenkinsmodel.JenkinsCrumb, request jenkinsmodel.JenkinsJobRequest) (*string, error) {
 	logging.LogInfo("Create Jenkins Folder -> " + request.GetJobFragmentUrl())
 	folderUrl := je.buildCreateFolderUrl(request)
 	logging.LogInfo("Create Folder URL: " + folderUrl)
@@ -118,7 +118,7 @@ func (je *JenkinsEndpoint) CreateFolder(crumb models.JenkinsCrumb, request model
 	return result, nil
 }
 
-func (je *JenkinsEndpoint) DeleteJobOrFolder(crumb models.JenkinsCrumb, request models.JenkinsJobRequest) (*string, error) {
+func (je *JenkinsEndpoint) DeleteJobOrFolder(crumb jenkinsmodel.JenkinsCrumb, request jenkinsmodel.JenkinsJobRequest) (*string, error) {
 	logging.LogInfo("Delete Jenkins Job/Folder -> " + request.GetJobFragmentUrl())
 	deleteUrl := je.buildDeleteUrl(request)
 	logging.LogInfo("Delete Job/Folder URL: " + deleteUrl)
@@ -140,7 +140,7 @@ func (je *JenkinsEndpoint) DeleteJobOrFolder(crumb models.JenkinsCrumb, request 
 	return result, nil
 }
 
-func (je *JenkinsEndpoint) GetJenkinsMetadata(crumb models.JenkinsCrumb) (*models.JenkinsJobMetadata, error) {
+func (je *JenkinsEndpoint) GetJenkinsMetadata(crumb jenkinsmodel.JenkinsCrumb) (*jenkinsmodel.JenkinsJobMetadata, error) {
 	logging.LogInfo("Get Jenkins Job Metadata")
 	metadataUrl := je.buildJobMetadataUrl()
 	logging.LogInfo("Metadata URL: " + metadataUrl)
@@ -154,7 +154,7 @@ func (je *JenkinsEndpoint) GetJenkinsMetadata(crumb models.JenkinsCrumb) (*model
 	addCrumbHeader(crumb, request)
 	webutil.AddJsonHeader(request)
 
-	var result models.JenkinsJobMetadata
+	var result jenkinsmodel.JenkinsJobMetadata
 	err = webutil.ExecuteRequestAndReadJsonBody(&je.client, request, &result)
 	if err != nil {
 		return nil, err
@@ -170,7 +170,7 @@ func (je *JenkinsEndpoint) GetJenkinsMetadata(crumb models.JenkinsCrumb) (*model
 	return &result, nil
 }
 
-func (je *JenkinsEndpoint) GetJenkinsCrumb() (*models.JenkinsCrumb, error) {
+func (je *JenkinsEndpoint) GetJenkinsCrumb() (*jenkinsmodel.JenkinsCrumb, error) {
 	logging.LogInfo("Get Jenkins Crumb")
 	crumbUrl := je.buildCrumbUrl()
 	logging.LogInfo("Crumb URL: " + crumbUrl)
@@ -183,7 +183,7 @@ func (je *JenkinsEndpoint) GetJenkinsCrumb() (*models.JenkinsCrumb, error) {
 	je.addAuthHeader(request)
 	webutil.AddJsonHeader(request)
 
-	var result models.JenkinsCrumb
+	var result jenkinsmodel.JenkinsCrumb
 	err = webutil.ExecuteRequestAndReadJsonBody(&je.client, request, &result)
 	if err != nil {
 		return nil, err
@@ -201,11 +201,11 @@ func (je *JenkinsEndpoint) addAuthHeader(r *http.Request) {
 	r.SetBasicAuth(je.configuration.JenkinsUsername, je.configuration.JenkinsAccessToken)
 }
 
-func addCrumbHeader(crumb models.JenkinsCrumb, r *http.Request) {
+func addCrumbHeader(crumb jenkinsmodel.JenkinsCrumb, r *http.Request) {
 	r.Header.Add(crumb.CrumbRequestField, crumb.Crumb)
 }
 
-func (je *JenkinsEndpoint) buildCreateFolderUrl(request models.JenkinsJobRequest) string {
+func (je *JenkinsEndpoint) buildCreateFolderUrl(request jenkinsmodel.JenkinsJobRequest) string {
 	createFolderPath := je.configuration.GetJenkinsUrlObject()
 	createFolderPath.AppendPathFragments(request.GetParentJobFragments())
 	createFolderPath.AppendPathFragment("createItem")
@@ -215,14 +215,14 @@ func (je *JenkinsEndpoint) buildCreateFolderUrl(request models.JenkinsJobRequest
 	createFolderPath.AppendQueryValue("name", folderName)
 	createFolderPath.AppendQueryValue("mode", "com.cloudbees.hudson.plugins.folder.Folder")
 	createFolderPath.AppendQueryValue("from", "")
-	result, _ := json.Marshal(models.NewFolderRequest(folderName))
+	result, _ := json.Marshal(jenkinsmodel.NewFolderRequest(folderName))
 	createFolderPath.AppendQueryValue("json", string(result))
 	createFolderPath.AppendQueryValue("Submit", "OK")
 	return createFolderPath.GetUrlStringValue()
 }
 
 // obsolete?
-func (je *JenkinsEndpoint) buildCheckUrl(request models.JenkinsJobRequest) string {
+func (je *JenkinsEndpoint) buildCheckUrl(request jenkinsmodel.JenkinsJobRequest) string {
 	createUpdatePath := je.configuration.GetJenkinsUrlObject()
 	createUpdatePath.AppendPathFragments(request.GetParentJobFragments())
 	createUpdatePath.AppendPathFragment("checkJobName")
@@ -230,7 +230,7 @@ func (je *JenkinsEndpoint) buildCheckUrl(request models.JenkinsJobRequest) strin
 	return createUpdatePath.GetUrlStringValue()
 }
 
-func (je *JenkinsEndpoint) buildCreateUpdateUrl(request models.JenkinsJobRequest) string {
+func (je *JenkinsEndpoint) buildCreateUpdateUrl(request jenkinsmodel.JenkinsJobRequest) string {
 	createUpdatePath := je.configuration.GetJenkinsUrlObject()
 	createUpdatePath.AppendPathFragments(request.GetParentJobFragments())
 	createUpdatePath.AppendPathFragment("createItem")
@@ -238,7 +238,7 @@ func (je *JenkinsEndpoint) buildCreateUpdateUrl(request models.JenkinsJobRequest
 	return createUpdatePath.GetUrlStringValue()
 }
 
-func (je *JenkinsEndpoint) buildDeleteUrl(request models.JenkinsJobRequest) string {
+func (je *JenkinsEndpoint) buildDeleteUrl(request jenkinsmodel.JenkinsJobRequest) string {
 	deletePath := je.configuration.GetJenkinsUrlObject()
 	deletePath.AppendPathFragments(request.GetJobFragments())
 	deletePath.AppendPathFragment("doDelete")
@@ -252,7 +252,7 @@ func (je *JenkinsEndpoint) buildCrumbUrl() string {
 }
 
 func (je *JenkinsEndpoint) buildJobMetadataUrl() string {
-	jobDepthString := strconv.Itoa(models.JenkinsMaximumJobDepth)
+	jobDepthString := strconv.Itoa(jenkinsmodel.JenkinsMaximumJobDepth)
 	metadataPath := je.configuration.GetJenkinsUrlObject()
 	metadataPath.AppendPathFragments([]string{"api", "json"})
 	metadataPath.AppendQueryValue("depth", jobDepthString)

@@ -1,7 +1,9 @@
 package server
 
 import (
-	"../../models"
+	"../../models/inframodel"
+	"../../models/loggingmodel"
+	"../../models/persistmodel"
 )
 
 type PersistenceServiceConfiguration struct {
@@ -19,18 +21,20 @@ func NewPersistenceServiceEndpoint(configuration PersistenceServiceConfiguration
 	return result
 }
 
-func (p *PersistenceServiceEndpoint) SetKeyValueCache() (*models.KeyValueResult, error) {
+func (p *PersistenceServiceEndpoint) SetKeyValueCache(
+	setRequest *persistmodel.KeyValueSetRequest) (*persistmodel.KeyValueResult, error) {
 	return nil, nil
 }
 
-func (p *PersistenceServiceEndpoint) GetKeyValueCache() (*models.KeyValueResult, error) {
+func (p *PersistenceServiceEndpoint) GetKeyValueCache(
+	getRequest *persistmodel.KeyValueGetRequest) (*persistmodel.KeyValueResult, error) {
 	return nil, nil
 }
 
-func (p *PersistenceServiceEndpoint) GetInfrastructureMetadata() (*models.InfrastructureMetadata, error) {
+func (p *PersistenceServiceEndpoint) GetInfrastructureMetadata() (*inframodel.InfrastructureMetadata, error) {
 	return nil, nil
 }
 
-func (p *PersistenceServiceEndpoint) SetLogRecord() error {
+func (p *PersistenceServiceEndpoint) SetLogRecord(logRecord *loggingmodel.LogRecord) error {
 	return nil
 }

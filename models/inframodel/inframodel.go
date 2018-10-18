@@ -1,4 +1,4 @@
-package models
+package inframodel
 
 type InfrastructureMetadata struct {
 }

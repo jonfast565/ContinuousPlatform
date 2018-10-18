@@ -3,7 +3,9 @@ package server
 import (
 	"../../constants"
 	"../../logging"
-	"../../models"
+	"../../models/filesysmodel"
+	"../../models/miscmodel"
+	"../../models/repomodel"
 	"../../pathutil"
 	"../../webutil"
 	"errors"
@@ -34,9 +36,9 @@ func NewTeamServicesEndpoint(configuration TeamServicesConfiguration) *TeamServi
 	return result
 }
 
-func (e TeamServicesEndpoint) GetRepositories() (*models.RepositoryPackage, error) {
-	results := make([]models.RepositoryMetadata, 0)
-	resultsChannel := make(chan models.RepositoryMetadata)
+func (e TeamServicesEndpoint) GetRepositories() (*repomodel.RepositoryPackage, error) {
+	results := make([]repomodel.RepositoryMetadata, 0)
+	resultsChannel := make(chan repomodel.RepositoryMetadata)
 	repositories, err := e.getRepositoryInformation()
 	if err != nil {
 		return nil, err
@@ -63,17 +65,17 @@ func (e TeamServicesEndpoint) GetRepositories() (*models.RepositoryPackage, erro
 		}
 	}
 
-	amalgamation := models.RepositoryPackage{
+	amalgamation := repomodel.RepositoryPackage{
 		Metadata: results,
-		Type:     models.AzureDevOps,
+		Type:     repomodel.AzureDevOps,
 	}
 	return &amalgamation, nil
 }
 
 func (e *TeamServicesEndpoint) getRepositoryBranches(
-	repository models.TsGitRepositoryModel,
+	repository repomodel.TsGitRepositoryModel,
 	wg *sync.WaitGroup,
-	resultsChannel chan models.RepositoryMetadata) {
+	resultsChannel chan repomodel.RepositoryMetadata) {
 	defer wg.Done()
 	branches, err := e.getBranchInformation(repository)
 	if err != nil {
@@ -91,10 +93,10 @@ func (e *TeamServicesEndpoint) getRepositoryBranches(
 }
 
 func (e *TeamServicesEndpoint) getRepositoryBranchFiles(
-	repository models.TsGitRepositoryModel,
-	branch models.TsGitRefsModel,
+	repository repomodel.TsGitRepositoryModel,
+	branch repomodel.TsGitRefsModel,
 	wg *sync.WaitGroup,
-	resultsChannel chan models.RepositoryMetadata) {
+	resultsChannel chan repomodel.RepositoryMetadata) {
 	defer wg.Done()
 	files, err := e.getBranchFileList(repository, branch)
 	if err != nil {
@@ -111,10 +113,10 @@ func (e *TeamServicesEndpoint) getRepositoryBranchFiles(
 }
 
 func (e TeamServicesEndpoint) buildRepositoryMetadata(
-	repository models.TsGitRepositoryModel,
-	branch models.TsGitRefsModel,
-	files *models.TsGitFileList) models.RepositoryMetadata {
-	return models.RepositoryMetadata{
+	repository repomodel.TsGitRepositoryModel,
+	branch repomodel.TsGitRefsModel,
+	files *repomodel.TsGitFileList) repomodel.RepositoryMetadata {
+	return repomodel.RepositoryMetadata{
 		Name:        repository.Name,
 		Branch:      getCleanBranchName(branch),
 		OptionalUrl: repository.RemoteUrl,
@@ -122,7 +124,7 @@ func (e TeamServicesEndpoint) buildRepositoryMetadata(
 	}
 }
 
-func (e TeamServicesEndpoint) GetFile(file models.RepositoryFileMetadata) (*models.FilePayload, error) {
+func (e TeamServicesEndpoint) GetFile(file repomodel.RepositoryFileMetadata) (*miscmodel.FilePayload, error) {
 	logging.LogInfo(fmt.Sprintf("Downloading file: %s", file.File.Path))
 
 	if len(file.File.Path) == 0 {
@@ -134,7 +136,7 @@ func (e TeamServicesEndpoint) GetFile(file models.RepositoryFileMetadata) (*mode
 	if err != nil {
 		return nil, err
 	}
-	repo := linq.From(repoInfo.Value).FirstWithT(func(r models.TsGitRepositoryModel) bool {
+	repo := linq.From(repoInfo.Value).FirstWithT(func(r repomodel.TsGitRepositoryModel) bool {
 		return r.Name == file.Repo
 	})
 
@@ -142,13 +144,13 @@ func (e TeamServicesEndpoint) GetFile(file models.RepositoryFileMetadata) (*mode
 		return nil, errors.New(fmt.Sprintf("repository not found: '%s'", file.Repo))
 	}
 
-	repoTyped := repo.(models.TsGitRepositoryModel)
+	repoTyped := repo.(repomodel.TsGitRepositoryModel)
 	branches, err := e.getBranchInformation(repoTyped)
 	if err != nil {
 		return nil, err
 	}
 
-	branch := linq.From(branches.Value).FirstWithT(func(ref models.TsGitRefsModel) bool {
+	branch := linq.From(branches.Value).FirstWithT(func(ref repomodel.TsGitRefsModel) bool {
 		return getCleanBranchName(ref) == file.Branch
 	})
 
@@ -156,7 +158,7 @@ func (e TeamServicesEndpoint) GetFile(file models.RepositoryFileMetadata) (*mode
 		return nil, errors.New(fmt.Sprintf("branch not found: %s", file.Branch))
 	}
 
-	branchTyped := branch.(models.TsGitRefsModel)
+	branchTyped := branch.(repomodel.TsGitRefsModel)
 	logging.LogInfo(fmt.Sprintf("Getting file %s from %s b. %s",
 		file.Name,
 		file.Repo,
@@ -175,7 +177,7 @@ func (e TeamServicesEndpoint) GetFile(file models.RepositoryFileMetadata) (*mode
 	return fileValue, nil
 }
 
-func (e TeamServicesEndpoint) getRepositoryInformation() (*models.TsGitRepositoryList, error) {
+func (e TeamServicesEndpoint) getRepositoryInformation() (*repomodel.TsGitRepositoryList, error) {
 	url := constants.GetRepositoryApiPath(
 		e.Configuration.CollectionUrl,
 		e.Configuration.ProjectName)
@@ -186,7 +188,7 @@ func (e TeamServicesEndpoint) getRepositoryInformation() (*models.TsGitRepositor
 	buildTeamServiceAuthHeader(request, e)
 	webutil.AddJsonHeader(request)
 
-	var result models.TsGitRepositoryList
+	var result repomodel.TsGitRepositoryList
 	err = webutil.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
 	if err != nil {
 		return nil, err
@@ -200,9 +202,9 @@ func buildTeamServiceAuthHeader(request *http.Request, e TeamServicesEndpoint) {
 }
 
 func (e TeamServicesEndpoint) getFileInformation(
-	repository models.TsGitRepositoryModel,
-	branch models.TsGitRefsModel,
-	path string) (*models.FilePayload, error) {
+	repository repomodel.TsGitRepositoryModel,
+	branch repomodel.TsGitRefsModel,
+	path string) (*miscmodel.FilePayload, error) {
 	url := constants.GetApiFilesPath(
 		e.Configuration.CollectionUrl,
 		e.Configuration.ProjectName,
@@ -218,14 +220,14 @@ func (e TeamServicesEndpoint) getFileInformation(
 	buildTeamServiceAuthHeader(request, e)
 	webutil.AddOctetHeader(request)
 
-	var result models.FilePayload
+	var result miscmodel.FilePayload
 	var resultBytes *[]byte
 	resultBytes, err = webutil.ExecuteRequestAndReadBinaryBody(&e.Client, request)
 	if err != nil {
 		return nil, err
 	}
 
-	result = models.FilePayload{
+	result = miscmodel.FilePayload{
 		Name:  pathutil.GetLastPathComponent("." + path),
 		Bytes: *resultBytes,
 	}
@@ -233,7 +235,7 @@ func (e TeamServicesEndpoint) getFileInformation(
 }
 
 func (e TeamServicesEndpoint) getBranchInformation(
-	repository models.TsGitRepositoryModel) (*models.TsGitRefsList, error) {
+	repository repomodel.TsGitRepositoryModel) (*repomodel.TsGitRefsList, error) {
 	url := constants.GetBranchApiPath(
 		e.Configuration.CollectionUrl,
 		e.Configuration.ProjectName,
@@ -246,7 +248,7 @@ func (e TeamServicesEndpoint) getBranchInformation(
 	buildTeamServiceAuthHeader(request, e)
 	webutil.AddJsonHeader(request)
 
-	var result models.TsGitRefsList
+	var result repomodel.TsGitRefsList
 	err = webutil.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
 	if err != nil {
 		return nil, err
@@ -256,8 +258,8 @@ func (e TeamServicesEndpoint) getBranchInformation(
 }
 
 func (e TeamServicesEndpoint) getBranchFileList(
-	repository models.TsGitRepositoryModel,
-	branch models.TsGitRefsModel) (*models.TsGitFileList, error) {
+	repository repomodel.TsGitRepositoryModel,
+	branch repomodel.TsGitRefsModel) (*repomodel.TsGitFileList, error) {
 	url := constants.GetApiFilesPath(
 		e.Configuration.CollectionUrl,
 		e.Configuration.ProjectName,
@@ -273,7 +275,7 @@ func (e TeamServicesEndpoint) getBranchFileList(
 	buildTeamServiceAuthHeader(request, e)
 	webutil.AddJsonHeader(request)
 
-	var result models.TsGitFileList
+	var result repomodel.TsGitFileList
 	err = webutil.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
 	if err != nil {
 		return nil, err
@@ -283,10 +285,10 @@ func (e TeamServicesEndpoint) getBranchFileList(
 }
 
 func getFileSystemMetadataFromList(
-	fileList models.TsGitFileList) *[]models.FileSystemMetadata {
-	result := make([]models.FileSystemMetadata, 0)
+	fileList repomodel.TsGitFileList) *[]filesysmodel.FileSystemMetadata {
+	result := make([]filesysmodel.FileSystemMetadata, 0)
 	for _, file := range fileList.Value {
-		result = append(result, models.FileSystemMetadata{
+		result = append(result, filesysmodel.FileSystemMetadata{
 			Path:             "." + file.Path,
 			OptionalChangeId: file.CommitId,
 			Type:             getGitObjectType(file.GitObjectType),
@@ -296,17 +298,17 @@ func getFileSystemMetadataFromList(
 	return &result
 }
 
-func isValidBranch(branch models.TsGitRefsModel) bool {
+func isValidBranch(branch repomodel.TsGitRefsModel) bool {
 	return strings.Contains(branch.Name, constants.RefsHeadsConstants)
 }
 
-func getCleanBranchName(branch models.TsGitRefsModel) string {
+func getCleanBranchName(branch repomodel.TsGitRefsModel) string {
 	return strings.Replace(branch.Name, constants.RefsHeadsConstants, "", -1)
 }
 
-func getGitObjectType(objectType string) models.FileSystemObjectType {
+func getGitObjectType(objectType string) filesysmodel.FileSystemObjectType {
 	if objectType == constants.BlobConstant {
-		return models.FileType
+		return filesysmodel.FileType
 	}
-	return models.FolderType
+	return filesysmodel.FolderType
 }

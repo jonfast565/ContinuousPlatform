@@ -1,4 +1,4 @@
-package models
+package filesysmodel
 
 type FileSystemObjectType int
 

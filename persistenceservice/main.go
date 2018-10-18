@@ -4,7 +4,9 @@ import (
 	"../constants"
 	"../jsonutil"
 	"../logging"
-	"../models"
+	"../models/inframodel"
+	"../models/loggingmodel"
+	"../models/persistmodel"
 	"../networking"
 	"./server"
 	"github.com/gorilla/mux"
@@ -12,8 +14,10 @@ import (
 	"net/http"
 )
 
-var configuration server.PersistenceServiceConfiguration
-var endpoint *server.PersistenceServiceEndpoint
+var (
+	configuration server.PersistenceServiceConfiguration
+	endpoint      *server.PersistenceServiceEndpoint
+)
 
 func main() {
 	logging.CreateLog()
@@ -36,14 +40,14 @@ func main() {
 }
 
 func getKeyValueCache(w http.ResponseWriter, r *http.Request) {
-	var model models.KeyValueGetRequest
+	var model persistmodel.KeyValueGetRequest
 	err := jsonutil.DecodeJsonFromBody(r, &model)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
-	result, err := endpoint.GetKeyValueCache()
+	result, err := endpoint.GetKeyValueCache(&model)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
@@ -59,32 +63,30 @@ func getKeyValueCache(w http.ResponseWriter, r *http.Request) {
 }
 
 func setKeyValueCache(w http.ResponseWriter, r *http.Request) {
-	/*
-		var model models.KeyValueSetRequest
-		err := jsonutil.DecodeJsonFromBody(r, &model)
-		if err != nil {
-			w.WriteHeader(500)
-			logging.LogError(err)
-			return
-		}
-		result, err := endpoint.something(something)
-		if err != nil {
-			w.WriteHeader(500)
-			logging.LogError(err)
-			return
-		}
-		resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
-		if err != nil {
-			w.WriteHeader(500)
-			logging.LogError(err)
-			return
-		}
-		w.Write(*resultBytes)
-	*/
+	var model persistmodel.KeyValueSetRequest
+	err := jsonutil.DecodeJsonFromBody(r, &model)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+	result, err := endpoint.SetKeyValueCache(&model)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+	resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+	w.Write(*resultBytes)
 }
 
 func getInfrastructureMetadata(w http.ResponseWriter, r *http.Request) {
-	var model models.InfrastructureMetadata
+	var model inframodel.InfrastructureMetadata
 	err := jsonutil.DecodeJsonFromBody(r, &model)
 	if err != nil {
 		w.WriteHeader(500)
@@ -107,26 +109,17 @@ func getInfrastructureMetadata(w http.ResponseWriter, r *http.Request) {
 }
 
 func setLogRecord(w http.ResponseWriter, r *http.Request) {
-	/*
-		var model models.Model
-		err := jsonutil.DecodeJsonFromBody(r, &model)
-		if err != nil {
-			w.WriteHeader(500)
-			logging.LogError(err)
-			return
-		}
-		result, err := endpoint.something(something)
-		if err != nil {
-			w.WriteHeader(500)
-			logging.LogError(err)
-			return
-		}
-		resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
-		if err != nil {
-			w.WriteHeader(500)
-			logging.LogError(err)
-			return
-		}
-		w.Write(*resultBytes)
-	*/
+	var model loggingmodel.LogRecord
+	err := jsonutil.DecodeJsonFromBody(r, &model)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+	err = endpoint.SetLogRecord(&model)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
 }

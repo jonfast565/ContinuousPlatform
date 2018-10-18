@@ -70,7 +70,11 @@ func (u *MyUrl) GetFragmentValue() string {
 }
 
 func (u *MyUrl) GetBasePath() string {
-	result := u.Scheme + "://" + u.Host + ":" + u.Port + "/"
+	result := u.Scheme + "://" + u.Host
+	if u.Port != "" {
+		result += ":" + u.Port
+	}
+	result += "/"
 	return result
 }
 

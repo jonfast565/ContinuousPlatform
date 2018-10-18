@@ -1,6 +1,6 @@
-package models
+package jenkinsmodel
 
-import "../webutil"
+import "../../webutil"
 
 const (
 	JenkinsMaximumJobDepth int = 4

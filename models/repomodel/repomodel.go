@@ -1,7 +1,8 @@
-package models
+package repomodel
 
 import (
-	"../pathutil"
+	"../../pathutil"
+	"../filesysmodel"
 	"fmt"
 )
 
@@ -16,7 +17,7 @@ type RepositoryMetadata struct {
 	Name        string
 	Branch      string
 	OptionalUrl string
-	Files       []FileSystemMetadata
+	Files       []filesysmodel.FileSystemMetadata
 }
 
 func (rm RepositoryMetadata) String() string {
@@ -35,7 +36,7 @@ type RepositoryFileMetadata struct {
 	Name   string
 	Repo   string
 	Branch string
-	File   FileSystemMetadata
+	File   filesysmodel.FileSystemMetadata
 }
 
 func (rfm RepositoryFileMetadata) String() string {
@@ -45,7 +46,7 @@ func (rfm RepositoryFileMetadata) String() string {
 		rfm.File.Path)
 }
 
-func MapToRepositoryMetadata(metadata FileSystemMetadata,
+func MapToRepositoryMetadata(metadata filesysmodel.FileSystemMetadata,
 	repositoryMetadata RepositoryMetadata) RepositoryFileMetadata {
 	return RepositoryFileMetadata{
 		Repo:   repositoryMetadata.Name,
