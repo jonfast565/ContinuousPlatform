@@ -1,4 +1,4 @@
-package models
+package miscmodel
 
 type FilePayload struct {
 	Bytes []byte

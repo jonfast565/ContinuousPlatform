@@ -12,6 +12,7 @@ const (
 	BlobConstant         string = "blob"
 )
 
+// TODO: Change functionality to use MyURL struct
 func GetApiFilesPath(collectionUrl string,
 	projectName string,
 	repositoryId string,
@@ -23,6 +24,8 @@ func GetApiFilesPath(collectionUrl string,
 	} else {
 		scopePath = optionalScopePath
 	}
+	//myUrl := webutil.NewEmptyUrl()
+	//myUrl.AppendPathFragments([]string {projectName, "_apis", "git", "repositories", repositoryId, "items"})
 	return collectionUrl + "/" + projectName + RepositoryApiSubpath + "/" +
 		repositoryId + "/items" + "?" + "scopePath=" + url.QueryEscape(scopePath) +
 		"&recursionLevel=Full&includeContentMetadata=true" +

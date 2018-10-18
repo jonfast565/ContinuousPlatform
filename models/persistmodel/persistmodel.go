@@ -1,4 +1,4 @@
-package models
+package persistmodel
 
 type KeyValueGetRequest struct {
 }

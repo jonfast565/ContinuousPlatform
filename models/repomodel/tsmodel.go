@@ -1,4 +1,4 @@
-package models
+package repomodel
 
 type TsGitFileList struct {
 	Value []TsGitFileModel
