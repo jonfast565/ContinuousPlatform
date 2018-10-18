@@ -1,4 +1,4 @@
-package models
+package loggingmodel
 
 type LogRecord struct {
 	ApplicationName string

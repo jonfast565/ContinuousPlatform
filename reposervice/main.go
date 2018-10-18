@@ -4,7 +4,7 @@ import (
 	"../constants"
 	"../jsonutil"
 	"../logging"
-	"../models"
+	"../models/repomodel"
 	"../networking"
 	"./server"
 	"github.com/gorilla/mux"
@@ -12,8 +12,10 @@ import (
 	"net/http"
 )
 
-var configuration server.TeamServicesConfiguration
-var endpoint *server.TeamServicesEndpoint
+var (
+	configuration server.TeamServicesConfiguration
+	endpoint      *server.TeamServicesEndpoint
+)
 
 func main() {
 	logging.CreateLog()
@@ -50,7 +52,7 @@ func getRepositories(w http.ResponseWriter, r *http.Request) {
 }
 
 func getFile(w http.ResponseWriter, r *http.Request) {
-	var repositoryFileMetadata models.RepositoryFileMetadata
+	var repositoryFileMetadata repomodel.RepositoryFileMetadata
 	err := jsonutil.DecodeJsonFromBody(r, &repositoryFileMetadata)
 	if err != nil {
 		w.WriteHeader(500)
