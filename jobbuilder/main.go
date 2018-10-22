@@ -20,7 +20,6 @@ func main() {
 	logging.LogApplicationStart()
 
 	jsonutil.DecodeJsonFromFile("./appsettings.json", &configuration)
-
 	controller := jobmodel.NewJobController()
 	quit := make(chan bool)
 
@@ -35,29 +34,37 @@ func main() {
 				if controller.DetectChanges.Trigger {
 					logging.LogInfo("Detect changes")
 					controller.DetectChanges.Status = jobmodel.Running
-					// TODO: Do work
-					controller.DetectChanges.Status = jobmodel.Stopped
+					server.DetectChanges(&controller.DetectChanges)
+					if controller.BuildDeliverables.Status != jobmodel.Errored {
+						controller.BuildDeliverables.Status = jobmodel.Stopped
+					}
 				}
 
 				if controller.BuildDeliverables.Trigger {
 					logging.LogInfo("Build deliverables")
 					controller.BuildDeliverables.Status = jobmodel.Running
-					// TODO: Do work
-					controller.BuildDeliverables.Status = jobmodel.Stopped
+					server.BuildDeliverables(&controller.BuildDeliverables)
+					if controller.BuildDeliverables.Status != jobmodel.Errored {
+						controller.BuildDeliverables.Status = jobmodel.Stopped
+					}
 				}
 
 				if controller.GenerateScripts.Trigger {
 					logging.LogInfo("Generate scripts")
 					controller.GenerateScripts.Status = jobmodel.Running
 					server.GenerateScripts(&controller.GenerateScripts)
-					controller.GenerateScripts.Status = jobmodel.Stopped
+					if controller.GenerateScripts.Status != jobmodel.Errored {
+						controller.GenerateScripts.Status = jobmodel.Stopped
+					}
 				}
 
 				if controller.DeployJenkinsJobs.Trigger {
 					logging.LogInfo("Deploy Jenkins jobs")
 					controller.DeployJenkinsJobs.Status = jobmodel.Running
-					// TODO: Do work
-					controller.DeployJenkinsJobs.Status = jobmodel.Stopped
+					server.DeployJenkinsJobs(&controller.DeployJenkinsJobs)
+					if controller.DeployJenkinsJobs.Status != jobmodel.Errored {
+						controller.DeployJenkinsJobs.Status = jobmodel.Stopped
+					}
 				}
 
 				if configuration.CyclicalRuns {

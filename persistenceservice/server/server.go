@@ -4,11 +4,20 @@ import (
 	"../../models/inframodel"
 	"../../models/loggingmodel"
 	"../../models/persistmodel"
+	"../dbhelper"
 )
 
 type PersistenceServiceConfiguration struct {
-	Port             int    `json:"port"`
-	ConnectionString string `json:"connectionString"`
+	Port     int    `json:"port"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Hostname string `json:"hostname"`
+	DbPort   int    `json:"dbPort"`
+	Database string `json:"database"`
+}
+
+func (c *PersistenceServiceConfiguration) GetSqlServerConnection() (dbhelper.Database, error) {
+	return dbhelper.InitDatabase(c.Username, c.Password, c.Hostname, c.DbPort, c.Database)
 }
 
 type PersistenceServiceEndpoint struct {
@@ -22,12 +31,24 @@ func NewPersistenceServiceEndpoint(configuration PersistenceServiceConfiguration
 }
 
 func (p *PersistenceServiceEndpoint) SetKeyValueCache(
-	setRequest *persistmodel.KeyValueSetRequest) (*persistmodel.KeyValueResult, error) {
+	setRequest *persistmodel.KeyValueRequest) (*persistmodel.KeyValueResult, error) {
+	/*
+		db, err := p.Configuration.GetSqlServerConnection()
+		if err != nil {
+			return nil, err
+		}
+
+		hostname, err := networking.GetMyHostName()
+		if err != nil {
+			return nil, err
+		}
+	*/
+
 	return nil, nil
 }
 
 func (p *PersistenceServiceEndpoint) GetKeyValueCache(
-	getRequest *persistmodel.KeyValueGetRequest) (*persistmodel.KeyValueResult, error) {
+	getRequest *persistmodel.KeyValueRequest) (*persistmodel.KeyValueResult, error) {
 	return nil, nil
 }
 
