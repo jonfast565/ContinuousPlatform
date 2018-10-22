@@ -15,6 +15,7 @@ import (
 
 var (
 	configuration Configuration
+	controller    jobmodel.JobController
 )
 
 func main() {
@@ -23,7 +24,7 @@ func main() {
 	logging.LogApplicationStart()
 
 	jsonutil.DecodeJsonFromFile("./appsettings.json", &configuration)
-	controller := jobmodel.NewJobController()
+	controller = jobmodel.NewJobController()
 	quit := make(chan bool)
 
 	go func() {
@@ -36,42 +37,39 @@ func main() {
 
 				if controller.DetectChanges.Trigger {
 					logging.LogInfo("Detect changes")
-					controller.DetectChanges.Status = jobmodel.Running
+					controller.DetectChanges.UnsetTriggerBeginRun()
 					server.DetectChanges(&controller.DetectChanges)
-					if controller.BuildDeliverables.Status != jobmodel.Errored {
-						controller.BuildDeliverables.Status = jobmodel.Stopped
-					}
+					controller.DetectChanges.SetJobStoppedOrErrored()
+					continue
 				}
 
 				if controller.BuildDeliverables.Trigger {
 					logging.LogInfo("Build deliverables")
-					controller.BuildDeliverables.Status = jobmodel.Running
+					controller.BuildDeliverables.UnsetTriggerBeginRun()
 					server.BuildDeliverables(&controller.BuildDeliverables)
-					if controller.BuildDeliverables.Status != jobmodel.Errored {
-						controller.BuildDeliverables.Status = jobmodel.Stopped
-					}
+					controller.BuildDeliverables.SetJobStoppedOrErrored()
+					continue
 				}
 
 				if controller.GenerateScripts.Trigger {
 					logging.LogInfo("Generate scripts")
-					controller.GenerateScripts.Status = jobmodel.Running
+					controller.GenerateScripts.UnsetTriggerBeginRun()
 					server.GenerateScripts(&controller.GenerateScripts)
-					if controller.GenerateScripts.Status != jobmodel.Errored {
-						controller.GenerateScripts.Status = jobmodel.Stopped
-					}
+					controller.GenerateScripts.SetJobStoppedOrErrored()
+					continue
 				}
 
 				if controller.DeployJenkinsJobs.Trigger {
 					logging.LogInfo("Deploy Jenkins jobs")
-					controller.DeployJenkinsJobs.Status = jobmodel.Running
+					controller.DeployJenkinsJobs.UnsetTriggerBeginRun()
 					server.DeployJenkinsJobs(&controller.DeployJenkinsJobs)
-					if controller.DeployJenkinsJobs.Status != jobmodel.Errored {
-						controller.DeployJenkinsJobs.Status = jobmodel.Stopped
-					}
+					controller.DeployJenkinsJobs.SetJobStoppedOrErrored()
+					continue
 				}
 
 				if configuration.CyclicalRuns {
-					logging.LogInfo("Cyclical run")
+					logging.LogInfo("Cyclical run enabled. Triggering starting job.")
+					controller.TriggerStartingJob()
 				}
 				time.Sleep(2 * time.Second)
 			}
@@ -79,7 +77,7 @@ func main() {
 	}()
 
 	router := mux.NewRouter()
-	router.HandleFunc("/Daemon/GetRunningJobs", getRunningJobs).Methods(constants.PostMethod)
+	router.HandleFunc("/Daemon/GetJobDetails", getJobDetails).Methods(constants.PostMethod)
 
 	localPort := networking.GetLocalPort(configuration.Port)
 	logging.LogContentService(localPort)
@@ -89,6 +87,13 @@ func main() {
 	logging.LogApplicationEnd()
 }
 
-func getRunningJobs(w http.ResponseWriter, r *http.Request) {
-	// TODO: Implement get running jobs, etc.
+func getJobDetails(w http.ResponseWriter, r *http.Request) {
+	resultBytes, err := jsonutil.EncodeJsonToBytes(&controller)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+
+	w.Write(*resultBytes)
 }

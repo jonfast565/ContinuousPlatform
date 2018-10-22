@@ -13,6 +13,21 @@ type JobDetails struct {
 	Status  JobStatus
 }
 
+func (jd *JobDetails) UnsetTriggerBeginRun() {
+	jd.Trigger = false
+	jd.Status = Running
+}
+
+func (jd *JobDetails) SetJobErrored() {
+	jd.Status = Errored
+}
+
+func (jd *JobDetails) SetJobStoppedOrErrored() {
+	if jd.Status != Errored {
+		jd.Status = Stopped
+	}
+}
+
 type JobController struct {
 	StopJobs          bool
 	DetectChanges     JobDetails
@@ -29,4 +44,8 @@ func NewJobController() JobController {
 		GenerateScripts:   JobDetails{Trigger: false, Status: Stopped},
 		DeployJenkinsJobs: JobDetails{Trigger: false, Status: Stopped},
 	}
+}
+
+func (jc *JobController) TriggerStartingJob() {
+	jc.DetectChanges.Trigger = true
 }
