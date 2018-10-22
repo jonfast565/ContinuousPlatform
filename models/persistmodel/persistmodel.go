@@ -1,9 +1,8 @@
 package persistmodel
 
-type KeyValueGetRequest struct {
-}
-
-type KeyValueSetRequest struct {
+type KeyValueRequest struct {
+	Key   string
+	Value []byte
 }
 
 type KeyValueResult struct {
