@@ -40,7 +40,7 @@ func main() {
 }
 
 func getKeyValueCache(w http.ResponseWriter, r *http.Request) {
-	var model persistmodel.KeyValueGetRequest
+	var model persistmodel.KeyValueRequest
 	err := jsonutil.DecodeJsonFromBody(r, &model)
 	if err != nil {
 		w.WriteHeader(500)
@@ -63,7 +63,7 @@ func getKeyValueCache(w http.ResponseWriter, r *http.Request) {
 }
 
 func setKeyValueCache(w http.ResponseWriter, r *http.Request) {
-	var model persistmodel.KeyValueSetRequest
+	var model persistmodel.KeyValueRequest
 	err := jsonutil.DecodeJsonFromBody(r, &model)
 	if err != nil {
 		w.WriteHeader(500)
