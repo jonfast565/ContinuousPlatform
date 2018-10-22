@@ -3,13 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/main.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/changedetector.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/changedetector.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/jobmodel/jobmodel.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/jobmodel/jobmodel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/persistenceservice/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reposervice/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/reposervice/appsettings.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,14 +41,14 @@
           <entry key="gitignore" value="1" />
           <entry key="go" value="328" />
           <entry key="hbs" value="1" />
-          <entry key="json" value="11" />
+          <entry key="json" value="14" />
           <entry key="log" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Go" value="328" />
-          <entry key="JSON" value="11" />
+          <entry key="JSON" value="14" />
           <entry key="PLAIN_TEXT" value="5" />
         </counts>
       </usages-collector>
@@ -61,26 +56,53 @@
         <counts>
           <entry key="gitignore" value="9" />
           <entry key="go" value="24493" />
-          <entry key="json" value="542" />
-          <entry key="txt" value="1066" />
+          <entry key="json" value="568" />
+          <entry key="txt" value="1111" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Go" value="24493" />
-          <entry key="JSON" value="542" />
-          <entry key="PLAIN_TEXT" value="1075" />
+          <entry key="JSON" value="568" />
+          <entry key="PLAIN_TEXT" value="1120" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jobbuilder/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="424">
-              <caret line="90" column="63" selection-start-line="90" selection-start-column="63" selection-end-line="90" selection-end-column="63" />
+            <state relative-caret-position="356">
+              <caret line="93" column="29" lean-forward="true" selection-start-line="93" selection-start-column="29" selection-end-line="93" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jenkinsservice/appsettings.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/persistenceservice/appsettings.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="28" selection-start-line="2" selection-start-column="15" selection-end-line="2" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/reposervice/appsettings.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -120,7 +142,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/utilities/web/urls.go" />
         <option value="$PROJECT_DIR$/utilities/templating.go" />
         <option value="$PROJECT_DIR$/models/jenkins/models.go" />
         <option value="$PROJECT_DIR$/teamsnotifier/server.go" />
@@ -157,7 +178,6 @@
         <option value="$PROJECT_DIR$/networking/networking.go" />
         <option value="$PROJECT_DIR$/models/persistmodel/persistmodel.go" />
         <option value="$PROJECT_DIR$/persistenceservice/main.go" />
-        <option value="$PROJECT_DIR$/persistenceservice/appsettings.json" />
         <option value="$PROJECT_DIR$/persistenceservice/dbhelper/dbhelper.go" />
         <option value="$PROJECT_DIR$/persistenceservice/dbhelper/tokens.go" />
         <option value="$PROJECT_DIR$/persistenceservice/dbhelper/parser.go" />
@@ -171,6 +191,8 @@
         <option value="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" />
         <option value="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" />
         <option value="$PROJECT_DIR$/jobbuilder/main.go" />
+        <option value="$PROJECT_DIR$/persistenceservice/appsettings.json" />
+        <option value="$PROJECT_DIR$/reposervice/appsettings.json" />
       </list>
     </option>
   </component>
@@ -201,24 +223,7 @@
             <path>
               <item name="SystemCI" type="b2602c69:ProjectViewProjectNode" />
               <item name="SystemCI" type="462c0819:PsiDirectoryNode" />
-              <item name="jenkinsservice" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SystemCI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SystemCI" type="462c0819:PsiDirectoryNode" />
-              <item name="jenkinsservice" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SystemCI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SystemCI" type="462c0819:PsiDirectoryNode" />
-              <item name="jobbuilder" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SystemCI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SystemCI" type="462c0819:PsiDirectoryNode" />
-              <item name="jobbuilder" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="reposervice" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -238,18 +243,18 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\models\jobmodel" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\models\repomodel" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\models\persistmodel" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\models\miscmodel" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\models\loggingmodel" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\jobmodel" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\repomodel" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\persistmodel" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\miscmodel" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\loggingmodel" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\jobbuilder" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\jobcontroller" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\persistenceservice" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\offlinetester" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\jenkinsservice" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\jobbuilder" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\jobcontroller" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\persistenceservice" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\offlinetester" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\jenkinsservice" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -379,7 +384,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="small logging thing and gofmt" />
     <MESSAGE value="fix port number for interoperability" />
     <MESSAGE value="fix stuff for further interoperability" />
     <MESSAGE value="use query escaping function" />
@@ -404,22 +408,13 @@
     <MESSAGE value="persistence boilerplate done" />
     <MESSAGE value="add jobbuilder stuff" />
     <MESSAGE value="formatting" />
-    <option name="LAST_COMMIT_MESSAGE" value="formatting" />
+    <MESSAGE value="added job details infos" />
+    <option name="LAST_COMMIT_MESSAGE" value="added job details infos" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/jenkinsservice/appsettings.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jenkinsservice/Templates/FolderConfig.hbs">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/templating/templating.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-136">
@@ -646,13 +641,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/persistenceservice/appsettings.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jobbuilder/server/server.go" />
     <entry file="file://$PROJECT_DIR$/persistenceservice/server/server.go">
       <provider selected="true" editor-type-id="text-editor">
@@ -738,8 +726,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jobbuilder/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="90" column="63" selection-start-line="90" selection-start-column="63" selection-end-line="90" selection-end-column="63" />
+        <state relative-caret-position="356">
+          <caret line="93" column="29" lean-forward="true" selection-start-line="93" selection-start-column="29" selection-end-line="93" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jenkinsservice/appsettings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistenceservice/appsettings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="28" selection-start-line="2" selection-start-column="15" selection-end-line="2" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reposervice/appsettings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
         </state>
       </provider>
     </entry>
