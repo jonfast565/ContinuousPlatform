@@ -1,12 +1,15 @@
 package main
 
 import (
+	"../constants"
 	"../jsonutil"
 	"../logging"
 	"../models/jobmodel"
+	"../networking"
 	"./server"
-	"fmt"
-	_ "github.com/gizak/termui"
+	"github.com/gorilla/mux"
+	"log"
+	"net/http"
 	"time"
 )
 
@@ -77,8 +80,15 @@ func main() {
 
 	// replace with web methods for getting statuses and
 	// triggering jobs to run and stopping jobs
-	logging.LogInfo("Waiting for exiting key press...")
-	fmt.Scanln()
+	router := mux.NewRouter()
+	router.HandleFunc("/Daemon/GetRunningJobs", getRunningJobs).Methods(constants.PostMethod)
+	localPort := networking.GetLocalPort(configuration.Port)
+	logging.LogContentService(localPort)
+	log.Fatal(http.ListenAndServe(localPort, router))
 	quit <- true
 	logging.LogApplicationEnd()
+}
+
+func getRunningJobs(w http.ResponseWriter, r *http.Request) {
+	// TODO: Implement get running jobs, etc.
 }
