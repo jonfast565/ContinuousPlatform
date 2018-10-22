@@ -78,13 +78,13 @@ func main() {
 		}
 	}()
 
-	// replace with web methods for getting statuses and
-	// triggering jobs to run and stopping jobs
 	router := mux.NewRouter()
 	router.HandleFunc("/Daemon/GetRunningJobs", getRunningJobs).Methods(constants.PostMethod)
+
 	localPort := networking.GetLocalPort(configuration.Port)
 	logging.LogContentService(localPort)
 	log.Fatal(http.ListenAndServe(localPort, router))
+
 	quit <- true
 	logging.LogApplicationEnd()
 }
