@@ -2,12 +2,15 @@ package dbhelper
 
 import (
 	"../../constants"
+	"../../logging"
 	"../../networking"
 	"../../stringutil"
 	"database/sql"
+	"fmt"
 	_ "github.com/denisenkom/go-mssqldb"
 	"net/url"
 	"reflect"
+	"strconv"
 )
 
 type Database struct {
@@ -30,20 +33,75 @@ func InitDatabase(
 		RawQuery: query.Encode(),
 	}
 	db, err := sql.Open(constants.SqlServerDatabaseDriver, u.String())
+	if err != nil {
+		panic(err)
+	}
 	return Database{DatabaseConnection: db}, err
+}
+
+func paramsToInterface(args []sql.NamedArg) []interface{} {
+	items := make([]interface{}, len(args))
+	for i, v := range args {
+		items[i] = v
+	}
+	return items
 }
 
 func (d Database) RunStatement(statement SqlStatement) {
 	result := statement.GetStatementString()
-	_ = result
-	params := statement.GetParameters()
-	_ = params
+	logging.LogInfoMultiline("Executing SQL Statement:", result)
+	statement.LogParameters()
+	params := statement.GetNamedParameters()
+	interfaceType := paramsToInterface(params)
+	rows, err := d.DatabaseConnection.Query(result, interfaceType...)
+	if err != nil {
+		panic(err)
+	}
+
+	defer rows.Close()
+
+	cols, err := rows.Columns()
+	if err != nil {
+		panic(err)
+	}
+
+	counter := 1
+	for rows.Next() {
+		columns := make([]interface{}, len(cols))
+		columnPointers := make([]interface{}, len(cols))
+
+		for i := range columns {
+			columnPointers[i] = &columns[i]
+		}
+
+		if err := rows.Scan(columnPointers...); err != nil {
+			panic(err)
+		}
+
+		m := make(map[string]interface{})
+		for i, colName := range cols {
+			val := columnPointers[i].(*interface{})
+			m[colName] = *val
+		}
+
+		logging.LogMapPretty("Result Row #"+strconv.Itoa(counter), m)
+		counter++
+	}
 }
 
 type SqlParameter struct {
 	Name  string
 	Type  reflect.Type
 	Value interface{}
+}
+
+func (s SqlParameter) GetNamedParameter() sql.NamedArg {
+	return sql.Named(s.Name, s.Value)
+}
+
+func (s SqlParameter) GetNamedOutParameter(dest interface{}) sql.NamedArg {
+	// dest should be a pointer here
+	return sql.Named(s.Name, sql.Out{Dest: dest})
 }
 
 type UnnamedSqlParameter struct {
@@ -69,7 +127,11 @@ type SqlStatement struct {
 	Params      []SqlParameter
 }
 
-func (s *SqlStatement) Insert(intoTable string) *SqlStatement {
+func NewSqlStatement() SqlStatement {
+	return SqlStatement{}
+}
+
+func (s SqlStatement) Insert(intoTable string) SqlStatement {
 	if s.Used {
 		panic("Statement cannot be re-used")
 	}
@@ -79,7 +141,7 @@ func (s *SqlStatement) Insert(intoTable string) *SqlStatement {
 	return s
 }
 
-func (s *SqlStatement) Update(updateTable string) *SqlStatement {
+func (s SqlStatement) Update(updateTable string) SqlStatement {
 	if s.Used {
 		panic("Statement cannot be re-used")
 	}
@@ -89,7 +151,7 @@ func (s *SqlStatement) Update(updateTable string) *SqlStatement {
 	return s
 }
 
-func (s *SqlStatement) Select(fromTable string) *SqlStatement {
+func (s SqlStatement) Select(fromTable string) SqlStatement {
 	if s.Used {
 		panic("Statement cannot be re-used")
 	}
@@ -99,11 +161,12 @@ func (s *SqlStatement) Select(fromTable string) *SqlStatement {
 	return s
 }
 
-func (s *SqlStatement) Columns(colNames ...string) {
+func (s SqlStatement) Columns(colNames ...string) SqlStatement {
 	s.ColumnNames = colNames
+	return s
 }
 
-func (s *SqlStatement) Values(valuesRows ...interface{}) {
+func (s SqlStatement) Values(valuesRows ...interface{}) SqlStatement {
 	if len(valuesRows) != len(s.ColumnNames) {
 		panic("Invalid number of items specified in a column")
 	}
@@ -116,19 +179,17 @@ func (s *SqlStatement) Values(valuesRows ...interface{}) {
 		values = append(values, value)
 	}
 	s.ValueParams = append(s.ValueParams, values)
+	return s
 }
 
-func (s *SqlStatement) getInsertPrefix() string {
-	return stringutil.ConcatMultiple(
+func (s *SqlStatement) getInsertStatement() string {
+	prefix := stringutil.ConcatMultiple(
 		"INSERT INTO",
 		s.TableName,
 		"(",
 		stringutil.ConcatDelimitMultiple(", ", "[", "]", s.ColumnNames),
 		")",
 		"VALUES")
-}
-
-func (s *SqlStatement) getInsertRows() string {
 	mapperFn := func(parameter UnnamedSqlParameter) string {
 		return parameter.Value.(string)
 	}
@@ -138,19 +199,26 @@ func (s *SqlStatement) getInsertRows() string {
 		for _, col := range row {
 			innerResult = append(innerResult, mapperFn(col))
 		}
-		mappedColumn := stringutil.ConcatDelimitMultiple(", ", "(", ")", innerResult)
+		mappedColumn := stringutil.ConcatMultiple("(",
+			stringutil.ConcatMultipleWithSeparator(", ", innerResult...),
+			")")
 		outerResult = append(outerResult, mappedColumn)
 	}
 	result := stringutil.ConcatMultipleWithSeparator(", ", outerResult...)
-	return result
+	result2 := stringutil.ConcatMultiple(prefix, result)
+	return result2
+}
+
+func (s *SqlStatement) getUpdateStatement() string {
+	return ""
 }
 
 func (s *SqlStatement) GetStatementString() string {
 	var result string
 	if s.Type == InsertStatement {
-		result = stringutil.ConcatMultiple(s.getInsertPrefix(), s.getInsertRows())
+		result = s.getInsertStatement()
 	} else if s.Type == UpdateStatement {
-		panic("Select statement not implemented")
+		result = s.getUpdateStatement()
 	} else if s.Type == SelectStatement {
 		panic("Select statement not implemented")
 	} else {
@@ -159,14 +227,28 @@ func (s *SqlStatement) GetStatementString() string {
 	return result
 }
 
-func (s *SqlStatement) AddParameterWithValue(parameter string, value interface{}) {
+func (s SqlStatement) LogParameters() {
+	result := make([]string, 0)
+	result = append(result, "SQL Params: ")
+	for _, param := range s.Params {
+		result = append(result, param.Name+" -> "+fmt.Sprintf("%v", param.Value))
+	}
+	logging.LogInfoMultiline(result...)
+}
+
+func (s SqlStatement) AddParameterWithValue(parameter string, value interface{}) SqlStatement {
 	s.Params = append(s.Params, SqlParameter{
 		Name:  parameter,
 		Value: value,
 		Type:  reflect.TypeOf(value),
 	})
+	return s
 }
 
-func (s *SqlStatement) GetParameters() []SqlParameter {
-	return s.Params
+func (s SqlStatement) GetNamedParameters() []sql.NamedArg {
+	args := make([]sql.NamedArg, 0)
+	for _, param := range s.Params {
+		args = append(args, param.GetNamedParameter())
+	}
+	return args
 }

@@ -5,7 +5,9 @@ import (
 	"../../models/loggingmodel"
 	"../../models/persistmodel"
 	"../../networking"
+	"../../timeutil"
 	"../dbhelper"
+	"github.com/satori/go.uuid"
 )
 
 type PersistenceServiceConfiguration struct {
@@ -43,15 +45,16 @@ func (p *PersistenceServiceEndpoint) SetKeyValueCache(
 		return nil, err
 	}
 
-	insertKeyValueCache := dbhelper.SqlStatement{}.Insert("dbo.KeyValueCache")
-	insertKeyValueCache.Columns("Key", "Value", "ValueType", "MachineName")
-	insertKeyValueCache.Values("@Key", "@Value", "@ValueType", "@MachineName")
-	insertKeyValueCache.AddParameterWithValue("@Key", setRequest.Key)
-	insertKeyValueCache.AddParameterWithValue("@Value", setRequest.Value)
-	insertKeyValueCache.AddParameterWithValue("@ValueType", "Binary")
-	insertKeyValueCache.AddParameterWithValue("@MachineName", hostname)
-	db.RunStatement(*insertKeyValueCache)
-
+	insertKeyValueCache := dbhelper.
+		NewSqlStatement().
+		Insert("dbo.KeyValueCache").
+		Columns("Key", "Value", "ValueType", "MachineName").
+		Values("@Key", "@Value", "@ValueType", "@MachineName").
+		AddParameterWithValue("Key", setRequest.Key).
+		AddParameterWithValue("Value", setRequest.Value).
+		AddParameterWithValue("ValueType", "Binary").
+		AddParameterWithValue("MachineName", hostname)
+	db.RunStatement(insertKeyValueCache)
 	return nil, nil
 }
 
@@ -65,5 +68,34 @@ func (p *PersistenceServiceEndpoint) GetInfrastructureMetadata() (*inframodel.In
 }
 
 func (p *PersistenceServiceEndpoint) SetLogRecord(logRecord *loggingmodel.LogRecord) error {
+	db, err := p.Configuration.GetSqlServerConnection()
+	if err != nil {
+		return err
+	}
+
+	hostname, err := networking.GetMyHostName()
+	if err != nil {
+		return err
+	}
+
+	uid, err := uuid.NewV4()
+	if err != nil {
+		return err
+	}
+
+	currentTime := timeutil.GetCurrentSqlTime()
+	insertKeyValueCache := dbhelper.
+		NewSqlStatement().
+		Insert("dbo.Logs").
+		Columns("LogId", "Date", "MachineName", "ApplicationName", "LogLevel", "Message").
+		Values("@LogId", "@Date", "@MachineName", "@ApplicationName", "@LogLevel", "@Message").
+		AddParameterWithValue("LogId", uid.String()).
+		AddParameterWithValue("Date", currentTime).
+		AddParameterWithValue("MachineName", hostname).
+		AddParameterWithValue("ApplicationName", logRecord.ApplicationName).
+		AddParameterWithValue("LogLevel", logRecord.LogLevel).
+		AddParameterWithValue("Message", logRecord.Message)
+
+	db.RunStatement(insertKeyValueCache)
 	return nil
 }

@@ -1,12 +1,14 @@
 package logging
 
 import (
+	"../timeutil"
 	"encoding/json"
 	"fmt"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"io"
 	"log"
 	"os"
+	"strings"
 )
 
 const (
@@ -47,11 +49,11 @@ func LogHeader(applicationName string) {
 }
 
 func LogApplicationStart() {
-	log.Print("Application started...")
+	log.Print("Application started @ " + timeutil.GetCurrentTime() + "...")
 }
 
 func LogApplicationEnd() {
-	log.Print("Application finished.")
+	log.Print("Application finished @ " + timeutil.GetCurrentTime() + ".")
 }
 
 func LogContentService(portString string) {
@@ -90,4 +92,14 @@ func LogError(err error) {
 	} else {
 		log.Printf("[Error] %s", err.Error())
 	}
+}
+
+func LogMapPretty(message string, theMap map[string]interface{}) {
+	b, err := json.MarshalIndent(theMap, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+	LogInfo(message)
+	lines := strings.Split(string(b), "\n")
+	LogInfoMultiline(lines...)
 }

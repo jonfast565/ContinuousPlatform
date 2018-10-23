@@ -4,7 +4,6 @@ type LogRecord struct {
 	ApplicationName string
 	LogLevel        string
 	Message         string
-	MachineName     string
 }
 
 // obsolete?
@@ -14,7 +13,6 @@ func NewLogRecordFromParameters(machineName string,
 	message string) LogRecord {
 	return LogRecord{
 		ApplicationName: applicationName,
-		MachineName:     machineName,
 		LogLevel:        logLevel,
 		Message:         message,
 	}
