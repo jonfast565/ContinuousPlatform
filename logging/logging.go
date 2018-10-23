@@ -66,6 +66,10 @@ func LogFatal(logLine string) {
 	log.Printf("[Fatal] %s", logLine)
 }
 
+func LogPanicRecover(error interface{}) {
+	log.Printf("[Error] %s", error)
+}
+
 func LogInfoMultiline(logLines ...string) {
 	result := ""
 	for i, line := range logLines {
