@@ -4,6 +4,7 @@ import (
 	"../../models/inframodel"
 	"../../models/loggingmodel"
 	"../../models/persistmodel"
+	"../../networking"
 	"../dbhelper"
 )
 
@@ -32,17 +33,24 @@ func NewPersistenceServiceEndpoint(configuration PersistenceServiceConfiguration
 
 func (p *PersistenceServiceEndpoint) SetKeyValueCache(
 	setRequest *persistmodel.KeyValueRequest) (*persistmodel.KeyValueResult, error) {
-	/*
-		db, err := p.Configuration.GetSqlServerConnection()
-		if err != nil {
-			return nil, err
-		}
+	db, err := p.Configuration.GetSqlServerConnection()
+	if err != nil {
+		return nil, err
+	}
 
-		hostname, err := networking.GetMyHostName()
-		if err != nil {
-			return nil, err
-		}
-	*/
+	hostname, err := networking.GetMyHostName()
+	if err != nil {
+		return nil, err
+	}
+
+	insertKeyValueCache := dbhelper.SqlStatement{}.Insert("dbo.KeyValueCache")
+	insertKeyValueCache.Columns("Key", "Value", "ValueType", "MachineName")
+	insertKeyValueCache.Values("@Key", "@Value", "@ValueType", "@MachineName")
+	insertKeyValueCache.AddParameterWithValue("@Key", setRequest.Key)
+	insertKeyValueCache.AddParameterWithValue("@Value", setRequest.Value)
+	insertKeyValueCache.AddParameterWithValue("@ValueType", "Binary")
+	insertKeyValueCache.AddParameterWithValue("@MachineName", hostname)
+	db.RunStatement(*insertKeyValueCache)
 
 	return nil, nil
 }
