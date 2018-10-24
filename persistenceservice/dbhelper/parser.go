@@ -26,16 +26,19 @@ func InitDatabase(
 	query := url.Values{}
 	query.Add(constants.DatabaseKey, database)
 	query.Add(constants.AppNameKey, constants.AppName)
+
 	u := &url.URL{
 		Scheme:   constants.SqlServerDatabaseDriver,
 		User:     url.UserPassword(username, password),
 		Host:     networking.GetHostPortCombo(hostname, port),
 		RawQuery: query.Encode(),
 	}
+
 	db, err := sql.Open(constants.SqlServerDatabaseDriver, u.String())
 	if err != nil {
 		panic(err)
 	}
+
 	return Database{DatabaseConnection: db}, err
 }
 
@@ -47,25 +50,33 @@ func paramsToInterface(args []sql.NamedArg) []interface{} {
 	return items
 }
 
-func (d Database) RunStatement(statement SqlStatement) {
+func (d Database) RunStatement(statement SqlStatement) ([]map[string]interface{}, error) {
 	result := statement.GetStatementString()
 	logging.LogInfoMultiline("Executing SQL Statement:", result)
+
 	statement.LogParameters()
 	params := statement.GetNamedParameters()
 	interfaceType := paramsToInterface(params)
-	rows, err := d.DatabaseConnection.Query(result, interfaceType...)
+
+	stmt, err := d.DatabaseConnection.Prepare(result)
 	if err != nil {
-		panic(err)
+		return nil, err
+	}
+
+	rows, err := stmt.Query(interfaceType...)
+	if err != nil {
+		return nil, err
 	}
 
 	defer rows.Close()
 
 	cols, err := rows.Columns()
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	counter := 1
+	resultMaps := make([]map[string]interface{}, 0)
 	for rows.Next() {
 		columns := make([]interface{}, len(cols))
 		columnPointers := make([]interface{}, len(cols))
@@ -85,8 +96,11 @@ func (d Database) RunStatement(statement SqlStatement) {
 		}
 
 		logging.LogMapPretty("Result Row #"+strconv.Itoa(counter), m)
+		resultMaps = append(resultMaps, m)
 		counter++
 	}
+
+	return resultMaps, nil
 }
 
 type SqlParameter struct {
@@ -119,12 +133,14 @@ const (
 )
 
 type SqlStatement struct {
-	Used        bool
-	Type        StatementType
-	TableName   string
-	ColumnNames []string
-	ValueParams [][]UnnamedSqlParameter
-	Params      []SqlParameter
+	Used           bool
+	Type           StatementType
+	TableName      string
+	ColumnNames    []string
+	ValueParams    [][]UnnamedSqlParameter
+	Params         []SqlParameter
+	WhereStatement string
+	SetStatements  []string
 }
 
 func NewSqlStatement() SqlStatement {
@@ -158,6 +174,22 @@ func (s SqlStatement) Select(fromTable string) SqlStatement {
 	s.TableName = fromTable
 	s.Type = SelectStatement
 	s.Used = true
+	return s
+}
+
+func (s SqlStatement) SimpleWhere(expr string) SqlStatement {
+	if s.Type != SelectStatement && s.Type != UpdateStatement {
+		panic("Cannot use WHERE on this statement")
+	}
+	s.WhereStatement = expr
+	return s
+}
+
+func (s SqlStatement) SimpleSet(columnExpr string, valueExpr string) SqlStatement {
+	if s.Type != UpdateStatement {
+		panic("Cannot use SET on this statement")
+	}
+	s.SetStatements = append(s.SetStatements, stringutil.ConcatMultiple(columnExpr, "=", valueExpr))
 	return s
 }
 
@@ -210,7 +242,24 @@ func (s *SqlStatement) getInsertStatement() string {
 }
 
 func (s *SqlStatement) getUpdateStatement() string {
-	return ""
+	result := stringutil.ConcatMultiple(
+		"UPDATE",
+		s.TableName,
+		"SET")
+	result2 := stringutil.ConcatMultipleWithSeparator(", ", s.SetStatements...)
+	result3 := stringutil.ConcatMultiple("WHERE",
+		s.WhereStatement)
+	finalResult := stringutil.ConcatMultiple(result, result2, result3)
+	return finalResult
+}
+
+func (s *SqlStatement) getSelectStatement() string {
+	result := stringutil.ConcatMultiple(
+		"SELECT * FROM",
+		s.TableName,
+		"WHERE",
+		s.WhereStatement)
+	return result
 }
 
 func (s *SqlStatement) GetStatementString() string {
@@ -220,7 +269,7 @@ func (s *SqlStatement) GetStatementString() string {
 	} else if s.Type == UpdateStatement {
 		result = s.getUpdateStatement()
 	} else if s.Type == SelectStatement {
-		panic("Select statement not implemented")
+		result = s.getSelectStatement()
 	} else {
 		panic("Invalid or not implemented statement type")
 	}
