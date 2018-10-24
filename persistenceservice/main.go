@@ -4,7 +4,6 @@ import (
 	"../constants"
 	"../jsonutil"
 	"../logging"
-	"../models/inframodel"
 	"../models/loggingmodel"
 	"../models/persistmodel"
 	"../networking"
@@ -30,7 +29,6 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/Daemon/GetKeyValueCache", getKeyValueCache).Methods(constants.PostMethod)
 	router.HandleFunc("/Daemon/SetKeyValueCache", setKeyValueCache).Methods(constants.PostMethod)
-	router.HandleFunc("/Daemon/GetInfrastructureMetadata", getInfrastructureMetadata).Methods(constants.PostMethod)
 	router.HandleFunc("/Daemon/SetLogRecord", setLogRecord).Methods(constants.PostMethod)
 
 	localPort := networking.GetLocalPort(configuration.Port)
@@ -80,6 +78,7 @@ func setKeyValueCache(w http.ResponseWriter, r *http.Request) {
 }
 
 func getInfrastructureMetadata(w http.ResponseWriter, r *http.Request) {
+	/*
 	var model inframodel.InfrastructureMetadata
 	err := jsonutil.DecodeJsonFromBody(r, &model)
 	if err != nil {
@@ -100,6 +99,7 @@ func getInfrastructureMetadata(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Write(*resultBytes)
+	*/
 }
 
 func setLogRecord(w http.ResponseWriter, r *http.Request) {

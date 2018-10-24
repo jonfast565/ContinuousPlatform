@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Data Source=entbuild1;Initial Catalog=BuildSystem;Integrated Security=True" Microsoft.EntityFrameworkCore.SqlServer -Force
