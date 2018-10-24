@@ -5,5 +5,10 @@ type KeyValueRequest struct {
 	Value []byte
 }
 
+type KeyRequest struct {
+	Key string
+}
+
 type KeyValueResult struct {
+	Value []byte
 }

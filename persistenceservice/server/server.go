@@ -7,7 +7,9 @@ import (
 	"../../networking"
 	"../../timeutil"
 	"../dbhelper"
+	"errors"
 	"github.com/satori/go.uuid"
+	"os/user"
 )
 
 type PersistenceServiceConfiguration struct {
@@ -34,7 +36,73 @@ func NewPersistenceServiceEndpoint(configuration PersistenceServiceConfiguration
 }
 
 func (p *PersistenceServiceEndpoint) SetKeyValueCache(
-	setRequest *persistmodel.KeyValueRequest) (*persistmodel.KeyValueResult, error) {
+	setRequest *persistmodel.KeyValueRequest) error {
+	db, err := p.Configuration.GetSqlServerConnection()
+	if err != nil {
+		return err
+	}
+
+	hostname, err := networking.GetMyHostName()
+	if err != nil {
+		return err
+	}
+
+	currentUser, err := user.Current()
+	if err != nil {
+		return err
+	}
+
+	getExistingKeyValueCache := dbhelper.NewSqlStatement().
+		Select("dbo.KeyValueCache").
+		SimpleWhere("[Key] = @Key AND MachineName = @MachineName").
+		AddParameterWithValue("Key", setRequest.Key).
+		AddParameterWithValue("MachineName", hostname)
+	rows, err := db.RunStatement(getExistingKeyValueCache)
+	if err != nil {
+		return err
+	}
+
+	if len(rows) > 0 {
+		insertKeyValueCache := dbhelper.
+			NewSqlStatement().
+			Update("dbo.KeyValueCache").
+			SimpleSet("Value", "@Value").
+			SimpleSet("ValueType", "@ValueType").
+			SimpleSet("MachineName", "@MachineName").
+			SimpleSet("LastModifiedBy", "@LastModifiedBy").
+			SimpleSet("LastModifiedDateTime", "@LastModifiedDatetime").
+			SimpleWhere("[Key] = @Key AND MachineName = @MachineName").
+			AddParameterWithValue("Key", setRequest.Key).
+			AddParameterWithValue("Value", setRequest.Value).
+			AddParameterWithValue("ValueType", "Binary").
+			AddParameterWithValue("MachineName", hostname).
+			AddParameterWithValue("LastModifiedBy", currentUser.Username).
+			AddParameterWithValue("LastModifiedDateTime", timeutil.GetCurrentSqlTime())
+		_, err = db.RunStatement(insertKeyValueCache)
+		if err != nil {
+			return err
+		}
+	} else {
+		insertKeyValueCache := dbhelper.
+			NewSqlStatement().
+			Insert("dbo.KeyValueCache").
+			Columns("Key", "Value", "ValueType", "MachineName").
+			Values("@Key", "@Value", "@ValueType", "@MachineName").
+			AddParameterWithValue("Key", setRequest.Key).
+			AddParameterWithValue("Value", setRequest.Value).
+			AddParameterWithValue("ValueType", "Binary").
+			AddParameterWithValue("MachineName", hostname)
+		_, err = db.RunStatement(insertKeyValueCache)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (p *PersistenceServiceEndpoint) GetKeyValueCache(
+	getRequest *persistmodel.KeyRequest) (*persistmodel.KeyValueResult, error) {
 	db, err := p.Configuration.GetSqlServerConnection()
 	if err != nil {
 		return nil, err
@@ -44,27 +112,22 @@ func (p *PersistenceServiceEndpoint) SetKeyValueCache(
 	if err != nil {
 		return nil, err
 	}
-
-	insertKeyValueCache := dbhelper.
-		NewSqlStatement().
-		Insert("dbo.KeyValueCache").
-		Columns("Key", "Value", "ValueType", "MachineName").
-		Values("@Key", "@Value", "@ValueType", "@MachineName").
-		AddParameterWithValue("Key", setRequest.Key).
-		AddParameterWithValue("Value", setRequest.Value).
-		AddParameterWithValue("ValueType", "Binary").
+	getExistingKeyValueCache := dbhelper.NewSqlStatement().
+		Select("dbo.KeyValueCache").
+		SimpleWhere("[Key] = @Key AND MachineName = @MachineName").
+		AddParameterWithValue("Key", getRequest.Key).
 		AddParameterWithValue("MachineName", hostname)
-	db.RunStatement(insertKeyValueCache)
-	return nil, nil
-}
 
-func (p *PersistenceServiceEndpoint) GetKeyValueCache(
-	getRequest *persistmodel.KeyValueRequest) (*persistmodel.KeyValueResult, error) {
-	return nil, nil
-}
+	rows, err := db.RunStatement(getExistingKeyValueCache)
+	if err != nil {
+		return nil, err
+	}
 
-func (p *PersistenceServiceEndpoint) GetInfrastructureMetadata() (*inframodel.InfrastructureMetadata, error) {
-	return nil, nil
+	if len(rows) == 0 {
+		return nil, errors.New("value not found")
+	}
+
+	return &persistmodel.KeyValueResult{Value: rows[0]["Value"].([]byte)}, nil
 }
 
 func (p *PersistenceServiceEndpoint) SetLogRecord(logRecord *loggingmodel.LogRecord) error {
@@ -98,4 +161,8 @@ func (p *PersistenceServiceEndpoint) SetLogRecord(logRecord *loggingmodel.LogRec
 
 	db.RunStatement(insertKeyValueCache)
 	return nil
+}
+
+func (p *PersistenceServiceEndpoint) GetInfrastructureMetadata() (*inframodel.InfrastructureMetadata, error) {
+	return nil, nil
 }

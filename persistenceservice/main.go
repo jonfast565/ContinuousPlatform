@@ -40,7 +40,7 @@ func main() {
 }
 
 func getKeyValueCache(w http.ResponseWriter, r *http.Request) {
-	var model persistmodel.KeyValueRequest
+	var model persistmodel.KeyRequest
 	err := jsonutil.DecodeJsonFromBody(r, &model)
 	if err != nil {
 		w.WriteHeader(500)
@@ -70,19 +70,13 @@ func setKeyValueCache(w http.ResponseWriter, r *http.Request) {
 		logging.LogError(err)
 		return
 	}
-	result, err := endpoint.SetKeyValueCache(&model)
+	err = endpoint.SetKeyValueCache(&model)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
-	resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
-	if err != nil {
-		w.WriteHeader(500)
-		logging.LogError(err)
-		return
-	}
-	w.Write(*resultBytes)
+	w.WriteHeader(200)
 }
 
 func getInfrastructureMetadata(w http.ResponseWriter, r *http.Request) {
