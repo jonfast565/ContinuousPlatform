@@ -1,0 +1,11 @@
+﻿CREATE TABLE [dbo].[ServerTypes]
+(
+    [ServerTypeId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
+    [ServerTypeName] NVARCHAR(255) NOT NULL,
+    [CreatedBy] NVARCHAR(255) NOT NULL DEFAULT(SUSER_SNAME()),
+    [CreatedDateTime] DATETIME NOT NULL DEFAULT(GETDATE()),
+    [LastModifiedBy] NVARCHAR(255) NOT NULL DEFAULT(SUSER_SNAME()),
+    [LastModifiedDateTime] DATETIME NOT NULL DEFAULT(GETDATE()),
+    CONSTRAINT [PK_ServerTypes] PRIMARY KEY ([ServerTypeId]),
+    CONSTRAINT [UC_ServerTypeName] UNIQUE ([ServerTypeName])
+)

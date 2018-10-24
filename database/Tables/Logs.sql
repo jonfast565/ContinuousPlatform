@@ -1,0 +1,10 @@
+﻿CREATE TABLE [dbo].[Logs]
+(
+    [LogId] UNIQUEIDENTIFIER NOT NULL,
+    [Date] DATETIME NOT NULL DEFAULT GETDATE(),
+    [MachineName] NVARCHAR(4000) NOT NULL,
+    [ApplicationName] NVARCHAR(4000) NOT NULL,
+    [LogLevel] NVARCHAR(4000) NOT NULL,
+    [Message] NVARCHAR(MAX) NULL,
+    CONSTRAINT [PK_Logs] PRIMARY KEY ([LogId])
+)

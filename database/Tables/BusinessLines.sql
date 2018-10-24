@@ -1,0 +1,12 @@
+﻿CREATE TABLE [dbo].[BusinessLines]
+(
+    [BusinessLineId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
+    [Name] NVARCHAR(255) NOT NULL,
+    [Description] NVARCHAR(2550) NOT NULL,
+    [CreatedBy] NVARCHAR(255) NOT NULL DEFAULT(SUSER_SNAME()),
+    [CreatedDateTime] DATETIME NOT NULL DEFAULT(GETDATE()),
+    [LastModifiedBy] NVARCHAR(255) NOT NULL DEFAULT(SUSER_SNAME()),
+    [LastModifiedDateTime] DATETIME NOT NULL DEFAULT(GETDATE()),
+    CONSTRAINT [PK_BusinessLines] PRIMARY KEY ([BusinessLineId]),
+    CONSTRAINT [UC_BusinessLines] UNIQUE ([Name])
+)

@@ -1,0 +1,4 @@
+﻿CREATE TYPE [dbo].[UniqueIdTable] AS TABLE
+(
+    [UniqueId] UNIQUEIDENTIFIER NOT NULL
+)

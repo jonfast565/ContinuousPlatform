@@ -1,7 +1,6 @@
 package server
 
 import (
-	"../../models/inframodel"
 	"../../models/loggingmodel"
 	"../../models/persistmodel"
 	"../../networking"
@@ -161,8 +160,4 @@ func (p *PersistenceServiceEndpoint) SetLogRecord(logRecord *loggingmodel.LogRec
 
 	db.RunStatement(insertKeyValueCache)
 	return nil
-}
-
-func (p *PersistenceServiceEndpoint) GetInfrastructureMetadata() (*inframodel.InfrastructureMetadata, error) {
-	return nil, nil
 }
