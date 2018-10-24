@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <ApplicationIcon />
+    <OutputTypeEx>library</OutputTypeEx>
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PlatformCI.InfrastructureService.Entities\PlatformCI.InfrastructureService.Entities.csproj" />
+    <ProjectReference Include="..\PlatformCI.InfrastructureService.Models\PlatformCI.InfrastructureService.Models.csproj" />
+  </ItemGroup>
+
+</Project>
