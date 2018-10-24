@@ -248,6 +248,11 @@ namespace PlatformCI.InfrastructureService.Models.Implementation
         private IQueryable<InfrastructureDescriptor> GetApplicableDeliverables(
             InfrastructureRequestFilter projectKey)
         {
+            if (projectKey.ProjectName == null
+                && projectKey.SolutionName == null
+                && projectKey.RepositoryName == null)
+                return new List<InfrastructureDescriptor>().AsQueryable();
+
             return Infrastructure
                 .Where(x => x.SolutionName == projectKey.SolutionName
                             && x.ProjectName == projectKey.ProjectName
