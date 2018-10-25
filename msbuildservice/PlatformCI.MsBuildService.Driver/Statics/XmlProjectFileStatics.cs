@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using BuildSystem.Lib.Models.Deliverable.Implementation;
-using BuildSystem.Lib.Oplog.Enums;
-using BuildSystem.Lib.Oplog.Interfaces;
 
 namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
 {
@@ -12,8 +10,7 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
     {
         internal static MsBuildProjectPrimitive GetProjectFromXmlFile(
             string localPath,
-            string originalProjectName,
-            IOplog opLog)
+            string originalProjectName)
         {
             try
             {
@@ -56,8 +53,8 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
                 var originalProjectNameExpr = originalProjectName != null
                     ? "<-" + originalProjectName
                     : string.Empty;
-                opLog.Log(LogOperationType.Info,
-                    $"Found project {projectName} {originalProjectNameExpr}");
+                // opLog.Log(LogOperationType.Info,
+                    // $"Found project {projectName} {originalProjectNameExpr}");
 
                 return new MsBuildProjectPrimitive
                 {
@@ -71,7 +68,6 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
             }
             catch (Exception e)
             {
-                opLog.Log(LogOperationType.Error, e);
                 return new MsBuildProjectPrimitive
                 {
                     Failed = true,
@@ -82,8 +78,7 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
 
         internal static MsBuildPublishProfilePrimitive GetPublishProfileFromXmlFile(
             string localPath,
-            string originalPublishProfileName,
-            IOplog opLog)
+            string originalPublishProfileName)
         {
             try
             {
@@ -101,8 +96,8 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
                 var originalPublishProfileNameExpr = originalPublishProfileName != null
                     ? "<-" + originalPublishProfileName
                     : string.Empty;
-                opLog.Log(LogOperationType.Info,
-                    $"Found publish profile {publishProfileName} {originalPublishProfileNameExpr}");
+                // opLog.Log(LogOperationType.Info,
+                    // $"Found publish profile {publishProfileName} {originalPublishProfileNameExpr}");
 
                 return new MsBuildPublishProfilePrimitive
                 {
@@ -112,7 +107,6 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
             }
             catch (Exception e)
             {
-                opLog.Log(LogOperationType.Error, e);
                 return new MsBuildPublishProfilePrimitive
                 {
                     Failed = true,

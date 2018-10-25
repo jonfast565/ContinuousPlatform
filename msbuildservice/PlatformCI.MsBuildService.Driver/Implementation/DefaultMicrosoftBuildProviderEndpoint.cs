@@ -2,21 +2,16 @@
 using BuildSystem.Lib.Interfaces.Generic.Implementation;
 using BuildSystem.Lib.MicrosoftBuildProvider.Interfaces;
 using BuildSystem.Lib.Models.Deliverable.Implementation;
-using BuildSystem.Lib.Oplog.Enums;
-using BuildSystem.Lib.Oplog.Interfaces;
 
 namespace BuildSystem.Lib.MicrosoftBuildProvider.Implementation
 {
     public class DefaultMicrosoftBuildProviderEndpoint : IMicrosoftBuildProviderEndpoint
     {
-        private readonly IOplog _oplog;
         private readonly IFilesystemProvider _provider;
         private readonly IMicrosoftProjectResolver _resolver;
 
-        public DefaultMicrosoftBuildProviderEndpoint(IFilesystemProvider provider, IMicrosoftProjectResolver resolver,
-            IOplog opLog)
+        public DefaultMicrosoftBuildProviderEndpoint(IFilesystemProvider provider, IMicrosoftProjectResolver resolver)
         {
-            _oplog = opLog;
             _provider = provider;
             _resolver = resolver;
         }
@@ -44,7 +39,7 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Implementation
 
         public MsBuildProjectPrimitive GetProjectFromFileBytes(FilePayload localPath)
         {
-            _oplog.Log(LogOperationType.Info, $"Caching {localPath.Name}");
+            // _oplog.Log(LogOperationType.Info, $"Caching {localPath.Name}");
             var projectPath = WriteMsBuildItemToDisk(localPath);
             var project = GetProjectFromLocalPath(projectPath, localPath.Name);
             DeleteMsBuildItemFromDisk(projectPath);
@@ -54,7 +49,7 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Implementation
 
         public MsBuildPublishProfilePrimitive GetPublishProfileFromFileBytes(FilePayload localPath)
         {
-            _oplog.Log(LogOperationType.Info, $"Caching {localPath.Name}");
+            // _oplog.Log(LogOperationType.Info, $"Caching {localPath.Name}");
             var publishProfilePath = WriteMsBuildItemToDisk(localPath);
             var publishProfile = GetPublishProfileFromLocalPath(publishProfilePath, localPath.Name);
             DeleteMsBuildItemFromDisk(publishProfilePath);
@@ -64,7 +59,7 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Implementation
 
         public MsBuildSolutionPrimitive GetSolutionFromFileBytes(FilePayload localPath)
         {
-            _oplog.Log(LogOperationType.Info, $"Caching {localPath.Name}");
+            // _oplog.Log(LogOperationType.Info, $"Caching {localPath.Name}");
             var solutionPath = WriteMsBuildItemToDisk(localPath);
             var solution = GetSolutionFromLocalPath(solutionPath, localPath.Name);
             DeleteMsBuildItemFromDisk(solutionPath);
