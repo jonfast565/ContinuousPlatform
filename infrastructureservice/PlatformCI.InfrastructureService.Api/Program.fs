@@ -4,46 +4,33 @@ open System.Threading
 open Suave
 open Suave.Successful
 open Suave.Writers
-open Suave.Web
 open Suave.Filters  
 open Suave.Operators
 
-open PlatformCI.InfrastructureService.Driver
-open PlatformCI.InfrastructureService.Driver.Implementation
-open Microsoft.EntityFrameworkCore
-open PlatformCI.InfrastructureService.Entities.EfContextBuilder
-open PlatformCI.InfrastructureService.Entities
-open PlatformCI.InfrastructureService.Models.Implementation
-
-open Newtonsoft.Json
-
 [<EntryPoint>]
 let main _argv = 
+  let jsonMimeType = "application/json;charset=utf-8"
+  // let appSettingsFilePath = "./appsettings.json"
+
   let cts = new CancellationTokenSource()
   let conf = { 
     defaultConfig with
       bindings = [ HttpBinding.createSimple HTTP "127.0.0.1" 7999 ];
       cancellationToken = cts.Token
     }
-  
-  let dbContextOptions = new DbContextOptionsBuilder<BuildSystemContext>()
-  dbContextOptions.UseSqlServer("Data Source=***REMOVED***;Initial Catalog=***REMOVED***;Integrated Security=True;MultipleActiveResultSets=True;") |> ignore
-  let efContextBuilder = new EfContextBuilder(dbContextOptions.Options)
-  let driver = new DefaultInfrastructureStore(efContextBuilder)
-  let infrastructureRequestFilter = new InfrastructureRequestFilter()
 
   let app = 
     choose 
-        [ GET >=> choose 
+        [ POST >=> choose 
             [ path "/Daemon/GetInfrastructureMetadata" >=> 
-                request (fun _ -> OK (driver.GetInfrastructureMetadata(infrastructureRequestFilter) |> JsonConvert.SerializeObject)) >=> 
-                setMimeType "application/json;charset=utf-8";
+                request (fun req -> Driver.getInfrastructureMetadata(req)) >=> 
+                setMimeType jsonMimeType;
               path "/Daemon/GetFlattenedInfrastructureMetadata" >=> 
-                request (fun _ -> OK (driver.GetInfrastructureMetadata(infrastructureRequestFilter).GetFlattenedData(infrastructureRequestFilter) |> JsonConvert.SerializeObject)) >=> 
-                setMimeType "application/json;charset=utf-8";
+                request (fun req -> Driver.getFlattenedData(req)) >=> 
+                setMimeType jsonMimeType;
               path "/Daemon/GetEnvironmentData" >=> 
-                request (fun _ -> OK (driver.GetInfrastructureMetadata(infrastructureRequestFilter).GetEnvironmentData() |> JsonConvert.SerializeObject)) >=> 
-                setMimeType "application/json;charset=utf-8";
+                request (fun req -> Driver.getEnvironmentData(req)) >=> 
+                setMimeType jsonMimeType;
             ]
         ]
         
