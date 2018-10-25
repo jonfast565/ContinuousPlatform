@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using BuildSystem.Lib.Models.Deliverable.Implementation;
-using BuildSystem.Lib.Oplog.Enums;
-using BuildSystem.Lib.Oplog.Interfaces;
 using Microsoft.Build.Construction;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Exceptions;
@@ -13,8 +11,7 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
     {
         internal static MsBuildSolutionPrimitive GetSolutionWithMsBuild(
             string localPath,
-            string originalSolutionName,
-            IOplog opLog)
+            string originalSolutionName)
         {
             try
             {
@@ -29,8 +26,8 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
                     ? "<-" + originalSolutionName
                     : string.Empty;
 
-                opLog.Log(LogOperationType.Info,
-                    $"Found solution {solutionName} {originalSolutionNameExpr}");
+                //opLog.Log(LogOperationType.Info,
+                    //$"Found solution {solutionName} {originalSolutionNameExpr}");
 
                 return new MsBuildSolutionPrimitive
                 {
@@ -44,7 +41,6 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
              || e is InvalidOperationException
              || e is IOException)
             {
-                opLog.Log(LogOperationType.Error, e);
                 return new MsBuildSolutionPrimitive
                 {
                     Error = e,

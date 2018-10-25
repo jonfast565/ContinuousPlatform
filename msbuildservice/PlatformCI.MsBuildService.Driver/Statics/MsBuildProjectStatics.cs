@@ -2,8 +2,6 @@
 using System.IO;
 using System.Linq;
 using BuildSystem.Lib.Models.Deliverable.Implementation;
-using BuildSystem.Lib.Oplog.Enums;
-using BuildSystem.Lib.Oplog.Interfaces;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Exceptions;
 
@@ -13,8 +11,7 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
     {
         internal static MsBuildPublishProfilePrimitive GetPublicProfileWithMsBuild(
             string localPath,
-            string originalPublishProfileName,
-            IOplog opLog)
+            string originalPublishProfileName)
         {
             try
             {
@@ -28,8 +25,8 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
                     ? "<-" + originalPublishProfileName
                     : string.Empty;
 
-                opLog.Log(LogOperationType.Info,
-                    $"Found publish profile {publishProfileName} {originalPublishProfileNameExpr}");
+                //opLog.Log(LogOperationType.Info,
+                    //$"Found publish profile {publishProfileName} {originalPublishProfileNameExpr}");
 
                 return new MsBuildPublishProfilePrimitive
                 {
@@ -42,7 +39,6 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
              || e is InvalidOperationException
              || e is IOException)
             {
-                opLog.Log(LogOperationType.Error, e);
                 return new MsBuildPublishProfilePrimitive
                 {
                     Failed = true,
@@ -53,8 +49,7 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
 
         internal static MsBuildProjectPrimitive GetProjectWithMsBuild(
             string localPath,
-            string originalProjectName,
-            IOplog opLog)
+            string originalProjectName)
         {
             try
             {
@@ -71,8 +66,8 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
                     ? "<-" + originalProjectName
                     : string.Empty;
 
-                opLog.Log(LogOperationType.Info,
-                    $"Found project {projectName} {originalProjectNameExpr}");
+                //opLog.Log(LogOperationType.Info,
+                    //$"Found project {projectName} {originalProjectNameExpr}");
 
                 return new MsBuildProjectPrimitive
                 {
@@ -88,7 +83,6 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
              || e is InvalidOperationException
              || e is IOException)
             {
-                opLog.Log(LogOperationType.Error, e);
                 return new MsBuildProjectPrimitive
                 {
                     Failed = true,
