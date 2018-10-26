@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace BuildSystem.Lib.Models.Deliverable.Interfaces
+namespace PlatformCI.MsBuildService.Models.Interfaces
 {
     public interface IProjectConstants
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BuildSystem.Lib.PathParser.Interfaces;
+using PlatformCI.MsBuildService.Models.Interfaces;
 
-namespace BuildSystem.Lib.PathParser.Implementation
+namespace PlatformCI.MsBuildService.Models.Implementation
 {
     public class PathParser
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using BuildSystem.Lib.Models.Deliverable.Implementation;
+using PlatformCI.MsBuildService.Models.Implementation;
 
-namespace BuildSystem.Lib.Models.Deliverable.Comparison
+namespace PlatformCI.MsBuildService.Models.Comparison
 {
     public class
         RepositoryEnvironmentSolutionProjectKeyComparer : IEqualityComparer<RepositoryBranchSolutionProjectKey>

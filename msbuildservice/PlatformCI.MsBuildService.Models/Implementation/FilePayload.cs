@@ -1,6 +1,6 @@
 ﻿
 
-namespace BuildSystem.Lib.Interfaces.Generic.Implementation
+namespace PlatformCI.MsBuildService.Models.Implementation
 {
     public class FilePayload
     {

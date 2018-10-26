@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BuildSystem.Lib.Models.Deliverable.Implementation
+namespace PlatformCI.MsBuildService.Models.Implementation
 {
     [Serializable]
     public class RepositoryBranchSolutionProjectKey

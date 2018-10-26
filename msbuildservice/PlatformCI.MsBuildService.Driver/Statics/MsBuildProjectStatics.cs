@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using BuildSystem.Lib.Models.Deliverable.Implementation;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Exceptions;
+using PlatformCI.MsBuildService.Models.Implementation;
 
-namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
+namespace PlatformCI.MsBuildService.Driver.Statics
 {
     internal static class MsBuildProjectStatics
     {
@@ -18,7 +18,7 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
                 ProjectCollection.GlobalProjectCollection.UnloadAllProjects();
 
                 var publishProfile = new Project(localPath);
-                var parser = new PathParser.Implementation.PathParser();
+                var parser = new PathParser();
                 var publishProfileName = parser.GetLastItemFromPath(localPath);
                 var publishUrl = MsBuildPropertyStatics.GetPublishUrl(publishProfile);
                 var originalPublishProfileNameExpr = originalPublishProfileName != null
@@ -56,7 +56,7 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
                 ProjectCollection.GlobalProjectCollection.UnloadAllProjects();
 
                 var project = new Project(localPath);
-                var parser = new PathParser.Implementation.PathParser();
+                var parser = new PathParser();
                 var projectName = parser.GetLastItemFromPath(localPath);
                 var targetFrameworks = MsBuildPropertyStatics.GetTargetFrameworksIfApplicable(project);
                 var relativePaths = MsBuildPropertyStatics.GetRelativeProjectReferencePaths(project);

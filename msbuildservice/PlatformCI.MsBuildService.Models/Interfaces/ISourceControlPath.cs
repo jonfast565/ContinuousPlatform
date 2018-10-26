@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BuildSystem.Lib.PathParser.Interfaces
+namespace PlatformCI.MsBuildService.Models.Interfaces
 {
     public interface ISourceControlPath
     {

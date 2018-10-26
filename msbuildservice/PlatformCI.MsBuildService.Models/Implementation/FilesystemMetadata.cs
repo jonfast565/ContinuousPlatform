@@ -1,7 +1,7 @@
 ﻿using System;
-using BuildSystem.Lib.FilesystemProvider.Enums;
+using PlatformCI.MsBuildService.Models.Enums;
 
-namespace BuildSystem.Lib.FilesystemProvider.Implementation
+namespace PlatformCI.MsBuildService.Models.Implementation
 {
     [Serializable]
     public class FilesystemMetadata

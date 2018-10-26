@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
+namespace PlatformCI.MsBuildService.Driver.Statics
 {
     public class XmlNamespaceValue
     {
