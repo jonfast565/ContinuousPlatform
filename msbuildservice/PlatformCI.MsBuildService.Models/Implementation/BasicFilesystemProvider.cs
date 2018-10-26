@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BuildSystem.Lib.FilesystemProvider.Enums;
-using BuildSystem.Lib.FilesystemProvider.Interfaces;
+using PlatformCI.MsBuildService.Models.Enums;
+using PlatformCI.MsBuildService.Models.Interfaces;
 
-namespace BuildSystem.Lib.FilesystemProvider.Implementation
+namespace PlatformCI.MsBuildService.Models.Implementation
 {
     public class BasicFilesystemProvider : IFilesystemProvider
     {

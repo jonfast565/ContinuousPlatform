@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using BuildSystem.Lib.Models.Deliverable.Implementation;
+using PlatformCI.MsBuildService.Models.Implementation;
 
-namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
+namespace PlatformCI.MsBuildService.Driver.Statics
 {
     internal static class XmlProjectFileStatics
     {
@@ -48,7 +48,7 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
 
                 document = null;
 
-                var parser = new PathParser.Implementation.PathParser();
+                var parser = new PathParser();
                 var projectName = parser.GetLastItemFromPath(localPath);
                 var originalProjectNameExpr = originalProjectName != null
                     ? "<-" + originalProjectName
@@ -91,7 +91,7 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
 
                 document = null;
 
-                var parser = new PathParser.Implementation.PathParser();
+                var parser = new PathParser();
                 var publishProfileName = parser.GetLastItemFromPath(localPath);
                 var originalPublishProfileNameExpr = originalPublishProfileName != null
                     ? "<-" + originalPublishProfileName

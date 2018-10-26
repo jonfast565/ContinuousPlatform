@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BuildSystem.Lib.PathParser.Enums;
-using BuildSystem.Lib.PathParser.Interfaces;
+﻿using System.Collections.Generic;
+using PlatformCI.MsBuildService.Models.Interfaces;
 
-namespace BuildSystem.Lib.PathParser.Implementation
+namespace PlatformCI.MsBuildService.Models.Implementation
 {
     public class PathActionSeries
     {

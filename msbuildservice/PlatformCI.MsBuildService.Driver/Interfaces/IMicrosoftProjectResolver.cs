@@ -1,6 +1,6 @@
-﻿using BuildSystem.Lib.Models.Deliverable.Implementation;
+﻿using PlatformCI.MsBuildService.Models.Implementation;
 
-namespace BuildSystem.Lib.MicrosoftBuildProvider.Interfaces
+namespace PlatformCI.MsBuildService.Driver.Interfaces
 {
     public interface IMicrosoftProjectResolver
     {

@@ -1,7 +1,7 @@
-﻿using BuildSystem.Lib.PathParser.Enums;
-using BuildSystem.Lib.PathParser.Interfaces;
+﻿using PlatformCI.MsBuildService.Models.Enums;
+using PlatformCI.MsBuildService.Models.Interfaces;
 
-namespace BuildSystem.Lib.PathParser.Abstractions
+namespace PlatformCI.MsBuildService.Models.Abstractions
 {
     public abstract class SourceControlPathAction : ISourceControlPathAction
     {

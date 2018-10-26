@@ -1,9 +1,8 @@
-﻿using BuildSystem.Lib.FilesystemProvider.Interfaces;
-using BuildSystem.Lib.Interfaces.Generic.Implementation;
-using BuildSystem.Lib.MicrosoftBuildProvider.Interfaces;
-using BuildSystem.Lib.Models.Deliverable.Implementation;
+﻿using PlatformCI.MsBuildService.Driver.Interfaces;
+using PlatformCI.MsBuildService.Models.Implementation;
+using PlatformCI.MsBuildService.Models.Interfaces;
 
-namespace BuildSystem.Lib.MicrosoftBuildProvider.Implementation
+namespace PlatformCI.MsBuildService.Driver.Implementation
 {
     public class DefaultMicrosoftBuildProviderEndpoint : IMicrosoftBuildProviderEndpoint
     {

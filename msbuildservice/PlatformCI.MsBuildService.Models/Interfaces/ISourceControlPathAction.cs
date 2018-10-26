@@ -1,6 +1,6 @@
-﻿using BuildSystem.Lib.PathParser.Enums;
+﻿using PlatformCI.MsBuildService.Models.Enums;
 
-namespace BuildSystem.Lib.PathParser.Interfaces
+namespace PlatformCI.MsBuildService.Models.Interfaces
 {
     public interface ISourceControlPathAction
     {
