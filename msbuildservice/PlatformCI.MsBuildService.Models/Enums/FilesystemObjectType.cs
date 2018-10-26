@@ -1,4 +1,4 @@
-﻿namespace BuildSystem.Lib.FilesystemProvider.Enums
+﻿namespace PlatformCI.MsBuildService.Models.Enums
 {
     public enum FilesystemObjectType
     {

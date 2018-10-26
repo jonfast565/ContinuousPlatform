@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BuildSystem.Lib.Models.Deliverable.Implementation
+namespace PlatformCI.MsBuildService.Models.Implementation
 {
     [Serializable]
     public class MsBuildProjectPrimitive

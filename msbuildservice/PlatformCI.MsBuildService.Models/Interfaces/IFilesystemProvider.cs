@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using BuildSystem.Lib.FilesystemProvider.Implementation;
+using PlatformCI.MsBuildService.Models.Implementation;
 
-namespace BuildSystem.Lib.FilesystemProvider.Interfaces
+namespace PlatformCI.MsBuildService.Models.Interfaces
 {
     public interface IFilesystemProvider
     {

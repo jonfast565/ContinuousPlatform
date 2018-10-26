@@ -1,7 +1,7 @@
-﻿using BuildSystem.Lib.PathParser.Abstractions;
-using BuildSystem.Lib.PathParser.Enums;
+﻿using PlatformCI.MsBuildService.Models.Abstractions;
+using PlatformCI.MsBuildService.Models.Enums;
 
-namespace BuildSystem.Lib.PathParser.Implementation
+namespace PlatformCI.MsBuildService.Models.Implementation
 {
     public class PathActionGoBack : SourceControlPathAction
     {

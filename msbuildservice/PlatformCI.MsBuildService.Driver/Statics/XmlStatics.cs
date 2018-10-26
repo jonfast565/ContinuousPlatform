@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml;
 
-namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
+namespace PlatformCI.MsBuildService.Driver.Statics
 {
     public static class XmlStatics
     {

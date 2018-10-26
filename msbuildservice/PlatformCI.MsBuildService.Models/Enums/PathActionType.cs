@@ -1,4 +1,4 @@
-﻿namespace BuildSystem.Lib.PathParser.Enums
+﻿namespace PlatformCI.MsBuildService.Models.Enums
 {
     public enum PathActionType
     {

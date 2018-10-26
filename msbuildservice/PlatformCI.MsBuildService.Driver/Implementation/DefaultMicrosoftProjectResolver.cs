@@ -1,8 +1,8 @@
-﻿using BuildSystem.Lib.MicrosoftBuildProvider.Interfaces;
-using BuildSystem.Lib.MicrosoftBuildProvider.Statics;
-using BuildSystem.Lib.Models.Deliverable.Implementation;
+﻿using PlatformCI.MsBuildService.Driver.Interfaces;
+using PlatformCI.MsBuildService.Driver.Statics;
+using PlatformCI.MsBuildService.Models.Implementation;
 
-namespace BuildSystem.Lib.MicrosoftBuildProvider.Implementation
+namespace PlatformCI.MsBuildService.Driver.Implementation
 {
     internal class DefaultMicrosoftProjectResolver : IMicrosoftProjectResolver
     {

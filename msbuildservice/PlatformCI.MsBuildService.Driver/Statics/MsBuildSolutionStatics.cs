@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
-using BuildSystem.Lib.Models.Deliverable.Implementation;
 using Microsoft.Build.Construction;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Exceptions;
+using PlatformCI.MsBuildService.Models.Implementation;
 
-namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
+namespace PlatformCI.MsBuildService.Driver.Statics
 {
     internal static class MsBuildSolutionStatics
     {
@@ -18,7 +18,7 @@ namespace BuildSystem.Lib.MicrosoftBuildProvider.Statics
                 ProjectCollection.GlobalProjectCollection.UnloadAllProjects();
 
                 var solution = SolutionFile.Parse(localPath);
-                var parser = new PathParser.Implementation.PathParser();
+                var parser = new PathParser();
                 var solutionName = parser.GetLastItemFromPath(localPath);
                 var configurations = MsBuildPropertyStatics.GetConfigurations(solution);
                 var relativePaths = MsBuildPropertyStatics.GetProjectRelativePaths(solution);
