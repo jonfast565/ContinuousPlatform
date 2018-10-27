@@ -28,6 +28,14 @@ func (jd *JobDetails) SetJobStoppedOrErrored() {
 	}
 }
 
+func (jd *JobDetails) TriggerJob() {
+	jd.Trigger = true
+}
+
+func (jd *JobDetails) Errored() bool {
+	return jd.Status == Errored
+}
+
 type JobController struct {
 	StopJobs          bool
 	DetectChanges     JobDetails
