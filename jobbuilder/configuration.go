@@ -1,7 +1,10 @@
 package main
 
 type Configuration struct {
-	Port             int
-	RunJobsOnStartup bool
-	CyclicalRuns     bool
+	Port               int
+	RunJobsOnStartup   bool
+	CyclicalRuns       bool
+	ChangeRateLimiting bool
+	ChangeRateLimit    int
+	BetweenJobWait     int
 }

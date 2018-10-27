@@ -72,6 +72,10 @@ type RepositoryPackage struct {
 	Type     SourceControlProviderType
 }
 
+func NewRepositoryPackage() *RepositoryPackage {
+	return &RepositoryPackage{Metadata: make([]RepositoryMetadata, 0), Type: AzureDevOps}
+}
+
 type RepositoryAmalgamation struct {
 	Packages []RepositoryPackage
 }

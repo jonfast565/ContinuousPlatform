@@ -3,6 +3,7 @@ package server
 import (
 	"../../logging"
 	"../../models/jobmodel"
+	"fmt"
 )
 
 func BuildDeliverables(details *jobmodel.JobDetails) {
@@ -12,4 +13,14 @@ func BuildDeliverables(details *jobmodel.JobDetails) {
 			logging.LogPanicRecover(r)
 		}
 	}()
+
+	repositories, err := GetRepositoriesCache()
+	if err != nil {
+		panic(err)
+	}
+
+	for _, repository := range repositories.Metadata {
+		// debug for now
+		fmt.Println(repository)
+	}
 }

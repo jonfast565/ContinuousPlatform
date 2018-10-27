@@ -1,14 +1,13 @@
 package persistenceclient
 
 import (
+	"../../compressutil"
 	"../../constants"
 	"../../jsonutil"
 	"../../models/persistmodel"
 	"../../webutil"
 	"bytes"
-	"compress/gzip"
 	"encoding/json"
-	"io/ioutil"
 	"net/http"
 	"strconv"
 )
@@ -48,26 +47,21 @@ func (pc PersistenceClient) GetKeyValueCache(key string) ([]byte, error) {
 		return nil, err
 	}
 
-	request, err := http.NewRequest(constants.GetMethod,
-		myUrl.GetUrlStringValue(),
+	urlString := myUrl.GetUrlStringValue()
+	request, err := http.NewRequest(constants.PostMethod,
+		urlString,
 		bytes.NewReader(requestJson))
 	if err != nil {
 		return nil, err
 	}
 
 	var value persistmodel.KeyValueResult
-	err = webutil.ExecuteRequestAndReadJsonBody(&pc.client, request, value)
+	err = webutil.ExecuteRequestAndReadJsonBody(&pc.client, request, &value)
 	if err != nil {
 		return nil, err
 	}
 
-	reader, err := gzip.NewReader(bytes.NewReader(value.Value))
-	if err != nil {
-		return nil, err
-	}
-	defer reader.Close()
-
-	uncompressedBytes, err := ioutil.ReadAll(reader)
+	uncompressedBytes, err := compressutil.Uncompress(value.Value)
 	if err != nil {
 		return nil, err
 	}
@@ -77,11 +71,10 @@ func (pc PersistenceClient) GetKeyValueCache(key string) ([]byte, error) {
 
 func (pc PersistenceClient) SetKeyValueCache(key string, value []byte) error {
 	// compress payload for speed
-	var b bytes.Buffer
-	w := gzip.NewWriter(&b)
-	w.Write(value)
-	defer w.Close()
-	result := b.Bytes()
+	result, err := compressutil.Compress(value)
+	if err != nil {
+		return err
+	}
 
 	// build service url
 	myUrl := webutil.NewEmptyUrl()
@@ -97,7 +90,7 @@ func (pc PersistenceClient) SetKeyValueCache(key string, value []byte) error {
 		return err
 	}
 
-	request, err := http.NewRequest(constants.GetMethod,
+	request, err := http.NewRequest(constants.PostMethod,
 		myUrl.GetUrlStringValue(),
 		bytes.NewReader(requestJson))
 	if err != nil {
