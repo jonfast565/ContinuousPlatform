@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -25,6 +26,9 @@ func main() {
 
 	jsonutil.DecodeJsonFromFile("./appsettings.json", &configuration)
 	controller = jobmodel.NewJobController()
+	if configuration.RunJobsOnStartup {
+		controller.TriggerStartingJob()
+	}
 	quit := make(chan bool)
 
 	go func() {
@@ -41,8 +45,20 @@ func main() {
 					changesExist := server.SourceControlChangesExist(&controller.DetectChanges)
 					controller.DetectChanges.SetJobStoppedOrErrored()
 
-					if !controller.DetectChanges.Errored() && changesExist {
-						controller.BuildDeliverables.TriggerJob()
+					if !controller.DetectChanges.Errored() {
+						if changesExist {
+							logging.LogInfo("Changes detected. Building deliverables")
+							controller.BuildDeliverables.TriggerJob()
+						} else {
+							logging.LogInfo("No changes detected. Initiating change cycle again")
+							controller.DetectChanges.TriggerJob()
+							if configuration.ChangeRateLimiting {
+								logging.LogInfo("Rate limit wait time: " +
+									strconv.Itoa(configuration.ChangeRateLimit) + "s")
+								rateLimitDuration := time.Duration(configuration.ChangeRateLimit)
+								time.Sleep(rateLimitDuration * time.Second)
+							}
+						}
 					}
 					continue
 				}
@@ -85,7 +101,10 @@ func main() {
 					continue
 				}
 
-				time.Sleep(2 * time.Second)
+				logging.LogInfo("Between job wait: " +
+					strconv.Itoa(configuration.BetweenJobWait) + "s")
+				betweenJobDuration := time.Duration(configuration.BetweenJobWait)
+				time.Sleep(betweenJobDuration * time.Second)
 			}
 		}
 	}()
