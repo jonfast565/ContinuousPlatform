@@ -92,6 +92,15 @@ func ExecuteRequestAndReadStringBody(c *http.Client, r *http.Request) (*string, 
 	return &s, nil
 }
 
+func ExecuteRequestWithoutRead(c *http.Client, r *http.Request) error {
+	response, err := c.Do(r)
+	defer response.Body.Close()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // obsolete?
 func EncodeBase64String(someString string) string {
 	stringEncoding := b64.StdEncoding.EncodeToString([]byte(someString))

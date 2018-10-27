@@ -39,6 +39,17 @@ type RepositoryFileMetadata struct {
 	File   filesysmodel.FileSystemMetadata
 }
 
+func NewRepositoryFileMetadata(
+	Name string,
+	Repo string,
+	Branch string) RepositoryFileMetadata {
+	return RepositoryFileMetadata{
+		Name:   Name,
+		Repo:   Repo,
+		Branch: Branch,
+	}
+}
+
 func (rfm RepositoryFileMetadata) String() string {
 	return fmt.Sprintf("Repo: %s\nBranch: %s\nFilePath: %s\n",
 		rfm.Name,
