@@ -38,8 +38,12 @@ func main() {
 				if controller.DetectChanges.Trigger {
 					logging.LogInfo("Detect changes")
 					controller.DetectChanges.UnsetTriggerBeginRun()
-					server.DetectChanges(&controller.DetectChanges)
+					changesExist := server.SourceControlChangesExist(&controller.DetectChanges)
 					controller.DetectChanges.SetJobStoppedOrErrored()
+
+					if !controller.DetectChanges.Errored() && changesExist {
+						controller.BuildDeliverables.TriggerJob()
+					}
 					continue
 				}
 
@@ -48,6 +52,10 @@ func main() {
 					controller.BuildDeliverables.UnsetTriggerBeginRun()
 					server.BuildDeliverables(&controller.BuildDeliverables)
 					controller.BuildDeliverables.SetJobStoppedOrErrored()
+
+					if !controller.BuildDeliverables.Errored() {
+						controller.GenerateScripts.TriggerJob()
+					}
 					continue
 				}
 
@@ -56,6 +64,10 @@ func main() {
 					controller.GenerateScripts.UnsetTriggerBeginRun()
 					server.GenerateScripts(&controller.GenerateScripts)
 					controller.GenerateScripts.SetJobStoppedOrErrored()
+
+					if !controller.GenerateScripts.Errored() {
+						controller.DeployJenkinsJobs.TriggerJob()
+					}
 					continue
 				}
 
@@ -64,13 +76,15 @@ func main() {
 					controller.DeployJenkinsJobs.UnsetTriggerBeginRun()
 					server.DeployJenkinsJobs(&controller.DeployJenkinsJobs)
 					controller.DeployJenkinsJobs.SetJobStoppedOrErrored()
+
+					if !controller.DeployJenkinsJobs.Errored() &&
+						configuration.CyclicalRuns {
+						logging.LogInfo("Cyclical run enabled. Triggering starting job.")
+						controller.TriggerStartingJob()
+					}
 					continue
 				}
 
-				if configuration.CyclicalRuns {
-					logging.LogInfo("Cyclical run enabled. Triggering starting job.")
-					controller.TriggerStartingJob()
-				}
 				time.Sleep(2 * time.Second)
 			}
 		}

@@ -79,26 +79,26 @@ func setKeyValueCache(w http.ResponseWriter, r *http.Request) {
 
 func getInfrastructureMetadata(w http.ResponseWriter, r *http.Request) {
 	/*
-	var model inframodel.InfrastructureMetadata
-	err := jsonutil.DecodeJsonFromBody(r, &model)
-	if err != nil {
-		w.WriteHeader(500)
-		logging.LogError(err)
-		return
-	}
-	result, err := endpoint.GetInfrastructureMetadata()
-	if err != nil {
-		w.WriteHeader(500)
-		logging.LogError(err)
-		return
-	}
-	resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
-	if err != nil {
-		w.WriteHeader(500)
-		logging.LogError(err)
-		return
-	}
-	w.Write(*resultBytes)
+		var model inframodel.InfrastructureMetadata
+		err := jsonutil.DecodeJsonFromBody(r, &model)
+		if err != nil {
+			w.WriteHeader(500)
+			logging.LogError(err)
+			return
+		}
+		result, err := endpoint.GetInfrastructureMetadata()
+		if err != nil {
+			w.WriteHeader(500)
+			logging.LogError(err)
+			return
+		}
+		resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
+		if err != nil {
+			w.WriteHeader(500)
+			logging.LogError(err)
+			return
+		}
+		w.Write(*resultBytes)
 	*/
 }
 
