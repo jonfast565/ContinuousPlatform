@@ -1,12 +1,10 @@
 package server
 
 import (
-	"../../clients/persistenceclient"
 	"../../clients/repoclient"
 	"../../logging"
 	"../../models/jobmodel"
 	"../../models/repomodel"
-	"encoding/json"
 	"github.com/ahmetb/go-linq"
 	"strconv"
 )
@@ -21,16 +19,35 @@ func SourceControlChangesExist(details *jobmodel.JobDetails) bool {
 
 	oldPackage, err := GetRepositoriesCache()
 	if err != nil {
-		oldPackage = &repomodel.RepositoryPackage{}
+		if err.Error() != "EOF" {
+			panic(err)
+		} else {
+			logging.LogInfo("Got nothing back, starting from scratch")
+			oldPackage = repomodel.NewRepositoryPackage()
+		}
 	}
 
 	repoClient := repoclient.NewRepoClient()
 	newPackage, err := repoClient.GetRepositories()
+	if err != nil {
+		panic(err)
+	}
 
+	changeFlag := false
+	logging.LogInfo("Checking changes...")
 	if len(oldPackage.Metadata) != len(newPackage.Metadata) {
 		logging.LogInfoMultiline("Repo Count Mismatch",
 			"Old Package Ct.: "+strconv.Itoa(len(oldPackage.Metadata)),
 			"New Package Ct.: "+strconv.Itoa(len(newPackage.Metadata)))
+		changeFlag = true
+	}
+
+	if changeFlag {
+		logging.LogInfo("Repo count changed")
+		err = SetRepositoriesCache(*newPackage)
+		if err != nil {
+			panic(err)
+		}
 		return true
 	}
 
@@ -49,25 +66,19 @@ func SourceControlChangesExist(details *jobmodel.JobDetails) bool {
 			logging.LogInfo("Repo " +
 				newRepo.Name + " b. " +
 				newRepo.Branch + " not found")
-			return true
+			changeFlag = true
+			break
 		}
 	}
 
+	if changeFlag {
+		logging.LogInfo("Branch structure changed")
+		err = SetRepositoriesCache(*newPackage)
+		if err != nil {
+			panic(err)
+		}
+		return true
+	}
+
 	return false
-}
-
-func GetRepositoriesCache() (*repomodel.RepositoryPackage, error) {
-	client := persistenceclient.NewPersistenceClient()
-	repositoriesBytes, err := client.GetKeyValueCache("Repositories")
-	if err != nil {
-		return nil, err
-	}
-
-	var value repomodel.RepositoryPackage
-	err = json.Unmarshal(repositoriesBytes, value)
-	if err != nil {
-		return nil, err
-	}
-
-	return &value, nil
 }

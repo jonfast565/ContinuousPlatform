@@ -49,7 +49,7 @@ func (rc RepoClient) GetRepositories() (*repomodel.RepositoryPackage, error) {
 	}
 
 	var value repomodel.RepositoryPackage
-	err = webutil.ExecuteRequestAndReadJsonBody(&rc.client, request, value)
+	err = webutil.ExecuteRequestAndReadJsonBody(&rc.client, request, &value)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +73,7 @@ func (rc RepoClient) GetFile(
 		return nil, err
 	}
 
-	request, err := http.NewRequest(constants.GetMethod,
+	request, err := http.NewRequest(constants.PostMethod,
 		myUrl.GetUrlStringValue(),
 		bytes.NewReader(requestJson))
 	if err != nil {
@@ -81,7 +81,7 @@ func (rc RepoClient) GetFile(
 	}
 
 	var value miscmodel.FilePayload
-	err = webutil.ExecuteRequestAndReadJsonBody(&rc.client, request, value)
+	err = webutil.ExecuteRequestAndReadJsonBody(&rc.client, request, &value)
 	if err != nil {
 		return nil, err
 	}
