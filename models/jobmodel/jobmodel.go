@@ -37,7 +37,6 @@ func (jd *JobDetails) Errored() bool {
 }
 
 type JobController struct {
-	StopJobs          bool
 	DetectChanges     JobDetails
 	BuildDeliverables JobDetails
 	GenerateScripts   JobDetails
@@ -46,7 +45,6 @@ type JobController struct {
 
 func NewJobController() JobController {
 	return JobController{
-		StopJobs:          false,
 		DetectChanges:     JobDetails{Trigger: false, Status: Stopped},
 		BuildDeliverables: JobDetails{Trigger: false, Status: Stopped},
 		GenerateScripts:   JobDetails{Trigger: false, Status: Stopped},
