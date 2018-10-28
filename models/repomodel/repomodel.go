@@ -1,7 +1,6 @@
 package repomodel
 
 import (
-	"../../pathutil"
 	"../filesysmodel"
 	"fmt"
 )
@@ -27,44 +26,10 @@ func (rm RepositoryMetadata) String() string {
 		rm.OptionalUrl)
 }
 
-type RepositoryMetadataGraphPair struct {
-	Metadata RepositoryMetadata
-	//Graph utilities.SourceControlGraph
-}
-
 type RepositoryFileMetadata struct {
 	Name   string
 	Repo   string
 	Branch string
-	File   filesysmodel.FileSystemMetadata
-}
-
-func NewRepositoryFileMetadata(
-	Name string,
-	Repo string,
-	Branch string) RepositoryFileMetadata {
-	return RepositoryFileMetadata{
-		Name:   Name,
-		Repo:   Repo,
-		Branch: Branch,
-	}
-}
-
-func (rfm RepositoryFileMetadata) String() string {
-	return fmt.Sprintf("Repo: %s\nBranch: %s\nFilePath: %s\n",
-		rfm.Name,
-		rfm.Branch,
-		rfm.File.Path)
-}
-
-func MapToRepositoryMetadata(metadata filesysmodel.FileSystemMetadata,
-	repositoryMetadata RepositoryMetadata) RepositoryFileMetadata {
-	return RepositoryFileMetadata{
-		Repo:   repositoryMetadata.Name,
-		Branch: repositoryMetadata.Branch,
-		File:   metadata,
-		Name:   pathutil.GetLastPathComponent(metadata.Path),
-	}
 }
 
 type RepositoryPackage struct {
