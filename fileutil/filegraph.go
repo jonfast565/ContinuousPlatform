@@ -44,13 +44,24 @@ func (f *FileGraphFolder) NewChildFolder(name string) *FileGraphFolder {
 }
 
 func (f *FileGraphFolder) NewChildFolderNavigate(name string) *FileGraphFolder {
-	existingChildFolder := linq.From(f.ChildFolders).FirstWithT(
-		func(f2 *FileGraphFolder) bool {
-			return (*f2).Name == f.Name
-		})
+	// handle the two edge cases gloriously (not)
+	if name == "." {
+		return f
+	}
+	if name == ".." {
+		return f.Parent
+	}
+
+	childFolderFilterFunc := func(f2 *FileGraphFolder) bool {
+		return f2.Name == f.Name
+	}
+
+	existingChildFolder := linq.From(f.ChildFolders).
+		FirstWithT(childFolderFilterFunc)
+
 	if existingChildFolder != nil {
-		existingChildFolderImpl := existingChildFolder.(FileGraphFolder)
-		return &existingChildFolderImpl
+		existingChildFolderImpl := existingChildFolder.(*FileGraphFolder)
+		return existingChildFolderImpl
 	}
 
 	childFolder := f.NewChildFolder(name)
