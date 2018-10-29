@@ -3,7 +3,8 @@ package server
 import (
 	"../../logging"
 	"../../models/jobmodel"
-	"fmt"
+	"../../models/projectmodel"
+	"./builders"
 )
 
 func BuildDeliverables(details *jobmodel.JobDetails) {
@@ -19,8 +20,17 @@ func BuildDeliverables(details *jobmodel.JobDetails) {
 		panic(err)
 	}
 
+	// TODO: Needs to be a concurrent routine
+	var dotNetDeliverables []projectmodel.DotNetDeliverable
 	for _, repository := range repositories.Metadata {
-		// debug for now
-		fmt.Println(repository)
+		// only build graph once for multiple runs
+		graph := repository.BuildGraph()
+
+		// support .NET deliverables at this time
+		deliverables, err := builders.BuildDotNetDeliverables(repository, *graph)
+		if err != nil {
+			panic(err)
+		}
+		dotNetDeliverables = append(dotNetDeliverables, deliverables...)
 	}
 }
