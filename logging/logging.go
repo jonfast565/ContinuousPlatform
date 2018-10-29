@@ -4,6 +4,7 @@ import (
 	"../timeutil"
 	"encoding/json"
 	"fmt"
+	"github.com/go-errors/errors"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"io"
 	"log"
@@ -39,6 +40,9 @@ func CreateLog() {
 	mw := io.MultiWriter(os.Stdout, logger)
 	log.SetOutput(mw)
 	log.Printf("Log file created.")
+
+	// set options
+	// log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
 
 func LogHeader(applicationName string) {
@@ -70,6 +74,7 @@ func LogFatal(logLine string) {
 
 func LogPanicRecover(error interface{}) {
 	log.Printf("[Error] %s", error)
+	log.Printf("[Trace] %s", errors.Wrap(error, 0).ErrorStack())
 }
 
 func LogInfoMultiline(logLines ...string) {

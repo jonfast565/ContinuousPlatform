@@ -51,12 +51,13 @@ func main() {
 							controller.BuildDeliverables.TriggerJob()
 						} else {
 							logging.LogInfo("No changes detected. Initiating change cycle again")
-							controller.DetectChanges.TriggerJob()
+							// controller.DetectChanges.TriggerJob()
+							controller.BuildDeliverables.TriggerJob()
 							if configuration.ChangeRateLimiting {
-								logging.LogInfo("Rate limit wait time: " +
-									strconv.Itoa(configuration.ChangeRateLimit) + "s")
-								rateLimitDuration := time.Duration(configuration.ChangeRateLimit)
-								time.Sleep(rateLimitDuration * time.Second)
+								//logging.LogInfo("Rate limit wait time: " +
+									// strconv.Itoa(configuration.ChangeRateLimit) + "s")
+								//rateLimitDuration := time.Duration(configuration.ChangeRateLimit)
+								//time.Sleep(rateLimitDuration * time.Second)
 							}
 						}
 					}
