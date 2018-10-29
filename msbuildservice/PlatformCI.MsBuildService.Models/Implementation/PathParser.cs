@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using PlatformCI.MsBuildService.Models.Abstractions;
 using PlatformCI.MsBuildService.Models.Interfaces;
+using PlatformCI.MsBuildService.Models.Utilities;
 
 namespace PlatformCI.MsBuildService.Models.Implementation
 {
@@ -17,9 +19,9 @@ namespace PlatformCI.MsBuildService.Models.Implementation
             return ParseToActionSeries(anyPath).GetLastItem();
         }
 
-        public IPathActionSeries ParseToActionSeries(string anyPath)
+        public PathActionSeries ParseToActionSeries(string anyPath)
         {
-            var pathActionList = new List<ISourceControlPathAction>();
+            var pathActionList = new List<SourceControlPathAction>();
             var normalizedPathString = anyPath.NormalizePath();
             var splitPath = normalizedPathString.Split(PathSplitterChar, StringSplitOptions.RemoveEmptyEntries);
             foreach (var pathPart in splitPath)

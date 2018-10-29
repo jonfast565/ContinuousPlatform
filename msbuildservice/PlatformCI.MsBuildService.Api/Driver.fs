@@ -5,6 +5,11 @@ open Suave.Http
 open System.Text
 open Newtonsoft.Json
 
+open PlatformCI.MsBuildService.Models
+open PlatformCI.MsBuildService.Driver
+
+let microsoftBuildEndpoint = new DefaultMicrosoftBuildProviderEndpoint()
+
 let getEnvironmentData(req : HttpRequest) = OK("Something")
 let getFlattenedData(req : HttpRequest) = OK("Something")
 
