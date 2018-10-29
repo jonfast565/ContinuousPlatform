@@ -10,7 +10,6 @@ open Suave.Operators
 [<EntryPoint>]
 let main _argv = 
   let jsonMimeType = "application/json;charset=utf-8"
-  // let appSettingsFilePath = "./appsettings.json"
 
   let cts = new CancellationTokenSource()
   let conf = { 
@@ -22,14 +21,23 @@ let main _argv =
   let app = 
     choose 
         [ POST >=> choose 
-            [ path "/Daemon/GetInfrastructureMetadata" >=> 
-                request (fun req -> Driver.getInfrastructureMetadata(req)) >=> 
+            [ path "/Daemon/GetProject/Bytes" >=> 
+                request (fun req -> Driver.getProjectFromFileBytes(req)) >=> 
                 setMimeType jsonMimeType;
-              path "/Daemon/GetFlattenedInfrastructureMetadata" >=> 
-                request (fun req -> Driver.getFlattenedData(req)) >=> 
+              path "/Daemon/GetSolution/Bytes" >=> 
+                request (fun req -> Driver.getSolutionFromFileBytes(req)) >=> 
                 setMimeType jsonMimeType;
-              path "/Daemon/GetEnvironmentData" >=> 
-                request (fun req -> Driver.getEnvironmentData(req)) >=> 
+              path "/Daemon/GetPublishProfile/Bytes" >=> 
+                request (fun req -> Driver.getPublishProfileFromFileBytes(req)) >=> 
+                setMimeType jsonMimeType;
+              path "/Daemon/GetProject/LocalPath" >=> 
+                request (fun req -> Driver.getProjectFromLocalPath(req)) >=> 
+                setMimeType jsonMimeType;
+              path "/Daemon/GetSolution/LocalPath" >=> 
+                request (fun req -> Driver.getSolutionFromLocalPath(req)) >=> 
+                setMimeType jsonMimeType;
+              path "/Daemon/GetPublishProfile/LocalPath" >=> 
+                request (fun req -> Driver.getPublishProfileFromLocalPath(req)) >=> 
                 setMimeType jsonMimeType;
             ]
         ]

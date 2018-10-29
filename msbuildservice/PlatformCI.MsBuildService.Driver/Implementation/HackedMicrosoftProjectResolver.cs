@@ -4,7 +4,7 @@ using PlatformCI.MsBuildService.Models.Implementation;
 
 namespace PlatformCI.MsBuildService.Driver.Implementation
 {
-    internal class HackedMicrosoftProjectResolver : IMicrosoftProjectResolver
+    public class HackedMicrosoftProjectResolver : IMicrosoftProjectResolver
     {
         public MsBuildSolutionPrimitive TryParseSolution(string localPath, string originalSolutionName)
         {
