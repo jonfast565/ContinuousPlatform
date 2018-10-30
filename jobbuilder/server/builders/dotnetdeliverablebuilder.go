@@ -65,7 +65,7 @@ func BuildDotNetDeliverables(metadata repomodel.RepositoryMetadata,
 	var publishProfiles []projectmodel.MsBuildPublishProfile
 	getPublishProfileList(publishProfilePaths, metadata, repoClient, msBuildClient, publishProfiles)
 
-	populateAbsoluteProjectPaths(projects, fileGraph)
+	resolveProjectReferencePaths(projects, fileGraph)
 
 	for _, project := range projects {
 		resolveProjectDependencies(&project, projects)
@@ -80,14 +80,49 @@ func BuildDotNetDeliverables(metadata repomodel.RepositoryMetadata,
 }
 
 func resolveProjectDependencies(project *projectmodel.MsBuildProject, projects []projectmodel.MsBuildProject) {
-	// TODO: Implement this bitch
+	logging.LogInfo("Resolving dependencies for: " + project.Name)
+	for _, absolutePath := range project.AbsoluteProjectReferencePaths {
+		found := false
+		for _, referenceProject := range projects {
+			if absolutePath != referenceProject.AbsolutePath ||
+				absolutePath == project.AbsolutePath {
+				continue
+			}
+			project.ProjectDependencies = append(project.ProjectDependencies, referenceProject)
+			found = true
+			break
+		}
+
+		if !found {
+			logging.LogInfoMultiline("Failed to find project reference",
+				"Absolute Path: "+absolutePath,
+				"Project Name: "+project.Name)
+		}
+	}
 }
 
 func linkProjectSolutions(solution *projectmodel.MsBuildSolution, projects []projectmodel.MsBuildProject) {
-	// TODO: Implement this bitch
+	for _, project := range projects {
+		found := false
+		for _, projectPath := range solution.RelativeProjectPaths { //TODO: Change to absolute path
+			if projectPath != project.AbsolutePath {
+				continue
+			}
+			project.SolutionParents = append(project.SolutionParents, *solution)
+			solution.Projects = append(solution.Projects, project)
+			found = true
+			break
+		}
+
+		if !found {
+			logging.LogInfoMultiline("Failed to link solution",
+				"Solution Name: "+solution.Name,
+				"Project Name: "+project.Name)
+		}
+	}
 }
 
-func populateAbsoluteProjectPaths(projects []projectmodel.MsBuildProject, graph fileutil.FileGraph) {
+func resolveProjectReferencePaths(projects []projectmodel.MsBuildProject, graph fileutil.FileGraph) {
 	for _, project := range projects {
 		for _, relativeProjectPath := range project.RelativeProjectReferencePaths {
 			fileGraphItem, err := graph.GetItemByRelativePath(project.AbsolutePath, relativeProjectPath)
