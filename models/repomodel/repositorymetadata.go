@@ -8,13 +8,6 @@ import (
 	"fmt"
 )
 
-type SourceControlProviderType int
-
-const (
-	AzureDevOps SourceControlProviderType = 0
-	Github      SourceControlProviderType = 1
-)
-
 type RepositoryMetadata struct {
 	Name        string
 	Branch      string
@@ -58,32 +51,4 @@ func (rm RepositoryMetadata) String() string {
 		rm.Name,
 		rm.Branch,
 		rm.OptionalUrl)
-}
-
-type RepositoryFileMetadata struct {
-	Repo   string
-	Branch string
-	Name   string
-	File   filesysmodel.FileSystemMetadata
-}
-
-func NewRepositoryFileMetadata(
-	repo string,
-	branch string,
-	name string,
-	file filesysmodel.FileSystemMetadata) RepositoryFileMetadata {
-	return RepositoryFileMetadata{Repo: repo, Branch: branch, Name: name, File: file}
-}
-
-type RepositoryPackage struct {
-	Metadata []RepositoryMetadata
-	Type     SourceControlProviderType
-}
-
-func NewRepositoryPackage() *RepositoryPackage {
-	return &RepositoryPackage{Metadata: make([]RepositoryMetadata, 0), Type: AzureDevOps}
-}
-
-type RepositoryAmalgamation struct {
-	Packages []RepositoryPackage
 }
