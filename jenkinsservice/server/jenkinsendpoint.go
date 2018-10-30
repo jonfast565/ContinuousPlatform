@@ -13,28 +13,6 @@ import (
 	"strings"
 )
 
-type JenkinsConfiguration struct {
-	Port               int    `json:"port"`
-	JenkinsScheme      string `json:"jenkinsScheme"`
-	JenkinsHost        string `json:"jenkinsHost"`
-	JenkinsPort        string `json:"jenkinsPort"`
-	JenkinsUsername    string `json:"jenkinsUsername"`
-	JenkinsAccessToken string `json:"jenkinsAccessToken"`
-	FolderTemplatePath string `json:"folderTemplatePath"`
-}
-
-func (jc *JenkinsConfiguration) GetJenkinsUrl() string {
-	myUrl := webutil.NewEmptyUrl()
-	myUrl.SetBase(jc.JenkinsScheme, jc.JenkinsHost, jc.JenkinsPort)
-	return myUrl.GetBasePath()
-}
-
-func (jc *JenkinsConfiguration) GetJenkinsUrlObject() *webutil.MyUrl {
-	myUrl := webutil.NewEmptyUrl()
-	myUrl.SetBase(jc.JenkinsScheme, jc.JenkinsHost, jc.JenkinsPort)
-	return &myUrl
-}
-
 type JenkinsEndpoint struct {
 	configuration JenkinsConfiguration
 	client        http.Client
@@ -221,7 +199,6 @@ func (je *JenkinsEndpoint) buildCreateFolderUrl(request jenkinsmodel.JenkinsJobR
 	return createFolderPath.GetUrlStringValue()
 }
 
-// obsolete?
 func (je *JenkinsEndpoint) buildCheckUrl(request jenkinsmodel.JenkinsJobRequest) string {
 	createUpdatePath := je.configuration.GetJenkinsUrlObject()
 	createUpdatePath.AppendPathFragments(request.GetParentJobFragments())
