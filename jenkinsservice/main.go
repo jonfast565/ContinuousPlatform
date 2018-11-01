@@ -8,7 +8,6 @@ import (
 	"../networking"
 	"./server"
 	"github.com/gorilla/mux"
-	"log"
 	"net/http"
 )
 
@@ -35,7 +34,7 @@ func main() {
 
 	localPort := networking.GetLocalPort(configuration.Port)
 	logging.LogContentService(localPort)
-	log.Fatal(http.ListenAndServe(localPort, router))
+	logging.LogFatal(http.ListenAndServe(localPort, router))
 	logging.LogApplicationEnd()
 }
 
