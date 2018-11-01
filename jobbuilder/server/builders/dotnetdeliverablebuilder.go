@@ -57,7 +57,7 @@ func BuildDotNetDeliverables(metadata repomodel.RepositoryMetadata,
 	}
 
 	var solutions []projectmodel.MsBuildSolution
-	getSolutionList(solutionPaths, metadata, repoClient, msBuildClient, solutions)
+	getSolutionList(solutionPaths, metadata, repoClient, msBuildClient, solutions, fileGraph)
 
 	var projects []projectmodel.MsBuildProject
 	getProjectList(projectPaths, metadata, repoClient, msBuildClient, projects)
@@ -104,7 +104,7 @@ func resolveProjectDependencies(project *projectmodel.MsBuildProject, projects [
 func linkProjectSolutions(solution *projectmodel.MsBuildSolution, projects []projectmodel.MsBuildProject) {
 	for _, project := range projects {
 		found := false
-		for _, projectPath := range solution.RelativeProjectPaths { //TODO: Change to absolute path
+		for _, projectPath := range solution.AbsoluteProjectPaths {
 			if projectPath != project.AbsolutePath {
 				continue
 			}
@@ -143,10 +143,17 @@ func getSolutionList(solutionPaths []string,
 	metadata repomodel.RepositoryMetadata,
 	repoClient repoclient.RepoClient,
 	msBuildClient msbuildclient.MsBuildClient,
-	solutions []projectmodel.MsBuildSolution) {
+	solutions []projectmodel.MsBuildSolution,
+	f fileutil.FileGraph) {
 	for _, solutionPath := range solutionPaths {
 		solution := getSolutionFromSourceControl(metadata, solutionPath, repoClient, msBuildClient)
 		solutions = append(solutions, *solution)
+		prettyPaths, err := f.PrettifyPaths(solution.RelativeProjectPaths)
+		if err != nil {
+			// not comfortable here...
+			logging.LogPanicRecover(err)
+		}
+		solution.AbsoluteProjectPaths = prettyPaths
 	}
 }
 

@@ -68,13 +68,14 @@ func LogInfo(logLine string) {
 	log.Printf("[Info] %s", logLine)
 }
 
-func LogFatal(logLine string) {
-	log.Printf("[Fatal] %s", logLine)
+func LogFatal(error interface{}) {
+	log.Printf("[Jack the Ripper] %s", error)
+	log.Printf("[Stack Dump] %s", errors.Wrap(error, 0).ErrorStack())
 }
 
 func LogPanicRecover(error interface{}) {
 	log.Printf("[Error] %s", error)
-	log.Printf("[Trace] %s", errors.Wrap(error, 0).ErrorStack())
+	log.Printf("[Stack Dump] %s", errors.Wrap(error, 0).ErrorStack())
 }
 
 func LogInfoMultiline(logLines ...string) {
