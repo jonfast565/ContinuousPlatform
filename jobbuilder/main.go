@@ -8,7 +8,6 @@ import (
 	"../networking"
 	"./server"
 	"github.com/gorilla/mux"
-	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -55,7 +54,7 @@ func main() {
 							controller.BuildDeliverables.TriggerJob()
 							if configuration.ChangeRateLimiting {
 								//logging.LogInfo("Rate limit wait time: " +
-									// strconv.Itoa(configuration.ChangeRateLimit) + "s")
+								// strconv.Itoa(configuration.ChangeRateLimit) + "s")
 								//rateLimitDuration := time.Duration(configuration.ChangeRateLimit)
 								//time.Sleep(rateLimitDuration * time.Second)
 							}
@@ -115,7 +114,7 @@ func main() {
 
 	localPort := networking.GetLocalPort(configuration.Port)
 	logging.LogContentService(localPort)
-	log.Fatal(http.ListenAndServe(localPort, router))
+	logging.LogFatal(http.ListenAndServe(localPort, router))
 
 	quit <- true
 	logging.LogApplicationEnd()
