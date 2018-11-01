@@ -98,6 +98,7 @@ func LogError(err error) {
 	} else {
 		log.Printf("[Error] %s", err.Error())
 	}
+	log.Printf("[Stack Dump] %s", errors.Wrap(err, 0).ErrorStack())
 }
 
 func LogMapPretty(message string, theMap map[string]interface{}) {
