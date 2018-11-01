@@ -3,13 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="push different models out into files. need to complete this work in the near future.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fileutil/filegraph.go" beforeDir="false" afterPath="$PROJECT_DIR$/fileutil/filegraph.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/builders/dotnetdeliverablebuilder.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/builders/dotnetdeliverablebuilder.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logging/logging.go" beforeDir="false" afterPath="$PROJECT_DIR$/logging/logging.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/projectmodel/msbuildsolution.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/projectmodel/msbuildsolution.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/persistenceservice/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/appsettings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reposervice/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/reposervice/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reposervice/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/reposervice/server/server.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -65,16 +61,16 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gitignore" value="9" />
-          <entry key="go" value="53549" />
+          <entry key="go" value="53553" />
           <entry key="json" value="739" />
-          <entry key="txt" value="1515" />
+          <entry key="txt" value="1564" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="53549" />
+          <entry key="Go" value="53553" />
           <entry key="JSON" value="739" />
-          <entry key="PLAIN_TEXT" value="1524" />
+          <entry key="PLAIN_TEXT" value="1573" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.go.postfix.template.usages.trigger">
@@ -98,8 +94,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/logging/logging.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="71" column="32" selection-start-line="71" selection-start-column="32" selection-end-line="71" selection-end-column="32" />
+            <state relative-caret-position="487">
+              <caret line="97" column="12" lean-forward="true" selection-start-line="97" selection-start-column="12" selection-end-line="97" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -433,7 +429,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="added more code" />
     <MESSAGE value="jenkins service basic functionality" />
     <MESSAGE value="updated jenkins service with filler params." />
     <MESSAGE value="updated service messages" />
@@ -458,7 +453,8 @@
     <MESSAGE value="partial deliverable builder implementation" />
     <MESSAGE value="push different models out into files. need to complete this work in the near future." />
     <MESSAGE value="added incorrect solution linking code." />
-    <option name="LAST_COMMIT_MESSAGE" value="added incorrect solution linking code." />
+    <MESSAGE value="fatals more descriptive. updated pathing algs." />
+    <option name="LAST_COMMIT_MESSAGE" value="fatals more descriptive. updated pathing algs." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -798,8 +794,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/logging/logging.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="71" column="32" selection-start-line="71" selection-start-column="32" selection-end-line="71" selection-end-column="32" />
+        <state relative-caret-position="487">
+          <caret line="97" column="12" lean-forward="true" selection-start-line="97" selection-start-column="12" selection-end-line="97" selection-end-column="12" />
         </state>
       </provider>
     </entry>
