@@ -18,6 +18,18 @@ func NewFileGraph() *FileGraph {
 			Parent:       nil}}
 }
 
+func (f *FileGraph) PrettifyPaths(paths []string) ([]string, error) {
+	var result []string
+	for _, path := range paths {
+		itemRoot, err := f.GetItemByRootPath(path)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, (*itemRoot).GetPathString())
+	}
+	return result, nil
+}
+
 func (f *FileGraph) NewChildFolders(pathFragments []string) {
 	f.Root.NewChildFolderChain(pathFragments)
 }
