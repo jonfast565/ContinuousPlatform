@@ -79,7 +79,7 @@ func (e *TeamServicesEndpoint) getRepositoryBranches(
 	defer wg.Done()
 	branches, err := e.getBranchInformation(repository)
 	if err != nil {
-		logging.LogFatal(err.Error())
+		logging.LogFatal(err)
 		panic("Branch information not retrieved")
 	}
 	wg.Add(len(branches.Value))
@@ -100,7 +100,7 @@ func (e *TeamServicesEndpoint) getRepositoryBranchFiles(
 	defer wg.Done()
 	files, err := e.getBranchFileList(repository, branch)
 	if err != nil {
-		logging.LogFatal(err.Error())
+		logging.LogFatal(err)
 		panic("Files not retrieved")
 	}
 	result := e.buildRepositoryMetadata(repository, branch, files)
