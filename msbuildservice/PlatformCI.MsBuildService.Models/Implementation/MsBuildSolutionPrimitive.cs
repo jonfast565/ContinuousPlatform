@@ -7,7 +7,7 @@ namespace PlatformCI.MsBuildService.Models.Implementation
     public class MsBuildSolutionPrimitive
     {
         public ICollection<string> Configurations { get; set; }
-        public ICollection<string> ProjectRelativePaths { get; set; }
+        public ICollection<string> RelativeProjectPaths { get; set; }
 
         public string Name { get; set; }
         public bool Failed { get; set; }
