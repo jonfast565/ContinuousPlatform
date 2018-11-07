@@ -33,7 +33,7 @@ namespace PlatformCI.MsBuildService.Driver.Statics
                 {
                     Name = solutionName,
                     Configurations = configurations,
-                    ProjectRelativePaths = relativePaths
+                    RelativeProjectPaths = relativePaths
                 };
             }
             catch (Exception e) when
