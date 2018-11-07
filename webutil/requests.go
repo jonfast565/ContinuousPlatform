@@ -82,7 +82,6 @@ func ExecuteRequestAndReadStringBody(c *http.Client, r *http.Request) (*string, 
 	}
 
 	// build a string and return
-	// TODO: Ensure correctness
 	builder := strings.Builder{}
 	builder.Write(resultBytes)
 	var s string

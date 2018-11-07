@@ -7,8 +7,8 @@ type MsBuildProject struct {
 	AbsolutePath                  string
 	RelativeProjectReferencePaths []string
 	AbsoluteProjectReferencePaths []string
-	ProjectDependencies           []MsBuildProject
-	SolutionParents               []MsBuildSolution
+	ProjectDependencies           []*MsBuildProject
+	SolutionParents               []*MsBuildSolution
 	IsNetCoreProject              bool
 	Name                          string
 	Failed                        bool

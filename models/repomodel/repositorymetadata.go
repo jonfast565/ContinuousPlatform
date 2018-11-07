@@ -19,10 +19,15 @@ func (rm RepositoryMetadata) BuildGraph() *fileutil.FileGraph {
 	fg := fileutil.NewFileGraph()
 	for _, file := range rm.Files {
 		pp := pathutil.NewPathParserFromString(file.Path)
-		fileItem := pp.GetLastItem()
-		stringFrag := pp.GetPreviousItems()
-		newFolder := fg.Root.NewChildFolderChain(stringFrag)
-		newFolder.NewChildFile(fileItem, []byte{})
+		if file.Type == filesysmodel.FolderType {
+			folderChain := pp.GetAllItems()
+			fg.Root.NewChildFolderChain(folderChain)
+		} else if file.Type == filesysmodel.FileType {
+			fileItem := pp.GetLastItem()
+			stringFrag := pp.GetPreviousItems()
+			newFolder := fg.Root.NewChildFolderChain(stringFrag)
+			newFolder.NewChildFile(fileItem, []byte{})
+		}
 	}
 	return fg
 }
