@@ -49,14 +49,19 @@ func main() {
 							logging.LogInfo("Changes detected. Building deliverables")
 							controller.BuildDeliverables.TriggerJob()
 						} else {
-							logging.LogInfo("No changes detected. Initiating change cycle again")
-							// controller.DetectChanges.TriggerJob()
-							controller.BuildDeliverables.TriggerJob()
-							if configuration.ChangeRateLimiting {
-								//logging.LogInfo("Rate limit wait time: " +
-								// strconv.Itoa(configuration.ChangeRateLimit) + "s")
-								//rateLimitDuration := time.Duration(configuration.ChangeRateLimit)
-								//time.Sleep(rateLimitDuration * time.Second)
+							if configuration.ProceedDespiteNoChanges {
+								logging.LogInfo("Change override set. Proceeding despite no changes")
+								controller.BuildDeliverables.TriggerJob()
+							} else {
+								logging.LogInfo("No changes detected. Initiating change cycle again")
+								controller.DetectChanges.TriggerJob()
+
+								if configuration.ChangeRateLimiting {
+									logging.LogInfo("Rate limit wait time: " +
+										strconv.Itoa(configuration.ChangeRateLimit) + "s")
+									rateLimitDuration := time.Duration(configuration.ChangeRateLimit)
+									time.Sleep(rateLimitDuration * time.Second)
+								}
 							}
 						}
 					}

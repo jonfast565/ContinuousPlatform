@@ -35,7 +35,8 @@ func (f FileGraphFolder) GetName() string {
 func (f FileGraphFolder) NavigateChildFolder(name string) (*FileGraphItem, error) {
 	for _, folder := range f.ChildFolders {
 		if folder.Name == name {
-			item := FileGraphItem(folder)
+			folderItem := *folder
+			item := FileGraphItem(folderItem)
 			return &item, nil
 		}
 	}
@@ -45,7 +46,8 @@ func (f FileGraphFolder) NavigateChildFolder(name string) (*FileGraphItem, error
 func (f FileGraphFolder) NavigateChildFile(name string) (*FileGraphItem, error) {
 	for _, file := range f.ChildFiles {
 		if file.Name == name {
-			item := FileGraphItem(file)
+			fileItem := *file
+			item := FileGraphItem(fileItem)
 			return &item, nil
 		}
 	}
@@ -56,15 +58,21 @@ func (f FileGraphFolder) GetPathString() string {
 	var result string
 	currentNode := &f
 	for {
+		// obvs, but this edge case may not exist
+		if currentNode == nil {
+			break
+		}
+		// result can't be nil either
 		if result != "" {
 			result = currentNode.Name + "/" + result
 		} else {
 			result = currentNode.Name
 		}
-		if f.Parent == nil {
+		// parent can't be nil, or else string will run forever
+		if currentNode.Parent == nil {
 			break
 		} else {
-			currentNode = f.Parent
+			currentNode = currentNode.Parent
 		}
 	}
 	return result
@@ -83,7 +91,7 @@ func (f *FileGraphFolder) NewChildFolderNavigate(name string) *FileGraphFolder {
 	}
 
 	childFolderFilterFunc := func(f2 *FileGraphFolder) bool {
-		return f2.Name == f.Name
+		return f2.Name == name
 	}
 
 	existingChildFolder := linq.From(f.ChildFolders).

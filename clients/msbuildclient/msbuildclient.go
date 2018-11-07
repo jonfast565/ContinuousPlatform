@@ -29,7 +29,7 @@ type MsBuildClient struct {
 func NewMsBuildClient() MsBuildClient {
 	var config ClientConfiguration
 	jsonutil.DecodeJsonFromFile(SettingsFilePath, &config)
-	return MsBuildClient{configuration: config, client: http.Client{}}
+	return MsBuildClient{configuration: config, client: http.Client{Timeout: constants.ClientTimeout}}
 }
 
 func (msbc MsBuildClient) GetSolution(
