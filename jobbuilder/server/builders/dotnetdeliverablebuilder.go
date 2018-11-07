@@ -51,36 +51,68 @@ func BuildDotNetDeliverables(metadata repomodel.RepositoryMetadata,
 		return results, nil
 	}
 
-	publishProfilePaths, err := getPublishProfilePaths(metadata)
-	if err != nil {
-		return nil, err
-	}
+	//publishProfilePaths, err := getPublishProfilePaths(metadata)
+	//if err != nil {
+	//	return nil, err
+	//}
 
-	var solutions []projectmodel.MsBuildSolution
-	getSolutionList(solutionPaths, metadata, repoClient, msBuildClient, solutions, fileGraph)
-
-	var projects []projectmodel.MsBuildProject
-	getProjectList(projectPaths, metadata, repoClient, msBuildClient, projects)
-
-	var publishProfiles []projectmodel.MsBuildPublishProfile
-	getPublishProfileList(publishProfilePaths, metadata, repoClient, msBuildClient, publishProfiles)
+	solutions := getSolutionList(solutionPaths, metadata, repoClient, msBuildClient, fileGraph)
+	projects := getProjectList(projectPaths, metadata, repoClient, msBuildClient)
+	// getPublishProfileList(publishProfilePaths, metadata, repoClient, msBuildClient)
 
 	resolveProjectReferencePaths(projects, fileGraph)
+	resolveSolutionReferencePaths(solutions, projects, fileGraph)
 
 	for _, project := range projects {
-		resolveProjectDependencies(&project, projects)
+		resolveProjectDependencies(project, projects)
 	}
 
 	for _, solution := range solutions {
-		linkProjectSolutions(&solution, projects)
+		linkProjectSolutions(solution, projects)
 	}
 
 	logging.LogInfo("Done building .NET deliverables for " + metadata.Name + " b. " + metadata.Branch)
 	return results, nil
 }
 
-func resolveProjectDependencies(project *projectmodel.MsBuildProject, projects []projectmodel.MsBuildProject) {
+func resolveSolutionReferencePaths(
+	solutions []*projectmodel.MsBuildSolution,
+	projects []*projectmodel.MsBuildProject,
+	graph fileutil.FileGraph) {
+	for _, solution := range solutions {
+		solution.AbsoluteProjectPaths = make([]string, 0)
+		for _, relativeProjectPath := range solution.RelativeProjectPaths {
+			rootItem, err := graph.GetItemByRootPath(relativeProjectPath)
+			if err != nil {
+				logging.LogInfoMultiline("Could not find project at path.",
+					"Path: "+relativeProjectPath,
+					"Error: "+err.Error())
+				continue
+			}
+			rootPath := (*rootItem).GetPathString()
+			solution.AbsoluteProjectPaths = append(solution.AbsoluteProjectPaths, rootPath)
+			found := false
+			for _, project := range projects {
+				if rootPath != project.AbsolutePath {
+					continue
+				}
+				solution.Projects = append(solution.Projects, project)
+				found = true
+				break
+			}
+
+			if !found {
+				logging.LogInfoMultiline("Failed to find solution reference",
+					"Project Path: "+rootPath,
+					"Solution Name: "+solution.Name)
+			}
+		}
+	}
+}
+
+func resolveProjectDependencies(project *projectmodel.MsBuildProject, projects []*projectmodel.MsBuildProject) {
 	logging.LogInfo("Resolving dependencies for: " + project.Name)
+	project.ProjectDependencies = make([]*projectmodel.MsBuildProject, 0)
 	for _, absolutePath := range project.AbsoluteProjectReferencePaths {
 		found := false
 		for _, referenceProject := range projects {
@@ -101,36 +133,48 @@ func resolveProjectDependencies(project *projectmodel.MsBuildProject, projects [
 	}
 }
 
-func linkProjectSolutions(solution *projectmodel.MsBuildSolution, projects []projectmodel.MsBuildProject) {
+func linkProjectSolutions(solution *projectmodel.MsBuildSolution, projects []*projectmodel.MsBuildProject) {
 	for _, project := range projects {
 		found := false
 		for _, projectPath := range solution.AbsoluteProjectPaths {
 			if projectPath != project.AbsolutePath {
 				continue
 			}
-			project.SolutionParents = append(project.SolutionParents, *solution)
+			project.SolutionParents = append(project.SolutionParents, solution)
 			solution.Projects = append(solution.Projects, project)
 			found = true
 			break
 		}
 
 		if !found {
-			logging.LogInfoMultiline("Failed to link solution",
+			logging.LogInfoMultiline("Failed to link solution to project. Project not found.",
 				"Solution Name: "+solution.Name,
 				"Project Name: "+project.Name)
 		}
 	}
 }
 
-func resolveProjectReferencePaths(projects []projectmodel.MsBuildProject, graph fileutil.FileGraph) {
+func resolveProjectReferencePaths(projects []*projectmodel.MsBuildProject, graph fileutil.FileGraph) {
 	for _, project := range projects {
+		project.AbsoluteProjectReferencePaths = make([]string, 0)
 		for _, relativeProjectPath := range project.RelativeProjectReferencePaths {
-			fileGraphItem, err := graph.GetItemByRelativePath(project.AbsolutePath, relativeProjectPath)
+			rootItem, err := graph.GetItemByRootPath(project.AbsolutePath)
 			if err != nil {
 				logging.LogInfoMultiline("Could not find project path. Ignoring.",
 					"Project Name: "+project.Name,
 					"Path: "+relativeProjectPath,
 					"Error: "+err.Error())
+				continue
+			}
+			rootParent := (*rootItem).GetParent()
+			rootPath := (*rootParent).GetPathString()
+			fileGraphItem, err := graph.GetItemByRelativePath(rootPath, relativeProjectPath)
+			if err != nil {
+				logging.LogInfoMultiline("Could not find relative project path. Ignoring.",
+					"Project Name: "+project.Name,
+					"Path: "+relativeProjectPath,
+					"Error: "+err.Error())
+				continue
 			} else {
 				pathOfItem := (*fileGraphItem).GetPathString()
 				project.AbsoluteProjectReferencePaths = append(project.AbsoluteProjectReferencePaths, pathOfItem)
@@ -143,40 +187,44 @@ func getSolutionList(solutionPaths []string,
 	metadata repomodel.RepositoryMetadata,
 	repoClient repoclient.RepoClient,
 	msBuildClient msbuildclient.MsBuildClient,
-	solutions []projectmodel.MsBuildSolution,
-	f fileutil.FileGraph) {
+	f fileutil.FileGraph) []*projectmodel.MsBuildSolution {
+	var solutions []*projectmodel.MsBuildSolution
 	for _, solutionPath := range solutionPaths {
 		solution := getSolutionFromSourceControl(metadata, solutionPath, repoClient, msBuildClient)
-		solutions = append(solutions, *solution)
+		solution.AbsolutePath = solutionPath
+		solutions = append(solutions, solution)
 		prettyPaths, err := f.PrettifyPaths(solution.RelativeProjectPaths)
 		if err != nil {
-			// not comfortable here...
-			logging.LogPanicRecover(err)
+			panic(err)
 		}
 		solution.AbsoluteProjectPaths = prettyPaths
 	}
+	return solutions
 }
 
 func getProjectList(projectPaths []string,
 	metadata repomodel.RepositoryMetadata,
 	repoClient repoclient.RepoClient,
-	msBuildClient msbuildclient.MsBuildClient,
-	projects []projectmodel.MsBuildProject) {
+	msBuildClient msbuildclient.MsBuildClient) []*projectmodel.MsBuildProject {
+	var projects []*projectmodel.MsBuildProject
 	for _, projectPath := range projectPaths {
 		project := getProjectFromSourceControl(metadata, projectPath, repoClient, msBuildClient)
-		projects = append(projects, *project)
+		project.AbsolutePath = projectPath
+		projects = append(projects, project)
 	}
+	return projects
 }
 
 func getPublishProfileList(publishProfilePaths []string,
 	metadata repomodel.RepositoryMetadata,
 	repoClient repoclient.RepoClient,
-	msBuildClient msbuildclient.MsBuildClient,
-	publishProfiles []projectmodel.MsBuildPublishProfile) {
+	msBuildClient msbuildclient.MsBuildClient) []*projectmodel.MsBuildPublishProfile {
+	var publishProfiles []*projectmodel.MsBuildPublishProfile
 	for _, publishProfilePath := range publishProfilePaths {
 		publishProfile := getPublishProfileFromSourceControl(metadata, publishProfilePath, repoClient, msBuildClient)
-		publishProfiles = append(publishProfiles, *publishProfile)
+		publishProfiles = append(publishProfiles, publishProfile)
 	}
+	return publishProfiles
 }
 
 // TODO: Implement in processing loop

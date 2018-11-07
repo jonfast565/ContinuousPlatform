@@ -5,7 +5,7 @@ type MsBuildSolution struct {
 	AbsolutePath         string
 	RelativeProjectPaths []string
 	AbsoluteProjectPaths []string
-	Projects             []MsBuildProject
+	Projects             []*MsBuildProject
 	Name                 string
 	Failed               bool
 	Exception            DotNetException

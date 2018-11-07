@@ -29,7 +29,7 @@ type RepoClient struct {
 func NewRepoClient() RepoClient {
 	var config ClientConfiguration
 	jsonutil.DecodeJsonFromFile(SettingsFilePath, &config)
-	return RepoClient{configuration: config, client: http.Client{}}
+	return RepoClient{configuration: config, client: http.Client{Timeout: constants.ClientTimeout}}
 }
 
 func (rc RepoClient) GetRepositories() (*repomodel.RepositoryPackage, error) {

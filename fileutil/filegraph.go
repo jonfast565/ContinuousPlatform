@@ -36,7 +36,8 @@ func (f *FileGraph) NewChildFolders(pathFragments []string) {
 
 func (f *FileGraph) GetItemByRootPath(basePath string) (*FileGraphItem, error) {
 	item := FileGraphItem(f.Root)
-	return GetItemByRelativePath(&item, basePath)
+	itemByRelativePath, err := GetItemByRelativePath(&item, basePath)
+	return itemByRelativePath, err
 }
 
 func GetItemByRelativePath(item *FileGraphItem, basePath string) (*FileGraphItem, error) {
@@ -51,7 +52,7 @@ func GetItemByRelativePath(item *FileGraphItem, basePath string) (*FileGraphItem
 				return nil, errors.New("Navigating to parent of '" + (*currentNode).GetName() +
 					"' goes off the root of the graph")
 			}
-			currentNode = (*currentNode).GetParent()
+			currentNode = parent
 		} else {
 			file, _ := (*currentNode).NavigateChildFile(action.Name)
 			folder, _ := (*currentNode).NavigateChildFolder(action.Name)

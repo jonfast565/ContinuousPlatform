@@ -8,6 +8,7 @@ import (
 // path constants
 const goBack string = ".."
 const stay string = "."
+
 var pathSplitterChar = '/'
 
 func NormalizePath(str string) string {
@@ -18,8 +19,6 @@ func NormalizePath(str string) string {
 type PathAction struct {
 	Name string
 }
-
-
 
 type PathParser struct {
 	ActionSeries *[]PathAction
@@ -55,10 +54,10 @@ func (parser *PathParser) SetActionSeries(path string) {
 	for _, pathPart := range splitPath {
 		switch pathPart {
 		case goBack:
-			items = append(items, PathAction{Name:".."})
+			items = append(items, PathAction{Name: ".."})
 			break
 		case stay:
-			items = append(items, PathAction{Name:"."})
+			items = append(items, PathAction{Name: "."})
 			break
 		default:
 			items = append(items, PathAction{Name: pathPart})
@@ -83,6 +82,17 @@ func (parser *PathParser) GetLastItem() string {
 	}
 }
 
+func (parser *PathParser) GetAllItems() []string {
+	results := linq.From(*parser.ActionSeries).SelectT(
+		func(iterator PathAction) string {
+			return iterator.Name
+		})
+
+	var result []string
+	results.ToSlice(&result)
+	return result
+}
+
 func (parser *PathParser) GetPreviousItems() []string {
 	results := linq.From(*parser.ActionSeries).SelectT(
 		func(iterator PathAction) string {
@@ -91,8 +101,12 @@ func (parser *PathParser) GetPreviousItems() []string {
 
 	var result []string
 	results.ToSlice(&result)
-	sliceLast := result[:len(result) - 1]
-	return sliceLast
+	if len(result)-1 == 0 {
+		return []string{}
+	} else {
+		sliceLast := result[:len(result)-1]
+		return sliceLast
+	}
 }
 
 func (parser *PathParser) GetPathString(includeStartDelimiter bool) string {

@@ -29,7 +29,7 @@ type PersistenceClient struct {
 func NewPersistenceClient() PersistenceClient {
 	var config ClientConfiguration
 	jsonutil.DecodeJsonFromFile(SettingsFilePath, &config)
-	return PersistenceClient{configuration: config, client: http.Client{}}
+	return PersistenceClient{configuration: config, client: http.Client{Timeout: constants.ClientTimeout}}
 }
 
 func (pc PersistenceClient) GetKeyValueCache(key string) ([]byte, error) {
