@@ -2,7 +2,6 @@ package constants
 
 import "net/url"
 
-// TODO: Change functionality to use MyURL struct
 func GetApiFilesPath(collectionUrl string,
 	projectName string,
 	repositoryId string,
@@ -14,6 +13,7 @@ func GetApiFilesPath(collectionUrl string,
 	} else {
 		scopePath = optionalScopePath
 	}
+	// TODO: Change functionality to use MyURL struct
 	//myUrl := webutil.NewEmptyUrl()
 	//myUrl.AppendPathFragments([]string {projectName, "_apis", "git", "repositories", repositoryId, "items"})
 	return collectionUrl + "/" + projectName + RepositoryApiSubpath + "/" +

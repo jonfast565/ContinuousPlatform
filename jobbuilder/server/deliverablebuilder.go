@@ -21,7 +21,7 @@ func BuildDeliverables(details *jobmodel.JobDetails) {
 	}
 
 	// TODO: Needs to be a concurrent routine
-	var dotNetDeliverables []projectmodel.DotNetDeliverable
+	var dotNetDeliverables []*projectmodel.DotNetDeliverable
 	for _, repository := range repositories.Metadata {
 		// only build graph once for multiple runs
 		logging.LogInfo("Building repo graph for " + repository.Name + " b. " + repository.Branch)
