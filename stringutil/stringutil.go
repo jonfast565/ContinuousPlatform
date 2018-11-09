@@ -40,6 +40,15 @@ func CompileStringsAsRegexes(regexStrings []string) ([]regexp.Regexp, error) {
 	return results, nil
 }
 
+func StringMatchesOneOfRegStr(value string, comparators []string) (bool, error) {
+	compiledRegexes, err := CompileStringsAsRegexes(comparators)
+	if err != nil {
+		return false, err
+	}
+	match := StringMatchesOneOf(value, compiledRegexes)
+	return match, nil
+}
+
 func StringMatchesOneOf(value string, comparators []regexp.Regexp) bool {
 	for _, comparator := range comparators {
 		if comparator.Match([]byte(value)) {

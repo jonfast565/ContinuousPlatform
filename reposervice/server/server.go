@@ -78,10 +78,12 @@ func (e *TeamServicesEndpoint) getRepositoryBranches(
 	resultsChannel chan repomodel.RepositoryMetadata) {
 	defer wg.Done()
 	branches, err := e.getBranchInformation(repository)
+
 	if err != nil {
 		logging.LogFatal(err)
 		panic("Branch information not retrieved")
 	}
+
 	wg.Add(len(branches.Value))
 	for _, branch := range branches.Value {
 		if !isValidBranch(branch) {
@@ -99,16 +101,19 @@ func (e *TeamServicesEndpoint) getRepositoryBranchFiles(
 	resultsChannel chan repomodel.RepositoryMetadata) {
 	defer wg.Done()
 	files, err := e.getBranchFileList(repository, branch)
+
 	if err != nil {
 		logging.LogFatal(err)
 		panic("Files not retrieved")
 	}
+
 	result := e.buildRepositoryMetadata(repository, branch, files)
 	logging.LogInfoMultiline("Repository metadata built: ",
 		fmt.Sprintf("Repo: %s", result.Name),
 		fmt.Sprintf("Branch: %s", result.Branch),
 		fmt.Sprintf("Url: %s", result.OptionalUrl),
 	)
+
 	go func() { resultsChannel <- result }()
 }
 

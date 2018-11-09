@@ -5,6 +5,7 @@ type MsBuildProject struct {
 	DefaultNamespace              string
 	AssemblyName                  string
 	AbsolutePath                  string
+	FolderPath                    string
 	RelativeProjectReferencePaths []string
 	AbsoluteProjectReferencePaths []string
 	ProjectDependencies           []*MsBuildProject

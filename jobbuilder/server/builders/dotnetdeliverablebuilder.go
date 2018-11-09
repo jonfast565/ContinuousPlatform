@@ -8,6 +8,8 @@ import (
 	"../../../models/filesysmodel"
 	"../../../models/projectmodel"
 	"../../../models/repomodel"
+	"../../../stringutil"
+	"github.com/ahmetb/go-linq"
 )
 
 var ValidProjectExtensions = []string{
@@ -24,67 +26,210 @@ var ValidPublishProfileExtensions = []string{
 	`^.*\.pubxml$`,
 }
 
-func BuildDotNetDeliverables(metadata repomodel.RepositoryMetadata,
-	fileGraph fileutil.FileGraph) ([]projectmodel.DotNetDeliverable, error) {
-	results := make([]projectmodel.DotNetDeliverable, 0)
+type DotNetDeliverableBuildContext struct {
+	repoClient          repoclient.RepoClient
+	msBuildClient       msbuildclient.MsBuildClient
+	solutionPaths       []string
+	solutions           []*projectmodel.MsBuildSolution
+	projectPaths        []string
+	projects            []*projectmodel.MsBuildProject
+	publishProfilePaths []string
+	publishProfiles     []*projectmodel.MsBuildPublishProfile
+	fileGraph           fileutil.FileGraph
+	metadata            repomodel.RepositoryMetadata
+}
 
-	repoClient := repoclient.NewRepoClient()
-	msBuildClient := msbuildclient.NewMsBuildClient()
+func NewDotNetDeliverableBuildContext(metadata repomodel.RepositoryMetadata,
+	f fileutil.FileGraph) *DotNetDeliverableBuildContext {
+	context := DotNetDeliverableBuildContext{
+		msBuildClient: msbuildclient.NewMsBuildClient(),
+		repoClient:    repoclient.NewRepoClient(),
+		fileGraph:     f,
+		metadata:      metadata,
+	}
+	return &context
+}
 
-	solutionPaths, err := getSolutionPaths(metadata)
+func (dndbc *DotNetDeliverableBuildContext) extractDeliverables() []*projectmodel.DotNetDeliverable {
+	results := make([]*projectmodel.DotNetDeliverable, 0)
+	for _, solution := range dndbc.solutions {
+		for _, project := range solution.Projects {
+			results = append(results, &projectmodel.DotNetDeliverable{
+				Repository: dndbc.metadata.Name,
+				Branch:     dndbc.metadata.Branch,
+				Solution:   solution,
+				Project:    project,
+			})
+		}
+	}
+	return results
+}
+
+func (dndbc *DotNetDeliverableBuildContext) BuildContext() ([]*projectmodel.DotNetDeliverable, error) {
+	err := dndbc.populatePaths()
 	if err != nil {
 		return nil, err
+	}
+	dndbc.populateSolutions()
+	dndbc.populateProjects()
+	dndbc.populatePublishProfiles()
+	dndbc.resolveProjectReferencePaths()
+	dndbc.resolveSolutionReferencePaths()
+	for _, project := range dndbc.projects {
+		dndbc.resolveProjectDependencies(project)
+	}
+	for _, solution := range dndbc.solutions {
+		dndbc.linkProjectSolutions(solution)
+	}
+	result := dndbc.extractDeliverables()
+	return result, nil
+}
+
+func (dndbc DotNetDeliverableBuildContext) GetContext() string {
+	return "[" + dndbc.metadata.Name + " b. " + dndbc.metadata.Branch + "] "
+}
+
+func (dndbc DotNetDeliverableBuildContext) LogInfoWithContext(logLine string) {
+	logging.LogInfo(dndbc.GetContext() + logLine)
+}
+
+func (dndbc DotNetDeliverableBuildContext) LogInfoMultilineWithContext(logLines ...string) {
+	contextLines := []string{"Context: " + dndbc.GetContext()}
+	contextLines = append(contextLines, logLines...)
+	logging.LogInfoMultiline(contextLines...)
+}
+
+func (dndbc DotNetDeliverableBuildContext) LogErrorWithContext(err error) {
+	logging.LogInfo(dndbc.GetContext() + err.Error())
+}
+
+func (dndbc *DotNetDeliverableBuildContext) populatePaths() error {
+	solutionPaths, err := getSolutionPaths(dndbc.metadata)
+	if err != nil {
+		return err
 	}
 
 	if len(solutionPaths) == 0 {
-		logging.LogInfo(metadata.Name + " b. " + metadata.Branch + " contains no solution files.")
-		return results, nil
+		dndbc.LogInfoWithContext("Repo contains no solution files.")
+		return nil
 	}
 
-	projectPaths, err := getProjectPaths(metadata)
+	projectPaths, err := getProjectPaths(dndbc.metadata)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	if len(projectPaths) == 0 {
-		logging.LogInfo(metadata.Name + " b. " + metadata.Branch + " contains no project files.")
-		return results, nil
+		dndbc.LogInfoWithContext("Repo contains no project files.")
+		return nil
 	}
 
-	//publishProfilePaths, err := getPublishProfilePaths(metadata)
-	//if err != nil {
-	//	return nil, err
-	//}
-
-	solutions := getSolutionList(solutionPaths, metadata, repoClient, msBuildClient, fileGraph)
-	projects := getProjectList(projectPaths, metadata, repoClient, msBuildClient)
-	// getPublishProfileList(publishProfilePaths, metadata, repoClient, msBuildClient)
-
-	resolveProjectReferencePaths(projects, fileGraph)
-	resolveSolutionReferencePaths(solutions, projects, fileGraph)
-
-	for _, project := range projects {
-		resolveProjectDependencies(project, projects)
+	publishProfilePaths, err := getPublishProfilePaths(dndbc.metadata)
+	if err != nil {
+		return err
 	}
 
-	for _, solution := range solutions {
-		linkProjectSolutions(solution, projects)
+	dndbc.solutionPaths = solutionPaths
+	dndbc.projectPaths = projectPaths
+	dndbc.publishProfilePaths = publishProfilePaths
+
+	return nil
+}
+
+func (dndbc *DotNetDeliverableBuildContext) populateSolutions() {
+	var solutions []*projectmodel.MsBuildSolution
+	for _, solutionPath := range dndbc.solutionPaths {
+		dndbc.LogInfoWithContext("Downloading solution: " + solutionPath)
+
+		solution := dndbc.getSolutionFromSourceControl(solutionPath)
+		solution.AbsolutePath = solutionPath
+		solutionFolderPath, err := dndbc.fileGraph.GetParentPath(solution.AbsolutePath)
+		if err != nil {
+			dndbc.LogInfoMultilineWithContext("Failed to find solution parent folder",
+				"What: "+err.Error(),
+				"Solution Name: "+solution.Name)
+		}
+		solution.FolderPath = *solutionFolderPath
+
+		// filter the unvalidated paths by project extension, to avoid solution folders
+		var relativePathsWithoutFolders []string
+		relativePathsWithoutFoldersQuery := linq.
+			From(solution.RelativeProjectPaths).
+			WhereT(func(path string) bool {
+				match, err := stringutil.StringMatchesOneOfRegStr(path, ValidProjectExtensions)
+				if err != nil {
+					return false
+				}
+				return match
+			})
+		relativePathsWithoutFoldersQuery.ToSlice(&relativePathsWithoutFolders)
+
+		prettyPaths, err := dndbc.fileGraph.ValidatePathsFromRoot(relativePathsWithoutFolders, true)
+		if err != nil {
+			dndbc.LogInfoMultilineWithContext("Failed to find a solution project",
+				"What: "+err.Error(),
+				"Solution Name: "+solution.Name)
+		}
+
+		solution.AbsoluteProjectPaths = prettyPaths
+		solutions = append(solutions, solution)
 	}
 
-	logging.LogInfo("Done building .NET deliverables for " + metadata.Name + " b. " + metadata.Branch)
+	dndbc.solutions = solutions
+}
+
+func (dndbc *DotNetDeliverableBuildContext) populateProjects() {
+	var projects []*projectmodel.MsBuildProject
+	for _, projectPath := range dndbc.projectPaths {
+		dndbc.LogInfoWithContext("Downloading project: " + projectPath)
+
+		project := dndbc.getProjectFromSourceControl(projectPath)
+		project.AbsolutePath = projectPath
+		projectFolderPath, err := dndbc.fileGraph.GetParentPath(project.AbsolutePath)
+		if err != nil {
+			dndbc.LogInfoMultilineWithContext("Failed to find project parent folder",
+				"What: "+err.Error(),
+				"Project Name: "+project.Name)
+		}
+
+		project.FolderPath = *projectFolderPath
+		projects = append(projects, project)
+	}
+
+	dndbc.projects = projects
+}
+
+func (dndbc *DotNetDeliverableBuildContext) populatePublishProfiles() {
+	var publishProfiles []*projectmodel.MsBuildPublishProfile
+	for _, publishProfilePath := range dndbc.publishProfilePaths {
+		dndbc.LogInfoWithContext("Downloading publish profile: " + publishProfilePath)
+		publishProfile := dndbc.getPublishProfileFromSourceControl(publishProfilePath)
+		publishProfiles = append(publishProfiles, publishProfile)
+	}
+	dndbc.publishProfiles = publishProfiles
+}
+
+func BuildDotNetDeliverables(metadata repomodel.RepositoryMetadata,
+	fileGraph fileutil.FileGraph) ([]*projectmodel.DotNetDeliverable, error) {
+	results := make([]*projectmodel.DotNetDeliverable, 0)
+
+	dndbc := NewDotNetDeliverableBuildContext(metadata, fileGraph)
+	deliverables, err := dndbc.BuildContext()
+	if err != nil {
+		dndbc.LogInfoWithContext("Failed building .NET deliverables")
+	}
+	results = append(results, deliverables...)
+	dndbc.LogInfoWithContext("Done building .NET deliverables")
 	return results, nil
 }
 
-func resolveSolutionReferencePaths(
-	solutions []*projectmodel.MsBuildSolution,
-	projects []*projectmodel.MsBuildProject,
-	graph fileutil.FileGraph) {
-	for _, solution := range solutions {
+func (dndbc *DotNetDeliverableBuildContext) resolveSolutionReferencePaths() {
+	for _, solution := range dndbc.solutions {
 		solution.AbsoluteProjectPaths = make([]string, 0)
 		for _, relativeProjectPath := range solution.RelativeProjectPaths {
-			rootItem, err := graph.GetItemByRootPath(relativeProjectPath)
+			rootItem, err := dndbc.fileGraph.GetItemByRelativePath(solution.FolderPath, relativeProjectPath)
 			if err != nil {
-				logging.LogInfoMultiline("Could not find project at path.",
+				dndbc.LogInfoMultilineWithContext("Could not find project at path.",
 					"Path: "+relativeProjectPath,
 					"Error: "+err.Error())
 				continue
@@ -92,7 +237,7 @@ func resolveSolutionReferencePaths(
 			rootPath := (*rootItem).GetPathString()
 			solution.AbsoluteProjectPaths = append(solution.AbsoluteProjectPaths, rootPath)
 			found := false
-			for _, project := range projects {
+			for _, project := range dndbc.projects {
 				if rootPath != project.AbsolutePath {
 					continue
 				}
@@ -102,7 +247,7 @@ func resolveSolutionReferencePaths(
 			}
 
 			if !found {
-				logging.LogInfoMultiline("Failed to find solution reference",
+				dndbc.LogInfoMultilineWithContext("Failed to find solution reference",
 					"Project Path: "+rootPath,
 					"Solution Name: "+solution.Name)
 			}
@@ -110,12 +255,12 @@ func resolveSolutionReferencePaths(
 	}
 }
 
-func resolveProjectDependencies(project *projectmodel.MsBuildProject, projects []*projectmodel.MsBuildProject) {
-	logging.LogInfo("Resolving dependencies for: " + project.Name)
+func (dndbc *DotNetDeliverableBuildContext) resolveProjectDependencies(project *projectmodel.MsBuildProject) {
+	dndbc.LogInfoWithContext("Resolving dependencies for: " + project.Name)
 	project.ProjectDependencies = make([]*projectmodel.MsBuildProject, 0)
 	for _, absolutePath := range project.AbsoluteProjectReferencePaths {
 		found := false
-		for _, referenceProject := range projects {
+		for _, referenceProject := range dndbc.projects {
 			if absolutePath != referenceProject.AbsolutePath ||
 				absolutePath == project.AbsolutePath {
 				continue
@@ -126,121 +271,64 @@ func resolveProjectDependencies(project *projectmodel.MsBuildProject, projects [
 		}
 
 		if !found {
-			logging.LogInfoMultiline("Failed to find project reference",
+			dndbc.LogInfoMultilineWithContext("Failed to find project reference",
 				"Absolute Path: "+absolutePath,
 				"Project Name: "+project.Name)
 		}
 	}
 }
 
-func linkProjectSolutions(solution *projectmodel.MsBuildSolution, projects []*projectmodel.MsBuildProject) {
-	for _, project := range projects {
+func (dndbc *DotNetDeliverableBuildContext) linkProjectSolutions(solution *projectmodel.MsBuildSolution) {
+	for _, projectPath := range solution.AbsoluteProjectPaths {
 		found := false
-		for _, projectPath := range solution.AbsoluteProjectPaths {
+		for _, project := range dndbc.projects {
 			if projectPath != project.AbsolutePath {
 				continue
 			}
 			project.SolutionParents = append(project.SolutionParents, solution)
 			solution.Projects = append(solution.Projects, project)
 			found = true
+			dndbc.LogInfoWithContext("Linked " + solution.Name + " -> " + project.Name)
 			break
 		}
 
 		if !found {
-			logging.LogInfoMultiline("Failed to link solution to project. Project not found.",
+			dndbc.LogInfoMultilineWithContext("Failed to link solution to project. Project with path not found.",
 				"Solution Name: "+solution.Name,
-				"Project Name: "+project.Name)
+				"Project Path: "+projectPath)
 		}
 	}
 }
 
-func resolveProjectReferencePaths(projects []*projectmodel.MsBuildProject, graph fileutil.FileGraph) {
-	for _, project := range projects {
+func (dndbc *DotNetDeliverableBuildContext) resolveProjectReferencePaths() {
+	for _, project := range dndbc.projects {
 		project.AbsoluteProjectReferencePaths = make([]string, 0)
 		for _, relativeProjectPath := range project.RelativeProjectReferencePaths {
-			rootItem, err := graph.GetItemByRootPath(project.AbsolutePath)
+			fileGraphItem, err := dndbc.fileGraph.GetItemByRelativePath(project.FolderPath, relativeProjectPath)
 			if err != nil {
-				logging.LogInfoMultiline("Could not find project path. Ignoring.",
-					"Project Name: "+project.Name,
-					"Path: "+relativeProjectPath,
-					"Error: "+err.Error())
-				continue
-			}
-			rootParent := (*rootItem).GetParent()
-			rootPath := (*rootParent).GetPathString()
-			fileGraphItem, err := graph.GetItemByRelativePath(rootPath, relativeProjectPath)
-			if err != nil {
-				logging.LogInfoMultiline("Could not find relative project path. Ignoring.",
+				dndbc.LogInfoMultilineWithContext("Could not find relative project path. Ignoring.",
 					"Project Name: "+project.Name,
 					"Path: "+relativeProjectPath,
 					"Error: "+err.Error())
 				continue
 			} else {
-				pathOfItem := (*fileGraphItem).GetPathString()
-				project.AbsoluteProjectReferencePaths = append(project.AbsoluteProjectReferencePaths, pathOfItem)
+				resolvedProjectPath := (*fileGraphItem).GetPathString()
+				project.AbsoluteProjectReferencePaths = append(project.AbsoluteProjectReferencePaths, resolvedProjectPath)
 			}
 		}
 	}
 }
 
-func getSolutionList(solutionPaths []string,
-	metadata repomodel.RepositoryMetadata,
-	repoClient repoclient.RepoClient,
-	msBuildClient msbuildclient.MsBuildClient,
-	f fileutil.FileGraph) []*projectmodel.MsBuildSolution {
-	var solutions []*projectmodel.MsBuildSolution
-	for _, solutionPath := range solutionPaths {
-		solution := getSolutionFromSourceControl(metadata, solutionPath, repoClient, msBuildClient)
-		solution.AbsolutePath = solutionPath
-		solutions = append(solutions, solution)
-		prettyPaths, err := f.PrettifyPaths(solution.RelativeProjectPaths)
-		if err != nil {
-			panic(err)
-		}
-		solution.AbsoluteProjectPaths = prettyPaths
-	}
-	return solutions
-}
+func (dndbc *DotNetDeliverableBuildContext) getPublishProfileFromSourceControl(
+	path string) *projectmodel.MsBuildPublishProfile {
+	repoMetadata := getRepositoryFileMetadataFromPath(dndbc.metadata, path)
 
-func getProjectList(projectPaths []string,
-	metadata repomodel.RepositoryMetadata,
-	repoClient repoclient.RepoClient,
-	msBuildClient msbuildclient.MsBuildClient) []*projectmodel.MsBuildProject {
-	var projects []*projectmodel.MsBuildProject
-	for _, projectPath := range projectPaths {
-		project := getProjectFromSourceControl(metadata, projectPath, repoClient, msBuildClient)
-		project.AbsolutePath = projectPath
-		projects = append(projects, project)
-	}
-	return projects
-}
-
-func getPublishProfileList(publishProfilePaths []string,
-	metadata repomodel.RepositoryMetadata,
-	repoClient repoclient.RepoClient,
-	msBuildClient msbuildclient.MsBuildClient) []*projectmodel.MsBuildPublishProfile {
-	var publishProfiles []*projectmodel.MsBuildPublishProfile
-	for _, publishProfilePath := range publishProfilePaths {
-		publishProfile := getPublishProfileFromSourceControl(metadata, publishProfilePath, repoClient, msBuildClient)
-		publishProfiles = append(publishProfiles, publishProfile)
-	}
-	return publishProfiles
-}
-
-// TODO: Implement in processing loop
-func getPublishProfileFromSourceControl(
-	metadata repomodel.RepositoryMetadata,
-	path string,
-	repoClient repoclient.RepoClient,
-	msBuildClient msbuildclient.MsBuildClient) *projectmodel.MsBuildPublishProfile {
-	repoMetadata := getRepositoryFileMetadataFromPath(metadata, path)
-
-	payload, err := repoClient.GetFile(repoMetadata)
+	payload, err := dndbc.repoClient.GetFile(repoMetadata)
 	if err != nil {
 		panic(err)
 	}
 
-	publishProfile, err := msBuildClient.GetPublishProfile(*payload)
+	publishProfile, err := dndbc.msBuildClient.GetPublishProfile(*payload)
 	if err != nil {
 		panic(err)
 	}
@@ -248,19 +336,16 @@ func getPublishProfileFromSourceControl(
 	return publishProfile
 }
 
-func getProjectFromSourceControl(
-	metadata repomodel.RepositoryMetadata,
-	path string,
-	repoClient repoclient.RepoClient,
-	msBuildClient msbuildclient.MsBuildClient) *projectmodel.MsBuildProject {
-	repoMetadata := getRepositoryFileMetadataFromPath(metadata, path)
+func (dndbc *DotNetDeliverableBuildContext) getProjectFromSourceControl(
+	path string) *projectmodel.MsBuildProject {
+	repoMetadata := getRepositoryFileMetadataFromPath(dndbc.metadata, path)
 
-	payload, err := repoClient.GetFile(repoMetadata)
+	payload, err := dndbc.repoClient.GetFile(repoMetadata)
 	if err != nil {
 		panic(err)
 	}
 
-	project, err := msBuildClient.GetProject(*payload)
+	project, err := dndbc.msBuildClient.GetProject(*payload)
 	if err != nil {
 		panic(err)
 	}
@@ -268,19 +353,16 @@ func getProjectFromSourceControl(
 	return project
 }
 
-func getSolutionFromSourceControl(
-	metadata repomodel.RepositoryMetadata,
-	path string,
-	repoClient repoclient.RepoClient,
-	msBuildClient msbuildclient.MsBuildClient) *projectmodel.MsBuildSolution {
-	repoMetadata := getRepositoryFileMetadataFromPath(metadata, path)
+func (dndbc *DotNetDeliverableBuildContext) getSolutionFromSourceControl(
+	path string) *projectmodel.MsBuildSolution {
+	repoMetadata := getRepositoryFileMetadataFromPath(dndbc.metadata, path)
 
-	payload, err := repoClient.GetFile(repoMetadata)
+	payload, err := dndbc.repoClient.GetFile(repoMetadata)
 	if err != nil {
 		panic(err)
 	}
 
-	solution, err := msBuildClient.GetSolution(*payload)
+	solution, err := dndbc.msBuildClient.GetSolution(*payload)
 	if err != nil {
 		panic(err)
 	}

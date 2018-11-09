@@ -8,9 +8,12 @@ type FileGraphFile struct {
 	Parent   *FileGraphFolder
 }
 
-func (f FileGraphFile) GetParent() *FileGraphItem {
+func (f FileGraphFile) NavigateParent() (*FileGraphItem, error) {
+	if f.Parent == nil {
+		return nil, errors.New("Parent does not exist for '" + f.GetPathString() + "'")
+	}
 	item := FileGraphItem(f.Parent)
-	return &item
+	return &item, nil
 }
 
 func (f FileGraphFile) GetName() string {

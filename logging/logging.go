@@ -1,6 +1,7 @@
 package logging
 
 import (
+	"../constants"
 	"../timeutil"
 	"encoding/json"
 	"fmt"
@@ -20,15 +21,6 @@ const (
 	Compress   = true
 )
 
-const Header = "\n    _____            __                 __________\n" +
-	"   / ___/__  _______/ /____  ____ ___  / ____/  _/\n" +
-	"  \\__ \\/ / / / ___/ __/ _ \\/ __ `__ \\/ /    / /\n" +
-	" ___/ / /_/ (__  ) /_/  __/ / / / / / /____/ /\n" +
-	"/____/\\__, /____/\\__/\\___/_/ /_/ /_/\\____/___/\n" +
-	"     /____/\n\n"
-
-const Divider = "-----------------------------------------------"
-
 func CreateLog() {
 	logger := &lumberjack.Logger{
 		Filename:   Filename,
@@ -46,10 +38,10 @@ func CreateLog() {
 }
 
 func LogHeader(applicationName string) {
-	log.Print(Header)
-	log.Print(Divider)
+	log.Print(constants.Header)
+	log.Print(constants.Divider)
 	log.Print("Application: " + applicationName)
-	log.Print(Divider)
+	log.Print(constants.Divider)
 }
 
 func LogApplicationStart() {
@@ -76,6 +68,10 @@ func LogFatal(error interface{}) {
 func LogPanicRecover(error interface{}) {
 	log.Printf("[Error] %s", error)
 	log.Printf("[Stack Dump] %s", errors.Wrap(error, 0).ErrorStack())
+}
+
+func LogSoftError(errorMessage string, err error) {
+	log.Printf("[Soft Error] %s %s", errorMessage, err.Error())
 }
 
 func LogInfoMultiline(logLines ...string) {
