@@ -23,9 +23,12 @@ func (f *FileGraphFolder) NewChildFolder(name string) *FileGraphFolder {
 	return &childFolder
 }
 
-func (f FileGraphFolder) GetParent() *FileGraphItem {
+func (f FileGraphFolder) NavigateParent() (*FileGraphItem, error) {
+	if f.Parent == nil {
+		return nil, errors.New("Parent does not exist for '" + f.GetPathString() + "'")
+	}
 	item := FileGraphItem(f.Parent)
-	return &item
+	return &item, nil
 }
 
 func (f FileGraphFolder) GetName() string {
