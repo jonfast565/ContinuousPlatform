@@ -12,4 +12,13 @@ func GenerateScripts(details *jobmodel.JobDetails) {
 			logging.LogPanicRecover(r)
 		}
 	}()
+
+	_, err := GetDeliverablesCache()
+	if err != nil {
+		panic(err)
+	}
+
+	// TODO: Get infrastructure data here
+
+	// TODO: Generate scripts here
 }
