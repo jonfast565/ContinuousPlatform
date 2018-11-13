@@ -32,7 +32,7 @@ func NewPersistenceClient() PersistenceClient {
 	return PersistenceClient{configuration: config, client: http.Client{Timeout: constants.ClientTimeout}}
 }
 
-func (pc PersistenceClient) GetKeyValueCache(key string) ([]byte, error) {
+func (pc PersistenceClient) GetKeyValueCache(key string, uncompress bool) ([]byte, error) {
 	// build service url
 	myUrl := webutil.NewEmptyUrl()
 	myUrl.SetBase(constants.DefaultScheme,
@@ -61,19 +61,31 @@ func (pc PersistenceClient) GetKeyValueCache(key string) ([]byte, error) {
 		return nil, err
 	}
 
-	uncompressedBytes, err := compressutil.Uncompress(value.Value)
-	if err != nil {
-		return nil, err
+	var result []byte
+
+	if uncompress {
+		result, err = compressutil.Uncompress(value.Value)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		result = value.Value
 	}
 
-	return uncompressedBytes, nil
+	return result, nil
 }
 
-func (pc PersistenceClient) SetKeyValueCache(key string, value []byte) error {
+func (pc PersistenceClient) SetKeyValueCache(key string, value []byte, compress bool) error {
 	// compress payload for speed
-	result, err := compressutil.Compress(value)
-	if err != nil {
-		return err
+	var result []byte
+	var err error
+	if compress {
+		result, err = compressutil.Compress(value)
+		if err != nil {
+			return err
+		}
+	} else {
+		result = value
 	}
 
 	// build service url
