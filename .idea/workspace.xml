@@ -5,24 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="push different models out into files. need to complete this work in the near future.">
-      <change afterPath="$PROJECT_DIR$/models/miscmodel/id.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/projectmodel/deliverablepackage.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/projectmodel/msbuildprojectexport.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/projectmodel/msbuildprojectreference.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/projectmodel/msbuildsolutionexport.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/projectmodel/msbuildsolutionreference.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clients/persistenceclient/persistenceclient.go" beforeDir="false" afterPath="$PROJECT_DIR$/clients/persistenceclient/persistenceclient.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/builders/dotnetdeliverablebuilder.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/builders/dotnetdeliverablebuilder.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/persistencehelpers.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/persistencehelpers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/projectmodel/deliverable.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/projectmodel/deliverable.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/projectmodel/dotnetdeliverable.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/projectmodel/dotnetdeliverable.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/projectmodel/msbuildproject.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/projectmodel/msbuildproject.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/projectmodel/msbuildsolution.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/projectmodel/msbuildsolution.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/networking/networking.go" beforeDir="false" afterPath="$PROJECT_DIR$/networking/networking.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/persistenceservice/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/persistenceservice/dbhelper/parser.go" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/dbhelper/parser.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reposervice/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/reposervice/appsettings.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -118,22 +103,26 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="go" value="39" />
+          <entry key="go" value="40" />
+          <entry key="json" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Go" value="39" />
+          <entry key="Go" value="40" />
+          <entry key="JSON" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="1670" />
+          <entry key="go" value="1807" />
+          <entry key="txt" value="37" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="1670" />
+          <entry key="Go" value="1807" />
+          <entry key="PLAIN_TEXT" value="37" />
         </counts>
       </usages-collector>
     </session>
@@ -141,10 +130,10 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/jobbuilder/server/persistencehelpers.go">
+        <entry file="file://$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-75">
-              <caret line="49" column="31" selection-start-line="49" selection-start-column="31" selection-end-line="49" selection-end-column="31" />
+            <state relative-caret-position="323">
+              <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -177,7 +166,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/models/persistmodel/keyvaluerequest.go" />
         <option value="$PROJECT_DIR$/models/persistmodel/keyvalueresult.go" />
         <option value="$PROJECT_DIR$/models/projectmodel/deliverables.go" />
         <option value="$PROJECT_DIR$/models/projectmodel/dotnetexception.go" />
@@ -228,6 +216,7 @@
         <option value="$PROJECT_DIR$/models/projectmodel/msbuildsolutionexport.go" />
         <option value="$PROJECT_DIR$/models/projectmodel/msbuildsolution.go" />
         <option value="$PROJECT_DIR$/jobbuilder/server/persistencehelpers.go" />
+        <option value="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" />
       </list>
     </option>
   </component>
@@ -237,9 +226,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="2331" />
-    <option name="y" value="200" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="2093" />
+    <option name="y" value="195" />
     <option name="width" value="1206" />
     <option name="height" value="735" />
   </component>
@@ -254,17 +243,6 @@
             <path>
               <item name="PlatformCI" type="b2602c69:ProjectViewProjectNode" />
               <item name="PlatformCI" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlatformCI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlatformCI" type="462c0819:PsiDirectoryNode" />
-              <item name="jobbuilder" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlatformCI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlatformCI" type="462c0819:PsiDirectoryNode" />
-              <item name="jobbuilder" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -402,21 +380,22 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23294243" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23294243" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49626866" weight="0.32394367" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49733475" weight="0.39653304" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.494705" visible="true" weight="0.3997833" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49413645" visible="true" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32569557" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" weight="0.4355363" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49520257" weight="0.3217768" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.505295" side_tool="true" weight="0.7348609" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50586355" side_tool="true" weight="0.3997833" />
       <window_info anchor="bottom" id="Messages" order="11" visible="true" weight="0.32827735" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -458,7 +437,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="add some testing for path algos, improved the reposervice code" />
     <MESSAGE value="updated logging for metadata retrieval" />
     <MESSAGE value="continued work on jenkins utils" />
     <MESSAGE value="fnished jenkins service, starting on persistence service" />
@@ -483,7 +461,8 @@
     <MESSAGE value="updated the fatal logging code to use the method with a stack trace." />
     <MESSAGE value="fixed infinite recursion, among other issues with path resolution." />
     <MESSAGE value="finally pulling deliverables, should move onto script generation" />
-    <option name="LAST_COMMIT_MESSAGE" value="finally pulling deliverables, should move onto script generation" />
+    <MESSAGE value="deliverables collapsed and persisted." />
+    <option name="LAST_COMMIT_MESSAGE" value="deliverables collapsed and persisted." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -513,13 +492,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://C:/Go/src/runtime/asm_amd64.s">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="521" selection-start-line="521" selection-end-line="521" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/reposervice/appsettings.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -701,13 +673,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/projectmodel/deliverable.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -843,8 +808,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jobbuilder/server/persistencehelpers.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-75">
-          <caret line="49" column="31" selection-start-line="49" selection-start-column="31" selection-end-line="49" selection-end-column="31" />
+        <state relative-caret-position="265">
+          <caret line="69" column="31" lean-forward="true" selection-start-line="69" selection-start-column="31" selection-end-line="69" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/appsettings.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
         </state>
       </provider>
     </entry>
