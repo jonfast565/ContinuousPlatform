@@ -10,7 +10,6 @@ import (
 	_ "github.com/denisenkom/go-mssqldb"
 	"net/url"
 	"reflect"
-	"strconv"
 )
 
 type Database struct {
@@ -54,7 +53,7 @@ func (d Database) RunStatement(statement SqlStatement) ([]map[string]interface{}
 	result := statement.GetStatementString()
 	logging.LogInfoMultiline("Executing SQL Statement:", result)
 
-	statement.LogParameters()
+	// statement.LogParameters()
 	params := statement.GetNamedParameters()
 	interfaceType := paramsToInterface(params)
 
@@ -95,7 +94,7 @@ func (d Database) RunStatement(statement SqlStatement) ([]map[string]interface{}
 			m[colName] = *val
 		}
 
-		logging.LogMapPretty("Result Row #"+strconv.Itoa(counter), m)
+		// logging.LogMapPretty("Result Row #"+strconv.Itoa(counter), m)
 		resultMaps = append(resultMaps, m)
 		counter++
 	}
@@ -280,7 +279,12 @@ func (s SqlStatement) LogParameters() {
 	result := make([]string, 0)
 	result = append(result, "SQL Params: ")
 	for _, param := range s.Params {
-		result = append(result, param.Name+" -> "+fmt.Sprintf("%v", param.Value))
+		switch param.Value.(type) {
+		case []byte:
+			result = append(result, param.Name+" -> "+fmt.Sprintf("%v", "***Redacted***"))
+		default:
+			result = append(result, param.Name+" -> "+fmt.Sprintf("%v", param.Value))
+		}
 	}
 	logging.LogInfoMultiline(result...)
 }
