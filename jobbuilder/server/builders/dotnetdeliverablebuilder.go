@@ -39,12 +39,12 @@ type DotNetDeliverableBuildContext struct {
 	metadata            repomodel.RepositoryMetadata
 }
 
-func NewDotNetDeliverableBuildContext(metadata repomodel.RepositoryMetadata,
-	f fileutil.FileGraph) *DotNetDeliverableBuildContext {
+func NewDotNetDeliverableBuildContext(metadata repomodel.RepositoryMetadata) *DotNetDeliverableBuildContext {
+	graph := metadata.BuildGraph()
 	context := DotNetDeliverableBuildContext{
 		msBuildClient: msbuildclient.NewMsBuildClient(),
 		repoClient:    repoclient.NewRepoClient(),
-		fileGraph:     f,
+		fileGraph:     *graph,
 		metadata:      metadata,
 	}
 	return &context
@@ -53,14 +53,11 @@ func NewDotNetDeliverableBuildContext(metadata repomodel.RepositoryMetadata,
 func (dndbc *DotNetDeliverableBuildContext) extractDeliverables() []*projectmodel.DotNetDeliverable {
 	results := make([]*projectmodel.DotNetDeliverable, 0)
 	for _, solution := range dndbc.solutions {
-		for _, project := range solution.Projects {
-			results = append(results, &projectmodel.DotNetDeliverable{
-				Repository: dndbc.metadata.Name,
-				Branch:     dndbc.metadata.Branch,
-				Solution:   solution,
-				Project:    project,
-			})
-		}
+		results = append(results, &projectmodel.DotNetDeliverable{
+			Repository: dndbc.metadata.Name,
+			Branch:     dndbc.metadata.Branch,
+			Solution:   solution.Export(),
+		})
 	}
 	return results
 }
@@ -209,24 +206,27 @@ func (dndbc *DotNetDeliverableBuildContext) populatePublishProfiles() {
 	dndbc.publishProfiles = publishProfiles
 }
 
-func BuildDotNetDeliverables(metadata repomodel.RepositoryMetadata,
-	fileGraph fileutil.FileGraph) ([]*projectmodel.DotNetDeliverable, error) {
+func BuildDotNetDeliverables(metadata repomodel.RepositoryMetadata) ([]*projectmodel.DotNetDeliverable, error) {
 	results := make([]*projectmodel.DotNetDeliverable, 0)
 
-	dndbc := NewDotNetDeliverableBuildContext(metadata, fileGraph)
+	dndbc := NewDotNetDeliverableBuildContext(metadata)
 	deliverables, err := dndbc.BuildContext()
 	if err != nil {
 		dndbc.LogInfoWithContext("Failed building .NET deliverables")
 	}
+
 	results = append(results, deliverables...)
 	dndbc.LogInfoWithContext("Done building .NET deliverables")
+
 	return results, nil
 }
 
 func (dndbc *DotNetDeliverableBuildContext) resolveSolutionReferencePaths() {
 	for _, solution := range dndbc.solutions {
+
 		solution.AbsoluteProjectPaths = make([]string, 0)
 		for _, relativeProjectPath := range solution.RelativeProjectPaths {
+
 			rootItem, err := dndbc.fileGraph.GetItemByRelativePath(solution.FolderPath, relativeProjectPath)
 			if err != nil {
 				dndbc.LogInfoMultilineWithContext("Could not find project at path.",
@@ -234,9 +234,11 @@ func (dndbc *DotNetDeliverableBuildContext) resolveSolutionReferencePaths() {
 					"Error: "+err.Error())
 				continue
 			}
+
 			rootPath := (*rootItem).GetPathString()
 			solution.AbsoluteProjectPaths = append(solution.AbsoluteProjectPaths, rootPath)
 			found := false
+
 			for _, project := range dndbc.projects {
 				if rootPath != project.AbsolutePath {
 					continue
@@ -257,7 +259,8 @@ func (dndbc *DotNetDeliverableBuildContext) resolveSolutionReferencePaths() {
 
 func (dndbc *DotNetDeliverableBuildContext) resolveProjectDependencies(project *projectmodel.MsBuildProject) {
 	dndbc.LogInfoWithContext("Resolving dependencies for: " + project.Name)
-	project.ProjectDependencies = make([]*projectmodel.MsBuildProject, 0)
+	project.ProjectDependencies = make([]*projectmodel.MsBuildProjectReference, 0)
+
 	for _, absolutePath := range project.AbsoluteProjectReferencePaths {
 		found := false
 		for _, referenceProject := range dndbc.projects {
@@ -265,7 +268,8 @@ func (dndbc *DotNetDeliverableBuildContext) resolveProjectDependencies(project *
 				absolutePath == project.AbsolutePath {
 				continue
 			}
-			project.ProjectDependencies = append(project.ProjectDependencies, referenceProject)
+
+			project.ProjectDependencies = append(project.ProjectDependencies, referenceProject.GetReference())
 			found = true
 			break
 		}
@@ -285,7 +289,8 @@ func (dndbc *DotNetDeliverableBuildContext) linkProjectSolutions(solution *proje
 			if projectPath != project.AbsolutePath {
 				continue
 			}
-			project.SolutionParents = append(project.SolutionParents, solution)
+			solutionReference := solution.GetSolutionReference()
+			project.SolutionParents = append(project.SolutionParents, &solutionReference)
 			solution.Projects = append(solution.Projects, project)
 			found = true
 			dndbc.LogInfoWithContext("Linked " + solution.Name + " -> " + project.Name)

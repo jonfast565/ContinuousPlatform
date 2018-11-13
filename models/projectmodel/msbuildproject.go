@@ -8,10 +8,31 @@ type MsBuildProject struct {
 	FolderPath                    string
 	RelativeProjectReferencePaths []string
 	AbsoluteProjectReferencePaths []string
-	ProjectDependencies           []*MsBuildProject
-	SolutionParents               []*MsBuildSolution
+	ProjectDependencies           []*MsBuildProjectReference
+	SolutionParents               []*MsBuildSolutionReference
 	IsNetCoreProject              bool
 	Name                          string
 	Failed                        bool
 	Exception                     DotNetException
+}
+
+func (p *MsBuildProject) GetReference() *MsBuildProjectReference {
+	return &MsBuildProjectReference{
+		Name:         p.Name,
+		AbsolutePath: p.AbsolutePath,
+	}
+}
+
+func (p MsBuildProject) Export() *MsBuildProjectExport {
+	return &MsBuildProjectExport{
+		TargetFrameworks:    p.TargetFrameworks,
+		DefaultNamespace:    p.DefaultNamespace,
+		AssemblyName:        p.AssemblyName,
+		AbsolutePath:        p.AbsolutePath,
+		FolderPath:          p.FolderPath,
+		ProjectDependencies: p.ProjectDependencies,
+		SolutionParents:     p.SolutionParents,
+		IsNetCoreProject:    p.IsNetCoreProject,
+		Name:                p.Name,
+	}
 }
