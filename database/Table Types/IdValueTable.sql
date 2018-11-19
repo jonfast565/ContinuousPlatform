@@ -1,5 +1,0 @@
-﻿CREATE TYPE [dbo].[IdValueTable] AS TABLE
-(
-    [Id] UNIQUEIDENTIFIER NOT NULL,
-    [String] NVARCHAR(255) NOT NULL
-)
