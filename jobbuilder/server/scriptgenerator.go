@@ -1,6 +1,7 @@
 package server
 
 import (
+	"../../clients/infraclient"
 	"../../logging"
 	"../../models/jobmodel"
 )
@@ -18,7 +19,12 @@ func GenerateScripts(details *jobmodel.JobDetails) {
 		panic(err)
 	}
 
-	// TODO: Get infrastructure data here
+	infraClient := infraclient.NewInfraClient()
+	metadata, err := infraClient.GetInfrastructure()
+	if err != nil {
+		panic(err)
+	}
 
 	// TODO: Generate scripts here
+
 }
