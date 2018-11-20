@@ -108,6 +108,11 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 			BinaryPath:                scheduledTask.BinaryPath,
 			BinaryExecutableName:      scheduledTask.BinaryExecutableName,
 			BinaryExecutableArguments: scheduledTask.BinaryExecutableArguments,
+			ScheduleType:              scheduledTask.ScheduleType,
+			RepeatInterval:            scheduledTask.RepeatInterval,
+			RepetitionDuration:        scheduledTask.RepetitionDuration,
+			ExecutionTimeLimit:        scheduledTask.ExecutionTimeLimit,
+			Priority:                  scheduledTask.Priority,
 		})
 	}
 }
