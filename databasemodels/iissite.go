@@ -6,10 +6,10 @@ import (
 )
 
 type IisSite struct {
-	IisSiteId         uuid.UUID
-	ApplicationPoolId uuid.UUID
-	SiteName          string
-	PhysicalPath      string
+	IisSiteId         uuid.UUID      `gorm:"primary_key"`
+	ApplicationPoolId uuid.UUID      `gorm:"not null"`
+	SiteName          string         `gorm:"not null"`
+	PhysicalPath      string         `gorm:"not null"`
 	SiteApplications  pq.StringArray `gorm:"type:uuid[]"`
 	AuditFields
 }
