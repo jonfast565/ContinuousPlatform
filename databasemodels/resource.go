@@ -6,13 +6,13 @@ import (
 )
 
 type Resource struct {
-	DeliverableId   uuid.UUID `gorm:"primary_key"`
-	RepositoryName  string
-	SolutionName    string
-	ProjectName     string
-	IisApplications pq.StringArray `gorm:"type:uuid[]"`
-	IisSites        pq.StringArray `gorm:"type:uuid[]"`
-	ScheduledTasks  pq.StringArray `gorm:"type:uuid[]"`
-	WindowsServices pq.StringArray `gorm:"type:uuid[]"`
+	DeliverableId   uuid.UUID      `gorm:"primary_key"`
+	RepositoryName  string         `gorm:"not null"`
+	SolutionName    string         `gorm:"not null"`
+	ProjectName     string         `gorm:"not null"`
+	IisApplications pq.StringArray `gorm:"type:uuid[];not null"`
+	IisSites        pq.StringArray `gorm:"type:uuid[];not null"`
+	ScheduledTasks  pq.StringArray `gorm:"type:uuid[];not null"`
+	WindowsServices pq.StringArray `gorm:"type:uuid[];not null"`
 	AuditFields
 }

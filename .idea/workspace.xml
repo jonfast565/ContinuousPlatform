@@ -5,78 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="push different models out into files. need to complete this work in the near future.">
-      <change afterPath="$PROJECT_DIR$/clients/infraclient/infraclient.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databasemodels/auditfields.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databasemodels/businessline.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databasemodels/environment.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databasemodels/iisapplication.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databasemodels/iisapplicationpool.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databasemodels/iissite.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databasemodels/keyvaluecache.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databasemodels/log.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databasemodels/resource.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databasemodels/scheduledtask.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databasemodels/server.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/databasemodels/windowsservice.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dataloader/appsettings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dataloader/configuration.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dataloader/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jobbuilder/infraclient-settings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jobbuilder/server/generators/dotnetscriptgenerators.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jobbuilder/server/generators/generatorinterface.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dataloader/importmodels/apprecord.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dataloader/importmodels/iisapplicationpoolrecord.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dataloader/importmodels/iisapplicationrecord.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dataloader/importmodels/iissiterecord.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dataloader/importmodels/infraimport.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dataloader/importmodels/resourcerecord.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dataloader/importmodels/scheduledtaskrecord.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dataloader/importmodels/windowsservicerecord.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Deployment Scripts/Post-Deployment Script.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Deployment Scripts/Pre-Deployment Script.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/PlatformCI.Database.sln" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/PlatformCI.Database.sqlproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Stored Procedures/ClearKeyValueCache.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Stored Procedures/CopyKeyValueCache.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Stored Procedures/CreateNewEnvironment.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Stored Procedures/ExecuteFullDatabaseBackup.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Stored Procedures/GetApplicationLookupReport.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Stored Procedures/GetJobStatuses.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Stored Procedures/GetScheduledTasksMasterList.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Stored Procedures/GetSiteMasterList.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Stored Procedures/GetWindowsServiceMasterList.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Table Types/IdTupleTable.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Table Types/IdValueTable.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Table Types/StringTable.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Table Types/UniqueIdTable.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/BusinessLines.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/DeliverableGroupAssociations.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/DeliverableGroups.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/Deliverables.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/DeploymentLocationGroupAssociations.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/DeploymentLocationGroups.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/DeploymentLocations.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/Environments.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/IisApplicationGroupAssociations.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/IisApplicationGroups.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/IisApplicationPools.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/IisApplications.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/IisSiteApplicationGroupAssociations.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/IisSiteBindings.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/IisSiteGroupAssociations.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/IisSiteGroups.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/IisSites.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/JobStates.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/Jobs.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/KeyValueCache.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/Logs.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/ResourceAmalgamations.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/ResourceAssociations.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/ScheduledTaskGroupAssociations.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/ScheduledTaskGroups.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/ScheduledTasks.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/ServerGroupAssociations.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/ServerGroupEnvironmentAssociations.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/ServerGroups.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/ServerTypes.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/Servers.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/WindowsServiceGroupAssociations.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/WindowsServiceGroups.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Tables/WindowsServices.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databasemodels/auditfields.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/auditfields.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databasemodels/businessline.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/databasemodels/environment.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/environment.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databasemodels/iisapplication.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/iisapplication.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databasemodels/iisapplicationpool.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/iisapplicationpool.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databasemodels/iissite.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/iissite.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databasemodels/keyvaluecache.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/keyvaluecache.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databasemodels/log.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/log.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databasemodels/resource.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/resource.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databasemodels/scheduledtask.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/scheduledtask.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databasemodels/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/databasemodels/windowsservice.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/windowsservice.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataloader/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/persistenceservice/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/appsettings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reposervice/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/reposervice/appsettings.json" afterDir="false" />
     </list>
@@ -159,9 +109,9 @@
     <session id="1086301486">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="13" />
+          <entry key="project.closed" value="14" />
           <entry key="project.open.time.10" value="1" />
-          <entry key="project.open.time.11" value="1" />
+          <entry key="project.open.time.11" value="2" />
           <entry key="project.open.time.12" value="2" />
           <entry key="project.open.time.13" value="1" />
           <entry key="project.open.time.15" value="2" />
@@ -174,46 +124,58 @@
           <entry key="project.open.time.7" value="1" />
           <entry key="project.open.time.8" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="16" />
+          <entry key="project.opened" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="go" value="135" />
-          <entry key="json" value="8" />
+          <entry key="go" value="172" />
+          <entry key="json" value="10" />
           <entry key="log" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Go" value="135" />
-          <entry key="JSON" value="8" />
+          <entry key="Go" value="172" />
+          <entry key="JSON" value="10" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="6087" />
-          <entry key="json" value="816" />
+          <entry key="go" value="8199" />
+          <entry key="json" value="1179" />
           <entry key="txt" value="46" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="6087" />
-          <entry key="JSON" value="816" />
+          <entry key="Go" value="8199" />
+          <entry key="JSON" value="1179" />
           <entry key="PLAIN_TEXT" value="46" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dataloader/main.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="62">
+              <caret line="105" column="27" lean-forward="true" selection-start-line="105" selection-start-column="27" selection-end-line="105" selection-end-column="27" />
+              <folding>
+                <element signature="e#14#146#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dataloader/data.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="477">
-              <caret line="36" column="5" lean-forward="true" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
+            <state relative-caret-position="317">
+              <caret line="56" column="37" selection-start-line="56" selection-start-column="37" selection-end-line="56" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -247,14 +209,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/models/miscmodel/id.go" />
-        <option value="$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" />
-        <option value="$PROJECT_DIR$/models/projectmodel/msbuildprojectreference.go" />
-        <option value="$PROJECT_DIR$/clients/persistenceclient/persistenceclient.go" />
-        <option value="$PROJECT_DIR$/persistenceservice/dbhelper/parser.go" />
-        <option value="$PROJECT_DIR$/models/projectmodel/msbuildprojectexport.go" />
-        <option value="$PROJECT_DIR$/models/projectmodel/exportable.go" />
-        <option value="$PROJECT_DIR$/models/projectmodel/exportableproject.go" />
         <option value="$PROJECT_DIR$/models/projectmodel/msbuildproject.go" />
         <option value="$PROJECT_DIR$/jobbuilder/server/builders/dotnetdeliverablebuilder.go" />
         <option value="$PROJECT_DIR$/models/projectmodel/dotnetdeliverable.go" />
@@ -268,15 +222,12 @@
         <option value="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" />
         <option value="$PROJECT_DIR$/jobbuilder/server/generators/dotnetscriptgenerators.go" />
         <option value="$PROJECT_DIR$/jobbuilder/server/generators/generatorinterface.go" />
-        <option value="$PROJECT_DIR$/databasemodels/auditfields.go" />
         <option value="$PROJECT_DIR$/databasemodels/test.go" />
         <option value="$PROJECT_DIR$/databasemodels/businesslines.go" />
-        <option value="$PROJECT_DIR$/databasemodels/businessline.go" />
         <option value="$PROJECT_DIR$/databasemodels/deliverablegroup.go" />
         <option value="$PROJECT_DIR$/databasemodels/deliverable.go" />
         <option value="$PROJECT_DIR$/logging/logging.go" />
         <option value="$PROJECT_DIR$/dataloader/data.json.go" />
-        <option value="$PROJECT_DIR$/dataloader/appsettings.json" />
         <option value="$PROJECT_DIR$/dataloader/configuration.go" />
         <option value="$PROJECT_DIR$/databasemodels/iisapplicationgroup.go" />
         <option value="$PROJECT_DIR$/databasemodels/iissitegroup.go" />
@@ -285,18 +236,29 @@
         <option value="$PROJECT_DIR$/databasemodels/windowsservicegroup.go" />
         <option value="$PROJECT_DIR$/databasemodels/servergroup.go" />
         <option value="$PROJECT_DIR$/databasemodels/servertype.go" />
-        <option value="$PROJECT_DIR$/databasemodels/keyvaluecache.go" />
         <option value="$PROJECT_DIR$/databasemodels/resourceassociation.go" />
-        <option value="$PROJECT_DIR$/databasemodels/iisapplicationpool.go" />
-        <option value="$PROJECT_DIR$/databasemodels/windowsservice.go" />
-        <option value="$PROJECT_DIR$/databasemodels/scheduledtask.go" />
-        <option value="$PROJECT_DIR$/databasemodels/log.go" />
-        <option value="$PROJECT_DIR$/databasemodels/server.go" />
-        <option value="$PROJECT_DIR$/dataloader/main.go" />
-        <option value="$PROJECT_DIR$/databasemodels/iisapplication.go" />
+        <option value="$PROJECT_DIR$/dataloader/appsettings.json" />
+        <option value="$PROJECT_DIR$/databasemodels/auditfields.go" />
+        <option value="$PROJECT_DIR$/databasemodels/businessline.go" />
         <option value="$PROJECT_DIR$/databasemodels/environment.go" />
+        <option value="$PROJECT_DIR$/databasemodels/iisapplicationpool.go" />
         <option value="$PROJECT_DIR$/databasemodels/iissite.go" />
+        <option value="$PROJECT_DIR$/databasemodels/keyvaluecache.go" />
+        <option value="$PROJECT_DIR$/databasemodels/log.go" />
         <option value="$PROJECT_DIR$/databasemodels/resource.go" />
+        <option value="$PROJECT_DIR$/databasemodels/scheduledtask.go" />
+        <option value="$PROJECT_DIR$/databasemodels/server.go" />
+        <option value="$PROJECT_DIR$/databasemodels/windowsservice.go" />
+        <option value="$PROJECT_DIR$/dataloader/importmodels/resourcerecord.go" />
+        <option value="$PROJECT_DIR$/dataloader/importmodels/apprecord.go" />
+        <option value="$PROJECT_DIR$/dataloader/importmodels/iissiterecord.go" />
+        <option value="$PROJECT_DIR$/dataloader/importmodels/iisapplicationrecord.go" />
+        <option value="$PROJECT_DIR$/dataloader/importmodels/scheduledtaskrecord.go" />
+        <option value="$PROJECT_DIR$/dataloader/importmodels/windowsservicerecord.go" />
+        <option value="$PROJECT_DIR$/dataloader/importmodels/iisapplicationpoolrecord.go" />
+        <option value="$PROJECT_DIR$/databasemodels/iisapplication.go" />
+        <option value="$PROJECT_DIR$/dataloader/importmodels/infraimport.go" />
+        <option value="$PROJECT_DIR$/dataloader/main.go" />
         <option value="$PROJECT_DIR$/dataloader/data.json" />
       </list>
     </option>
@@ -308,8 +270,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="934" />
-    <option name="y" value="59" />
+    <option name="x" value="204" />
+    <option name="y" value="202" />
     <option name="width" value="927" />
     <option name="height" value="546" />
   </component>
@@ -329,7 +291,18 @@
             <path>
               <item name="PlatformCI" type="b2602c69:ProjectViewProjectNode" />
               <item name="PlatformCI" type="462c0819:PsiDirectoryNode" />
+              <item name="databasemodels" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PlatformCI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PlatformCI" type="462c0819:PsiDirectoryNode" />
               <item name="dataloader" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PlatformCI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PlatformCI" type="462c0819:PsiDirectoryNode" />
+              <item name="dataloader" type="462c0819:PsiDirectoryNode" />
+              <item name="importmodels" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -465,16 +438,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17217484" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17473525" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49626866" weight="0.32394367" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49733475" weight="0.7037643" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49413645" visible="true" weight="0.24377032" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49413645" visible="true" weight="0.31423897" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32569557" />
@@ -540,7 +513,6 @@
     <MESSAGE value="job running is ok now." />
     <MESSAGE value="added filegraph code proper and tests" />
     <MESSAGE value="partial deliverable builder implementation" />
-    <MESSAGE value="push different models out into files. need to complete this work in the near future." />
     <MESSAGE value="added incorrect solution linking code." />
     <MESSAGE value="fatals more descriptive. updated pathing algs." />
     <MESSAGE value="added stack dump everywhere" />
@@ -549,7 +521,8 @@
     <MESSAGE value="finally pulling deliverables, should move onto script generation" />
     <MESSAGE value="deliverables collapsed and persisted." />
     <MESSAGE value="add todos" />
-    <option name="LAST_COMMIT_MESSAGE" value="add todos" />
+    <MESSAGE value="push different models out into files. need to complete this work in the near future." />
+    <option name="LAST_COMMIT_MESSAGE" value="push different models out into files. need to complete this work in the near future." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -579,63 +552,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/persistenceservice/dbhelper/parser.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="55" column="7" selection-start-line="55" selection-start-column="7" selection-end-line="55" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/clients/persistenceclient/persistenceclient.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="88" column="5" selection-start-line="88" selection-start-column="5" selection-end-line="88" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/projectmodel/msbuildprojectreference.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="20" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/projectmodel/exportableproject.go" />
-    <entry file="file://$PROJECT_DIR$/models/projectmodel/msbuildprojectexport.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/projectmodel/msbuildproject.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="47" selection-start-line="10" selection-start-column="47" selection-end-line="10" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/projectmodel/dotnetdeliverable.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="27" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/server/builders/dotnetdeliverablebuilder.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="58" column="37" selection-start-line="58" selection-start-column="37" selection-end-line="58" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/projectmodel/msbuildsolutionexport.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/projectmodel/msbuildsolution.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="287">
@@ -716,90 +632,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/go/src/github.com/jinzhu/gorm/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="445" column="13" selection-start-line="445" selection-start-column="13" selection-end-line="445" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/deliverablegroup.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="15" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/iisapplicationgroup.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="22" selection-start-column="22" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/iissitegroup.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="22" selection-start-column="22" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/iissiteapplication.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/scheduledtaskgroup.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="22" selection-start-column="22" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/windowsservicegroup.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/servergroup.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="22" selection-start-column="22" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/servertype.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="22" selection-start-column="22" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/deliverable.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="22" lean-forward="true" selection-start-line="5" selection-start-column="4" selection-end-line="8" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dataloader/appsettings.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="5" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/databasemodels/deliverablegroup.go" />
+    <entry file="file://$PROJECT_DIR$/databasemodels/iisapplicationgroup.go" />
+    <entry file="file://$PROJECT_DIR$/databasemodels/iissitegroup.go" />
+    <entry file="file://$PROJECT_DIR$/databasemodels/iissiteapplication.go" />
+    <entry file="file://$PROJECT_DIR$/databasemodels/scheduledtaskgroup.go" />
+    <entry file="file://$PROJECT_DIR$/databasemodels/windowsservicegroup.go" />
+    <entry file="file://$PROJECT_DIR$/databasemodels/servergroup.go" />
+    <entry file="file://$PROJECT_DIR$/databasemodels/servertype.go" />
+    <entry file="file://$PROJECT_DIR$/databasemodels/deliverable.go" />
+    <entry file="file://$PROJECT_DIR$/databasemodels/test.go" />
     <entry file="file://C:/Go/src/runtime/panic.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="39">
@@ -807,120 +649,200 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dataloader/configuration.go">
+    <entry file="file://$PROJECT_DIR$/dataloader/appsettings.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dataloader/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="30" column="37" lean-forward="true" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
+        <state relative-caret-position="119">
+          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/databasemodels/auditfields.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="16" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
+        <state relative-caret-position="102">
+          <caret line="6" column="46" selection-start-line="6" selection-start-column="46" selection-end-line="6" selection-end-column="46" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/businessline.go">
+    <entry file="file://$PROJECT_DIR$/databasemodels/log.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="49" selection-start-line="5" selection-start-column="49" selection-end-line="5" selection-end-column="49" />
+        <state relative-caret-position="153">
+          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/databasemodels/server.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/windowsservice.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="30" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/scheduledtask.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="24" lean-forward="true" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+        <state relative-caret-position="119">
+          <caret line="9" column="40" selection-start-line="9" selection-start-column="40" selection-end-line="9" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/databasemodels/resource.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="55" lean-forward="true" selection-start-line="15" selection-start-column="55" selection-end-line="15" selection-end-column="55" />
+        <state relative-caret-position="187">
+          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="52" />
           <folding>
             <element signature="e#24#84#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/log.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="7" column="9" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/databasemodels/keyvaluecache.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        <state relative-caret-position="187">
+          <caret line="11" column="43" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
           <folding>
             <element signature="e#24#63#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/iissite.go">
+    <entry file="file://$PROJECT_DIR$/databasemodels/environment.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="52" selection-start-line="12" selection-start-column="52" selection-end-line="12" selection-end-column="52" />
+        <state relative-caret-position="153">
+          <caret line="9" column="50" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="50" />
           <folding>
             <element signature="e#24#84#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/databasemodels/iissite.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="51" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
+          <folding>
+            <element signature="e#24#84#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/databasemodels/businessline.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="15" lean-forward="true" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/importmodels/apprecord.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/configuration.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/databasemodels/iisapplicationpool.go">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="52" lean-forward="true" selection-start-line="7" selection-start-column="52" selection-end-line="7" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/importmodels/iisapplicationpoolrecord.go">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
-          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="34" />
+          <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/databasemodels/windowsservice.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" selection-start-line="6" selection-end-line="9" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/databasemodels/scheduledtask.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" selection-start-line="6" selection-end-line="14" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/importmodels/iisapplicationrecord.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="20" lean-forward="true" selection-start-column="20" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/importmodels/iissiterecord.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="24" lean-forward="true" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/go/src/github.com/jinzhu/gorm/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="439" column="13" selection-start-line="439" selection-start-column="13" selection-end-line="439" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reposervice/server/server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="171" column="65" selection-start-line="171" selection-start-column="65" selection-end-line="171" selection-end-column="65" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/databasemodels/iisapplication.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="31" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
+        <state relative-caret-position="119">
+          <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/environment.go">
+    <entry file="file://$PROJECT_DIR$/dataloader/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="43" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="43" />
+        <state relative-caret-position="62">
+          <caret line="105" column="27" lean-forward="true" selection-start-line="105" selection-start-column="27" selection-end-line="105" selection-end-column="27" />
           <folding>
-            <element signature="e#24#84#0" expanded="true" />
+            <element signature="e#14#146#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/importmodels/infraimport.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="27" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/importmodels/resourcerecord.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="18" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/importmodels/scheduledtaskrecord.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/importmodels/windowsservicerecord.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="36" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dataloader/data.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="477">
-          <caret line="36" column="5" lean-forward="true" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
+        <state relative-caret-position="317">
+          <caret line="56" column="37" selection-start-line="56" selection-start-column="37" selection-end-line="56" selection-end-column="37" />
         </state>
       </provider>
     </entry>
