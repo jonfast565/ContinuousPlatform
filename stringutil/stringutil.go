@@ -57,3 +57,11 @@ func StringMatchesOneOf(value string, comparators []regexp.Regexp) bool {
 	}
 	return false
 }
+
+func PartialMessage(value string) string {
+	maxMessageLength := 40
+	if len(value) > maxMessageLength {
+		maxMessageLength = len(value)
+	}
+	return value[0 : maxMessageLength-1]
+}
