@@ -44,65 +44,81 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 
 	for _, iisApplicationPools := range i.IisApplicationPools {
 		id, _ := uuid.NewV4()
-		db.Create(&databasemodels.IisApplicationPool{
+		if result := db.Create(&databasemodels.IisApplicationPool{
 			IisApplicationPoolId: id,
 			Name:                 iisApplicationPools.Name,
 			ProcessType:          iisApplicationPools.ProcessType,
 			FrameworkVersion:     iisApplicationPools.FrameworkVersion,
-		})
+		}); result.Error != nil {
+			panic(result.Error)
+		}
 	}
 
 	for _, iisApp := range i.IisApplications {
 		id, _ := uuid.NewV4()
 		var appPool databasemodels.IisApplicationPool
-		db.First(&appPool, &databasemodels.IisApplicationPool{Name: iisApp.ApplicationPool})
-		db.Create(&databasemodels.IisApplication{
+		if result := db.First(&appPool,
+			&databasemodels.IisApplicationPool{Name: iisApp.ApplicationPool}); result.Error != nil {
+			panic(result.Error)
+		}
+		if result := db.Create(&databasemodels.IisApplication{
 			IisApplicationId:  id,
 			ApplicationName:   iisApp.Name,
 			ApplicationPoolId: appPool.IisApplicationPoolId,
 			PhysicalPath:      iisApp.PhysicalPath,
-		})
+		}); result.Error != nil {
+			panic(result.Error)
+		}
 	}
 
 	for _, iisSite := range i.IisSites {
 		id, _ := uuid.NewV4()
 
 		var appPool databasemodels.IisApplicationPool
-		db.First(&appPool, &databasemodels.IisApplicationPool{Name: iisSite.ApplicationPool})
+		if result := db.First(&appPool,
+			&databasemodels.IisApplicationPool{Name: iisSite.ApplicationPool}); result.Error != nil {
+			panic(result.Error)
+		}
 
 		var applications []databasemodels.IisApplication
-		db.Model(&databasemodels.IisApplication{}).
+		if result := db.Model(&databasemodels.IisApplication{}).
 			Where("application_name in (?)", iisSite.Applications).
-			Find(&applications)
+			Find(&applications); result.Error != nil {
+			panic(result.Error)
+		}
 
 		var ids []string
 		linq.From(applications).SelectT(func(application databasemodels.IisApplication) string {
 			return application.IisApplicationId.String()
 		}).ToSlice(&ids)
 
-		db.Create(&databasemodels.IisSite{
+		if result := db.Create(&databasemodels.IisSite{
 			IisSiteId:         id,
 			SiteName:          iisSite.Name,
 			ApplicationPoolId: appPool.IisApplicationPoolId,
 			PhysicalPath:      iisSite.PhysicalPath,
 			SiteApplications:  ids,
-		})
+		}); result.Error != nil {
+			panic(result.Error)
+		}
 	}
 
 	for _, windowsService := range i.WindowsServices {
 		id, _ := uuid.NewV4()
-		db.Create(&databasemodels.WindowsService{
+		if result := db.Create(&databasemodels.WindowsService{
 			WindowsServiceId:          id,
 			Name:                      windowsService.Name,
 			BinaryPath:                windowsService.BinaryPath,
 			BinaryExecutableName:      windowsService.BinaryExecutableName,
 			BinaryExecutableArguments: windowsService.BinaryExecutableArguments,
-		})
+		}); result.Error != nil {
+			panic(result.Error)
+		}
 	}
 
 	for _, scheduledTask := range i.ScheduledTasks {
 		id, _ := uuid.NewV4()
-		db.Create(&databasemodels.ScheduledTask{
+		if result := db.Create(&databasemodels.ScheduledTask{
 			ScheduledTaskId:           id,
 			Name:                      scheduledTask.Name,
 			BinaryPath:                scheduledTask.BinaryPath,
@@ -113,7 +129,9 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 			RepetitionDuration:        scheduledTask.RepetitionDuration,
 			ExecutionTimeLimit:        scheduledTask.ExecutionTimeLimit,
 			Priority:                  scheduledTask.Priority,
-		})
+		}); result.Error != nil {
+			panic(result.Error)
+		}
 	}
 }
 
@@ -130,7 +148,7 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
-	db.LogMode(true)
+	// db.LogMode(true)
 
 	flushTables(db)
 	migrateSchema(db)
@@ -138,4 +156,6 @@ func main() {
 	var i importmodels.InfraImport
 	jsonutil.DecodeJsonFromFile("./data.json", &i)
 	loadData(&i, db)
+
+	logging.LogInfo("Done")
 }

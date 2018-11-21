@@ -130,7 +130,6 @@ func (e TeamServicesEndpoint) buildRepositoryMetadata(
 }
 
 func (e TeamServicesEndpoint) GetFile(file repomodel.RepositoryFileMetadata) (*miscmodel.FilePayload, error) {
-	logging.LogInfo(fmt.Sprintf("Downloading file: %s", file.File.Path))
 
 	if len(file.File.Path) == 0 {
 		return nil, errors.New("file path not specified")
@@ -178,7 +177,8 @@ func (e TeamServicesEndpoint) GetFile(file repomodel.RepositoryFileMetadata) (*m
 		return nil, errors.New(fmt.Sprintf("file not found: %s", file.Name))
 	}
 
-	logging.LogInfo("File downloaded!")
+	logging.LogInfoMultiline("File downloaded!",
+		fmt.Sprintf("Path: %s", file.File.Path))
 	return fileValue, nil
 }
 

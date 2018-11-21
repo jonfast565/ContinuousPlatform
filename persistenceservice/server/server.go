@@ -1,27 +1,47 @@
 package server
 
 import (
+	"../../databasemodels"
+	"../../logging"
 	"../../models/loggingmodel"
 	"../../models/persistmodel"
 	"../../networking"
-	"../../timeutil"
-	"../dbhelper"
+	"../../stringutil"
 	"errors"
+	"fmt"
+	"github.com/jinzhu/gorm"
 	"github.com/satori/go.uuid"
 	"os/user"
+	"time"
 )
 
 type PersistenceServiceConfiguration struct {
-	Port     int    `json:"port"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Hostname string `json:"hostname"`
-	DbPort   int    `json:"dbPort"`
-	Database string `json:"database"`
+	Port      int
+	Username  string
+	Password  string
+	Host      string
+	DbPort    int
+	DbName    string
+	EnableSsl bool
 }
 
-func (c *PersistenceServiceConfiguration) GetSqlServerConnection() (dbhelper.Database, error) {
-	return dbhelper.InitDatabase(c.Username, c.Password, c.Hostname, c.DbPort, c.Database)
+func (c PersistenceServiceConfiguration) GetPostgresConnectionString() string {
+	enableSslResult := "enable"
+	if c.EnableSsl == false {
+		enableSslResult = "disable"
+	}
+	return fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=%s",
+		c.Host,
+		c.DbPort,
+		c.Username,
+		c.DbName,
+		c.Password,
+		enableSslResult)
+}
+
+func (c *PersistenceServiceConfiguration) GetConnection() (*gorm.DB, error) {
+	connStr := c.GetPostgresConnectionString()
+	return gorm.Open("postgres", connStr)
 }
 
 type PersistenceServiceEndpoint struct {
@@ -36,7 +56,10 @@ func NewPersistenceServiceEndpoint(configuration PersistenceServiceConfiguration
 
 func (p *PersistenceServiceEndpoint) SetKeyValueCache(
 	setRequest *persistmodel.KeyValueRequest) error {
-	db, err := p.Configuration.GetSqlServerConnection()
+
+	logging.LogInfo("Setting cache value: " + setRequest.Key)
+
+	db, err := p.Configuration.GetConnection()
 	if err != nil {
 		return err
 	}
@@ -51,50 +74,35 @@ func (p *PersistenceServiceEndpoint) SetKeyValueCache(
 		return err
 	}
 
-	getExistingKeyValueCache := dbhelper.NewSqlStatement().
-		Select("dbo.KeyValueCache").
-		SimpleWhere("[Key] = @Key AND MachineName = @MachineName").
-		AddParameterWithValue("Key", setRequest.Key).
-		AddParameterWithValue("MachineName", hostname)
-	rows, err := db.RunStatement(getExistingKeyValueCache)
+	var result databasemodels.AppCache
+	db.First(&result, &databasemodels.AppCache{
+		KeyString:   setRequest.Key,
+		MachineName: hostname,
+	})
+
+	uid, err := uuid.NewV4()
 	if err != nil {
 		return err
 	}
 
-	if len(rows) > 0 {
-		insertKeyValueCache := dbhelper.
-			NewSqlStatement().
-			Update("dbo.KeyValueCache").
-			SimpleSet("Value", "@Value").
-			SimpleSet("ValueType", "@ValueType").
-			SimpleSet("MachineName", "@MachineName").
-			SimpleSet("LastModifiedBy", "@LastModifiedBy").
-			SimpleSet("LastModifiedDateTime", "@LastModifiedDatetime").
-			SimpleWhere("[Key] = @Key AND MachineName = @MachineName").
-			AddParameterWithValue("Key", setRequest.Key).
-			AddParameterWithValue("Value", setRequest.Value).
-			AddParameterWithValue("ValueType", "Binary").
-			AddParameterWithValue("MachineName", hostname).
-			AddParameterWithValue("LastModifiedBy", currentUser.Username).
-			AddParameterWithValue("LastModifiedDateTime", timeutil.GetCurrentSqlTime())
-		_, err = db.RunStatement(insertKeyValueCache)
-		if err != nil {
-			return err
-		}
+	if result.Value != nil {
+		db.Model(&result).Update("value", setRequest.Value)
+		db.Model(&result).Update("last_modified_date_time", time.Now())
+		db.Model(&result).Update("last_modified_by", currentUser.Name)
 	} else {
-		insertKeyValueCache := dbhelper.
-			NewSqlStatement().
-			Insert("dbo.KeyValueCache").
-			Columns("Key", "Value", "ValueType", "MachineName").
-			Values("@Key", "@Value", "@ValueType", "@MachineName").
-			AddParameterWithValue("Key", setRequest.Key).
-			AddParameterWithValue("Value", setRequest.Value).
-			AddParameterWithValue("ValueType", "Binary").
-			AddParameterWithValue("MachineName", hostname)
-		_, err = db.RunStatement(insertKeyValueCache)
-		if err != nil {
-			return err
-		}
+		db.Create(&databasemodels.AppCache{
+			AppCacheId:  uid,
+			MachineName: hostname,
+			KeyString:   setRequest.Key,
+			Value:       setRequest.Value,
+			ValueType:   "Binary",
+			AuditFields: databasemodels.AuditFields{
+				CreatedDateTime:      time.Now(),
+				CreatedBy:            currentUser.Name,
+				LastModifiedDateTime: time.Now(),
+				LastModifiedBy:       currentUser.Name,
+			},
+		})
 	}
 
 	return nil
@@ -102,7 +110,10 @@ func (p *PersistenceServiceEndpoint) SetKeyValueCache(
 
 func (p *PersistenceServiceEndpoint) GetKeyValueCache(
 	getRequest *persistmodel.KeyRequest) (*persistmodel.KeyValueResult, error) {
-	db, err := p.Configuration.GetSqlServerConnection()
+
+	logging.LogInfo("Getting cache value: " + getRequest.Key)
+
+	db, err := p.Configuration.GetConnection()
 	if err != nil {
 		return nil, err
 	}
@@ -111,26 +122,25 @@ func (p *PersistenceServiceEndpoint) GetKeyValueCache(
 	if err != nil {
 		return nil, err
 	}
-	getExistingKeyValueCache := dbhelper.NewSqlStatement().
-		Select("dbo.KeyValueCache").
-		SimpleWhere("[Key] = @Key AND MachineName = @MachineName").
-		AddParameterWithValue("Key", getRequest.Key).
-		AddParameterWithValue("MachineName", hostname)
 
-	rows, err := db.RunStatement(getExistingKeyValueCache)
-	if err != nil {
-		return nil, err
-	}
+	var result databasemodels.AppCache
+	db.First(&result, &databasemodels.AppCache{
+		KeyString:   getRequest.Key,
+		MachineName: hostname,
+	})
 
-	if len(rows) == 0 {
+	if result.Value == nil {
 		return nil, errors.New("value not found")
 	}
 
-	return &persistmodel.KeyValueResult{Value: rows[0]["Value"].([]byte)}, nil
+	return &persistmodel.KeyValueResult{Value: result.Value}, nil
 }
 
 func (p *PersistenceServiceEndpoint) SetLogRecord(logRecord *loggingmodel.LogRecord) error {
-	db, err := p.Configuration.GetSqlServerConnection()
+
+	logging.LogInfo("Getting cache value: " + stringutil.PartialMessage(logRecord.Message))
+
+	db, err := p.Configuration.GetConnection()
 	if err != nil {
 		return err
 	}
@@ -145,19 +155,23 @@ func (p *PersistenceServiceEndpoint) SetLogRecord(logRecord *loggingmodel.LogRec
 		return err
 	}
 
-	currentTime := timeutil.GetCurrentSqlTime()
-	insertKeyValueCache := dbhelper.
-		NewSqlStatement().
-		Insert("dbo.Logs").
-		Columns("LogId", "Date", "MachineName", "ApplicationName", "LogLevel", "Message").
-		Values("@LogId", "@Date", "@MachineName", "@ApplicationName", "@LogLevel", "@Message").
-		AddParameterWithValue("LogId", uid.String()).
-		AddParameterWithValue("Date", currentTime).
-		AddParameterWithValue("MachineName", hostname).
-		AddParameterWithValue("ApplicationName", logRecord.ApplicationName).
-		AddParameterWithValue("LogLevel", logRecord.LogLevel).
-		AddParameterWithValue("Message", logRecord.Message)
+	currentUser, err := user.Current()
+	if err != nil {
+		return err
+	}
 
-	db.RunStatement(insertKeyValueCache)
+	db.Create(&databasemodels.Log{
+		LogId:           uid,
+		MachineName:     hostname,
+		ApplicationName: logRecord.ApplicationName,
+		LogLevel:        logRecord.LogLevel,
+		Message:         logRecord.Message,
+		AuditFields: databasemodels.AuditFields{
+			CreatedDateTime:      time.Now(),
+			CreatedBy:            currentUser.Name,
+			LastModifiedDateTime: time.Now(),
+			LastModifiedBy:       currentUser.Name,
+		},
+	})
 	return nil
 }
