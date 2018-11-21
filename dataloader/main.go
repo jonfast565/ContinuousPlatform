@@ -133,6 +133,42 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 			panic(result.Error)
 		}
 	}
+
+	for _, server := range i.Servers {
+		id, _ := uuid.NewV4()
+		if result := db.Create(&databasemodels.Server{
+			ServerId: id,
+			Name:     server.Name,
+			Type:     server.Type,
+		}); result.Error != nil {
+			panic(result.Error)
+		}
+	}
+
+	for _, environment := range i.Environments {
+		id, _ := uuid.NewV4()
+
+		var servers []databasemodels.Server
+		if result := db.Model(&databasemodels.Server{}).
+			Where("name in (?)", environment.Servers).
+			Find(&servers); result.Error != nil {
+			panic(result.Error)
+		}
+
+		var ids []string
+		linq.From(servers).SelectT(func(server databasemodels.Server) string {
+			return server.ServerId.String()
+		}).ToSlice(&ids)
+
+		if result := db.Create(&databasemodels.Environment{
+			EnvironmentId: id,
+			Name:          environment.Name,
+			BusinessLine:  environment.BusinessLine,
+			Servers:       ids,
+		}); result.Error != nil {
+			panic(result.Error)
+		}
+	}
 }
 
 func main() {

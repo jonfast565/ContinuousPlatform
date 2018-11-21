@@ -7,4 +7,6 @@ type InfraImport struct {
 	IisSites            []IisSiteRecord
 	ScheduledTasks      []ScheduledTaskRecord
 	WindowsServices     []WindowsServiceRecord
+	Environments        []EnvironmentRecord
+	Servers             []ServerRecord
 }
