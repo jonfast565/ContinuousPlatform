@@ -1,0 +1,101 @@
+{
+  "Applications": [
+    {
+      "Repository": "WebNCDR",
+      "Solution": "WebNCDR.sln",
+      "Project": "NCDRSitefinity.csproj",
+      "Resources": {
+        "IisApplications": [
+          "WebNCDR"
+        ]
+      },
+      "Type": "Web"
+    }
+  ],
+  "IisSites": [
+    {
+      "Name": "www.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\www.ncdr.com",
+      "ApplicationPool": "www.ncdr.com",
+      "Applications": [
+        "WebNCDR"
+      ]
+    }
+  ],
+  "IisApplications": [
+    {
+      "Name": "WebNCDR",
+      "VirtualPath": "/WebNCDR",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\WebNCDR",
+      "ApplicationPool": "WebNCDR-{{SiteName}}"
+    }
+  ],
+  "IisApplicationPools": [
+    {
+      "Name": "WebNCDR-{{SiteName}}",
+      "ProcessType": "Integrated",
+      "FrameworkVersion": "v4.0"
+    },
+    {
+      "Name": "www.ncdr.com",
+      "ProcessType": "Integrated",
+      "FrameworkVersion": "v4.0"
+    }
+  ],
+  "WindowsServices": [
+    {
+      "Name": "NCDR Export Processor",
+      "BinaryPath": "C:\\WindowsApp\\Ncdr.UnifiedPlatform.Console.ExportProcessor",
+      "BinaryExecutableName": "Ncdr.UnifiedPlatform.Console.ExportProcessor.exe",
+      "BinaryExecutableArguments": "--service"
+    }
+  ],
+  "ScheduledTasks": [
+    {
+      "Name": "DQR Service1",
+      "BinaryPath": "C:\\WindowsApp\\DQR",
+      "BinaryExecutableName": "SubmissionProcessor.exe",
+      "BinaryExecutableArguments": "",
+      "ScheduleType": "Daily",
+      "RepeatInterval": 10000,
+      "RepetitionDuration": 10000,
+      "ExecutionTimeLimit": 10000,
+      "Priority": 1
+    }
+  ],
+  "Environments": [
+    {
+      "BusinessLine": "Ncdr",
+      "Name": "Production",
+      "Servers": [
+        "prdncdrweb1",
+        "prdncdrweb2",
+        "prdncdrweb3",
+        "prdncdrapp1",
+        "prdncdrapp2"
+      ]
+    }
+  ],
+  "Servers": [
+    {
+      "Name": "prdncdrweb1",
+      "Type": "Web"
+    },
+    {
+      "Name": "prdncdrweb2",
+      "Type": "Web"
+    },
+    {
+      "Name": "prdncdrweb3",
+      "Type": "Web"
+    },
+    {
+      "Name": "prdncdrapp1",
+      "Type": "App"
+    },
+    {
+      "Name": "prdncdrapp2",
+      "Type": "App"
+    }
+  ]
+}

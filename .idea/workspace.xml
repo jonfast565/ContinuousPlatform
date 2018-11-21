@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="push different models out into files. need to complete this work in the near future.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/persistenceservice/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/persistenceservice/dbhelper/parser.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/persistenceservice/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/server/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reposervice/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/reposervice/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reposervice/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/reposervice/server/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stringutil/stringutil.go" beforeDir="false" afterPath="$PROJECT_DIR$/stringutil/stringutil.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/timeutil/timeutil.go" beforeDir="false" afterPath="$PROJECT_DIR$/timeutil/timeutil.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +86,7 @@
     <session id="1086301486">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="18" />
+          <entry key="project.closed" value="19" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.11" value="2" />
           <entry key="project.open.time.12" value="3" />
@@ -132,14 +123,14 @@
         <counts>
           <entry key="go" value="9861" />
           <entry key="json" value="1629" />
-          <entry key="txt" value="86" />
+          <entry key="txt" value="135" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Go" value="9861" />
           <entry key="JSON" value="1629" />
-          <entry key="PLAIN_TEXT" value="86" />
+          <entry key="PLAIN_TEXT" value="135" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.go.postfix.template.usages.trigger">
@@ -150,44 +141,7 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="25" selection-start-line="25" selection-end-line="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistenceservice/server/server.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/stringutil/stringutil.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="441">
-              <caret line="66" column="1" selection-start-line="66" selection-start-column="1" selection-end-line="66" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/reposervice/server/server.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="180" column="48" selection-start-line="180" selection-start-column="48" selection-end-line="180" selection-end-column="48" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -349,7 +303,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.RepoService">
+  <component name="RunManager" selected="Go Build.JobBuilder">
     <configuration name="DataLoader" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="SystemCI" />
       <working_directory value="$PROJECT_DIR$/dataloader" />
@@ -452,14 +406,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18759455" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49626866" weight="0.32394367" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49733475" weight="0.5417349" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49733475" weight="0.6121113" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49319214" weight="0.34860885" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -510,7 +463,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="big refac and reorg" />
     <MESSAGE value="file renames for a little consistency" />
     <MESSAGE value="beginning boilerplate on persistence service including renaming" />
     <MESSAGE value="job controller boilerplate" />
@@ -535,7 +487,8 @@
     <MESSAGE value="push different models out into files. need to complete this work in the near future." />
     <MESSAGE value="better data loading" />
     <MESSAGE value="updated loader params" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated loader params" />
+    <MESSAGE value="move postgres orm stuff into persistence service." />
+    <option name="LAST_COMMIT_MESSAGE" value="move postgres orm stuff into persistence service." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -826,20 +779,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/persistenceservice/server/server.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/stringutil/stringutil.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="441">
@@ -849,8 +788,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/reposervice/server/server.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
+        <state relative-caret-position="625">
           <caret line="180" column="48" selection-start-line="180" selection-start-column="48" selection-end-line="180" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistenceservice/server/server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
         </state>
       </provider>
     </entry>
