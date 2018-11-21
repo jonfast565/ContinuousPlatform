@@ -8,6 +8,7 @@ import (
 type Environment struct {
 	EnvironmentId uuid.UUID      `gorm:"primary_key"`
 	Name          string         `gorm:"not null"`
+	BusinessLine  string         `gorm:"not null"`
 	Servers       pq.StringArray `gorm:"type:uuid[]"`
 	AuditFields
 }
