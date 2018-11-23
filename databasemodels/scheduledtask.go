@@ -13,5 +13,6 @@ type WindowsScheduledTask struct {
 	RepetitionDuration        int64     `gorm:"not null"`
 	ExecutionTimeLimit        int64     `gorm:"not null"`
 	Priority                  int64     `gorm:"not null"`
+	LoadBalanced              bool      `gorm:"not null"`
 	AuditFields
 }

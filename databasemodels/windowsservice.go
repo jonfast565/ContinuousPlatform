@@ -8,5 +8,6 @@ type WindowsService struct {
 	BinaryPath                string    `gorm:"not null"`
 	BinaryExecutableName      string    `gorm:"not null"`
 	BinaryExecutableArguments string    `gorm:"not null"`
+	LoadBalanced              bool      `gorm:"not null"`
 	AuditFields
 }
