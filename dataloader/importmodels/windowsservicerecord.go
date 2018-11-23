@@ -6,4 +6,5 @@ type WindowsServiceRecord struct {
 	BinaryExecutableName      string
 	BinaryExecutableArguments string
 	LoadBalanced              bool
+	Environments              []EnvironmentRecordPart
 }

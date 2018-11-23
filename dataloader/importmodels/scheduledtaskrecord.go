@@ -11,4 +11,5 @@ type ScheduledTaskRecord struct {
 	ExecutionTimeLimit        int64
 	Priority                  int64
 	LoadBalanced              bool
+	Environments              []EnvironmentRecordPart
 }
