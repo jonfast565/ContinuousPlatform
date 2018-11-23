@@ -194,7 +194,7 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 			panic(result.Error)
 		}
 
-		appIds := make([]string, 0)
+		var appIds []string
 		linq.From(iisApplications).SelectT(func(application databasemodels.IisApplication) string {
 			return application.IisApplicationId.String()
 		}).ToSlice(&appIds)
@@ -206,7 +206,7 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 			panic(result.Error)
 		}
 
-		siteIds := make([]string, 0)
+		var siteIds []string
 		linq.From(iisSites).SelectT(func(site databasemodels.IisSite) string {
 			return site.IisSiteId.String()
 		}).ToSlice(&siteIds)
@@ -218,7 +218,7 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 			panic(result.Error)
 		}
 
-		taskIds := make([]string, 0)
+		var taskIds []string
 		linq.From(scheduledTasks).SelectT(func(task databasemodels.WindowsScheduledTask) string {
 			return task.WindowsScheduledTaskId.String()
 		}).ToSlice(&taskIds)
@@ -230,7 +230,7 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 			panic(result.Error)
 		}
 
-		serviceIds := make([]string, 0)
+		var serviceIds []string
 		linq.From(windowsServices).SelectT(func(service databasemodels.WindowsService) string {
 			return service.WindowsServiceId.String()
 		}).ToSlice(&serviceIds)
@@ -264,7 +264,7 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
-	db.LogMode(true)
+	// db.LogMode(true)
 
 	flushTables(db)
 	migrateSchema(db)
