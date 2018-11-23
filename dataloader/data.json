@@ -25,7 +25,10 @@
         "WebNCDR"
       ],
       "Environments": [
-        "Ncdr Production"
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production"
+        }
       ]
     }
   ],
@@ -47,7 +50,13 @@
       "BinaryPath": "C:\\WindowsApp\\{{EnvironmentName}}\\Ncdr.UnifiedPlatform.Console.ExportProcessor",
       "BinaryExecutableName": "Ncdr.UnifiedPlatform.Console.ExportProcessor.exe",
       "BinaryExecutableArguments": "--service",
-      "LoadBalanced": true
+      "LoadBalanced": true,
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production"
+        }
+      ]
     }
   ],
   "ScheduledTasks": [
@@ -57,7 +66,7 @@
         "DQR Service2",
         "DQR Service3",
         "DQR Service4",
-        "DQRService5"
+        "DQR Service5"
       ],
       "BinaryPath": "C:\\WindowsApp\\DQR",
       "BinaryExecutableName": "SubmissionProcessor.exe",
@@ -67,7 +76,13 @@
       "RepetitionDuration": 10000,
       "ExecutionTimeLimit": 10000,
       "Priority": 1,
-      "LoadBalanced": true
+      "LoadBalanced": true,
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production"
+        }
+      ]
     }
   ],
   "Environments": [

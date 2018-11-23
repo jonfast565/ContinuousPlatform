@@ -118,6 +118,7 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 			BinaryPath:                windowsService.BinaryPath,
 			BinaryExecutableName:      windowsService.BinaryExecutableName,
 			BinaryExecutableArguments: windowsService.BinaryExecutableArguments,
+			LoadBalanced:              windowsService.LoadBalanced,
 		}); result.Error != nil {
 			panic(result.Error)
 		}
@@ -137,6 +138,7 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 				RepetitionDuration:        scheduledTask.RepetitionDuration,
 				ExecutionTimeLimit:        scheduledTask.ExecutionTimeLimit,
 				Priority:                  scheduledTask.Priority,
+				LoadBalanced:              scheduledTask.LoadBalanced,
 			}); result.Error != nil {
 				panic(result.Error)
 			}
