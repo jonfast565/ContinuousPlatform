@@ -42,23 +42,21 @@ func flushTables(db *gorm.DB) {
 func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 	logging.LogInfo("Loading data")
 
-	for _, iisApplicationPools := range i.IisApplicationPools {
+	for _, iisApp := range i.IisApplications {
 		id, _ := uuid.NewV4()
 		if result := db.Create(&databasemodels.IisApplicationPool{
 			IisApplicationPoolId: id,
-			Name:                 iisApplicationPools.Name,
-			ProcessType:          iisApplicationPools.ProcessType,
-			FrameworkVersion:     iisApplicationPools.FrameworkVersion,
+			Name:                 iisApp.ApplicationPool.Name,
+			ProcessType:          iisApp.ApplicationPool.ProcessType,
+			FrameworkVersion:     iisApp.ApplicationPool.FrameworkVersion,
 		}); result.Error != nil {
 			panic(result.Error)
 		}
-	}
 
-	for _, iisApp := range i.IisApplications {
-		id, _ := uuid.NewV4()
+		id, _ = uuid.NewV4()
 		var appPool databasemodels.IisApplicationPool
 		if result := db.First(&appPool,
-			&databasemodels.IisApplicationPool{Name: iisApp.ApplicationPool}); result.Error != nil {
+			&databasemodels.IisApplicationPool{Name: iisApp.ApplicationPool.Name}); result.Error != nil {
 			panic(result.Error)
 		}
 		if result := db.Create(&databasemodels.IisApplication{
@@ -73,10 +71,19 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 
 	for _, iisSite := range i.IisSites {
 		id, _ := uuid.NewV4()
+		if result := db.Create(&databasemodels.IisApplicationPool{
+			IisApplicationPoolId: id,
+			Name:                 iisSite.ApplicationPool.Name,
+			ProcessType:          iisSite.ApplicationPool.ProcessType,
+			FrameworkVersion:     iisSite.ApplicationPool.FrameworkVersion,
+		}); result.Error != nil {
+			panic(result.Error)
+		}
 
+		id, _ = uuid.NewV4()
 		var appPool databasemodels.IisApplicationPool
 		if result := db.First(&appPool,
-			&databasemodels.IisApplicationPool{Name: iisSite.ApplicationPool}); result.Error != nil {
+			&databasemodels.IisApplicationPool{Name: iisSite.ApplicationPool.Name}); result.Error != nil {
 			panic(result.Error)
 		}
 
@@ -117,48 +124,40 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 	}
 
 	for _, scheduledTask := range i.ScheduledTasks {
-		id, _ := uuid.NewV4()
-		if result := db.Create(&databasemodels.ScheduledTask{
-			ScheduledTaskId:           id,
-			Name:                      scheduledTask.Name,
-			BinaryPath:                scheduledTask.BinaryPath,
-			BinaryExecutableName:      scheduledTask.BinaryExecutableName,
-			BinaryExecutableArguments: scheduledTask.BinaryExecutableArguments,
-			ScheduleType:              scheduledTask.ScheduleType,
-			RepeatInterval:            scheduledTask.RepeatInterval,
-			RepetitionDuration:        scheduledTask.RepetitionDuration,
-			ExecutionTimeLimit:        scheduledTask.ExecutionTimeLimit,
-			Priority:                  scheduledTask.Priority,
-		}); result.Error != nil {
-			panic(result.Error)
-		}
-	}
-
-	for _, server := range i.Servers {
-		id, _ := uuid.NewV4()
-		if result := db.Create(&databasemodels.Server{
-			ServerId: id,
-			Name:     server.Name,
-			Type:     server.Type,
-		}); result.Error != nil {
-			panic(result.Error)
+		for _, name := range scheduledTask.Names {
+			id, _ := uuid.NewV4()
+			if result := db.Create(&databasemodels.ScheduledTask{
+				ScheduledTaskId:           id,
+				Name:                      name,
+				BinaryPath:                scheduledTask.BinaryPath,
+				BinaryExecutableName:      scheduledTask.BinaryExecutableName,
+				BinaryExecutableArguments: scheduledTask.BinaryExecutableArguments,
+				ScheduleType:              scheduledTask.ScheduleType,
+				RepeatInterval:            scheduledTask.RepeatInterval,
+				RepetitionDuration:        scheduledTask.RepetitionDuration,
+				ExecutionTimeLimit:        scheduledTask.ExecutionTimeLimit,
+				Priority:                  scheduledTask.Priority,
+			}); result.Error != nil {
+				panic(result.Error)
+			}
 		}
 	}
 
 	for _, environment := range i.Environments {
 		id, _ := uuid.NewV4()
-
-		var servers []databasemodels.Server
-		if result := db.Model(&databasemodels.Server{}).
-			Where("name in (?)", environment.Servers).
-			Find(&servers); result.Error != nil {
-			panic(result.Error)
-		}
-
 		var ids []string
-		linq.From(servers).SelectT(func(server databasemodels.Server) string {
-			return server.ServerId.String()
-		}).ToSlice(&ids)
+
+		for _, server := range environment.Servers {
+			id, _ := uuid.NewV4()
+			ids = append(ids, id.String())
+			if result := db.Create(&databasemodels.Server{
+				ServerId: id,
+				Name:     server.Name,
+				Type:     server.Type,
+			}); result.Error != nil {
+				panic(result.Error)
+			}
+		}
 
 		if result := db.Create(&databasemodels.Environment{
 			EnvironmentId: id,
@@ -168,6 +167,73 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 		}); result.Error != nil {
 			panic(result.Error)
 		}
+	}
+
+	for _, application := range i.Applications {
+		appNames := application.Resources.IisApplications
+		siteNames := application.Resources.IisSites
+		taskNames := application.Resources.ScheduledTasks
+		serviceNames := application.Resources.WindowsServices
+
+		var iisApplications []databasemodels.IisApplication
+		if result := db.Model(&databasemodels.IisApplication{}).
+			Where("application_name in (?)", appNames).
+			Find(&iisApplications); result.Error != nil {
+			panic(result.Error)
+		}
+
+		var appIds []string
+		linq.From(iisApplications).SelectT(func(application databasemodels.IisApplication) string {
+			return application.IisApplicationId.String()
+		}).ToSlice(&appIds)
+
+		var iisSites []databasemodels.IisSite
+		if result := db.Model(&databasemodels.IisSite{}).
+			Where("site_name in (?)", siteNames).
+			Find(&iisSites); result.Error != nil {
+			panic(result.Error)
+		}
+
+		var siteIds []string
+		linq.From(iisApplications).SelectT(func(site databasemodels.IisSite) string {
+			return site.IisSiteId.String()
+		}).ToSlice(&siteIds)
+
+		var scheduledTasks []databasemodels.ScheduledTask
+		if result := db.Model(&databasemodels.IisSite{}).
+			Where("name in (?)", taskNames).
+			Find(&scheduledTasks); result.Error != nil {
+			panic(result.Error)
+		}
+
+		var taskIds []string
+		linq.From(scheduledTasks).SelectT(func(task databasemodels.ScheduledTask) string {
+			return task.ScheduledTaskId.String()
+		}).ToSlice(&taskIds)
+
+		var windowsServices []databasemodels.WindowsService
+		if result := db.Model(&databasemodels.WindowsService{}).
+			Where("name in (?)", serviceNames).
+			Find(&windowsServices); result.Error != nil {
+			panic(result.Error)
+		}
+
+		var serviceIds []string
+		linq.From(windowsServices).SelectT(func(service databasemodels.WindowsService) string {
+			return service.WindowsServiceId.String()
+		}).ToSlice(&serviceIds)
+
+		id, _ := uuid.NewV4()
+		db.Create(databasemodels.Resource{
+			DeliverableId:   id,
+			RepositoryName:  application.Repository,
+			SolutionName:    application.Solution,
+			ProjectName:     application.Project,
+			IisApplications: appIds,
+			IisSites:        siteIds,
+			ScheduledTasks:  taskIds,
+			WindowsServices: serviceIds,
+		})
 	}
 }
 

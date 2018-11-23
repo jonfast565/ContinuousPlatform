@@ -5,4 +5,5 @@ type WindowsServiceRecord struct {
 	BinaryPath                string
 	BinaryExecutableName      string
 	BinaryExecutableArguments string
+	LoadBalanced              bool
 }

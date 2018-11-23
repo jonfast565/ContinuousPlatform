@@ -1,7 +1,7 @@
 package importmodels
 
 type ScheduledTaskRecord struct {
-	Name                      string
+	Names                     []string
 	BinaryPath                string
 	BinaryExecutableName      string
 	BinaryExecutableArguments string
@@ -10,4 +10,5 @@ type ScheduledTaskRecord struct {
 	RepetitionDuration        int64
 	ExecutionTimeLimit        int64
 	Priority                  int64
+	LoadBalanced              bool
 }
