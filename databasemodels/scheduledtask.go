@@ -2,9 +2,9 @@ package databasemodels
 
 import "github.com/satori/go.uuid"
 
-type ScheduledTask struct {
-	ScheduledTaskId           uuid.UUID `gorm:"primary_key"`
-	Name                      string    `gorm:"not null"`
+type WindowsScheduledTask struct {
+	WindowsScheduledTaskId    uuid.UUID `gorm:"primary_key"`
+	TaskName                  string    `gorm:"not null"`
 	BinaryPath                string    `gorm:"not null"`
 	BinaryExecutableName      string    `gorm:"not null"`
 	BinaryExecutableArguments string    `gorm:"not null"`
