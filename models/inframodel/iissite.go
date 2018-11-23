@@ -6,4 +6,5 @@ type IisSite struct {
 	AppPool      IisApplicationPool
 	SiteGuid     string
 	Environments []string
+	Applications []IisApplication
 }

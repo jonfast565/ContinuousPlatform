@@ -175,3 +175,17 @@ func (p *PersistenceServiceEndpoint) SetLogRecord(logRecord *loggingmodel.LogRec
 	})
 	return nil
 }
+
+func (p *PersistenceServiceEndpoint) GetInfrastructureMetadata() {
+	/*
+		RepositoryName = descriptor.RepositoryName,
+			SolutionName = descriptor.SolutionName,
+			ProjectName = descriptor.ProjectName,
+			IisApplicationPools = iisAppPools,
+			IisSites = iisSites,
+			IisApplications = iisApplications,
+			ScheduledTasks = scheduledTasks,
+			WindowsServices = windowsServices,
+			ApplicableEnvironments = environments
+	*/
+}
