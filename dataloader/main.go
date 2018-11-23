@@ -20,7 +20,7 @@ func migrateSchema(db *gorm.DB) {
 		&databasemodels.IisSite{},
 		&databasemodels.IisApplication{},
 		&databasemodels.IisApplicationPool{},
-		&databasemodels.ScheduledTask{},
+		&databasemodels.WindowsScheduledTask{},
 		&databasemodels.WindowsService{},
 		&databasemodels.Resource{},
 		&databasemodels.Server{})
@@ -33,7 +33,7 @@ func flushTables(db *gorm.DB) {
 	db.DropTable(&databasemodels.IisSite{})
 	db.DropTable(&databasemodels.IisApplication{})
 	db.DropTable(&databasemodels.IisApplicationPool{})
-	db.DropTable(&databasemodels.ScheduledTask{})
+	db.DropTable(&databasemodels.WindowsScheduledTask{})
 	db.DropTable(&databasemodels.WindowsService{})
 	db.DropTable(&databasemodels.Resource{})
 	db.DropTable(&databasemodels.Server{})
@@ -114,7 +114,7 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 		id, _ := uuid.NewV4()
 		if result := db.Create(&databasemodels.WindowsService{
 			WindowsServiceId:          id,
-			Name:                      windowsService.Name,
+			ServiceName:               windowsService.Name,
 			BinaryPath:                windowsService.BinaryPath,
 			BinaryExecutableName:      windowsService.BinaryExecutableName,
 			BinaryExecutableArguments: windowsService.BinaryExecutableArguments,
@@ -126,9 +126,9 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 	for _, scheduledTask := range i.ScheduledTasks {
 		for _, name := range scheduledTask.Names {
 			id, _ := uuid.NewV4()
-			if result := db.Create(&databasemodels.ScheduledTask{
-				ScheduledTaskId:           id,
-				Name:                      name,
+			if result := db.Create(&databasemodels.WindowsScheduledTask{
+				WindowsScheduledTaskId:    id,
+				TaskName:                  name,
 				BinaryPath:                scheduledTask.BinaryPath,
 				BinaryExecutableName:      scheduledTask.BinaryExecutableName,
 				BinaryExecutableArguments: scheduledTask.BinaryExecutableArguments,
@@ -171,9 +171,21 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 
 	for _, application := range i.Applications {
 		appNames := application.Resources.IisApplications
+		if appNames == nil {
+			appNames = make([]string, 0)
+		}
 		siteNames := application.Resources.IisSites
+		if siteNames == nil {
+			siteNames = make([]string, 0)
+		}
 		taskNames := application.Resources.ScheduledTasks
+		if taskNames == nil {
+			taskNames = make([]string, 0)
+		}
 		serviceNames := application.Resources.WindowsServices
+		if serviceNames == nil {
+			serviceNames = make([]string, 0)
+		}
 
 		var iisApplications []databasemodels.IisApplication
 		if result := db.Model(&databasemodels.IisApplication{}).
@@ -182,7 +194,7 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 			panic(result.Error)
 		}
 
-		var appIds []string
+		appIds := make([]string, 0)
 		linq.From(iisApplications).SelectT(func(application databasemodels.IisApplication) string {
 			return application.IisApplicationId.String()
 		}).ToSlice(&appIds)
@@ -194,37 +206,37 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 			panic(result.Error)
 		}
 
-		var siteIds []string
-		linq.From(iisApplications).SelectT(func(site databasemodels.IisSite) string {
+		siteIds := make([]string, 0)
+		linq.From(iisSites).SelectT(func(site databasemodels.IisSite) string {
 			return site.IisSiteId.String()
 		}).ToSlice(&siteIds)
 
-		var scheduledTasks []databasemodels.ScheduledTask
-		if result := db.Model(&databasemodels.IisSite{}).
-			Where("name in (?)", taskNames).
+		var scheduledTasks []databasemodels.WindowsScheduledTask
+		if result := db.Model(&databasemodels.WindowsScheduledTask{}).
+			Where("task_name in (?)", taskNames).
 			Find(&scheduledTasks); result.Error != nil {
 			panic(result.Error)
 		}
 
-		var taskIds []string
-		linq.From(scheduledTasks).SelectT(func(task databasemodels.ScheduledTask) string {
-			return task.ScheduledTaskId.String()
+		taskIds := make([]string, 0)
+		linq.From(scheduledTasks).SelectT(func(task databasemodels.WindowsScheduledTask) string {
+			return task.WindowsScheduledTaskId.String()
 		}).ToSlice(&taskIds)
 
 		var windowsServices []databasemodels.WindowsService
 		if result := db.Model(&databasemodels.WindowsService{}).
-			Where("name in (?)", serviceNames).
+			Where("service_name in (?)", serviceNames).
 			Find(&windowsServices); result.Error != nil {
 			panic(result.Error)
 		}
 
-		var serviceIds []string
+		serviceIds := make([]string, 0)
 		linq.From(windowsServices).SelectT(func(service databasemodels.WindowsService) string {
 			return service.WindowsServiceId.String()
 		}).ToSlice(&serviceIds)
 
 		id, _ := uuid.NewV4()
-		db.Create(databasemodels.Resource{
+		if result := db.Create(&databasemodels.Resource{
 			DeliverableId:   id,
 			RepositoryName:  application.Repository,
 			SolutionName:    application.Solution,
@@ -233,7 +245,9 @@ func loadData(i *importmodels.InfraImport, db *gorm.DB) {
 			IisSites:        siteIds,
 			ScheduledTasks:  taskIds,
 			WindowsServices: serviceIds,
-		})
+		}); result.Error != nil {
+			panic(result.Error)
+		}
 	}
 }
 
@@ -250,7 +264,7 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
-	// db.LogMode(true)
+	db.LogMode(true)
 
 	flushTables(db)
 	migrateSchema(db)
