@@ -18,12 +18,14 @@ func GenerateScripts(details *jobmodel.JobDetails) {
 		panic(err)
 	}
 
-	//infraClient := infraclient.NewInfraClient()
-	//metadata, err := infraClient.GetInfrastructure()
-	//if err != nil {
-	//panic(err)
-	//}
+	/*
+		persistenceClient := persistenceclient.NewPersistenceClient()
+		// TODO: Generate scripts here
 
-	// TODO: Generate scripts here
+		buildInfrastructure, err := persistenceClient.GetBuildInfrastructure(key)
+		if err != nil {
+			panic(err)
+		}
+	*/
 
 }
