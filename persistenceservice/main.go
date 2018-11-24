@@ -30,7 +30,7 @@ func main() {
 	router.HandleFunc("/Daemon/GetKeyValueCache", getKeyValueCache).Methods(constants.PostMethod)
 	router.HandleFunc("/Daemon/SetKeyValueCache", setKeyValueCache).Methods(constants.PostMethod)
 	router.HandleFunc("/Daemon/SetLogRecord", setLogRecord).Methods(constants.PostMethod)
-	router.HandleFunc("/Daemon/GetInfrastructureMetadata", getInfrastructureMetadata).Methods(constants.PostMethod)
+	router.HandleFunc("/Daemon/GetBuildInfrastructure", getBuildInfrastructure).Methods(constants.PostMethod)
 
 	localPort := networking.GetLocalPort(configuration.Port)
 	logging.LogContentService(localPort)
@@ -78,7 +78,7 @@ func setKeyValueCache(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(200)
 }
 
-func getInfrastructureMetadata(w http.ResponseWriter, r *http.Request) {
+func getBuildInfrastructure(w http.ResponseWriter, r *http.Request) {
 	var model inframodel.RepositoryKey
 	err := jsonutil.DecodeJsonFromBody(r, &model)
 	if err != nil {
@@ -86,7 +86,7 @@ func getInfrastructureMetadata(w http.ResponseWriter, r *http.Request) {
 		logging.LogError(err)
 		return
 	}
-	result, err := endpoint.GetInfrastructureMetadata(model)
+	result, err := endpoint.GetBuildInfrastructure(model)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
