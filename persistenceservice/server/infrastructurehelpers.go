@@ -247,10 +247,10 @@ func getEnvironments(db *gorm.DB) *[]inframodel.Environment {
 	var environmentResult []inframodel.Environment
 	for _, environment := range environments {
 		serverUids := environment.Servers
-
+		serverUidStrArray := []string(serverUids)
 		var servers []databasemodels.Server
 		if result := db.Model(&databasemodels.Server{}).
-			Where("server_id in (?)", serverUids).
+			Where("server_id in (?)", serverUidStrArray).
 			Find(&servers); result.Error != nil {
 			panic(result.Error)
 		}
