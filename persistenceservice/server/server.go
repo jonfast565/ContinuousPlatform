@@ -3,6 +3,7 @@ package server
 import (
 	"../../databasemodels"
 	"../../logging"
+	"../../models/inframodel"
 	"../../models/loggingmodel"
 	"../../models/persistmodel"
 	"../../networking"
@@ -75,7 +76,7 @@ func (p *PersistenceServiceEndpoint) SetKeyValueCache(
 	}
 
 	var result databasemodels.AppCache
-	db.First(&result, &databasemodels.AppCache{
+	cacheState := db.First(&result, &databasemodels.AppCache{
 		KeyString:   setRequest.Key,
 		MachineName: hostname,
 	})
@@ -85,7 +86,7 @@ func (p *PersistenceServiceEndpoint) SetKeyValueCache(
 		return err
 	}
 
-	if result.Value != nil {
+	if !cacheState.RecordNotFound() {
 		db.Model(&result).Update("value", setRequest.Value)
 		db.Model(&result).Update("last_modified_date_time", time.Now())
 		db.Model(&result).Update("last_modified_by", currentUser.Name)
@@ -124,12 +125,10 @@ func (p *PersistenceServiceEndpoint) GetKeyValueCache(
 	}
 
 	var result databasemodels.AppCache
-	db.First(&result, &databasemodels.AppCache{
+	if db.First(&result, &databasemodels.AppCache{
 		KeyString:   getRequest.Key,
 		MachineName: hostname,
-	})
-
-	if result.Value == nil {
+	}).RecordNotFound() {
 		return nil, errors.New("value not found")
 	}
 
@@ -176,16 +175,45 @@ func (p *PersistenceServiceEndpoint) SetLogRecord(logRecord *loggingmodel.LogRec
 	return nil
 }
 
-func (p *PersistenceServiceEndpoint) GetInfrastructureMetadata() {
-	/*
-		RepositoryName = descriptor.RepositoryName,
-			SolutionName = descriptor.SolutionName,
-			ProjectName = descriptor.ProjectName,
-			IisApplicationPools = iisAppPools,
-			IisSites = iisSites,
-			IisApplications = iisApplications,
-			ScheduledTasks = scheduledTasks,
-			WindowsServices = windowsServices,
-			ApplicableEnvironments = environments
-	*/
+func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.RepositoryKey) (
+	*inframodel.BuildInfrastructureMetadata, error) {
+	logging.LogInfo("Getting infrastructure metadata")
+
+	var im inframodel.BuildInfrastructureMetadata
+	db, err := p.Configuration.GetConnection()
+	if err != nil {
+		return nil, err
+	}
+
+	resource := getResource(key, db)
+	sites := getIisSites(resource.IisSites, db)
+	// siteNames := getIisSiteNames(*sites)
+	applications := getIisApplications(resource.IisApplications, db)
+	appPools := getRelevantAppPools(*sites, *applications)
+	appPoolNames := getAppPoolNames(appPools)
+	// appNames := getIisApplicationNames(*applications)
+	tasks := getWindowsTasks(resource.ScheduledTasks, db)
+	taskNames := getScheduledTaskNames(*tasks)
+	services := getWindowsServices(resource.WindowsServices, db)
+	serviceNames := getWindowsServiceNames(*services)
+	environments := getEnvironments(db)
+	deploymentLocations := getDeploymentLocations(*applications, *sites, *tasks, *services)
+
+	var results []inframodel.ServerTypeMetadata
+	for _, environment := range *environments {
+		for _, server := range environment.Servers {
+			results = append(results, inframodel.ServerTypeMetadata{
+				ServerName:          server.ServerName,
+				ServerType:          server.ServerType,
+				EnvironmentName:     environment.GetEnvironmentName(),
+				DeploymentLocations: deploymentLocations,
+				AppPoolNames:        appPoolNames,
+				ServiceNames:        serviceNames,
+				TaskNames:           taskNames,
+			})
+		}
+	}
+
+	im.Metadata = results
+	return &im, nil
 }

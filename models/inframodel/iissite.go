@@ -5,6 +5,5 @@ type IisSite struct {
 	PhysicalPath string
 	AppPool      IisApplicationPool
 	SiteGuid     string
-	Environments []string
 	Applications []IisApplication
 }
