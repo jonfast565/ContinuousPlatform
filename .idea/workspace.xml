@@ -5,10 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/models/inframodel/environment.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/inframodel/respositorykey.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/inframodel/servertypemetadata.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/inframodel/buildinfrastructure.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/inframodel/environmentdescriptor.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/inframodel/environmentinfrastructure.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/inframodel/flattenedbuildinfrastructure.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/inframodel/iisapplication.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/inframodel/iisapplication.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/inframodel/iissite.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/inframodel/iissite.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/inframodel/iissiteapplicationmemberpool.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/inframodel/iissiteapplicationmemberpool.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/inframodel/infrastructuredescriptor.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/inframodel/buildinfrastructure.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/inframodel/infrastructuremetadata.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/inframodel/infrastructuremetadata.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/inframodel/scheduledtask.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/inframodel/scheduledtask.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/inframodel/servernametype.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/inframodel/windowsservice.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/inframodel/windowsservice.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/persistenceservice/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/persistenceservice/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/server/server.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,66 +33,38 @@
     <SUITE FILE_PATH="coverage/SystemCI$FileUtil_Tests.out" NAME="FileUtil Tests Coverage Results" MODIFIED="1540686248025" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dataloader/data.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="19" lean-forward="true" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/inframodel/environmentdescriptor.go">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/inframodel/buildinfrastructure.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="15" selection-start-line="2" selection-start-column="15" selection-end-line="2" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/inframodel/flattenedbuildinfrastructure.go">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/inframodel/iisapplication.go">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/inframodel/iisapplicationpool.go">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/inframodel/iissiteapplicationmemberpool.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="38" selection-start-line="4" selection-start-column="38" selection-end-line="4" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/models/inframodel/iissite.go">
+        <entry file="file://$PROJECT_DIR$/persistenceservice/server/server.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="33" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
+            <state relative-caret-position="719">
+              <caret line="208" column="56" selection-start-line="208" selection-start-column="56" selection-end-line="208" selection-end-column="56" />
+              <folding>
+                <element signature="e#16#283#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/inframodel/environmentinfrastructure.go">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="481">
+              <caret line="158" column="54" lean-forward="true" selection-start-line="158" selection-start-column="54" selection-end-line="158" selection-end-column="54" />
+              <folding>
+                <element signature="e#16#132#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/inframodel/environment.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -112,18 +96,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/jobbuilder/server/generators/generatorinterface.go" />
-        <option value="$PROJECT_DIR$/databasemodels/test.go" />
-        <option value="$PROJECT_DIR$/databasemodels/businesslines.go" />
-        <option value="$PROJECT_DIR$/databasemodels/deliverablegroup.go" />
-        <option value="$PROJECT_DIR$/databasemodels/deliverable.go" />
-        <option value="$PROJECT_DIR$/logging/logging.go" />
-        <option value="$PROJECT_DIR$/dataloader/data.json.go" />
-        <option value="$PROJECT_DIR$/dataloader/configuration.go" />
-        <option value="$PROJECT_DIR$/databasemodels/iisapplicationgroup.go" />
-        <option value="$PROJECT_DIR$/databasemodels/iissitegroup.go" />
-        <option value="$PROJECT_DIR$/databasemodels/iissiteapplication.go" />
-        <option value="$PROJECT_DIR$/databasemodels/scheduledtaskgroup.go" />
         <option value="$PROJECT_DIR$/databasemodels/windowsservicegroup.go" />
         <option value="$PROJECT_DIR$/databasemodels/servergroup.go" />
         <option value="$PROJECT_DIR$/databasemodels/servertype.go" />
@@ -160,15 +132,27 @@
         <option value="$PROJECT_DIR$/dataloader/importmodels/scheduledtaskrecord.go" />
         <option value="$PROJECT_DIR$/dataloader/importmodels/iissiterecord.go" />
         <option value="$PROJECT_DIR$/dataloader/main.go" />
-        <option value="$PROJECT_DIR$/persistenceservice/server/server.go" />
         <option value="$PROJECT_DIR$/models/inframodel/iissiteapplicationmemberpool.go" />
+        <option value="$PROJECT_DIR$/models/inframodel/environmentinfrastructure.go" />
+        <option value="$PROJECT_DIR$/models/inframodel/flattenedbuildinfrastructure.go" />
+        <option value="$PROJECT_DIR$/models/inframodel/windowsservice.go" />
+        <option value="$PROJECT_DIR$/models/inframodel/infrastructurefilter.go" />
+        <option value="$PROJECT_DIR$/models/inframodel/respositorykey.go" />
+        <option value="$PROJECT_DIR$/persistenceservice/main.go" />
+        <option value="$PROJECT_DIR$/models/inframodel/iisapplication.go" />
         <option value="$PROJECT_DIR$/models/inframodel/iissite.go" />
+        <option value="$PROJECT_DIR$/models/inframodel/scheduledtask.go" />
+        <option value="$PROJECT_DIR$/models/inframodel/infrastructuremetadata.go" />
+        <option value="$PROJECT_DIR$/models/inframodel/servertypemetadata.go" />
+        <option value="$PROJECT_DIR$/models/inframodel/environment.go" />
+        <option value="$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go" />
+        <option value="$PROJECT_DIR$/persistenceservice/server/server.go" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="381" />
-    <option name="y" value="215" />
+    <option name="x" value="630" />
+    <option name="y" value="124" />
     <option name="width" value="927" />
     <option name="height" value="546" />
   </component>
@@ -177,6 +161,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -195,22 +180,10 @@
               <item name="models" type="462c0819:PsiDirectoryNode" />
               <item name="inframodel" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="PlatformCI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlatformCI" type="462c0819:PsiDirectoryNode" />
-              <item name="persistenceservice" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlatformCI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlatformCI" type="462c0819:PsiDirectoryNode" />
-              <item name="persistenceservice" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -358,7 +331,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1988273" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.20842217" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -371,7 +344,7 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" weight="0.4355363" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49520257" weight="0.3206934" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5075643" side_tool="true" weight="0.26350245" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5075643" side_tool="true" weight="0.26327193" />
       <window_info anchor="bottom" id="Messages" order="11" visible="true" weight="0.32827735" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -381,20 +354,20 @@
       <window_info anchor="right" id="Coverage" order="4" side_tool="true" weight="0.32980332" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1988273" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20842217" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49626866" weight="0.32394367" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49733475" weight="0.6121113" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4924357" visible="true" weight="0.26218852" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4924357" weight="0.26218852" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32569557" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" weight="0.4355363" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49520257" weight="0.3206934" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5075643" side_tool="true" weight="0.26350245" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5075643" side_tool="true" weight="0.26327193" />
       <window_info anchor="bottom" id="Messages" order="11" visible="true" weight="0.32827735" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -413,7 +386,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="remove auth stuff" />
     <MESSAGE value="added more boilerplate code" />
     <MESSAGE value="import infrastructure models. complete most of persistence layer" />
     <MESSAGE value="job running is ok now." />
@@ -438,7 +410,8 @@
     <MESSAGE value="working data loader" />
     <MESSAGE value="removed verbose logging" />
     <MESSAGE value="add environment keys" />
-    <option name="LAST_COMMIT_MESSAGE" value="add environment keys" />
+    <MESSAGE value="cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleanup" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -470,53 +443,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/databasemodels/servergroup.go" />
-    <entry file="file://$PROJECT_DIR$/databasemodels/servertype.go" />
-    <entry file="file://$PROJECT_DIR$/databasemodels/deliverable.go" />
-    <entry file="file://$PROJECT_DIR$/databasemodels/test.go" />
-    <entry file="file://$PROJECT_DIR$/databasemodels/auditfields.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="46" selection-start-line="6" selection-start-column="46" selection-end-line="6" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/keyvaluecache.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="43" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/iissite.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="51" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/businessline.go" />
-    <entry file="file://$PROJECT_DIR$/dataloader/importmodels/apprecord.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/iisapplicationpool.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="52" lean-forward="true" selection-start-line="7" selection-start-column="52" selection-end-line="7" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/databasemodels/iisapplication.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/go/src/github.com/jinzhu/gorm/callback.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2356">
@@ -650,24 +576,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/go/src/github.com/jinzhu/gorm/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="312" column="13" selection-start-line="312" selection-start-column="13" selection-end-line="312" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Go/src/runtime/panic.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="680" selection-start-line="680" selection-end-line="680" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dataloader/configuration.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="20" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -699,13 +611,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dataloader/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="240" selection-start-line="240" selection-end-line="240" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/databasemodels/scheduledtask.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -727,56 +632,140 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/persistenceservice/server/server.go">
+    <entry file="file://$PROJECT_DIR$/models/inframodel/iissiteapplicationmemberpool.go" />
+    <entry file="file://$PROJECT_DIR$/models/inframodel/environmentdescriptor.go" />
+    <entry file="file://$PROJECT_DIR$/models/inframodel/buildinfrastructure.go" />
+    <entry file="file://$PROJECT_DIR$/models/inframodel/environmentinfrastructure.go" />
+    <entry file="file://$PROJECT_DIR$/models/inframodel/servernametype.go" />
+    <entry file="file://$PROJECT_DIR$/models/inframodel/infrastructurefilter.go" />
+    <entry file="file://$USER_HOME$/go/src/github.com/jinzhu/gorm/scope.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="566">
-          <caret line="178" column="63" lean-forward="true" selection-start-line="178" selection-start-column="63" selection-end-line="178" selection-end-column="63" />
+        <state relative-caret-position="-195">
+          <caret line="856" column="20" selection-start-line="856" selection-start-column="20" selection-end-line="856" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/go/src/github.com/jinzhu/gorm/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="531" column="13" selection-start-line="531" selection-start-column="13" selection-end-line="531" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistenceservice/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="39">
+          <caret line="75" column="14" lean-forward="true" selection-start-line="75" selection-start-column="14" selection-end-line="75" selection-end-column="14" />
           <folding>
-            <element signature="e#16#256#0" expanded="true" />
+            <element signature="e#14#188#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dataloader/data.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="19" lean-forward="true" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/inframodel/environmentinfrastructure.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/inframodel/environmentdescriptor.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/inframodel/buildinfrastructure.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="15" selection-start-line="2" selection-start-column="15" selection-end-line="2" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/inframodel/flattenedbuildinfrastructure.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/inframodel/iisapplication.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/inframodel/iisapplicationpool.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/inframodel/iissiteapplicationmemberpool.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="38" selection-start-line="4" selection-start-column="38" selection-end-line="4" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/inframodel/iissite.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="33" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
+        <state relative-caret-position="102">
+          <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/inframodel/iisapplication.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="28" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/inframodel/iisapplicationpool.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/databasemodels/iisapplication.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/configuration.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="20" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/inframodel/respositorykey.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="18" lean-forward="true" selection-start-column="18" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/inframodel/servertypemetadata.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="21" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/data.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-403">
+          <caret line="46" column="15" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/inframodel/infrastructuremetadata.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="33" lean-forward="true" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/inframodel/scheduledtask.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="35" lean-forward="true" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/inframodel/windowsservice.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="36" selection-start-line="7" selection-start-column="36" selection-end-line="7" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="787">
+          <caret line="239" column="29" lean-forward="true" selection-start-line="239" selection-start-column="29" selection-end-line="239" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="481">
+          <caret line="158" column="54" lean-forward="true" selection-start-line="158" selection-start-column="54" selection-end-line="158" selection-end-column="54" />
+          <folding>
+            <element signature="e#16#132#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/inframodel/environment.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistenceservice/server/server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="719">
+          <caret line="208" column="56" selection-start-line="208" selection-start-column="56" selection-end-line="208" selection-end-column="56" />
+          <folding>
+            <element signature="e#16#283#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

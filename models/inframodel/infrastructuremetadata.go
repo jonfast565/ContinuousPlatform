@@ -1,6 +1,5 @@
 package inframodel
 
-type InfrastructureMetadata struct {
-	Infrastructure []InfrastructureDescriptor
-	Environments   []EnvironmentDescriptor
+type BuildInfrastructureMetadata struct {
+	Metadata []ServerTypeMetadata
 }
