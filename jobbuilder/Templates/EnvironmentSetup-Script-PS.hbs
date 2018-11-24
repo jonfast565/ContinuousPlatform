@@ -1,0 +1,260 @@
+$ErrorActionPreference = "Stop"
+
+Write-Host "IIS DSC Script for {{Environment}} Environment"
+
+$Interactive = $true
+
+if ($Interactive -eq $true) {
+    $username = Read-Host "Please enter the system account username"
+    $password = Read-Host "Please enter the system account password" -AsSecureString
+} else {
+    # TODO: This can only come from environment variables if text is not enterable
+    $password = "ThisIsAPlaintextPassword" | ConvertTo-SecureString -asPlainText -Force
+    $username = "User1"
+}
+
+if ([string]::IsNullOrEmpty($username)) {
+    Throw "Invalid username entered. Cannot proceed."
+}
+
+[PSCredential] $credential = New-Object System.Management.Automation.PSCredential($username,$password)
+
+$ConfigurationData = @{
+    AllNodes = @(
+    {{#each Servers}}
+    @{
+        NodeName = "{{ServerName}}"
+        PSDscAllowDomainUser = $true
+        PSDscAllowPlainTextPassword = $true
+        Credential = $credential
+        ServerType = "{{ServerType}}"
+    }
+    {{#unless @last}},{{/unless}}
+    {{/each}}
+    )
+}
+
+# TODO: This might be necessary to perform remotely on each machine...
+if (Get-Module -ListAvailable -Name "PSDesiredStateConfiguration") {
+    Write-Host "PSDesiredStateConfiguration module exists. Can proceed."
+} else {
+    Write-Host "PSDesiredStateConfiguration module does not exist"
+    Throw "PSDesiredStateConfiguration does not exist, unrecoverable error"
+}
+
+if (Get-Module -ListAvailable -Name "xWebAdministration") {
+    Write-Host "xWebAdministration module exists. Can proceed."
+} else {
+    Write-Host "xWebAdministration module does not exist"
+    Install-Module "xWebAdministration"
+}
+
+if (Get-Module -ListAvailable -Name "xComputerManagement") {
+    Write-Host "xComputerManagement module exists. Can proceed."
+} else {
+    Write-Host "xComputerManagement module does not exist"
+    Install-Module "xComputerManagement"
+}
+
+Configuration IISSetup_{{EnvironmentId}} {
+
+    Import-DscResource -ModuleName "PSDesiredStateConfiguration"
+    Import-DscResource -ModuleName "xWebAdministration"
+    Import-DscResource -ModuleName "xComputerManagement"
+
+    Node $AllNodes.NodeName {
+        If ($Node.ServerType -eq "Web") {
+
+            # is web server installed?
+            WindowsFeature IISInstalled
+            {
+                Ensure = "Present"
+                Name = "Web-Server"
+            }
+
+            # is mgmt console installed?
+            WindowsFeature IISMgmtConsoleInstalled
+            {
+                Ensure = "Present"
+                Name = "Web-Mgmt-Console"
+                DependsOn = @("[WindowsFeature]IISInstalled")
+
+            }
+
+            # asp.net 4.5 role installed
+            WindowsFeature IISAspNet3
+            {
+                Ensure = "Present"
+                Name = "Web-Asp-Net"
+                DependsOn = @("[WindowsFeature]IISInstalled")
+            }
+
+            # asp.net 3.x role installed
+            WindowsFeature IISAspNet45
+            {
+                Ensure = "Present"
+                Name = "Web-Asp-Net45"
+                DependsOn = @("[WindowsFeature]IISInstalled")
+            }
+
+            # install all old IIS 6 features
+            WindowsFeature IIS6Compat
+            {
+                Ensure = "Present"
+                Name = "Web-Mgmt-Compat"
+                DependsOn = @("[WindowsFeature]IISInstalled")
+            }
+
+            # cgi installed (Cognos)
+            WindowsFeature IISCgi
+            {
+                Ensure = "Present"
+                Name = "Web-CGI"
+                DependsOn = @("[WindowsFeature]IISInstalled")
+            }
+
+            # http redirection (for site root)
+            WindowsFeature IISHttpRedirection
+            {
+                Ensure = "Present"
+                Name = "Web-Http-Redirect"
+                DependsOn = @("[WindowsFeature]IISInstalled")
+            }
+
+            WindowsFeature IISWindowsAuthentication
+            {
+                Ensure = "Present"
+                Name = "Web-Windows-Auth"
+                DependsOn = @("[WindowsFeature]IISInstalled")
+            }
+
+            # remove the default website
+            xWebsite DefaultSiteRemoved
+            {
+                Ensure = "Absent"
+                Name = "Default Web Site"
+                DependsOn = @("[WindowsFeature]IISInstalled")
+            }
+
+            {{#each ApplicationPools}}
+            # create web app pool
+            xWebAppPool "CreateApplicationPool-{{AppPoolName}}"
+            {
+                Ensure = "Present"
+                Name = '{{AppPoolName}}'
+                managedRuntimeVersion = '{{RealAppPoolFrameworkVersion}}'
+                identityType = 'SpecificUser'
+                Credential = $Node.Credential
+                State = "Stopped"
+                DependsOn = @("[WindowsFeature]IISInstalled")
+            }
+
+            {{/each}}
+
+            {{#each IisSiteApplicationMembers}}
+            {{#with ParentSite}}
+            # set up the application's website directory
+            File "WebsiteDirectoryCreated-{{SiteName}}"
+            {
+                Ensure = "Present"
+                DestinationPath = '{{PhysicalPath}}'
+                Type = "Directory"
+            }
+
+            File "SiteWebConfigAdded-{{SiteName}}"
+            {
+                Ensure = "Present"
+                DestinationPath = '{{PhysicalPath}}' + "\\web.config"
+                Type = "File"
+                Contents = '<configuration></configuration>'
+                DependsOn = @("[File]WebsiteDirectoryCreated-{{SiteName}}")
+            }
+
+            # ensure site is created
+            xWebsite "CreateSite-{{SiteName}}"
+            {
+                Ensure = "Present"
+                Name = '{{SiteName}}'
+                State = "Started"
+                PhysicalPath = '{{PhysicalPath}}'
+                DependsOn = @("[WindowsFeature]IISInstalled", "[File]WebsiteDirectoryCreated-{{SiteName}}")
+            }
+
+            {{/with}}
+            {{#each ChildApplications}}
+            # set up the application's physical directory
+            File "AppPhysicalDirectoryCreated-{{../ParentSite.SiteName}}-{{ApplicationName}}"
+            {
+                Ensure = "Present"
+                DestinationPath = '{{PhysicalPath}}'
+                Type = "Directory"
+                DependsOn = @("[WindowsFeature]IISInstalled", "[File]WebsiteDirectoryCreated-{{../ParentSite.SiteName}}")
+            }
+
+            # create web application
+            xWebApplication "CreateWebApplication-{{../ParentSite.SiteName}}-{{ApplicationName}}"
+            {
+                Ensure = "Present"
+                Name = '{{ApplicationName}}'
+                Website = '{{../ParentSite.SiteName}}'
+                WebAppPool = '{{AppPool.AppPoolName}}'
+                PhysicalPath = '{{PhysicalPath}}'
+                DependsOn = @("[WindowsFeature]IISInstalled", "[xWebAppPool]CreateApplicationPool-{{AppPool.AppPoolName}}")
+            }
+
+            {{/each}}
+            {{/each}}
+        } elseif ($Node.ServerType -eq "Application") {
+
+            {{#each ScheduledTasks}}
+            File "CreateScheduledTaskFolder-{{TaskName}}"
+            {
+                Ensure = "Present"
+                DestinationPath = "{{BinaryPath}}"
+                Type = "Directory"
+            }
+
+            $ActionPath = "{{BinaryPath}}" + "\\" + "{{BinaryExecutableName}}"
+            xScheduledTask "CreateScheduledTask-{{TaskName}}"
+            {
+                TaskName = "{{TaskName}}"
+                ActionExecutable = $ActionPath
+                ScheduleType = "Daily"
+                RepeatInterval = [TimeSpan]::Parse('00:01:00')
+                RepetitionDuration = [TimeSpan]::Parse('23:59:00')
+                Ensure = "Present"
+                Enable = $false
+                ExecuteAsCredential = $Node.Credential
+                MultipleInstances = 'IgnoreNew'
+                Priority = 1
+                RunOnlyIfNetworkAvailable = $false
+                RunLevel = 'Highest'
+            }
+
+            {{/each}}
+            {{#each WindowsServices}}
+            File "CreateWindowsServiceFolder-{{ServiceName}}"
+            {
+                Ensure = "Present"
+                DestinationPath = "{{BinaryPath}}"
+                Type = "Directory"
+            }
+
+            $ActionPath = "{{BinaryPath}}" + "\\" + "{{BinaryExecutableName}}" + " {{BinaryExecutableArguments}}"
+            Service "ConfigureService-{{ServiceName}}"
+            {
+                Name = "{{ServiceName}}"
+                Credential = $Node.Credential
+                StartupType = "Manual"
+                State = "Stopped"
+                DisplayName = "{{ServiceName}}"
+                Path = $ActionPath
+            }
+
+            {{/each}}
+        }
+    }
+}
+
+IISSetup_{{EnvironmentId}} -ConfigurationData $ConfigurationData
+Start-DscConfiguration -Wait -Verbose -Force -Path "IISSetup_{{EnvironmentId}}"

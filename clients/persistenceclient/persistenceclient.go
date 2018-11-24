@@ -4,6 +4,7 @@ import (
 	"../../compressutil"
 	"../../constants"
 	"../../jsonutil"
+	"../../models/inframodel"
 	"../../models/persistmodel"
 	"../../webutil"
 	"bytes"
@@ -109,6 +110,39 @@ func (pc PersistenceClient) SetKeyValueCache(key string, value []byte, compress 
 		return err
 	}
 
-	webutil.ExecuteRequestWithoutRead(&pc.client, request)
+	_ = webutil.ExecuteRequestWithoutRead(&pc.client, request)
 	return nil
+}
+
+func (pc PersistenceClient) GetBuildInfrastructure(
+	key inframodel.RepositoryKey) (*inframodel.BuildInfrastructureMetadata, error) {
+	// build service url
+	myUrl := webutil.NewEmptyUrl()
+	myUrl.SetBase(constants.DefaultScheme,
+		pc.configuration.Hostname,
+		strconv.Itoa(pc.configuration.Port))
+	myUrl.AppendPathFragments([]string{"Daemon", "GetBuildInfrastructure"})
+
+	// execute request
+	requestBody := key
+	requestJson, err := json.Marshal(requestBody)
+	if err != nil {
+		return nil, err
+	}
+
+	urlString := myUrl.GetUrlStringValue()
+	request, err := http.NewRequest(constants.PostMethod,
+		urlString,
+		bytes.NewReader(requestJson))
+	if err != nil {
+		return nil, err
+	}
+
+	var value inframodel.BuildInfrastructureMetadata
+	err = webutil.ExecuteRequestAndReadJsonBody(&pc.client, request, &value)
+	if err != nil {
+		return nil, err
+	}
+
+	return &value, nil
 }

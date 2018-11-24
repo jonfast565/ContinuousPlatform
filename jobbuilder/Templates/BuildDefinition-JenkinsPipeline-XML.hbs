@@ -1,0 +1,319 @@
+﻿<?xml version='1.0' encoding='UTF-8' ?>
+<flow-definition plugin="workflow-job@2.9">
+    <actions />
+    <description>A workflow build for {{project.Name}}</description>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <jenkins.model.BuildDiscarderProperty>
+          <strategy class="hudson.tasks.LogRotator">
+            <daysToKeep>-1</daysToKeep>
+            <numToKeep>4</numToKeep>
+            <artifactDaysToKeep>-1</artifactDaysToKeep>
+            <artifactNumToKeep>-1</artifactNumToKeep>
+          </strategy>
+        </jenkins.model.BuildDiscarderProperty>
+        <org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty/>
+        <org.jenkinsci.plugins.workflow.job.properties.DisableResumeJobProperty/>
+        <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+                <hudson.model.ChoiceParameterDefinition>
+                    <name>SolutionConfiguration</name>
+                    <description>The configuration of the solution (as selectable in Visual Studio) </description>
+                    <choices class="java.util.Arrays$ArrayList">
+                        <a class="string-array">
+                            {{#each SolutionConfigurations}}
+                            <string>{{this}}</string>
+                            {{/each}}
+                        </a>
+                    </choices>
+                </hudson.model.ChoiceParameterDefinition>
+            </parameterDefinitions>
+        </hudson.model.ParametersDefinitionProperty>
+        <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+            <triggers>
+                <hudson.triggers.SCMTrigger>
+                    <spec>H/12 * * * *</spec>
+                    <ignorePostCommitHooks>false</ignorePostCommitHooks>
+                </hudson.triggers.SCMTrigger>
+            </triggers>
+        </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+    </properties>
+    <!-- TODO?: Re-write logic for this to check for an existing build and if not build it. -->
+    <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.26">
+        <script>// build script for: {{deliverable.Branch}} -> {{solution.Name}} -> {{project.Name}}
+// generated on: {{GeneratedDatetime}}
+
+/*
+=================================
+BUILD DATA
+=================================
+*/
+
+// solution/project information
+def projectKey = "{{DashedCanonicalId}}"
+def projectScriptHeader = "{{deliverable.Branch}} -> {{solution.Name}} -> {{project.Name}}"
+def solution = "{{solution.Name}}"
+def branch = "{{deliverable.Branch}}"
+def project = "{{project.Name}}"
+def projectPath = "{{project.Path}}"
+def projectFolder = removeLastPathComponent(projectPath)
+
+def referenceSolutions = [
+	{{#each Solutions}}
+	"{{this.Name}}": $/{{this.Path}}/${{#unless @last}},{{/unless}}  
+	{{/each}}
+]
+
+// build configuration and publishing
+def configuration = env.SolutionConfiguration
+def targetFrameworks = [
+    {{#each TargetFrameworks}}
+    "{{this}}"{{#unless @last}},{{/unless}}
+    {{/each}}
+]
+
+def publishProfiles = [
+    {{#each PublishProfiles}}
+    "{{this.Name}}": $/{{this.PublishUrl}}/${{#unless @last}},{{/unless}}
+    {{/each}}
+]
+
+if (publishProfiles.size() == 0) {
+    publishProfiles = [:]
+}
+
+def publishProfileFile = configuration + ".pubxml"
+def hasPublishProfiles = publishProfiles.any()
+def isDotNetCoreProject = targetFrameworks.any()
+def folderProfileExists = publishProfiles.containsKey("FolderProfile.pubxml")
+
+// script settings
+def enableSonarqubeAnalysis = false
+def deleteWorkspaceAfterBuild = true
+def numberOfCores = 16
+def workspaceFolder = 'C:/Wkspc/{{Hash}}'
+def artifactBaseFolder = 'C:/BuildArtifactsJenkins'
+
+/*
+=================================
+BUILD SCRIPT
+=================================
+*/
+
+node {
+    try {
+        ws(workspaceFolder) {
+            stage ("Pull Sources") {
+				println "Pulling ${projectScriptHeader} from source control"
+                git url: '{{deliverable.OptionalRepositoryUrl}}', 
+				branch: '{{deliverable.Branch}}', 
+				credentialsId: 'defaultGitCredentials', 
+				poll: true
+            }
+			stage ("Clean") {
+				referenceSolutions.each{
+					runMsBuildClean(it.key, it.value, configuration, numberOfCores)
+				}
+			}
+			stage ("Restore Packages") {
+				referenceSolutions.each{
+					restoreNugetPackages(it.key, it.value)
+				}
+				if (isDotNetCoreProject) {
+					runMsBuildRestore(project, projectPath, configuration, numberOfCores)
+				}
+			}
+            stage ("Build") {
+				println "Building project: ${project}"
+				if (enableSonarqubeAnalysis) {
+					invokeSonarqubeScan(projectKey)
+				}
+				if (hasPublishProfiles) {
+                    if (!publishProfiles.containsKey(publishProfileFile)) {
+                        // .NET Core default profile
+                        publishProfileFile = "FolderProfile.pubxml"
+                    }
+                    if (hasPublishProfiles &amp;&amp; !publishProfiles.containsKey(publishProfileFile)) {
+                        error("No suitable publish profile exists for this solution configuration. Build failed.")
+                    }
+					runMsBuildPublish(project, projectPath, configuration, publishProfileFile, numberOfCores)
+				} else {
+				    runMsBuildBuild(project, projectPath, configuration, numberOfCores)
+				}
+				if (enableSonarqubeAnalysis) {
+					disinvokeSonarqubeScan(projectKey)
+				}
+            }
+			stage ("Snapshot") {
+				println "Snapshot artifacts"
+				def snapshotPath = buildPathFromTimestamp(artifactBaseFolder, branch, solution, project)
+				if (hasPublishProfiles) {
+                    def publishPath = ""
+                    if (!publishProfiles.containsKey(publishProfileFile)) {
+                        publishPath = publishProfiles["FolderProfile.pubxml"]
+                    } else {
+					    publishPath = publishProfiles[publishProfileFile]
+                    }
+					runRobocopy(publishPath, snapshotPath)
+				}
+				else {
+					def sourcePath = ""
+					if (isDotNetCoreProject) {
+						// TODO: has always been a lucky guess...
+						// TODO: what if there are multiple target frameworks?
+						sourcePath = "${projectFolder}/bin/${configuration}/${targetFrameworks[0]}"
+					}
+					else {
+						// TODO: has always been a lucky guess...
+						sourcePath = "${projectFolder}/bin/${configuration}"
+					}
+					runRobocopy(sourcePath, snapshotPath)
+				}
+			}
+			stage("Delete Workspace") {
+				if (deleteWorkspaceAfterBuild) {
+					deleteDir()
+				} else {
+					println "Settings prohibited delete. Workspace remains persisted to disk."
+				}
+			}
+        }
+    }
+    catch (e) {
+        currentBuild.result = 'FAILED'
+        throw e
+    }
+    finally {
+        // TODO: add cleanup here...
+    }
+}
+
+/*
+=================================
+UTILITY FUNCTIONS (DO NOT MODIFY)
+=================================
+*/
+
+// build commands
+def restoreNugetPackages(String solution, String solutionPath) {
+    println "Restoring NuGet packages for ${solution}"
+	def nugetPath = "C:\\\\BuildScripts\\\\BaseExecutables\\\\nuget.exe"
+	def status = bat returnStatus: true, script:  "\"${nugetPath}\" restore \"${solutionPath}\""
+    if (status != 0) {
+        error("Restoring nuget packages for ${solution} failed")
+    }
+}
+
+def runMsBuildClean(
+    String solution,
+    String solutionPath, 
+    String configuration, 
+    Integer numberOfCores) {
+    println "Cleaning ${solution}"
+	def msBuildPath = "C:\\\\Program Files (x86)\\\\Microsoft Visual Studio\\\\2017\\\\Enterprise\\\\MSBuild\\\\15.0\\\\Bin\\\\MsBuild.exe"
+	def command = "\"${msBuildPath}\" \"${solutionPath}\" /t:Clean /p:Configuration=${configuration} /m:${numberOfCores} /verbosity:minimal"
+    def status = bat returnStatus: true, script: command
+    if (status != 0) {
+        error("Clean for ${solution} failed")
+    }
+}
+
+def runMsBuildBuild(
+    String project,
+    String projectPath, 
+    String configuration, 
+    Integer numberOfCores) {
+    println "Building ${project}"
+	def msBuildPath = "C:\\\\Program Files (x86)\\\\Microsoft Visual Studio\\\\2017\\\\Enterprise\\\\MSBuild\\\\15.0\\\\Bin\\\\MsBuild.exe"
+	def command = "\"${msBuildPath}\" \"${projectPath}\" /t:Clean,Build /p:Configuration=${configuration} /m:${numberOfCores} /verbosity:minimal"
+    def status = bat returnStatus: true, script: command
+    if (status != 0) {
+        error("Build for ${project} failed")
+    }
+}
+
+def runMsBuildPublish(
+    String project,
+	String projectPath,
+    String configuration,
+	String publishProfileName,
+    Integer numberOfCores) {
+    println "Building/publishing web project ${project}"
+	def msBuildPath = "C:\\\\Program Files (x86)\\\\Microsoft Visual Studio\\\\2017\\\\Enterprise\\\\MSBuild\\\\15.0\\\\Bin\\\\MsBuild.exe"
+	def command = "\"${msBuildPath}\" \"${projectPath}\" /t:Clean,Build,Publish /p:Configuration=${configuration} /m:${numberOfCores} /verbosity:minimal /p:DeployOnBuild=True /p:PublishProfile=${publishProfileName} /p:TransformConfigFiles=true"
+    def status = bat returnStatus: true, script: command
+    if (status != 0) {
+        error("Build/Publish for ${project} -> ${publishProfileName} failed")
+    }
+}
+
+def runMsBuildRestore(
+    String project,
+	String projectPath,
+    String configuration,
+    Integer numberOfCores
+) {
+    println "Restoring package references for ${project}"
+	def msBuildPath = "C:\\\\Program Files (x86)\\\\Microsoft Visual Studio\\\\2017\\\\Enterprise\\\\MSBuild\\\\15.0\\\\Bin\\\\MsBuild.exe"
+	def command = "\"${msBuildPath}\" \"${projectPath}\" /t:Restore /p:Configuration=${configuration} /m:${numberOfCores} /verbosity:minimal"
+    def status = bat returnStatus: true, script: command
+    if (status != 0) {
+        error("Restore for ${project} failed")
+    }
+}
+
+// deployment commands
+def runRobocopy(
+	String sourcePath,
+	String destinationPath
+) {
+    println "Copying ${sourcePath} to ${destinationPath}"
+	def robocopyPath = "C:\\\\Windows\\\\System32\\\\Robocopy.exe"
+	def command = "\"${robocopyPath}\" \"${sourcePath}\" \"${destinationPath}\" /e /purge"
+    def status = bat returnStatus: true, script: command
+    if (status &lt; 0 || status &gt; 3) {
+        error("Copy failed with exit code ${status}")
+    }
+}
+
+def buildPathFromTimestamp(
+	String artifactBaseFolder,
+	String branchName,
+	String solutionName,
+	String projectName
+) {
+	def now = new Date()
+	def snapshotDateString = now.format("yyyy-MM-dd_HH-mm-ss", TimeZone.getTimeZone('EST'))
+	return "${artifactBaseFolder}/${branchName}/${solutionName}/${projectName}/${snapshotDateString}"
+}
+
+// code scanning functionality
+def invokeSonarqubeScan(String projectKey) {
+    println "Invoke Sonarqube with project key: ${projectKey}"
+	def sonarQubePath = "C:/SonarMsBuild/SonarScanner.MSBuild.exe"
+	bat "\"${sonarQubePath}\" begin /k:${projectKey} /d:sonar.login=admin /d:sonar.password=admin"
+}
+
+def disinvokeSonarqubeScan(String projectKey) {
+	println "Disinvoke Sonarqube and run scan on ${projectKey}"
+	def sonarQubePath = "C:/SonarMsBuild/SonarScanner.MSBuild.exe"
+	bat "\"${sonarQubePath}\" end /d:sonar.login=admin /d:sonar.password=admin"
+}
+
+// misc utilities
+@NonCPS
+def removeLastPathComponent(String path) {
+    def splitted = path.split("/")
+    def result = splitted[0..splitted.size() - 2]
+    return result.join("/")
+}
+
+// unused utility paths
+def anyTransformPath = "C:\\\\BuildScripts\\\\AnyTransform\\\\AnyTransform.exe"
+def npmPath = "C:\\\\Program Files\\\\nodejs\\\\npm.cmd"
+
+</script>
+        <sandbox>false</sandbox>
+    </definition>
+    <triggers />
+</flow-definition>
