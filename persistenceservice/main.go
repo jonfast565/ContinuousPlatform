@@ -4,6 +4,7 @@ import (
 	"../constants"
 	"../jsonutil"
 	"../logging"
+	"../models/inframodel"
 	"../models/loggingmodel"
 	"../models/persistmodel"
 	"../networking"
@@ -29,6 +30,7 @@ func main() {
 	router.HandleFunc("/Daemon/GetKeyValueCache", getKeyValueCache).Methods(constants.PostMethod)
 	router.HandleFunc("/Daemon/SetKeyValueCache", setKeyValueCache).Methods(constants.PostMethod)
 	router.HandleFunc("/Daemon/SetLogRecord", setLogRecord).Methods(constants.PostMethod)
+	router.HandleFunc("/Daemon/GetInfrastructureMetadata", getInfrastructureMetadata).Methods(constants.PostMethod)
 
 	localPort := networking.GetLocalPort(configuration.Port)
 	logging.LogContentService(localPort)
@@ -56,7 +58,7 @@ func getKeyValueCache(w http.ResponseWriter, r *http.Request) {
 		logging.LogError(err)
 		return
 	}
-	w.Write(*resultBytes)
+	_, _ = w.Write(*resultBytes)
 }
 
 func setKeyValueCache(w http.ResponseWriter, r *http.Request) {
@@ -77,28 +79,26 @@ func setKeyValueCache(w http.ResponseWriter, r *http.Request) {
 }
 
 func getInfrastructureMetadata(w http.ResponseWriter, r *http.Request) {
-	/*
-		var model inframodel.InfrastructureMetadata
-		err := jsonutil.DecodeJsonFromBody(r, &model)
-		if err != nil {
-			w.WriteHeader(500)
-			logging.LogError(err)
-			return
-		}
-		result, err := endpoint.GetInfrastructureMetadata()
-		if err != nil {
-			w.WriteHeader(500)
-			logging.LogError(err)
-			return
-		}
-		resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
-		if err != nil {
-			w.WriteHeader(500)
-			logging.LogError(err)
-			return
-		}
-		w.Write(*resultBytes)
-	*/
+	var model inframodel.RepositoryKey
+	err := jsonutil.DecodeJsonFromBody(r, &model)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+	result, err := endpoint.GetInfrastructureMetadata(model)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+	resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+	_, _ = w.Write(*resultBytes)
 }
 
 func setLogRecord(w http.ResponseWriter, r *http.Request) {
