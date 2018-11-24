@@ -1,0 +1,581 @@
+﻿<?xml version='1.0' encoding='UTF-8' ?>
+<flow-definition plugin="workflow-job@2.9">
+    <actions />
+    <description>A workflow deployment for {{project.Name}}</description>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <jenkins.model.BuildDiscarderProperty>
+          <strategy class="hudson.tasks.LogRotator">
+            <daysToKeep>-1</daysToKeep>
+            <numToKeep>4</numToKeep>
+            <artifactDaysToKeep>-1</artifactDaysToKeep>
+            <artifactNumToKeep>-1</artifactNumToKeep>
+          </strategy>
+        </jenkins.model.BuildDiscarderProperty>
+        <org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty/>
+        <org.jenkinsci.plugins.workflow.job.properties.DisableResumeJobProperty/>
+        <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+                <hudson.model.ChoiceParameterDefinition>
+                    <name>Environment</name>
+                    <description>The name of the environment that code should be deployed to</description>
+                    <choices class="java.util.Arrays$ArrayList">
+                        <a class="string-array">
+                            {{#each Environments}}
+                            <string>{{this}}</string>
+                            {{/each}}
+                        </a>
+                    </choices>
+                </hudson.model.ChoiceParameterDefinition>
+                <hudson.model.BooleanParameterDefinition>
+                    <name>CanaryDeployment</name>
+                    <description>Deploy to the first server in an environment and then accept prompt to deploy to additional servers</description>
+                    <defaultValue>false</defaultValue>
+                </hudson.model.BooleanParameterDefinition>
+                <hudson.model.TextParameterDefinition>
+                    <name>TicketNumbers</name>
+                    <description>A list of whitespace, newline, or comma delimited JIRA ticket numbers that should have a comment as a result of this build (required)</description>
+                    <defaultValue></defaultValue>
+                    <trim>false</trim>
+                </hudson.model.TextParameterDefinition>
+                <hudson.model.TextParameterDefinition>
+                  <name>TicketComment</name>
+                  <description>Additional user-defined comments to add to the JIRA ticket if desired (optional)</description>
+                  <defaultValue></defaultValue>
+                  <trim>false</trim>
+                </hudson.model.TextParameterDefinition>
+            </parameterDefinitions>
+        </hudson.model.ParametersDefinitionProperty>
+    </properties>
+    <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.26">
+        <script>// deploy script for: {{repository.Name}} -> {{deliverable.Branch}} -> {{solution.Name}} -> {{project.Name}}
+// generated on: {{GeneratedDatetime}}
+
+// imports
+import java.io.File
+import java.util.List
+import java.lang.Iterable
+import groovy.json.*
+
+/*
+=================================
+DEPLOYMENT DATA
+=================================
+*/
+
+// project information
+def projectScriptHeader = "{{deliverable.Repository}} -> {{deliverable.Branch}} -> {{project.Name}}"
+def repository = "{{deliverable.Repository}}"
+def branch = "{{deliverable.Branch}}"
+def solution = "{{solution.Name}}"
+def project = "{{project.Name}}"
+def isDotNetCoreProject = "{{project.IsNetCoreProject}}" == "True"
+
+// deployment information
+def deploymentFolders = [
+{{#each infrastructure}}
+    [
+        "Name": "{{ServerName}}",
+        "Group": "{{ServerGroup}}",
+        "DeploymentLocations": [{{#each DeploymentLocations}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],
+        "AppPoolNames": [{{#each AppPoolNames}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],
+        "ServiceNames": [{{#each ServiceNames}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],
+        "TaskNames": [{{#each TaskNames}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}]
+    ]{{#unless @last}}, {{/unless}}
+{{/each}}
+
+]
+
+// script settings
+def workspacePath = "C:/Wkspc/{{Hash}}"
+def artifactBaseFolder = 'C:/BuildArtifactsJenkins'
+def productionEnvironment = 'Ncdr Production'
+def environment = env.Environment
+def canaryDeployment = env.CanaryDeployment == 'true'
+def ticketNumbers = env.TicketNumbers
+def ticketComment = env.TicketComment
+def sleepPeriodSeconds = 2
+def pipelineScope = this
+
+// parse out tickets
+def parser = new TicketParser()
+parser.ticketList = ticketNumbers?.trim()
+def ticketInfos = parser.getTicketInfos(
+	projectScriptHeader,
+	environment,
+    getBuildUser(),
+    ticketComment)
+
+/*
+=================================
+DEPLOYMENT SCRIPT
+=================================
+*/
+
+node {
+    try {
+        ws(workspacePath) {
+            stage ('Approval') {
+            	ticketInfos.checkValidity(pipelineScope)
+                if (environment == productionEnvironment) {
+                    input "You are about to deploy code to Production. Are you sure you would like to proceed?"
+                }
+            }
+            stage ('Deploy') {
+                def latestArtifacts = latestBuildPath(artifactBaseFolder, branch, solution, project)
+                def servers = filterServersByEnvironment(deploymentFolders, environment)
+                println "Latest artifacts exist here: " + latestArtifacts
+                printServerNamesInOrder(servers)
+                def canaryCounter = 0
+
+                for (server in servers) {
+                    def serverName = server["Name"]
+                    def deploymentLocations = server["DeploymentLocations"]
+                    def isDisasterRecoveryServer = serverName.startsWith('rd')
+                    def appPools = server["AppPoolNames"]
+                    def services = server["ServiceNames"]
+                    def tasks = server["TaskNames"]
+                    def isWebProject = appPools.size() &gt; 0
+                    def isWindowsService = services.size() &gt; 0
+                    def isTask = tasks.size() &gt; 0
+
+                    if (canaryDeployment &amp;&amp; canaryCounter == 1) {
+                        input "Deploy code for ${project} to the remaining servers?"
+                    }
+
+                    if (isDotNetCoreProject &amp;&amp; 
+                        isWebProject &amp;&amp;
+                        !isDisasterRecoveryServer) {
+                        for (appPool in appPools) {
+                            stopAppPool(appPool, serverName, sleepPeriodSeconds)
+                        }
+                    }
+
+                    if (isWindowsService &amp;&amp;
+                        !isDisasterRecoveryServer) {
+                        for (service in services) {
+                            stopService(service, serverName, sleepPeriodSeconds)
+                        }
+                    }
+
+                    // TODO: Implement task stopping, though it doesn't seem
+                    // to matter for most deployments
+
+                    for (location in deploymentLocations) {
+                        def locationUncPath = localPathToUncPath(location, serverName)
+                        runRobocopy(latestArtifacts, locationUncPath)
+                    }
+
+                    if (isDotNetCoreProject &amp;&amp; 
+                        isWebProject &amp;&amp;
+                        !isDisasterRecoveryServer) {
+                        for (appPool in appPools) {
+                            startAppPool(appPool, serverName, sleepPeriodSeconds)
+                        }
+                    }
+
+                    if (isWindowsService &amp;&amp;
+                        !isDisasterRecoveryServer) {
+                        for (service in services) {
+                            startService(service, serverName, sleepPeriodSeconds)
+                        }
+                    }
+
+                    // TODO: Implement task starting, though it doesn't seem
+                    // to matter for most deployments
+
+                    if (!isDotNetCoreProject &amp;&amp; 
+                        isWebProject &amp;&amp;
+                        !isDisasterRecoveryServer) {
+                        for (appPool in appPools) {
+                            recycleAppPool(appPool, serverName, sleepPeriodSeconds)
+                        }
+                    }
+                    canaryCounter += 1
+                }
+            }
+            stage ('Notifications') {
+            	ticketInfos.sendToJira(pipelineScope)
+            	ticketInfos.sendToTeams(pipelineScope, ticketInfos)
+            }
+        }
+    }
+    catch (e) {
+        currentBuild.result = 'FAILED'
+        throw e
+    }
+    finally {
+        // TODO: add cleanup here...
+    }
+}
+
+/*
+=================================
+UTILITY FUNCTIONS (DO NOT MODIFY)
+=================================
+*/
+
+// server mapping/artifact gathering utilities
+@NonCPS
+def filterServersByEnvironment(
+    List deploymentFolders, 
+    String environment) {
+    return deploymentFolders
+        .findAll{ it["Group"] == environment }
+        .sort{ it["Name"] }
+}
+
+def printServerNamesInOrder (
+    List deploymentFolders) {
+    def result = ""
+    for (server in deploymentFolders) {
+        result += '- ' + server["Name"] + '\n'
+    }
+    println "Deploying to:\n${result}"
+}
+
+@NonCPS
+def latestBuildPath(
+    String artifactBaseFolder,
+    String branchName,
+    String solutionName,
+    String projectName
+) {
+    def path = "${artifactBaseFolder}/${branchName}/${solutionName}/${projectName}/"
+    def mostRecentDir = new File(path).list()
+        .findAll{ new File(path, it).isDirectory() }
+        .sort { -new File(path, it).lastModified() }?.head()
+    return "${path}${mostRecentDir}"
+}
+
+// TODO: This only works on Windows!
+@NonCPS
+def localPathToUncPath(localPath, serverName) {
+    def splittedPath = localPath.split("\\\\\\\\|/")
+    if (splittedPath[0] ==~ /([a-zA-Z]):/) {
+        def matcher = splittedPath[0] =~ /([a-zA-Z]):/
+        def driveLetter = matcher[0][1].toLowerCase()
+        def pathRest = splittedPath[1..splittedPath.length - 1].join("\\\\")
+        def resultPath = "\\\\\\\\" + serverName + "\\\\" + driveLetter + "\$" + "\\\\" + pathRest
+        return resultPath
+    }
+    else {
+        throw new Exception('Path does not have a valid drive letter')
+    }
+}
+
+// deployment commands
+def runRobocopy(
+	String sourcePath,
+	String destinationPath
+) {
+    println "Copying ${sourcePath} to ${destinationPath}"
+	def robocopyPath = "C:\\\\Windows\\\\System32\\\\Robocopy.exe"
+	def command = "\"${robocopyPath}\" \"${sourcePath}\" \"${destinationPath}\" /e /purge"
+    def status = bat returnStatus: true, script: command
+    if (status &lt; 0 || status &gt; 3) {
+        error("Copy failed with exit code ${status}")
+    }
+}
+
+def stopAppPool(
+    String appPool,
+    String server,
+    Integer sleepPeriod
+) {
+    println "Stopping app pool ${appPool} on ${server}"
+    def command = """
+    . C:\\\\BuildScripts\\\\BaseScripts\\\\IISMgmtScripts.ps1
+    try {
+        Start-Sleep -s ${sleepPeriod}
+        Stop-AppPool "${appPool}" @("${server}")
+        Start-Sleep -s ${sleepPeriod}
+    } catch {
+        Exit -1
+    }
+    """
+    def status = powershell returnStatus: true, script: command
+    if (status != 0) {
+        error("Failed to stop app pool ${appPool} on ${server}")
+    }
+}
+
+def startAppPool(
+    String appPool,
+    String server,
+    Integer sleepPeriod
+) {
+    println "Starting app pool ${appPool} on ${server}"
+    def command = """
+    . C:\\\\BuildScripts\\\\BaseScripts\\\\IISMgmtScripts.ps1
+    try {
+        Start-Sleep -s ${sleepPeriod}
+        Start-AppPool "${appPool}" @("${server}")
+        Start-Sleep -s ${sleepPeriod}
+    } catch {
+        Exit -1
+    }
+    """
+    def status = powershell returnStatus: true, script: command
+    if (status != 0) {
+        error("Failed to start app pool ${appPool} on ${server}")
+    }
+}
+
+def recycleAppPool(
+    String appPool,
+    String server,
+    Integer sleepPeriod
+) {
+    println "Recycling app pool ${appPool} on ${server}"
+    def command = """
+    . C:\\\\BuildScripts\\\\BaseScripts\\\\IISMgmtScripts.ps1
+    try {
+        Start-Sleep -s ${sleepPeriod}
+        Recycle-AppPool "${appPool}" @("${server}")
+        Start-Sleep -s ${sleepPeriod}
+    } catch {
+        Exit -1
+    }
+    """
+    def status = powershell returnStatus: true, script: command
+    if (status != 0) {
+        error("Failed to recycle app pool ${appPool} on ${server}")
+    }
+}
+
+def stopService(
+    String service,
+    String server,
+    Integer sleepPeriod
+) {
+    println "Stopping service ${service} on ${server}"
+    def command = """
+    try {
+        Start-Sleep -s ${sleepPeriod}
+        Stop-Service -InputObject \$(Get-Service -ComputerName "${server}" -Name "${service}")
+        Start-Sleep -s ${sleepPeriod}
+    } catch {
+        Exit -1    
+    }
+    """
+    def status = powershell returnStatus: true, script: command
+    if (status != 0) {
+        error("Failed to stop service ${service} on ${server}")
+    }
+}
+
+def startService(
+    String service,
+    String server,
+    Integer sleepPeriod
+) {
+    println "Starting service ${service} on ${server}"
+    def command = """
+    try {
+        Start-Sleep -s ${sleepPeriod}
+        Start-Service -InputObject \$(Get-Service -ComputerName "${server}" -Name "${service}")
+        Start-Sleep -s ${sleepPeriod}
+    } catch {
+        Exit -1
+    }
+    """
+    def status = powershell returnStatus: true, script: command
+    if (status != 0) {
+        error("Failed to start service ${service} on ${server}")
+    }
+}
+
+@NonCPS
+def getBuildUser() {
+    def user = currentBuild.rawBuild.getCause(Cause.UserIdCause).getUserName()
+    if (user == null) {
+        return "Anonymous"
+    }
+    return user
+}
+
+// classes
+// utilities for messaging with Webex Teams
+class TeamsMessage {
+    String[] message
+    
+    def private formatMessage(TicketInfos ticketInfos) {
+        def messages = ["**Build Server Deployment**",
+                        "Code/Project: ${ticketInfos.projectScriptHeader}",
+                        "Environment: ${ticketInfos.environment}",
+                        "Initiated By: ${ticketInfos.person}",
+                        "Tickets Updated: ${ticketInfos.getTicketNumbers()}"]
+        if (ticketInfos.userComment?.trim()) {
+            messages += "User Comment: ${ticketInfos.userComment}"
+        }
+        return messages
+    }
+
+    def private buildTeamsMessageJson(TicketInfos ticketInfos) {
+        def teamMessage = new TeamsMessage()
+        teamMessage.message = formatMessage(ticketInfos)
+        def jsonOutput = new JsonBuilder(teamMessage)
+        return jsonOutput.toPrettyString()
+    }
+
+    def sendToTeams(pipelineScope, ticketInfos) {
+        def request = new HttpRequest()
+        def json = buildTeamsMessageJson(ticketInfos)
+        request.json = json
+        request.requestUrl = "http://localhost:8001/message"
+        request.verb = "POST"
+        request.doHttpRequestWithJson(pipelineScope)
+    }
+}
+
+// utilities for dealing with JIRA tickets
+class TicketParser {
+    String ticketList
+
+    def private parse() {
+        if (ticketList == null) {
+            return []
+        }
+        def regex = /([a-zA-Z0-9]+-[0-9]+)(?=,|\s)*/
+        def matcher = ticketList =~ regex
+        def result = []
+        while (matcher.find()) {
+            result += matcher.group()
+        }
+        return result
+    }
+
+    def getTicketInfos(
+            String projectScriptHeader,
+            String environment,
+            String person,
+            String userComment) {
+        def parsed = parse()
+        def ticketInfos = new TicketInfos()
+        ticketInfos.projectScriptHeader = projectScriptHeader
+        ticketInfos.environment = environment
+        ticketInfos.person = person
+        ticketInfos.userComment = userComment
+        ticketInfos.ticketNumbers = parsed
+        return ticketInfos
+    }
+}
+
+class TicketInfos {
+    String projectScriptHeader
+    String environment
+    String person
+    String[] ticketNumbers
+    String userComment
+
+    def checkValidity(pipelineScope) {
+        if (ticketNumbers.size() == 0) {
+    		pipelineScope.error('You must supply (a) JIRA ticket number(s) before proceeding with the deployment')
+	    }
+	    for (ticket in ticketNumbers) {
+	    	try {
+	        	pipelineScope.jiraGetIssue idOrKey: ticket, site: 'support.acc.org'
+	    	}
+	    	catch(e) {
+	    		pipelineScope.error("JIRA ticket number ${ticket} supplied not a valid ticket in the system")
+	    	}
+	    }
+    }
+
+    private String buildJiraMessage() {
+        def message =
+                """h2. Build Server Deployment
+        *Code/Project*: ${projectScriptHeader}
+        *Environment*: ${environment}
+        *Initiated By*: ${person}
+        *Ticket Numbers*: ${ticketNumbers.join(", ")}
+        """
+        if (userComment?.trim()) {
+            message +=
+                    """
+        *User Comment*:
+        ${userComment}
+        """
+        }
+        return message
+    }
+
+    def sendToJira(pipelineScope) {
+        def message = buildJiraMessage()
+        for (ticketNumber in ticketNumbers) {
+            pipelineScope.jiraAddComment idOrKey: ticketNumber, comment: message, site: 'support.acc.org'
+        }
+    }
+
+    def sendToTeams(pipelineScope, ticketInfos) {
+        def teamsMessage = new TeamsMessage()
+        teamsMessage.sendToTeams(pipelineScope, ticketInfos)
+    }
+}
+
+class HttpResponse {
+    String body
+    String message
+    Integer statusCode
+    boolean failure = false
+
+    public HttpResponse(HttpURLConnection connection) {
+        this.statusCode = connection.responseCode
+        this.message = connection.responseMessage
+
+        if (statusCode == 200 || statusCode == 201) {
+            this.body = connection.content.text
+        } else {
+            this.failure = true
+            this.body = connection.getErrorStream().text
+        }
+        connection = null
+    }
+}
+
+class HttpRequest {
+    String json
+    String requestUrl
+    String verb
+
+    @NonCPS
+    HttpResponse doHttpRequestWithJson(pipelineScope) {
+        URL url = new URL(requestUrl)
+        HttpURLConnection connection = url.openConnection()
+
+        connection.setRequestMethod(verb)
+        connection.setRequestProperty("Content-Type", "application/json")
+        connection.doOutput = true
+
+        def writer = new OutputStreamWriter(connection.outputStream)
+        writer.write(json)
+        writer.flush()
+        writer.close()
+        connection.connect()
+
+        HttpResponse resp = new HttpResponse(connection)
+        if (resp.isFailure()) {
+            pipelineScope.error('''$verb to URL: $requestUrl
+             JSON: $json
+             HTTP Status: $resp.statusCode
+             Message: $resp.message
+             Response Body: $resp.body''')
+        }
+
+        println '''Request ($verb):
+            URL: $requestUrl 
+            JSON: $json'''
+
+        println '''Response:
+            HTTP Status: $resp.statusCode
+            Message: $resp.message
+            Response Body: $resp.body'''
+        return resp
+    }
+}
+        </script>
+        <sandbox>false</sandbox>
+    </definition>
+    <triggers />
+</flow-definition>
