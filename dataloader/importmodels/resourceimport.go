@@ -1,6 +1,6 @@
 package importmodels
 
-type ResourceRecord struct {
+type ResourceImport struct {
 	IisApplications []string
 	IisSites        []string
 	WindowsServices []string

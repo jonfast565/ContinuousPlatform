@@ -1,10 +1,10 @@
 package importmodels
 
-type WindowsServiceRecord struct {
+type WindowsServiceImport struct {
 	Name                      string
 	BinaryPath                string
 	BinaryExecutableName      string
 	BinaryExecutableArguments string
 	LoadBalanced              bool
-	Environments              []EnvironmentRecordPart
+	Environments              []EnvironmentImportPart
 }

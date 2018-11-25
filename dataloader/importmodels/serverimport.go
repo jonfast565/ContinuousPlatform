@@ -1,6 +1,6 @@
 package importmodels
 
-type ServerRecord struct {
+type ServerImport struct {
 	Name string
 	Type string
 }

@@ -24,7 +24,6 @@ func NewDotNetScriptGenerator() *DotNetScriptGenerator {
 	}
 
 	for _, template := range templateList.Templates {
-		template.LoadTemplateFile()
 		if template.Framework != genmodel.DotNet {
 			continue
 		}
@@ -50,29 +49,50 @@ func NewDotNetScriptGenerator() *DotNetScriptGenerator {
 type DotNetBuildScriptHeader struct {
 }
 
+func NewDotNetBuildScriptHeader(dnd projectmodel.DotNetDeliverable) *DotNetBuildScriptHeader {
+	return &DotNetBuildScriptHeader{}
+}
+
 type DotNetBuildInfrastructureScriptHeader struct {
+}
+
+func NewDotNetBuildInfrastructureScriptHeader(dnd projectmodel.DotNetDeliverable) *DotNetBuildInfrastructureScriptHeader {
+	return &DotNetBuildInfrastructureScriptHeader{}
+}
+
+type DotNetEnvironmentInfrastructureScriptHeader struct {
+}
+
+func NewDotNetEnvironmentInfrastructureScriptHeader(dnd projectmodel.DotNetDeliverable) *DotNetEnvironmentInfrastructureScriptHeader {
+	return &DotNetEnvironmentInfrastructureScriptHeader{}
 }
 
 func (dnsg DotNetScriptGenerator) GenerateBuildScripts(dnd projectmodel.DotNetDeliverable) []string {
 	var result []string
+	scriptHeader := NewDotNetBuildScriptHeader(dnd)
 	for _, buildScript := range dnsg.BuildScripts {
-
+		templateResult := buildScript.GenerateScriptFromTemplate(scriptHeader)
+		result = append(result, *templateResult)
 	}
 	return result
 }
 
 func (dnsg DotNetScriptGenerator) GenerateBuildInfrastructureScripts(dnd projectmodel.DotNetDeliverable) []string {
 	var result []string
+	scriptHeader := NewDotNetBuildInfrastructureScriptHeader(dnd)
 	for _, buildInfraScript := range dnsg.BuildInfrastructureScripts {
-
+		templateResult := buildInfraScript.GenerateScriptFromTemplate(scriptHeader)
+		result = append(result, *templateResult)
 	}
 	return result
 }
 
 func (dnsg DotNetScriptGenerator) GenerateEnvironmentInfrastructureScripts(dnd projectmodel.DotNetDeliverable) []string {
 	var result []string
+	scriptHeader := NewDotNetEnvironmentInfrastructureScriptHeader(dnd)
 	for _, environmentInfraScript := range dnsg.EnvironmentInfrastructureScripts {
-
+		templateResult := environmentInfraScript.GenerateScriptFromTemplate(scriptHeader)
+		result = append(result, *templateResult)
 	}
 	return result
 }

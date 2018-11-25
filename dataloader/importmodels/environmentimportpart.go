@@ -1,6 +1,6 @@
 package importmodels
 
-type EnvironmentRecordPart struct {
+type EnvironmentImportPart struct {
 	BusinessLine string
 	Name         string
 }

@@ -1,8 +1,8 @@
 package importmodels
 
-type IisApplicationRecord struct {
+type IisApplicationImport struct {
 	Name            string
 	VirtualPath     string
-	ApplicationPool IisApplicationPoolRecord
+	ApplicationPool IisApplicationPoolImport
 	PhysicalPath    string
 }

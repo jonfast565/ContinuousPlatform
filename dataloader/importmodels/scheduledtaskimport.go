@@ -1,6 +1,6 @@
 package importmodels
 
-type ScheduledTaskRecord struct {
+type ScheduledTaskImport struct {
 	Names                     []string
 	BinaryPath                string
 	BinaryExecutableName      string
@@ -11,5 +11,5 @@ type ScheduledTaskRecord struct {
 	ExecutionTimeLimit        int64
 	Priority                  int64
 	LoadBalanced              bool
-	Environments              []EnvironmentRecordPart
+	Environments              []EnvironmentImportPart
 }
