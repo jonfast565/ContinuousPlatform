@@ -2,15 +2,17 @@
   "Templates": [
     {
       "Name": "Environment Setup Script (Powershell)",
-      "Type": "EnvironmentSetup",
+      "Framework": "DotNet",
+      "Type": "EnvironmentInfrastructure",
       "Extension": "ps1",
       "ContentsPath": "./Templates/EnvironmentSetup-Script-PS.hbs",
-      "Scope": "EnvironmentInfrastructure",
-      "Enabled": true
+      "Enabled": true,
+      "ToolScope": null
     },
     {
       "Name": "Build Definition (Jenkins)",
-      "Type": "BuildOnly",
+      "Framework": "DotNet",
+      "Type": "Build",
       "Extension": "xml",
       "ContentsPath": "./Templates/BuildDefinition-JenkinsPipeline-XML.hbs",
       "Enabled": true,
@@ -20,7 +22,8 @@
     },
     {
       "Name": "Deploy Definition (Jenkins)",
-      "Type": "BuildAndInfrastructure",
+      "Framework": "DotNet",
+      "Type": "BuildInfrastructure",
       "Extension": "xml",
       "ContentsPath": "./Templates/DeployDefinition-JenkinsPipeline-XML.hbs",
       "Enabled": true,
@@ -30,6 +33,7 @@
     },
     {
       "Name": "Environment Setup Script Definition (Jenkins)",
+      "Framework": "DotNet",
       "Type": "EnvironmentInfrastructure",
       "Extension": "xml",
       "ContentsPath": "./Templates/EnvironmentSetupDefinition-JenkinsPipeline-XML.hbs",
