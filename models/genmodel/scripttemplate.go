@@ -1,6 +1,7 @@
 package genmodel
 
 import (
+	"../../templating"
 	"io/ioutil"
 )
 
@@ -28,16 +29,27 @@ type ScriptTemplate struct {
 	loadedTemplate string
 }
 
-func (st *ScriptTemplate) LoadTemplateFile() {
-	if st.loadedTemplate == "" {
-		st.loadedTemplate = st.getTemplateFile()
-	}
-}
-
-func (st ScriptTemplate) getTemplateFile() string {
-	dat, err := ioutil.ReadFile(st.ContentsPath)
+func (st ScriptTemplate) GenerateScriptFromTemplate(scriptHeader interface{}) *string {
+	template, err := st.getTemplateFile()
 	if err != nil {
 		panic(err)
 	}
-	return string(dat)
+	templateResult, err := templating.RunTemplate(*template, scriptHeader)
+	if err != nil {
+		panic(err)
+	}
+	return templateResult
+}
+
+func (st ScriptTemplate) getTemplateFile() (*string, error) {
+	if st.loadedTemplate == "" {
+		dat, err := ioutil.ReadFile(st.ContentsPath)
+		if err != nil {
+			return nil, err
+		}
+		st.loadedTemplate = string(dat)
+		return &st.loadedTemplate, nil
+	} else {
+		return &st.loadedTemplate, nil
+	}
 }
