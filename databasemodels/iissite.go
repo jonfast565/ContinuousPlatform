@@ -11,5 +11,6 @@ type IisSite struct {
 	SiteName          string         `gorm:"not null"`
 	PhysicalPath      string         `gorm:"not null"`
 	SiteApplications  pq.StringArray `gorm:"type:uuid[]"`
+	Environments      pq.StringArray `gorm:"type:uuid[];not null"`
 	AuditFields
 }

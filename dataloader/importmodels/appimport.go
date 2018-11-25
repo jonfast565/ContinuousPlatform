@@ -1,8 +1,8 @@
 package importmodels
 
-type AppRecord struct {
+type AppImport struct {
 	Repository string
 	Solution   string
 	Project    string
-	Resources  ResourceRecord
+	Resources  ResourceImport
 }

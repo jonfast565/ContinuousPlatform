@@ -10,6 +10,450 @@
         ]
       },
       "Type": "Web"
+    },
+    {
+      "Repository": "BurstFileProcessor",
+      "Solution": "BurstFileProcessor.sln",
+      "Project": "BurstFileProcessor.csproj",
+      "Resources": {},
+      "Type": "App"
+    },
+    {
+      "Repository": "CathPCIWhiskerApplication",
+      "Solution": "CathPCIWhiskerApplication.sln",
+      "Project": "CathPCIWhiskerApplication.csproj",
+      "Resources": {
+        "IisApplications": [
+          "CathPCIWhiskerApplication"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "CMSDataSubmission",
+      "Solution": "CmsDataSubmission.sln",
+      "Project": "Ncdr.Console.CmsSubmission.csproj",
+      "Resources": {
+        "ScheduledTasks": [
+          "CmsSubmission"
+        ]
+      },
+      "Type": "App"
+    },
+    {
+      "Repository": "CMSDataSubmission",
+      "Solution": "CmsDataSubmission.sln",
+      "Project": "Ncdr.Console.LoadFigSubmissionToDataSource.csproj",
+      "Resources": {
+        "ScheduledTasks": [
+          "LoadFigSubmissionToDataSource"
+        ]
+      },
+      "Type": "App"
+    },
+    {
+      "Repository": "EContracting",
+      "Solution": "EContractingProcessor.sln",
+      "Project": "EContractingProcessor.Console.csproj",
+      "Resources": {
+        "ScheduledTasks": [
+          "EContractingProcessor"
+        ]
+      },
+      "Type": "App"
+    },
+    {
+      "Repository": "EContracting",
+      "Solution": "PracticeSignUpPortalUI.sln",
+      "Project": "PracticeSignUpPortalUI.csproj",
+      "Resources": {
+        "IisApplications": [
+          "PracticeSignUpPortalUI"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "EContracting",
+      "Solution": "SignUpService.sln",
+      "Project": "SignUpService.csproj",
+      "Resources": {
+        "IisApplications": [
+          "SignUpService"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "IISSiteManager",
+      "Solution": "IISSiteManager.sln",
+      "Project": "IISSiteManager.csproj",
+      "Resources": {
+        "IisApplications": [
+          "IISSiteManager"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "LbTest",
+      "Solution": "LbTest.sln",
+      "Project": "LbTest.csproj",
+      "Resources": {
+        "IisApplications": [
+          "LbTest"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "LegacyDeviceListAutomation",
+      "Solution": "DeviceListAutomation.sln",
+      "Project": "DeviceListAutomation.csproj",
+      "Resources": {
+        "IisApplications": [
+          "DeviceListAutomation"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "LegacyPlatform",
+      "Solution": "ACTION2.sln",
+      "Project": "ACTION2.Web.csproj",
+      "Resources": {
+        "IisApplications": [
+          "ACTION2"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "LegacyPlatform",
+      "Solution": "CathPCI4.sln",
+      "Project": "CathPCI4.Web.csproj",
+      "Resources": {
+        "IisApplications": [
+          "CathPCI4"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "LegacyPlatform",
+      "Solution": "DataExport.sln",
+      "Project": "DataExport.csproj",
+      "Resources": {
+        "ScheduledTasks": [
+          "DataExport"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "LegacyPlatform",
+      "Solution": "ICD2.sln",
+      "Project": "ICD2.Web.csproj",
+      "Resources": {
+        "IisApplications": [
+          "ICD2"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "LegacyPlatform",
+      "Solution": "IMPACT2.sln",
+      "Project": "IMPACT2.Web.csproj",
+      "Resources": {
+        "IisApplications": [
+          "IMPACT2"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "LegacyPlatform",
+      "Solution": "Interoperability.sln",
+      "Project": "Interoperability.WebHost.csproj",
+      "Resources": {
+        "IisApplications": [
+          "Interoperability"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "LegacyPlatform",
+      "Solution": "LAAO.sln",
+      "Project": "LAAO.Web.csproj",
+      "Resources": {
+        "IisApplications": [
+          "LAAODCT"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "LegacyPlatform",
+      "Solution": "PinnacleSubmissionProcessor.sln",
+      "Project": "PinnacleSubmissionProcessor.csproj",
+      "Resources": {
+        "ScheduledTasks": [
+          "Pinnacle DQR Service"
+        ]
+      },
+      "Type": "App"
+    },
+    {
+      "Repository": "LegacyPlatform",
+      "Solution": "PVI.sln",
+      "Project": "PVI.Web.csproj",
+      "Resources": {
+        "IisApplications": [
+          "PVIDCT"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "LegacyPlatform",
+      "Solution": "SubmissionProcessor.sln",
+      "Project": "SubmissionProcessor.csproj",
+      "Resources": {
+        "ScheduledTasks": [
+          "DQR Service1"
+        ]
+      },
+      "Type": "App"
+    },
+    {
+      "Repository": "LegacyPlatform",
+      "Solution": "TVT2.sln",
+      "Project": "TVT2.Web.csproj",
+      "Resources": {
+        "IisApplications": [
+          "TVTDCT"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "NcdrAdminControl",
+      "Solution": "NcdrAdminControl.sln",
+      "Project": "NcdrAdminControl.csproj",
+      "Resources": {
+        "IisApplications": [
+          "NcdrAdminControl"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "NCDRCRMSalesforce",
+      "Solution": "NCDRCRMSalesforce.sln",
+      "Project": "NCDRCRMSalesforce.csproj",
+      "Resources": {
+        "ScheduledTasks": [
+          "NCDRCRMSalesforce"
+        ]
+      },
+      "Type": "App"
+    },
+    {
+      "Repository": "NcdrDataDictionaryService",
+      "Solution": "NCDRService2008.sln",
+      "Project": "DataDictionaryService.csproj",
+      "Resources": {
+        "IisApplications": [
+          "registries"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "NCDRDataSubmissionWCF",
+      "Solution": "NCDRDataSubmissionWCF.sln",
+      "Project": "Ncdr.DataSubmissionService.Api.csproj",
+      "Resources": {
+        "IisApplications": [
+          "NCDRDataSubmissionApi"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "NCDRDataSubmissionWCF",
+      "Solution": "NCDRDataSubmissionWCF.sln",
+      "Project": "Ncdr.DataSubmissionService.Wcf.csproj",
+      "Resources": {
+        "IisApplications": [
+          "NCDRDataSubmissionWCF"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "NcdrEmailService",
+      "Solution": "NcdrEmailService.sln",
+      "Project": "NcdrEmailService.ConsoleDaemon.csproj",
+      "Resources": {
+        "WindowsServices": [
+          "NcdrEmailService"
+        ]
+      },
+      "Type": "App"
+    },
+    {
+      "Repository": "NcdrPublicReporting",
+      "Solution": "NcdrPublicReporting.sln",
+      "Project": "PublicReportingApi.csproj",
+      "Resources": {
+        "IisApplications": [
+          "NCDRDataSubmissionWCF"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "NcdrSiteHelp",
+      "Solution": "NcdrSiteHelp.sln",
+      "Project": "NcdrSiteHelp.csproj",
+      "Resources": {
+        "IisApplications": [
+          "SiteHelp"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "NCDRWebAPI",
+      "Solution": "NCDRWebAPI.sln",
+      "Project": "NCDRWebAPI.csproj",
+      "Resources": {
+        "IisApplications": [
+          "NCDRWebApi"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "NCDRWebServiceUtility",
+      "Solution": "NCDRWebServiceUtility.sln",
+      "Project": "NCDRWebServiceUtility.csproj",
+      "Resources": {
+        "IisApplications": [
+          "NCDRWebServiceUtility"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "OutcomesReportWatcher",
+      "Solution": "OutcomesReportWatcher.sln",
+      "Project": "OutcomesReportWatcherExe.csproj",
+      "Resources": {},
+      "Type": "App"
+    },
+    {
+      "Repository": "PatientNavigatorSurvey",
+      "Solution": "Survey.sln",
+      "Project": "Survey.Web.csproj",
+      "Resources": {
+        "IisApplications": [
+          "Survey"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "PatientNavigatorSurvey",
+      "Solution": "Survey.sln",
+      "Project": "Survey.Web.Metadata.csproj",
+      "Resources": {
+        "IisApplications": [
+          "SurveyMetadata"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "UnifiedDataDictionary",
+      "Solution": "NcdrDataDictionaryService.sln",
+      "Project": "NcdrDataDictionaryService.Web.csproj",
+      "Resources": {
+        "IisApplications": [
+          "unified"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "UnifiedPlatform",
+      "Solution": "Ncdr.UnifiedPlatform.sln",
+      "Project": "Ncdr.UnifiedPlatform.Console.CdaProcessor.csproj",
+      "Resources": {
+        "WindowsServices": [
+          "NCDR CDA Processor"
+        ]
+      },
+      "Type": "App"
+    },
+    {
+      "Repository": "UnifiedPlatform",
+      "Solution": "Ncdr.UnifiedPlatform.sln",
+      "Project": "Ncdr.UnifiedPlatform.Console.DqrProcessor.csproj",
+      "Resources": {
+        "WindowsServices": [
+          "NCDR DQR Processor"
+        ]
+      },
+      "Type": "App"
+    },
+    {
+      "Repository": "UnifiedPlatform",
+      "Solution": "Ncdr.UnifiedPlatform.sln",
+      "Project": "Ncdr.UnifiedPlatform.Console.ExportProcessor.csproj",
+      "Resources": {
+        "WindowsServices": [
+          "NCDR Export Processor"
+        ]
+      },
+      "Type": "App"
+    },
+    {
+      "Repository": "UnifiedPlatform",
+      "Solution": "Ncdr.UnifiedPlatform.sln",
+      "Project": "Ncdr.UnifiedPlatform.Web.Api.csproj",
+      "Resources": {
+        "IisApplications": [
+          "UnifiedApi"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "UnifiedPlatform",
+      "Solution": "Ncdr.UnifiedPlatform.sln",
+      "Project": "Ncdr.UnifiedPlatform.Web.Dct.csproj",
+      "Resources": {
+        "IisApplications": [
+          "DCT"
+        ]
+      },
+      "Type": "Web"
+    },
+    {
+      "Repository": "UnifiedPlatform",
+      "Solution": "Ncdr.UnifiedPlatform.sln",
+      "Project": "Ncdr.UnifiedPlatform.Web.Mdt.csproj",
+      "Resources": {
+        "IisSites": [
+          "metadata.ncdr.com",
+          "metadata.stage.ncdr.com"
+        ]
+      },
+      "Type": "Web"
     }
   ],
   "IisSites": [
@@ -30,6 +474,24 @@
           "Name": "Production"
         }
       ]
+    },
+    {
+      "Name": "stage.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\stage.ncdr.com",
+      "ApplicationPool": {
+        "Name": "stage.ncdr.com",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      },
+      "IisApplications": [
+        "WebNCDR"
+      ],
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage"
+        }
+      ]
     }
   ],
   "IisApplications": [
@@ -46,8 +508,59 @@
   ],
   "WindowsServices": [
     {
+      "Name": "NcdrEmailService",
+      "BinaryPath": "C:\\WindowsApp\\NcdrEmailService",
+      "BinaryExecutableName": "dotnet.exe",
+      "BinaryExecutableArguments": "NcdrEmailService.ConsoleDaemon.dll",
+      "LoadBalanced": true,
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage"
+        }
+      ]
+    },
+    {
+      "Name": "NCDR DQR Processor",
+      "BinaryPath": "C:\\WindowsApp\\Ncdr.UnifiedPlatform.Console.DqrProcessor",
+      "BinaryExecutableName": "Ncdr.UnifiedPlatform.Console.DqrProcessor.exe",
+      "BinaryExecutableArguments": "--service",
+      "LoadBalanced": true,
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage"
+        }
+      ]
+    },
+    {
+      "Name": "NCDR Survey Export",
+      "BinaryPath": "C:\\WindowsApp\\NCDR Survey Export",
+      "BinaryExecutableName": "Survey.Export.exe",
+      "BinaryExecutableArguments": "--service",
+      "LoadBalanced": false,
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage"
+        }
+      ]
+    },
+    {
       "Name": "NCDR Export Processor",
-      "BinaryPath": "C:\\WindowsApp\\{{EnvironmentName}}\\Ncdr.UnifiedPlatform.Console.ExportProcessor",
+      "BinaryPath": "C:\\WindowsApp\\Ncdr.UnifiedPlatform.Console.ExportProcessor",
       "BinaryExecutableName": "Ncdr.UnifiedPlatform.Console.ExportProcessor.exe",
       "BinaryExecutableArguments": "--service",
       "LoadBalanced": true,
@@ -55,6 +568,27 @@
         {
           "BusinessLine": "Ncdr",
           "Name": "Production"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage"
+        }
+      ]
+    },
+    {
+      "Name": "NCDR CDA Processor",
+      "BinaryPath": "C:\\WindowsApp\\Ncdr.UnifiedPlatform.Console.CdaProcessor",
+      "BinaryExecutableName": "Ncdr.UnifiedPlatform.Console.CdaProcessor.exe",
+      "BinaryExecutableArguments": "--service",
+      "LoadBalanced": true,
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage"
         }
       ]
     }
@@ -81,6 +615,143 @@
         {
           "BusinessLine": "Ncdr",
           "Name": "Production"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage"
+        }
+      ]
+    },
+    {
+      "Names": [
+        "Pinnacle DQR Service"
+      ],
+      "BinaryPath": "C:\\WindowsApp\\PinnacleDQR",
+      "BinaryExecutableName": "PinnacleSubmissionProcessor.exe",
+      "BinaryExecutableArguments": "",
+      "LoadBalanced": true,
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage"
+        }
+      ]
+    },
+    {
+      "Names": [
+        "CmsDataSubmission"
+      ],
+      "BinaryPath": "C:\\WindowsApp\\CmsDataSubmission",
+      "BinaryExecutableName": "Ncdr.Console.CmsDataSubmission.exe",
+      "BinaryExecutableArguments": "",
+      "LoadBalanced": false,
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage"
+        }
+      ]
+    },
+    {
+      "Names": [
+        "NCDR CRM Salesforce"
+      ],
+      "BinaryPath": "C:\\WindowsApp\\NCDRCRMSalesForce",
+      "BinaryExecutableName": "NCDRCRMSalesforce.exe",
+      "BinaryExecutableArguments": "",
+      "LoadBalanced": false,
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage"
+        }
+      ]
+    },
+    {
+      "Names": [
+        "LoadFigSubmissionToDataSource"
+      ],
+      "BinaryPath": "C:\\WindowsApp\\LoadFigSubmissionToDataSource",
+      "BinaryExecutableName": "Ncdr.Console.LoadFigSubmissionToDataSource.exe",
+      "BinaryExecutableArguments": "",
+      "LoadBalanced": false,
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage"
+        }
+      ]
+    },
+    {
+      "Names": [
+        "DataExport"
+      ],
+      "BinaryPath": "C:\\WindowsApp\\DataExport",
+      "BinaryExecutableName": "DataExportProcessor.exe",
+      "BinaryExecutableArguments": "",
+      "LoadBalanced": true,
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage"
+        }
+      ]
+    },
+    {
+      "Names": [
+        "EContracting"
+      ],
+      "BinaryPath": "C:\\WindowsApp\\EContractingProcessor",
+      "BinaryExecutableName": "EContractingProcessor.Console.exe",
+      "BinaryExecutableArguments": "",
+      "LoadBalanced": false,
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage"
+        }
+      ]
+    },
+    {
+      "Names": [
+        "Data Quality Audit Report Watcher"
+      ],
+      "BinaryPath": "C:\\WindowsApp\\DataQualityAuditReportWatcher",
+      "BinaryExecutableName": "DataQualityAuditReportWatcher.exe",
+      "BinaryExecutableArguments": "",
+      "LoadBalanced": false,
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage"
         }
       ]
     }
@@ -88,7 +759,9 @@
   "Environments": [
     {
       "BusinessLine": "Ncdr",
-      "Name": "Production",
+      "Names": [
+        "Production"
+      ],
       "Servers": [
         {
           "Name": "prdncdrweb1",
@@ -108,6 +781,67 @@
         },
         {
           "Name": "prdncdrapp2",
+          "Type": "App"
+        }
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
+        "Stage",
+        "Stage Test Site #1",
+        "Stage Test Site #2",
+        "Stage Test Site #3",
+        "Stage Test Site #4",
+        "Stage Test Site #5"
+      ],
+      "Servers": [
+        {
+          "Name": "stgncdrweb1",
+          "Type": "Web"
+        },
+        {
+          "Name": "stgncdrweb2",
+          "Type": "Web"
+        },
+        {
+          "Name": "stgncdrweb3",
+          "Type": "Web"
+        },
+        {
+          "Name": "stgncdrapp1",
+          "Type": "App"
+        },
+        {
+          "Name": "stgncdrapp2",
+          "Type": "App"
+        }
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
+        "Development"
+      ],
+      "Servers": [
+        {
+          "Name": "devncdrweb1",
+          "Type": "Web"
+        },
+        {
+          "Name": "devncdrweb2",
+          "Type": "Web"
+        },
+        {
+          "Name": "devncdrweb3",
+          "Type": "Web"
+        },
+        {
+          "Name": "devncdrapp1",
+          "Type": "App"
+        },
+        {
+          "Name": "devncdrapp2",
           "Type": "App"
         }
       ]

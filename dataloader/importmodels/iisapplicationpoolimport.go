@@ -1,6 +1,6 @@
 package importmodels
 
-type IisApplicationPoolRecord struct {
+type IisApplicationPoolImport struct {
 	Name             string
 	ProcessType      string
 	FrameworkVersion string
