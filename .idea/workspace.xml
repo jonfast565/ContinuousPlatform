@@ -6,25 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/databasemodels/environment.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/environment.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/databasemodels/iissite.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/iissite.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/databasemodels/scheduledtask.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/scheduledtask.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/databasemodels/windowsservice.go" beforeDir="false" afterPath="$PROJECT_DIR$/databasemodels/windowsservice.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/importmodels/apprecord.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/importmodels/appimport.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/importmodels/environmentrecord.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/importmodels/environmentimport.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/importmodels/environmentrecordpart.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/importmodels/environmentimportpart.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/importmodels/iisapplicationpoolrecord.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/importmodels/iisapplicationpoolimport.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/importmodels/iisapplicationrecord.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/importmodels/iisapplicationimport.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/importmodels/iissiterecord.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/importmodels/iissiteimport.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/importmodels/infraimport.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/importmodels/infrastructureimport.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/importmodels/resourcerecord.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/importmodels/resourceimport.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/importmodels/scheduledtaskrecord.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/importmodels/scheduledtaskimport.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/importmodels/serverrecord.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/importmodels/serverimport.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/importmodels/windowsservicerecord.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/importmodels/windowsserviceimport.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/generators/dotnetscriptgenerators.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/generators/dotnetscriptgenerators.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/genmodel/scripttemplate.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/genmodel/scripttemplate.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -164,6 +145,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -305,7 +287,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49626866" weight="0.32394367" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49733475" weight="0.6121113" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49093816" visible="true" weight="0.3954496" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49093816" weight="0.3954496" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32569557" />
@@ -354,7 +336,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="added incorrect solution linking code." />
     <MESSAGE value="fatals more descriptive. updated pathing algs." />
     <MESSAGE value="added stack dump everywhere" />
     <MESSAGE value="updated the fatal logging code to use the method with a stack trace." />
@@ -379,7 +360,8 @@
     <MESSAGE value="fixed bug with pulling data" />
     <MESSAGE value="add templates and template description json" />
     <MESSAGE value="add template code (partial)" />
-    <option name="LAST_COMMIT_MESSAGE" value="add template code (partial)" />
+    <MESSAGE value="added more metadata, renamed code elements." />
+    <option name="LAST_COMMIT_MESSAGE" value="added more metadata, renamed code elements." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
