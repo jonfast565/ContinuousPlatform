@@ -2,7 +2,9 @@ package server
 
 import (
 	"../../logging"
+	"../../models/genmodel"
 	"../../models/jobmodel"
+	"./generators"
 )
 
 func GenerateScripts(details *jobmodel.JobDetails) {
@@ -13,19 +15,28 @@ func GenerateScripts(details *jobmodel.JobDetails) {
 		}
 	}()
 
-	_, err := GetDeliverablesCache()
+	deliverables, err := GetDeliverablesCache()
 	if err != nil {
 		panic(err)
 	}
 
-	/*
-		persistenceClient := persistenceclient.NewPersistenceClient()
-		// TODO: Generate scripts here
-
-		buildInfrastructure, err := persistenceClient.GetBuildInfrastructure(key)
-		if err != nil {
-			panic(err)
+	dotNetScriptGenerator := generators.NewDotNetScriptGenerator()
+	scripts := make([]genmodel.ScriptKeyValuePair, 0)
+	for _, deliverable := range deliverables.Deliverables {
+		for _, dotNetDeliverable := range deliverable.DotNetDeliverables {
+			buildScripts := dotNetScriptGenerator.GenerateBuildScripts(*dotNetDeliverable)
+			buildInfraScripts := dotNetScriptGenerator.GenerateBuildInfrastructureScripts(*dotNetDeliverable)
+			scripts = append(scripts, buildScripts...)
+			scripts = append(scripts, buildInfraScripts...)
 		}
-	*/
+	}
 
+	scriptPackage := genmodel.ScriptPackage{
+		Scripts: scripts,
+	}
+
+	err = SetScriptCache(scriptPackage)
+	if err != nil {
+		panic(err)
+	}
 }

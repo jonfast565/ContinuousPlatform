@@ -3,6 +3,7 @@ package server
 import (
 	"../../clients/persistenceclient"
 	"../../logging"
+	"../../models/genmodel"
 	"../../models/projectmodel"
 	"../../models/repomodel"
 	"bytes"
@@ -74,4 +75,18 @@ func GetDeliverablesCache() (*projectmodel.DeliverablePackage, error) {
 	}
 
 	return &value, nil
+}
+
+func SetScriptCache(scriptPackage genmodel.ScriptPackage) error {
+	client := persistenceclient.NewPersistenceClient()
+	logging.LogInfo("Persisting scripts...")
+	packageBuffer, err := json.Marshal(scriptPackage)
+	if err != nil {
+		panic(err)
+	}
+	err = client.SetKeyValueCache("Scripts", packageBuffer, true)
+	if err != nil {
+		panic(err)
+	}
+	return nil
 }

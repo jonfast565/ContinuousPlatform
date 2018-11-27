@@ -226,6 +226,7 @@ func loadApplicationResources(i *importmodels.InfrastructureImport, db *gorm.DB)
 			IisSites:        siteIds,
 			ScheduledTasks:  taskIds,
 			WindowsServices: serviceIds,
+			Type:            application.Type,
 		}); result.Error != nil {
 			panic(result.Error)
 		}

@@ -6,4 +6,5 @@ type WindowsService struct {
 	BinaryExecutableName      string
 	BinaryExecutableArguments string
 	ServiceGuid               string
+	Environments              []EnvironmentPart
 }

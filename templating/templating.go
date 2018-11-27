@@ -3,6 +3,7 @@ package templating
 import (
 	"github.com/aymerick/raymond"
 	"io/ioutil"
+	"strings"
 )
 
 func RunTemplate(template string, input interface{}) (*string, error) {
@@ -32,4 +33,18 @@ func RunTemplateFromFile(path string, input interface{}) (*string, error) {
 	}
 
 	return result, nil
+}
+
+func TranscludeVariableInList(props []string, variableName string, variableValue string) []string {
+	var results []string
+	for _, item := range props {
+		variableHandle := "{{" + variableName + "}}"
+		if strings.Contains(item, variableHandle) {
+			result := strings.Replace(item, variableHandle, variableValue, -1)
+			results = append(results, result)
+		} else {
+			results = append(results, item)
+		}
+	}
+	return results
 }

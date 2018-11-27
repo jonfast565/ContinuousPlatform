@@ -24,6 +24,9 @@ func NewDotNetScriptGenerator() *DotNetScriptGenerator {
 	}
 
 	for _, template := range templateList.Templates {
+		if !template.Enabled {
+			continue
+		}
 		if template.Framework != genmodel.DotNet {
 			continue
 		}
@@ -49,47 +52,67 @@ func NewDotNetScriptGenerator() *DotNetScriptGenerator {
 type DotNetBuildScriptHeader struct {
 }
 
-func NewDotNetBuildScriptHeader(dnd projectmodel.DotNetDeliverable) *DotNetBuildScriptHeader {
+func NewDotNetBuildScriptHeader(dnd projectmodel.FlattenedDotNetDeliverable) *DotNetBuildScriptHeader {
 	return &DotNetBuildScriptHeader{}
 }
 
 type DotNetBuildInfrastructureScriptHeader struct {
 }
 
-func NewDotNetBuildInfrastructureScriptHeader(dnd projectmodel.DotNetDeliverable) *DotNetBuildInfrastructureScriptHeader {
+func NewDotNetBuildInfrastructureScriptHeader(dnd projectmodel.FlattenedDotNetDeliverable) *DotNetBuildInfrastructureScriptHeader {
 	return &DotNetBuildInfrastructureScriptHeader{}
 }
 
 type DotNetEnvironmentInfrastructureScriptHeader struct {
 }
 
-func NewDotNetEnvironmentInfrastructureScriptHeader(dnd projectmodel.DotNetDeliverable) *DotNetEnvironmentInfrastructureScriptHeader {
+func NewDotNetEnvironmentInfrastructureScriptHeader(
+/*env inframodel.EnvironmentPart*/ ) *DotNetEnvironmentInfrastructureScriptHeader {
 	return &DotNetEnvironmentInfrastructureScriptHeader{}
 }
 
-func (dnsg DotNetScriptGenerator) GenerateBuildScripts(dnd projectmodel.DotNetDeliverable) []string {
-	var result []string
-	scriptHeader := NewDotNetBuildScriptHeader(dnd)
-	for _, buildScript := range dnsg.BuildScripts {
-		templateResult := buildScript.GenerateScriptFromTemplate(scriptHeader)
-		result = append(result, *templateResult)
+func (dnsg DotNetScriptGenerator) GenerateBuildScripts(dnd projectmodel.DotNetDeliverable) []genmodel.ScriptKeyValuePair {
+	var result []genmodel.ScriptKeyValuePair
+	flattenedDeliverables := dnd.GetFlattenedDeliverables()
+	for _, flattenedDeliverable := range *flattenedDeliverables {
+		scriptHeader := NewDotNetBuildScriptHeader(flattenedDeliverable)
+		for _, buildScript := range dnsg.BuildScripts {
+			templateResult := buildScript.GenerateScriptFromTemplate(scriptHeader)
+			result = append(result, genmodel.ScriptKeyValuePair{
+				KeyElements: flattenedDeliverable.GetScriptKey(),
+				Value:       *templateResult,
+				ToolScope:   buildScript.ToolScope,
+			})
+		}
 	}
 	return result
 }
 
-func (dnsg DotNetScriptGenerator) GenerateBuildInfrastructureScripts(dnd projectmodel.DotNetDeliverable) []string {
-	var result []string
-	scriptHeader := NewDotNetBuildInfrastructureScriptHeader(dnd)
-	for _, buildInfraScript := range dnsg.BuildInfrastructureScripts {
-		templateResult := buildInfraScript.GenerateScriptFromTemplate(scriptHeader)
-		result = append(result, *templateResult)
+func (dnsg DotNetScriptGenerator) GenerateBuildInfrastructureScripts(
+	dnd projectmodel.DotNetDeliverable) []genmodel.ScriptKeyValuePair {
+	var result []genmodel.ScriptKeyValuePair
+	flattenedDeliverables := dnd.GetFlattenedDeliverables()
+	for _, flattenedDeliverable := range *flattenedDeliverables {
+		_, err := dnsg.persistenceClient.GetBuildInfrastructure(flattenedDeliverable.GetRepositoryKey())
+		if err != nil {
+			panic(err)
+		}
+		scriptHeader := NewDotNetBuildInfrastructureScriptHeader(flattenedDeliverable)
+		for _, buildInfraScript := range dnsg.BuildInfrastructureScripts {
+			templateResult := buildInfraScript.GenerateScriptFromTemplate(scriptHeader)
+			result = append(result, genmodel.ScriptKeyValuePair{
+				KeyElements: flattenedDeliverable.GetScriptKey(),
+				Value:       *templateResult,
+				ToolScope:   buildInfraScript.ToolScope,
+			})
+		}
 	}
 	return result
 }
 
-func (dnsg DotNetScriptGenerator) GenerateEnvironmentInfrastructureScripts(dnd projectmodel.DotNetDeliverable) []string {
+func (dnsg DotNetScriptGenerator) GenerateEnvironmentInfrastructureScripts() []string {
 	var result []string
-	scriptHeader := NewDotNetEnvironmentInfrastructureScriptHeader(dnd)
+	scriptHeader := NewDotNetEnvironmentInfrastructureScriptHeader()
 	for _, environmentInfraScript := range dnsg.EnvironmentInfrastructureScripts {
 		templateResult := environmentInfraScript.GenerateScriptFromTemplate(scriptHeader)
 		result = append(result, *templateResult)

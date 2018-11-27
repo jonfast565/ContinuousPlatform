@@ -8,6 +8,7 @@ import (
 	"../../models/persistmodel"
 	"../../networking"
 	"../../stringutil"
+	"../../templating"
 	"errors"
 	"fmt"
 	"github.com/jinzhu/gorm"
@@ -187,11 +188,10 @@ func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.Repos
 
 	resource := getResource(key, db)
 	sites := getIisSites(resource.IisSites, db)
-	// siteNames := getIisSiteNames(*sites)
+	allSites := getAllIisSites(db)
 	applications := getIisApplications(resource.IisApplications, db)
 	appPools := getRelevantAppPools(*sites, *applications)
 	appPoolNames := getAppPoolNames(appPools)
-	// appNames := getIisApplicationNames(*applications)
 	tasks := getWindowsTasks(resource.ScheduledTasks, db)
 	taskNames := getScheduledTaskNames(*tasks)
 	services := getWindowsServices(resource.WindowsServices, db)
@@ -201,13 +201,30 @@ func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.Repos
 
 	var results []inframodel.ServerTypeMetadata
 	for _, environment := range *environments {
+		// TODO: Move business logic somewhere else, seems un-ideal here
+		siteInfo := getIisSiteForEnvironment(&environment, allSites)
+
+		deploymentLocationsTrans := templating.TranscludeVariableInList(
+			deploymentLocations,
+			"SiteName",
+			siteInfo.SiteName)
+
+		appPoolNamesTrans := templating.TranscludeVariableInList(
+			appPoolNames,
+			"SiteName",
+			siteInfo.SiteName)
+
 		for _, server := range environment.Servers {
+			if server.ServerType != resource.Type {
+				continue
+			}
+
 			results = append(results, inframodel.ServerTypeMetadata{
 				ServerName:          server.ServerName,
 				ServerType:          server.ServerType,
 				EnvironmentName:     environment.GetEnvironmentName(),
-				DeploymentLocations: deploymentLocations,
-				AppPoolNames:        appPoolNames,
+				DeploymentLocations: deploymentLocationsTrans,
+				AppPoolNames:        appPoolNamesTrans,
 				ServiceNames:        serviceNames,
 				TaskNames:           taskNames,
 			})
