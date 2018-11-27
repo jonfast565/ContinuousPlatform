@@ -54,12 +54,27 @@ func getIisApplications(applicationGuids []string, db *gorm.DB) *[]inframodel.Ii
 	return &applications
 }
 
+/*
 func getIisApplicationNames(models []inframodel.IisApplication) []string {
 	var names []string
 	for _, model := range models {
 		names = append(names, model.ApplicationName)
 	}
 	return names
+}
+*/
+
+func getIisSiteForEnvironment(environment *inframodel.Environment, sites *[]inframodel.IisSitePart) *inframodel.IisSitePart {
+	for _, site := range *sites {
+		// TODO: Make a business rule here? This is sketchy...
+		firstEnvironment := site.Environments[0]
+		if firstEnvironment.Name == environment.Name &&
+			firstEnvironment.BusinessLine == environment.BusinessLine {
+			return &site
+		}
+	}
+	// TODO: This is also sketchy
+	return nil
 }
 
 func getIisSites(siteGuids []string, db *gorm.DB) *[]inframodel.IisSite {
@@ -83,6 +98,7 @@ func getIisSites(siteGuids []string, db *gorm.DB) *[]inframodel.IisSite {
 		}
 
 		iisApplications := getIisApplications(iisSite.SiteApplications, db)
+		environmentParts := getEnvironmentPartsByIds(iisSite.Environments, db)
 
 		sites = append(sites, inframodel.IisSite{
 			SiteName:     iisSite.SiteName,
@@ -95,11 +111,33 @@ func getIisSites(siteGuids []string, db *gorm.DB) *[]inframodel.IisSite {
 			},
 			SiteGuid:     iisSite.IisSiteId.String(),
 			Applications: *iisApplications,
+			Environments: environmentParts,
 		})
 	}
 	return &sites
 }
 
+func getAllIisSites(db *gorm.DB) *[]inframodel.IisSitePart {
+	var iisSiteList []databasemodels.IisSite
+
+	if db.Find(&iisSiteList, &databasemodels.IisSite{}).RecordNotFound() {
+		panic("sites not found")
+	}
+
+	var results []inframodel.IisSitePart
+	for _, iisSite := range iisSiteList {
+		environmentParts := getEnvironmentPartsByIds(iisSite.Environments, db)
+		results = append(results, inframodel.IisSitePart{
+			SiteName:     iisSite.SiteName,
+			PhysicalPath: iisSite.PhysicalPath,
+			SiteGuid:     iisSite.IisSiteId.String(),
+			Environments: environmentParts,
+		})
+	}
+	return &results
+}
+
+/*
 func getIisSiteNames(models []inframodel.IisSite) []string {
 	var names []string
 	for _, model := range models {
@@ -107,6 +145,7 @@ func getIisSiteNames(models []inframodel.IisSite) []string {
 	}
 	return names
 }
+*/
 
 func getRelevantAppPools(siteModels []inframodel.IisSite,
 	appModels []inframodel.IisApplication) []inframodel.IisApplicationPool {
@@ -128,7 +167,7 @@ func getRelevantAppPools(siteModels []inframodel.IisSite,
 }
 
 func getAppPoolNames(models []inframodel.IisApplicationPool) []string {
-	var names []string
+	names := make([]string, 0)
 	for _, model := range models {
 		names = append(names, model.AppPoolName)
 	}
@@ -183,6 +222,7 @@ func getWindowsTasks(taskGuids []string, db *gorm.DB) *[]inframodel.ScheduledTas
 			panic("scheduled task not found")
 		}
 
+		environmentParts := getEnvironmentPartsByIds(scheduledTask.Environments, db)
 		scheduledTasks = append(scheduledTasks, inframodel.ScheduledTask{
 			TaskName:                  scheduledTask.TaskName,
 			BinaryPath:                scheduledTask.BinaryPath,
@@ -194,13 +234,14 @@ func getWindowsTasks(taskGuids []string, db *gorm.DB) *[]inframodel.ScheduledTas
 			ExecutionTimeLimit:        scheduledTask.ExecutionTimeLimit,
 			Priority:                  scheduledTask.Priority,
 			TaskGuid:                  scheduledTask.WindowsScheduledTaskId.String(),
+			Environments:              environmentParts,
 		})
 	}
 	return &scheduledTasks
 }
 
 func getScheduledTaskNames(models []inframodel.ScheduledTask) []string {
-	var names []string
+	names := make([]string, 0)
 	for _, model := range models {
 		names = append(names, model.TaskName)
 	}
@@ -219,23 +260,42 @@ func getWindowsServices(serviceGuids []string, db *gorm.DB) *[]inframodel.Window
 			panic("windows service not found")
 		}
 
+		environmentParts := getEnvironmentPartsByIds(service.Environments, db)
 		services = append(services, inframodel.WindowsService{
 			ServiceName:               service.ServiceName,
 			BinaryPath:                service.BinaryPath,
 			BinaryExecutableName:      service.BinaryExecutableName,
 			BinaryExecutableArguments: service.BinaryExecutableArguments,
 			ServiceGuid:               service.WindowsServiceId.String(),
+			Environments:              environmentParts,
 		})
 	}
 	return &services
 }
 
 func getWindowsServiceNames(models []inframodel.WindowsService) []string {
-	var names []string
+	names := make([]string, 0)
 	for _, model := range models {
 		names = append(names, model.ServiceName)
 	}
 	return names
+}
+
+func getEnvironmentPartsByIds(environmentIds []string, db *gorm.DB) []inframodel.EnvironmentPart {
+	var databaseEnvironments []databasemodels.Environment
+	if result := db.Model(&databasemodels.Environment{}).
+		Where("environment_id in (?)", environmentIds).
+		Find(&databaseEnvironments); result.Error != nil {
+		panic(result.Error)
+	}
+	var environmentParts []inframodel.EnvironmentPart
+	for _, databaseEnvironment := range databaseEnvironments {
+		environmentParts = append(environmentParts, inframodel.EnvironmentPart{
+			BusinessLine: databaseEnvironment.BusinessLine,
+			Name:         databaseEnvironment.Name,
+		})
+	}
+	return environmentParts
 }
 
 func getEnvironments(db *gorm.DB) *[]inframodel.Environment {

@@ -6,4 +6,12 @@ type IisSite struct {
 	AppPool      IisApplicationPool
 	SiteGuid     string
 	Applications []IisApplication
+	Environments []EnvironmentPart
+}
+
+type IisSitePart struct {
+	SiteName     string
+	PhysicalPath string
+	SiteGuid     string
+	Environments []EnvironmentPart
 }

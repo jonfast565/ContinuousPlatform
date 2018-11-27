@@ -10,6 +10,7 @@ type Resource struct {
 	RepositoryName  string         `gorm:"not null"`
 	SolutionName    string         `gorm:"not null"`
 	ProjectName     string         `gorm:"not null"`
+	Type            string         `gorm:"not null"`
 	IisApplications pq.StringArray `gorm:"type:uuid[]"`
 	IisSites        pq.StringArray `gorm:"type:uuid[]"`
 	ScheduledTasks  pq.StringArray `gorm:"type:uuid[]"`
