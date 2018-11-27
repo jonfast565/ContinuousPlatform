@@ -40,75 +40,96 @@ func main() {
 
 func getKeyValueCache(w http.ResponseWriter, r *http.Request) {
 	var model persistmodel.KeyRequest
+
 	err := jsonutil.DecodeJsonFromBody(r, &model)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
+
 	result, err := endpoint.GetKeyValueCache(&model)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
+
 	resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
-	_, _ = w.Write(*resultBytes)
+
+	_, err = w.Write(*resultBytes)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+	}
 }
 
 func setKeyValueCache(w http.ResponseWriter, r *http.Request) {
 	var model persistmodel.KeyValueRequest
+
 	err := jsonutil.DecodeJsonFromBody(r, &model)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
+
 	err = endpoint.SetKeyValueCache(&model)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
+
 	w.WriteHeader(200)
 }
 
 func getBuildInfrastructure(w http.ResponseWriter, r *http.Request) {
 	var model inframodel.RepositoryKey
+
 	err := jsonutil.DecodeJsonFromBody(r, &model)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
+
 	result, err := endpoint.GetBuildInfrastructure(model)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
+
 	resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
-	_, _ = w.Write(*resultBytes)
+
+	_, err = w.Write(*resultBytes)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+	}
 }
 
 func setLogRecord(w http.ResponseWriter, r *http.Request) {
 	var model loggingmodel.LogRecord
+
 	err := jsonutil.DecodeJsonFromBody(r, &model)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
+
 	err = endpoint.SetLogRecord(&model)
 	if err != nil {
 		w.WriteHeader(500)

@@ -41,34 +41,48 @@ func getRepositories(w http.ResponseWriter, r *http.Request) {
 		logging.LogError(err)
 		return
 	}
+
 	resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
-	w.Write(*resultBytes)
+
+	_, err = w.Write(*resultBytes)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+	}
 }
 
 func getFile(w http.ResponseWriter, r *http.Request) {
 	var repositoryFileMetadata repomodel.RepositoryFileMetadata
+
 	err := jsonutil.DecodeJsonFromBody(r, &repositoryFileMetadata)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
+
 	result, err := endpoint.GetFile(repositoryFileMetadata)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
+
 	resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
-	w.Write(*resultBytes)
+
+	_, err = w.Write(*resultBytes)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+	}
 }

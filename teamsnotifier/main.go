@@ -7,7 +7,6 @@ import (
 	"../networking"
 	"./server"
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
 )
@@ -46,6 +45,9 @@ func sendMessage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result := string(*responseBytes)
-	fmt.Fprintf(w, result)
+	_, err = w.Write(*responseBytes)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+	}
 }
