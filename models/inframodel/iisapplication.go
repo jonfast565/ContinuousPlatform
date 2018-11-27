@@ -5,4 +5,5 @@ type IisApplication struct {
 	PhysicalPath    string
 	AppPool         IisApplicationPool
 	ApplicationGuid string
+	Environments    []EnvironmentPart
 }

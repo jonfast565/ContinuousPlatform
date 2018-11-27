@@ -11,4 +11,5 @@ type ScheduledTask struct {
 	ExecutionTimeLimit        int64
 	Priority                  int64
 	TaskGuid                  string
+	Environments              []EnvironmentPart
 }

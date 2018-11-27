@@ -465,7 +465,7 @@
         "ProcessType": "Integrated",
         "FrameworkVersion": "v4.0"
       },
-      "IisApplications": [
+      "Applications": [
         "WebNCDR"
       ],
       "Environments": [
@@ -483,13 +483,121 @@
         "ProcessType": "Integrated",
         "FrameworkVersion": "v4.0"
       },
-      "IisApplications": [
+      "Applications": [
         "WebNCDR"
       ],
       "Environments": [
         {
           "BusinessLine": "Ncdr",
           "Name": "Stage"
+        }
+      ]
+    },
+    {
+      "Name": "support.stage.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\support.stage.ncdr.com",
+      "ApplicationPool": {
+        "Name": "support.stage.ncdr.com",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      },
+      "Applications": [
+        "WebNCDR"
+      ],
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Support Stage Site"
+        }
+      ]
+    },
+    {
+      "Name": "test1-stage.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\test1-stage.ncdr.com",
+      "ApplicationPool": {
+        "Name": "test1-stage.ncdr.com",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      },
+      "Applications": [
+        "WebNCDR"
+      ],
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage Test Site #1"
+        }
+      ]
+    },
+    {
+      "Name": "test2-stage.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\test2-stage.ncdr.com",
+      "ApplicationPool": {
+        "Name": "test2-stage.ncdr.com",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      },
+      "Applications": [
+        "WebNCDR"
+      ],
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage Test Site #2"
+        }
+      ]
+    },
+    {
+      "Name": "test3-stage.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\test3-stage.ncdr.com",
+      "ApplicationPool": {
+        "Name": "test3-stage.ncdr.com",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      },
+      "Applications": [
+        "WebNCDR"
+      ],
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage Test Site #3"
+        }
+      ]
+    },
+    {
+      "Name": "test4-stage.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\test4-stage.ncdr.com",
+      "ApplicationPool": {
+        "Name": "test4-stage.ncdr.com",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      },
+      "Applications": [
+        "WebNCDR"
+      ],
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage Test Site #4"
+        }
+      ]
+    },
+    {
+      "Name": "dev.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\dev.ncdr.com",
+      "ApplicationPool": {
+        "Name": "dev.ncdr.com",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      },
+      "Applications": [
+        "WebNCDR"
+      ],
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development"
         }
       ]
     }
@@ -789,11 +897,11 @@
       "BusinessLine": "Ncdr",
       "Names": [
         "Stage",
+        "Support Stage Site",
         "Stage Test Site #1",
         "Stage Test Site #2",
         "Stage Test Site #3",
-        "Stage Test Site #4",
-        "Stage Test Site #5"
+        "Stage Test Site #4"
       ],
       "Servers": [
         {
