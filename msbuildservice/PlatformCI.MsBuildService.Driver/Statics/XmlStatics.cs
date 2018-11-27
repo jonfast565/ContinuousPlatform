@@ -20,16 +20,17 @@ namespace PlatformCI.MsBuildService.Driver.Statics
             document.RemoveComments();
 
             var firstChildNode = document.ChildNodes[1];
-            if (firstChildNode?.Attributes != null)
-            {
-                var xmlns = firstChildNode.Attributes["xmlns"];
-                if (xmlns != null)
+            var xmlns = firstChildNode?.Attributes?["xmlns"];
+            if (xmlns == null)
+                return new XmlNamespaceValue
                 {
-                    nameSpaceManager = new XmlNamespaceManager(document.NameTable);
-                    nameSpaceManager.AddNamespace(namespaceName, xmlns.Value);
-                    namespacePrefix = namespaceName + ":";
-                }
-            }
+                    NsManager = nameSpaceManager,
+                    NamespacePrefix = namespacePrefix,
+                    NamespaceName = namespaceName
+                };
+            nameSpaceManager = new XmlNamespaceManager(document.NameTable);
+            nameSpaceManager.AddNamespace(namespaceName, xmlns.Value);
+            namespacePrefix = namespaceName + ":";
 
             return new XmlNamespaceValue
             {

@@ -1,14 +1,19 @@
 package constants
 
 const (
-	AppName string = "SystemCI"
+	AppName      string = "Continuous Platform"
+	MajorVersion string = "0"
+	MinorVersion string = "1"
+	BuildNumber  string = "51"
 )
 
-const Header = "\n    _____            __                 __________\n" +
-	"   / ___/__  _______/ /____  ____ ___  / ____/  _/\n" +
-	"  \\__ \\/ / / / ___/ __/ _ \\/ __ `__ \\/ /    / /\n" +
-	" ___/ / /_/ (__  ) /_/  __/ / / / / / /____/ /\n" +
-	"/____/\\__, /____/\\__/\\___/_/ /_/ /_/\\____/___/\n" +
-	"     /____/\n\n"
+const Header =
+"\n" +
+"   __________\n" +
+"  / ____/ __ \\\n" +
+" / /   / /_/ /\n" +
+"/ /___/ ____/\n" +
+"\\____/_/\n" +
+"\n*** " + AppName + " ***\n\n"
 
 const Divider = "-----------------------------------------------"

@@ -1,4 +1,5 @@
-﻿using PlatformCI.MsBuildService.Driver.Interfaces;
+﻿using System;
+using PlatformCI.MsBuildService.Driver.Interfaces;
 using PlatformCI.MsBuildService.Models.Implementation;
 using PlatformCI.MsBuildService.Models.Interfaces;
 
@@ -38,7 +39,7 @@ namespace PlatformCI.MsBuildService.Driver.Implementation
 
         public MsBuildProjectPrimitive GetProjectFromFileBytes(FilePayload localPath)
         {
-            // _oplog.Log(LogOperationType.Info, $"Caching {localPath.Name}");
+            Console.WriteLine($"Caching {localPath.Name}");
             var projectPath = WriteMsBuildItemToDisk(localPath);
             var project = GetProjectFromLocalPath(projectPath, localPath.Name);
             DeleteMsBuildItemFromDisk(projectPath);
@@ -48,7 +49,7 @@ namespace PlatformCI.MsBuildService.Driver.Implementation
 
         public MsBuildPublishProfilePrimitive GetPublishProfileFromFileBytes(FilePayload localPath)
         {
-            // _oplog.Log(LogOperationType.Info, $"Caching {localPath.Name}");
+            Console.WriteLine($"Caching {localPath.Name}");
             var publishProfilePath = WriteMsBuildItemToDisk(localPath);
             var publishProfile = GetPublishProfileFromLocalPath(publishProfilePath, localPath.Name);
             DeleteMsBuildItemFromDisk(publishProfilePath);
@@ -58,7 +59,7 @@ namespace PlatformCI.MsBuildService.Driver.Implementation
 
         public MsBuildSolutionPrimitive GetSolutionFromFileBytes(FilePayload localPath)
         {
-            // _oplog.Log(LogOperationType.Info, $"Caching {localPath.Name}");
+            Console.WriteLine($"Caching {localPath.Name}");
             var solutionPath = WriteMsBuildItemToDisk(localPath);
             var solution = GetSolutionFromLocalPath(solutionPath, localPath.Name);
             DeleteMsBuildItemFromDisk(solutionPath);
