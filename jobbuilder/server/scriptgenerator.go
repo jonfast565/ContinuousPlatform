@@ -22,6 +22,8 @@ func GenerateScripts(details *jobmodel.JobDetails) {
 
 	dotNetScriptGenerator := generators.NewDotNetScriptGenerator()
 	scripts := make([]genmodel.ScriptKeyValuePair, 0)
+	details.ResetProgress()
+	details.SetTotalProgress(int64(len(deliverables.Deliverables)))
 	for _, deliverable := range deliverables.Deliverables {
 		for _, dotNetDeliverable := range deliverable.DotNetDeliverables {
 			buildScripts := dotNetScriptGenerator.GenerateBuildScripts(*dotNetDeliverable)
@@ -29,6 +31,7 @@ func GenerateScripts(details *jobmodel.JobDetails) {
 			scripts = append(scripts, buildScripts...)
 			scripts = append(scripts, buildInfraScripts...)
 		}
+		details.IncrementProgress()
 	}
 
 	scriptPackage := genmodel.ScriptPackage{

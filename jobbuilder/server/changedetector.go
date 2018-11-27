@@ -17,6 +17,7 @@ func SourceControlChangesExist(details *jobmodel.JobDetails) bool {
 		}
 	}()
 
+	details.ResetProgress()
 	oldPackage, err := GetRepositoriesCache()
 	if err != nil {
 		if err.Error() != "EOF" {
@@ -51,6 +52,7 @@ func SourceControlChangesExist(details *jobmodel.JobDetails) bool {
 		return true
 	}
 
+	details.SetTotalProgress(int64(len(newPackage.Metadata)))
 	for _, newRepo := range newPackage.Metadata {
 		logging.LogInfo("Process repo " +
 			newRepo.Name + " b. " +
@@ -67,7 +69,10 @@ func SourceControlChangesExist(details *jobmodel.JobDetails) bool {
 				newRepo.Name + " b. " +
 				newRepo.Branch + " not found")
 			changeFlag = true
+			details.CompleteProgress()
 			break
+		} else {
+			details.IncrementProgress()
 		}
 	}
 
