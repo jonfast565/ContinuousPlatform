@@ -133,5 +133,9 @@ func getJobDetails(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write(*resultBytes)
+	_, err = w.Write(*resultBytes)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+	}
 }
