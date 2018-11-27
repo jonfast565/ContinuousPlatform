@@ -25,8 +25,7 @@ namespace PlatformCI.MsBuildService.Driver.Statics
                     ? "<-" + originalPublishProfileName
                     : string.Empty;
 
-                //opLog.Log(LogOperationType.Info,
-                    //$"Found publish profile {publishProfileName} {originalPublishProfileNameExpr}");
+                Console.WriteLine($"Found publish profile {publishProfileName} {originalPublishProfileNameExpr}");
 
                 return new MsBuildPublishProfilePrimitive
                 {
@@ -66,8 +65,7 @@ namespace PlatformCI.MsBuildService.Driver.Statics
                     ? "<-" + originalProjectName
                     : string.Empty;
 
-                //opLog.Log(LogOperationType.Info,
-                    //$"Found project {projectName} {originalProjectNameExpr}");
+                Console.WriteLine($"Found project {projectName} {originalProjectNameExpr}");
 
                 return new MsBuildProjectPrimitive
                 {

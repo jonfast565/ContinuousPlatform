@@ -26,8 +26,7 @@ namespace PlatformCI.MsBuildService.Driver.Statics
                     ? "<-" + originalSolutionName
                     : string.Empty;
 
-                //opLog.Log(LogOperationType.Info,
-                    //$"Found solution {solutionName} {originalSolutionNameExpr}");
+                Console.WriteLine($"Found solution {solutionName} {originalSolutionNameExpr}");
 
                 return new MsBuildSolutionPrimitive
                 {

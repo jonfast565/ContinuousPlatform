@@ -41,6 +41,10 @@ func LogHeader(applicationName string) {
 	log.Print(constants.Header)
 	log.Print(constants.Divider)
 	log.Print("Application: " + applicationName)
+	log.Print(fmt.Sprintf("Version: %s.%s.%s",
+		constants.MajorVersion,
+		constants.MinorVersion,
+		constants.BuildNumber))
 	log.Print(constants.Divider)
 }
 
