@@ -25,7 +25,9 @@ func NewJenkinsEndpoint(configuration JenkinsConfiguration) JenkinsEndpoint {
 	}
 }
 
-func (je *JenkinsEndpoint) CheckJobExistence(crumb jenkinsmodel.JenkinsCrumb, request jenkinsmodel.JenkinsJobRequest) (*string, error) {
+func (je *JenkinsEndpoint) CheckJobExistence(
+	crumb jenkinsmodel.JenkinsCrumb,
+	request jenkinsmodel.JenkinsJobRequest) (*string, error) {
 	logging.LogInfo("Check Existence Jenkins Job -> " + request.GetJobFragmentUrl())
 	checkUrl := je.buildCheckUrl(request)
 	logging.LogInfo("Check Existence Job URL: " + checkUrl)
@@ -47,7 +49,9 @@ func (je *JenkinsEndpoint) CheckJobExistence(crumb jenkinsmodel.JenkinsCrumb, re
 	return result, nil
 }
 
-func (je *JenkinsEndpoint) CreateUpdateJob(crumb jenkinsmodel.JenkinsCrumb, request jenkinsmodel.JenkinsJobRequest) (*string, error) {
+func (je *JenkinsEndpoint) CreateUpdateJob(
+	crumb jenkinsmodel.JenkinsCrumb,
+	request jenkinsmodel.JenkinsJobRequest) (*string, error) {
 	logging.LogInfo("Create/Update Jenkins Job -> " + request.GetJobFragmentUrl())
 	createUpdateUrl := je.buildCreateUpdateUrl(request)
 	logging.LogInfo("Create/Update Job URL: " + createUpdateUrl)
@@ -69,7 +73,9 @@ func (je *JenkinsEndpoint) CreateUpdateJob(crumb jenkinsmodel.JenkinsCrumb, requ
 	return result, nil
 }
 
-func (je *JenkinsEndpoint) CreateFolder(crumb jenkinsmodel.JenkinsCrumb, request jenkinsmodel.JenkinsJobRequest) (*string, error) {
+func (je *JenkinsEndpoint) CreateFolder(
+	crumb jenkinsmodel.JenkinsCrumb,
+	request jenkinsmodel.JenkinsJobRequest) (*string, error) {
 	logging.LogInfo("Create Jenkins Folder -> " + request.GetJobFragmentUrl())
 	folderUrl := je.buildCreateFolderUrl(request)
 	logging.LogInfo("Create Folder URL: " + folderUrl)
@@ -96,7 +102,9 @@ func (je *JenkinsEndpoint) CreateFolder(crumb jenkinsmodel.JenkinsCrumb, request
 	return result, nil
 }
 
-func (je *JenkinsEndpoint) DeleteJobOrFolder(crumb jenkinsmodel.JenkinsCrumb, request jenkinsmodel.JenkinsJobRequest) (*string, error) {
+func (je *JenkinsEndpoint) DeleteJobOrFolder(
+	crumb jenkinsmodel.JenkinsCrumb,
+	request jenkinsmodel.JenkinsJobRequest) (*string, error) {
 	logging.LogInfo("Delete Jenkins Job/Folder -> " + request.GetJobFragmentUrl())
 	deleteUrl := je.buildDeleteUrl(request)
 	logging.LogInfo("Delete Job/Folder URL: " + deleteUrl)
@@ -118,7 +126,8 @@ func (je *JenkinsEndpoint) DeleteJobOrFolder(crumb jenkinsmodel.JenkinsCrumb, re
 	return result, nil
 }
 
-func (je *JenkinsEndpoint) GetJenkinsMetadata(crumb jenkinsmodel.JenkinsCrumb) (*jenkinsmodel.JenkinsJobMetadata, error) {
+func (je *JenkinsEndpoint) GetJenkinsMetadata(
+	crumb jenkinsmodel.JenkinsCrumb) (*jenkinsmodel.JenkinsJobMetadata, error) {
 	logging.LogInfo("Get Jenkins Job Metadata")
 	metadataUrl := je.buildJobMetadataUrl()
 	logging.LogInfo("Metadata URL: " + metadataUrl)

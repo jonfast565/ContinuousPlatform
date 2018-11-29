@@ -21,6 +21,14 @@ func (jd *JobDetails) ResetProgress() {
 	atomic.StoreInt64(&jd.TotalProgress, 0)
 }
 
+func (jd *JobDetails) IncrementTotalProgressBy(newValue int64) {
+	atomic.AddInt64(&jd.TotalProgress, newValue)
+}
+
+func (jd *JobDetails) IncrementTotalProgress() {
+	atomic.AddInt64(&jd.TotalProgress, 1)
+}
+
 func (jd *JobDetails) IncrementProgress() {
 	atomic.AddInt64(&jd.Progress, 1)
 }

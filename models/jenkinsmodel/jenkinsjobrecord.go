@@ -1,8 +1,13 @@
 package jenkinsmodel
 
+type JenkinsJobRecordType string
+
+var (
+	File   JenkinsJobRecordType = "File"
+	Folder JenkinsJobRecordType = "Folder"
+)
+
 type JenkinsJobRecord struct {
-	TopLevelFolder    string
-	MidLevel1Folder   string
-	MidLevel2Folder   string
-	BottomLevelFolder string
+	KeyElements []string
+	Type        JenkinsJobRecordType
 }

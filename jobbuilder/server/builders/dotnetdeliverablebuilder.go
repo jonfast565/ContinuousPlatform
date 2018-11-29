@@ -291,7 +291,8 @@ func (dndbc *DotNetDeliverableBuildContext) linkProjectSolutions(solution *proje
 			}
 			solutionReference := solution.GetSolutionReference()
 			project.SolutionParents = append(project.SolutionParents, &solutionReference)
-			solution.Projects = append(solution.Projects, project)
+			// TODO: Understand this duplication, it's causing issues
+			// solution.Projects = append(solution.Projects, project)
 			found = true
 			dndbc.LogInfoWithContext("Linked " + solution.Name + " -> " + project.Name)
 			break
