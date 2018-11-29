@@ -7,6 +7,7 @@ import (
 	"../../models/jenkinsmodel"
 	"../../models/jobmodel"
 	"../../stringutil"
+	"github.com/ahmetb/go-linq"
 	"sort"
 )
 
@@ -60,18 +61,51 @@ func DeployJenkinsJobs(details *jobmodel.JobDetails) {
 
 	sort.Sort(myMetadataKeys)
 	jenkinsInstanceMetadataKeys := metadata.GetFlattenedKeys()
-	/* edits := */ _ = buildEditList(&myMetadataKeys, jenkinsInstanceMetadataKeys)
+	edits := buildEditList(&myMetadataKeys, jenkinsInstanceMetadataKeys)
 }
 
 func buildEditList(
 	l1 *jenkinsmodel.JenkinsJobKeyList,
 	l2 *jenkinsmodel.JenkinsJobKeyList) []jenkinsmodel.JenkinsEdit {
-	/*
-	for _,  k1 := range *l1 {
-		for _, k2 := range *l2 {
+	var results []jenkinsmodel.JenkinsEdit
+	for _, k1 := range *l1 {
+		result := linq.From(l2).FirstWithT(func(key jenkinsmodel.JenkinsJobKey) bool {
+			return stringutil.StringArrayCompare(k1.Keys, key.Keys)
+		})
 
+		if result != nil {
+			// update
+			results = append(results, jenkinsmodel.JenkinsEdit{
+				Name:      "",
+				Url:       "",
+				EditType:  0,
+				JobRecord: JenkinsJobRecord{},
+			})
+		} else {
+			// insert
+			results = append(results, jenkinsmodel.JenkinsEdit{
+				Name:      "",
+				Url:       "",
+				EditType:  0,
+				JobRecord: JenkinsJobRecord{},
+			})
 		}
 	}
-	*/
+
+	for _, k2 := range *l2 {
+		result := linq.From(l2).FirstWithT(func(key jenkinsmodel.JenkinsJobKey) bool {
+			return stringutil.StringArrayCompare(k2.Keys, key.Keys)
+		})
+		if result != nil {
+			// delete
+			results = append(results, jenkinsmodel.JenkinsEdit{
+				Name:      "",
+				Url:       "",
+				EditType:  0,
+				JobRecord: JenkinsJobRecord{},
+			})
+		}
+	}
+
 	return nil
 }
