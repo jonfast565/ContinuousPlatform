@@ -65,3 +65,12 @@ func PartialMessage(value string) string {
 	}
 	return value[0 : maxMessageLength-1]
 }
+
+func StringArrayContains(strArray []string, value string) bool {
+	for _, str := range strArray {
+		if str == value {
+			return true
+		}
+	}
+	return false
+}

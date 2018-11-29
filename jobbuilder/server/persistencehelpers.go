@@ -90,3 +90,20 @@ func SetScriptCache(scriptPackage genmodel.ScriptPackage) error {
 	}
 	return nil
 }
+
+func GetScriptCache() (*genmodel.ScriptPackage, error) {
+	client := persistenceclient.NewPersistenceClient()
+	logging.LogInfo("Getting scripts...")
+	packageBytes, err := client.GetKeyValueCache("Scripts", true)
+	if err != nil {
+		return nil, err
+	}
+
+	var value genmodel.ScriptPackage
+	err = json.Unmarshal(packageBytes, &value)
+	if err != nil {
+		return nil, err
+	}
+
+	return &value, nil
+}

@@ -7,7 +7,7 @@ import (
 	"github.com/satori/go.uuid"
 )
 
-func getResource(key inframodel.RepositoryKey, db *gorm.DB) *databasemodels.Resource {
+func getResource(key inframodel.ResourceKey, db *gorm.DB) *databasemodels.Resource {
 	var resource databasemodels.Resource
 	if db.First(&resource, &databasemodels.Resource{
 		RepositoryName: key.RepositoryName,

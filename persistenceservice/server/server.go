@@ -65,6 +65,7 @@ func (p *PersistenceServiceEndpoint) SetKeyValueCache(
 	if err != nil {
 		return err
 	}
+	defer db.Close()
 
 	hostname, err := networking.GetMyHostName()
 	if err != nil {
@@ -119,6 +120,7 @@ func (p *PersistenceServiceEndpoint) GetKeyValueCache(
 	if err != nil {
 		return nil, err
 	}
+	defer db.Close()
 
 	hostname, err := networking.GetMyHostName()
 	if err != nil {
@@ -144,6 +146,7 @@ func (p *PersistenceServiceEndpoint) SetLogRecord(logRecord *loggingmodel.LogRec
 	if err != nil {
 		return err
 	}
+	defer db.Close()
 
 	hostname, err := networking.GetMyHostName()
 	if err != nil {
@@ -176,7 +179,35 @@ func (p *PersistenceServiceEndpoint) SetLogRecord(logRecord *loggingmodel.LogRec
 	return nil
 }
 
-func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.RepositoryKey) (
+func (p *PersistenceServiceEndpoint) GetResourceCache() (*inframodel.ResourceList, error) {
+	logging.LogInfo("Getting resource cache")
+
+	var result inframodel.ResourceList
+	result.Keys = make([]inframodel.ResourceKey, 0)
+
+	db, err := p.Configuration.GetConnection()
+	if err != nil {
+		return nil, err
+	}
+	defer db.Close()
+
+	var resources []databasemodels.Resource
+	if db.Find(&resources, databasemodels.Resource{}).RecordNotFound() {
+		panic("resources not found")
+	}
+
+	for _, resource := range resources {
+		result.Keys = append(result.Keys, inframodel.ResourceKey{
+			RepositoryName: resource.RepositoryName,
+			SolutionName:   resource.SolutionName,
+			ProjectName:    resource.ProjectName,
+		})
+	}
+
+	return &result, nil
+}
+
+func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.ResourceKey) (
 	*inframodel.BuildInfrastructureMetadata, error) {
 	logging.LogInfo("Getting infrastructure metadata")
 
@@ -185,6 +216,7 @@ func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.Repos
 	if err != nil {
 		return nil, err
 	}
+	defer db.Close()
 
 	resource := getResource(key, db)
 	sites := getIisSites(resource.IisSites, db)

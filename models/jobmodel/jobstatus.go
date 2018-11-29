@@ -1,9 +1,9 @@
 package jobmodel
 
-type JobStatus int
+type JobStatus string
 
 const (
-	Stopped JobStatus = 0
-	Running JobStatus = 1
-	Errored JobStatus = 2
+	Stopped JobStatus = "Stopped"
+	Running JobStatus = "Running"
+	Errored JobStatus = "Errored"
 )
