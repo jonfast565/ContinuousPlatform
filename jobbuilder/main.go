@@ -116,6 +116,7 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/Daemon/GetJobDetails", getJobDetails).Methods(constants.PostMethod)
+	router.HandleFunc("/Daemon/TriggerJob", triggerJob).Methods(constants.PostMethod)
 
 	localPort := networking.GetLocalPort(configuration.Port)
 	logging.LogContentService(localPort)
@@ -123,6 +124,37 @@ func main() {
 
 	quit <- true
 	logging.LogApplicationEnd()
+}
+
+func triggerJob(w http.ResponseWriter, r *http.Request) {
+	var model jobmodel.JobTrigger
+
+	err := jsonutil.DecodeJsonFromBody(r, &model)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+
+	switch model.JobName {
+	case "DetectChanges":
+		controller.DetectChanges.TriggerJob()
+		break
+	case "BuildDeliverables":
+		controller.BuildDeliverables.TriggerJob()
+		break
+	case "GenerateScripts":
+		controller.GenerateScripts.TriggerJob()
+		break
+	case "DeployJenkinsJobs":
+		controller.DeployJenkinsJobs.TriggerJob()
+		break
+	default:
+		w.WriteHeader(500)
+		return
+	}
+
+	w.WriteHeader(200)
 }
 
 func getJobDetails(w http.ResponseWriter, r *http.Request) {

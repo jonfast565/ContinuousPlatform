@@ -1,6 +1,6 @@
 package inframodel
 
-type RepositoryKey struct {
+type ResourceKey struct {
 	RepositoryName string
 	SolutionName   string
 	ProjectName    string

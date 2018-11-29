@@ -31,6 +31,7 @@ func main() {
 	router.HandleFunc("/Daemon/SetKeyValueCache", setKeyValueCache).Methods(constants.PostMethod)
 	router.HandleFunc("/Daemon/SetLogRecord", setLogRecord).Methods(constants.PostMethod)
 	router.HandleFunc("/Daemon/GetBuildInfrastructure", getBuildInfrastructure).Methods(constants.PostMethod)
+	router.HandleFunc("/Daemon/GetResourceList", getResourceList).Methods(constants.PostMethod)
 
 	localPort := networking.GetLocalPort(configuration.Port)
 	logging.LogContentService(localPort)
@@ -90,7 +91,7 @@ func setKeyValueCache(w http.ResponseWriter, r *http.Request) {
 }
 
 func getBuildInfrastructure(w http.ResponseWriter, r *http.Request) {
-	var model inframodel.RepositoryKey
+	var model inframodel.ResourceKey
 
 	err := jsonutil.DecodeJsonFromBody(r, &model)
 	if err != nil {
@@ -100,6 +101,28 @@ func getBuildInfrastructure(w http.ResponseWriter, r *http.Request) {
 	}
 
 	result, err := endpoint.GetBuildInfrastructure(model)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+
+	resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+
+	_, err = w.Write(*resultBytes)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+	}
+}
+
+func getResourceList(w http.ResponseWriter, r *http.Request) {
+	result, err := endpoint.GetResourceCache()
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)

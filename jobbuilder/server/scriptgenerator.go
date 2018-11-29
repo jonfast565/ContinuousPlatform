@@ -4,6 +4,7 @@ import (
 	"../../logging"
 	"../../models/genmodel"
 	"../../models/jobmodel"
+	"../../models/projectmodel"
 	"./generators"
 )
 
@@ -21,17 +22,12 @@ func GenerateScripts(details *jobmodel.JobDetails) {
 	}
 
 	dotNetScriptGenerator := generators.NewDotNetScriptGenerator()
-	scripts := make([]genmodel.ScriptKeyValuePair, 0)
 	details.ResetProgress()
-	details.SetTotalProgress(int64(len(deliverables.Deliverables)))
+
+	var scripts []genmodel.ScriptKeyValuePair
 	for _, deliverable := range deliverables.Deliverables {
-		for _, dotNetDeliverable := range deliverable.DotNetDeliverables {
-			buildScripts := dotNetScriptGenerator.GenerateBuildScripts(*dotNetDeliverable)
-			buildInfraScripts := dotNetScriptGenerator.GenerateBuildInfrastructureScripts(*dotNetDeliverable)
-			scripts = append(scripts, buildScripts...)
-			scripts = append(scripts, buildInfraScripts...)
-		}
-		details.IncrementProgress()
+		deliverableScripts := generateDotNetScripts(details, deliverable, dotNetScriptGenerator)
+		scripts = append(scripts, deliverableScripts...)
 	}
 
 	scriptPackage := genmodel.ScriptPackage{
@@ -42,4 +38,18 @@ func GenerateScripts(details *jobmodel.JobDetails) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func generateDotNetScripts(
+	details *jobmodel.JobDetails,
+	deliverable projectmodel.Deliverable,
+	dotNetScriptGenerator *generators.DotNetScriptGenerator) []genmodel.ScriptKeyValuePair {
+	var scripts []genmodel.ScriptKeyValuePair
+	for _, dotNetDeliverable := range deliverable.DotNetDeliverables {
+		buildScripts := dotNetScriptGenerator.GenerateBuildScripts(*dotNetDeliverable, details)
+		buildInfraScripts := dotNetScriptGenerator.GenerateBuildInfrastructureScripts(*dotNetDeliverable, details)
+		scripts = append(scripts, buildScripts...)
+		scripts = append(scripts, buildInfraScripts...)
+	}
+	return scripts
 }

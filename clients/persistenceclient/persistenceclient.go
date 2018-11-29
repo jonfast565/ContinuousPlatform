@@ -115,7 +115,7 @@ func (pc PersistenceClient) SetKeyValueCache(key string, value []byte, compress 
 }
 
 func (pc PersistenceClient) GetBuildInfrastructure(
-	key inframodel.RepositoryKey) (*inframodel.BuildInfrastructureMetadata, error) {
+	key inframodel.ResourceKey) (*inframodel.BuildInfrastructureMetadata, error) {
 	// build service url
 	myUrl := webutil.NewEmptyUrl()
 	myUrl.SetBase(constants.DefaultScheme,
@@ -139,6 +139,32 @@ func (pc PersistenceClient) GetBuildInfrastructure(
 	}
 
 	var value inframodel.BuildInfrastructureMetadata
+	err = webutil.ExecuteRequestAndReadJsonBody(&pc.client, request, &value)
+	if err != nil {
+		return nil, err
+	}
+
+	return &value, nil
+}
+
+func (pc PersistenceClient) GetResourceList() (*inframodel.ResourceList, error) {
+	// build service url
+	myUrl := webutil.NewEmptyUrl()
+	myUrl.SetBase(constants.DefaultScheme,
+		pc.configuration.Hostname,
+		strconv.Itoa(pc.configuration.Port))
+	myUrl.AppendPathFragments([]string{"Daemon", "GetResourceList"})
+
+	// execute request
+	urlString := myUrl.GetUrlStringValue()
+	request, err := http.NewRequest(constants.PostMethod,
+		urlString,
+		nil)
+	if err != nil {
+		return nil, err
+	}
+
+	var value inframodel.ResourceList
 	err = webutil.ExecuteRequestAndReadJsonBody(&pc.client, request, &value)
 	if err != nil {
 		return nil, err

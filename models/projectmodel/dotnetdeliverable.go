@@ -2,6 +2,7 @@ package projectmodel
 
 import (
 	"../inframodel"
+	"strings"
 )
 
 type DotNetDeliverable struct {
@@ -34,8 +35,14 @@ func (fdnd FlattenedDotNetDeliverable) GetScriptKey() []string {
 	return []string{fdnd.Repository, fdnd.Branch, fdnd.Solution.Name, fdnd.Project.Name}
 }
 
-func (fdnd FlattenedDotNetDeliverable) GetRepositoryKey() inframodel.RepositoryKey {
-	return inframodel.RepositoryKey{
+func (fdnd FlattenedDotNetDeliverable) GetScriptKeyString() string {
+	keyArray := fdnd.GetScriptKey()
+	keyString := strings.Join(keyArray, "-")
+	return keyString
+}
+
+func (fdnd FlattenedDotNetDeliverable) GetRepositoryKey() inframodel.ResourceKey {
+	return inframodel.ResourceKey{
 		RepositoryName: fdnd.Repository,
 		SolutionName:   fdnd.Solution.Name,
 		ProjectName:    fdnd.Project.Name,
