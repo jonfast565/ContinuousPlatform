@@ -3,6 +3,7 @@ package webutil
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/go-errors/errors"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -49,10 +50,16 @@ func ExecuteRequestAndReadJsonBody(c *http.Client, r *http.Request, object inter
 		return err
 	}
 	defer response.Body.Close()
+
+	if response.StatusCode >= 400 {
+		return errors.New("bad status (" + response.Status + ") returned from server")
+	}
+
 	err = json.NewDecoder(response.Body).Decode(&object)
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 
@@ -62,10 +69,16 @@ func ExecuteRequestAndReadBinaryBody(c *http.Client, r *http.Request) (*[]byte, 
 	if err != nil {
 		return nil, err
 	}
+
+	if response.StatusCode >= 400 {
+		return nil, errors.New("bad status (" + response.Status + ") returned from server")
+	}
+
 	resultBytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		return nil, err
 	}
+
 	resultBytes = bytes.Replace(resultBytes, unixNewLinesByte, windowsNewLinesByte, -1)
 	return &resultBytes, nil
 }
@@ -76,6 +89,11 @@ func ExecuteRequestAndReadStringBody(c *http.Client, r *http.Request) (*string, 
 	if err != nil {
 		return nil, err
 	}
+
+	if response.StatusCode >= 400 {
+		return nil, errors.New("bad status (" + response.Status + ") returned from server")
+	}
+
 	resultBytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		return nil, err
@@ -97,6 +115,11 @@ func ExecuteRequestWithoutRead(c *http.Client, r *http.Request) error {
 	if err != nil {
 		return err
 	}
+
+	if response.StatusCode >= 400 {
+		return errors.New("bad status (" + response.Status + ") returned from server")
+	}
+
 	return nil
 }
 

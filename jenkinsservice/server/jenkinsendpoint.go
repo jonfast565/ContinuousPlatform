@@ -76,7 +76,7 @@ func (je *JenkinsEndpoint) CreateUpdateJob(
 func (je *JenkinsEndpoint) CreateFolder(
 	crumb jenkinsmodel.JenkinsCrumb,
 	request jenkinsmodel.JenkinsJobRequest) (*string, error) {
-	logging.LogInfo("Create Jenkins Folder -> " + request.GetJobFragmentUrl())
+	logging.LogInfo("Create Jenkins Folder -> " + request.GetParentJobFragmentUrl())
 	folderUrl := je.buildCreateFolderUrl(request)
 	logging.LogInfo("Create Folder URL: " + folderUrl)
 
