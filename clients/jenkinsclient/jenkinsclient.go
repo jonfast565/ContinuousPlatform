@@ -5,6 +5,8 @@ import (
 	"../../jsonutil"
 	"../../models/jenkinsmodel"
 	"../../webutil"
+	"bytes"
+	"encoding/json"
 	"net/http"
 	"strconv"
 )
@@ -44,6 +46,7 @@ func (jc JenkinsClient) GetJenkinsCrumb() (*jenkinsmodel.JenkinsCrumb, error) {
 	if err != nil {
 		return nil, err
 	}
+	webutil.AddFormHeader(request)
 
 	var value jenkinsmodel.JenkinsCrumb
 	err = webutil.ExecuteRequestAndReadJsonBody(&jc.client, request, &value)
@@ -69,6 +72,7 @@ func (jc JenkinsClient) GetJenkinsMetadata() (*jenkinsmodel.JenkinsJobMetadata, 
 	if err != nil {
 		return nil, err
 	}
+	webutil.AddFormHeader(request)
 
 	var value jenkinsmodel.JenkinsJobMetadata
 	err = webutil.ExecuteRequestAndReadJsonBody(&jc.client, request, &value)
@@ -77,4 +81,94 @@ func (jc JenkinsClient) GetJenkinsMetadata() (*jenkinsmodel.JenkinsJobMetadata, 
 	}
 
 	return &value, nil
+}
+
+func (jc JenkinsClient) CreateUpdateJob(jobRequest jenkinsmodel.JenkinsJobRequest) (*string, error) {
+	// build service url
+	myUrl := webutil.NewEmptyUrl()
+	myUrl.SetBase(constants.DefaultScheme,
+		jc.configuration.Hostname,
+		strconv.Itoa(jc.configuration.Port))
+	myUrl.AppendPathFragments([]string{"Daemon", "CreateUpdateJob"})
+
+	requestJson, err := json.Marshal(jobRequest)
+	if err != nil {
+		return nil, err
+	}
+
+	// execute request
+	request, err := http.NewRequest(constants.PostMethod,
+		myUrl.GetUrlStringValue(),
+		bytes.NewReader(requestJson))
+	if err != nil {
+		return nil, err
+	}
+	webutil.AddFormHeader(request)
+
+	value, err := webutil.ExecuteRequestAndReadStringBody(&jc.client, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return value, nil
+}
+
+func (jc JenkinsClient) CreateFolder(jobRequest jenkinsmodel.JenkinsJobRequest) (*string, error) {
+	// build service url
+	myUrl := webutil.NewEmptyUrl()
+	myUrl.SetBase(constants.DefaultScheme,
+		jc.configuration.Hostname,
+		strconv.Itoa(jc.configuration.Port))
+	myUrl.AppendPathFragments([]string{"Daemon", "CreateFolder"})
+
+	requestJson, err := json.Marshal(jobRequest)
+	if err != nil {
+		return nil, err
+	}
+
+	// execute request
+	request, err := http.NewRequest(constants.PostMethod,
+		myUrl.GetUrlStringValue(),
+		bytes.NewReader(requestJson))
+	if err != nil {
+		return nil, err
+	}
+	webutil.AddFormHeader(request)
+
+	value, err := webutil.ExecuteRequestAndReadStringBody(&jc.client, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return value, nil
+}
+
+func (jc JenkinsClient) DeleteJobOrFolder(jobRequest jenkinsmodel.JenkinsJobRequest) (*string, error) {
+	// build service url
+	myUrl := webutil.NewEmptyUrl()
+	myUrl.SetBase(constants.DefaultScheme,
+		jc.configuration.Hostname,
+		strconv.Itoa(jc.configuration.Port))
+	myUrl.AppendPathFragments([]string{"Daemon", "DeleteJobOrFolder"})
+
+	requestJson, err := json.Marshal(jobRequest)
+	if err != nil {
+		return nil, err
+	}
+
+	// execute request
+	request, err := http.NewRequest(constants.PostMethod,
+		myUrl.GetUrlStringValue(),
+		bytes.NewReader(requestJson))
+	if err != nil {
+		return nil, err
+	}
+	webutil.AddFormHeader(request)
+
+	value, err := webutil.ExecuteRequestAndReadStringBody(&jc.client, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return value, nil
 }

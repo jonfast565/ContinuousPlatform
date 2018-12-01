@@ -38,6 +38,15 @@ func (jjkl JenkinsJobKeyList) KeyAlreadyExists(keys []string) bool {
 	return false
 }
 
+func (jjkl JenkinsJobKeyList) PartialKeyAlreadyExists(keys []string) bool {
+	for _, jobKeys := range jjkl {
+		if stringutil.StringArrayContainsArray(jobKeys.Keys, keys) {
+			return true
+		}
+	}
+	return false
+}
+
 func (jjm JenkinsJobMetadata) GetFlattenedKeys() *JenkinsJobKeyList {
 	result := getFlattenedKeysInternal(nil, jjm)
 	sort.Sort(result)

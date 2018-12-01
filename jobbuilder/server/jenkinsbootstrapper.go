@@ -25,12 +25,13 @@ func DeployJenkinsJobs(details *jobmodel.JobDetails) {
 	}
 
 	jenkinsClient := jenkinsclient.NewJenkinsClient()
-	metadata, err := jenkinsClient.GetJenkinsMetadata()
+	jenkinsMetadata, err := jenkinsClient.GetJenkinsMetadata()
+	jenkinsKeys := jenkinsMetadata.GetFlattenedKeys()
 	if err != nil {
 		panic(err)
 	}
 
-	var myMetadataKeys jenkinsmodel.JenkinsJobKeyList
+	myMetadataKeys := make(jenkinsmodel.JenkinsJobKeyList, 0)
 	for _, script := range scripts.Scripts {
 		isJenkinsScript := stringutil.StringArrayContains(script.ToolScope, constants.JenkinsToolName)
 		if !isJenkinsScript {
@@ -49,7 +50,8 @@ func DeployJenkinsJobs(details *jobmodel.JobDetails) {
 					})
 				}
 			} else {
-				if !myMetadataKeys.KeyAlreadyExists(currentKeys) {
+				if !jenkinsKeys.PartialKeyAlreadyExists(currentKeys) &&
+					!myMetadataKeys.KeyAlreadyExists(currentKeys) {
 					myMetadataKeys = append(myMetadataKeys, jenkinsmodel.JenkinsJobKey{
 						Keys: currentKeys,
 						Type: string(jenkinsmodel.Folder),
@@ -60,52 +62,93 @@ func DeployJenkinsJobs(details *jobmodel.JobDetails) {
 	}
 
 	sort.Sort(myMetadataKeys)
-	jenkinsInstanceMetadataKeys := metadata.GetFlattenedKeys()
+	jenkinsInstanceMetadataKeys := jenkinsMetadata.GetFlattenedKeys()
 	edits := buildEditList(&myMetadataKeys, jenkinsInstanceMetadataKeys)
+	sort.Sort(edits)
+
+	for _, edit := range edits {
+		jobRequest := edit.GetJobRequest()
+		jobRequest.SanitizeSegments()
+		switch edit.EditType {
+		case jenkinsmodel.AddUpdateJob:
+			logging.LogInfo("Create/Update Job: " + jobRequest.GetJobFragmentUrl())
+			_, err := jenkinsClient.CreateUpdateJob(jobRequest)
+			if err != nil {
+				panic(err)
+			}
+			break
+		case jenkinsmodel.AddFolder:
+			logging.LogInfo("Create Folder Job: " + jobRequest.GetJobFragmentUrl())
+			_, err := jenkinsClient.CreateFolder(jobRequest)
+			if err != nil {
+				panic(err)
+			}
+			break
+		case jenkinsmodel.RemoveJobFolder:
+			logging.LogInfo("Remove Job/Folder: " + jobRequest.GetJobFragmentUrl())
+			_, err := jenkinsClient.DeleteJobOrFolder(jobRequest)
+			if err != nil {
+				panic(err)
+			}
+			break
+		default:
+			panic("not an option")
+		}
+	}
 }
 
 func buildEditList(
 	l1 *jenkinsmodel.JenkinsJobKeyList,
-	l2 *jenkinsmodel.JenkinsJobKeyList) []jenkinsmodel.JenkinsEdit {
-	var results []jenkinsmodel.JenkinsEdit
+	l2 *jenkinsmodel.JenkinsJobKeyList) jenkinsmodel.JenkinsEditList {
+	var results jenkinsmodel.JenkinsEditList
 	for _, k1 := range *l1 {
-		result := linq.From(l2).FirstWithT(func(key jenkinsmodel.JenkinsJobKey) bool {
+		result := linq.From(*l2).FirstWithT(func(key jenkinsmodel.JenkinsJobKey) bool {
 			return stringutil.StringArrayCompare(k1.Keys, key.Keys)
 		})
 
 		if result != nil {
 			// update
+			resultKey := result.(jenkinsmodel.JenkinsJobKey)
+			if resultKey.Type == string(jenkinsmodel.Folder) {
+				continue
+			}
 			results = append(results, jenkinsmodel.JenkinsEdit{
-				Name:      "",
-				Url:       "",
-				EditType:  0,
-				JobRecord: JenkinsJobRecord{},
+				Keys:     resultKey.Keys,
+				Contents: "",
+				EditType: jenkinsmodel.AddUpdateJob,
 			})
 		} else {
 			// insert
-			results = append(results, jenkinsmodel.JenkinsEdit{
-				Name:      "",
-				Url:       "",
-				EditType:  0,
-				JobRecord: JenkinsJobRecord{},
-			})
+			if k1.Type == string(jenkinsmodel.Folder) {
+				results = append(results, jenkinsmodel.JenkinsEdit{
+					Keys:     k1.Keys,
+					Contents: "",
+					EditType: jenkinsmodel.AddFolder,
+				})
+			} else {
+				results = append(results, jenkinsmodel.JenkinsEdit{
+					Keys:     k1.Keys,
+					Contents: "",
+					EditType: jenkinsmodel.AddUpdateJob,
+				})
+			}
 		}
 	}
 
 	for _, k2 := range *l2 {
-		result := linq.From(l2).FirstWithT(func(key jenkinsmodel.JenkinsJobKey) bool {
+		result := linq.From(*l2).FirstWithT(func(key jenkinsmodel.JenkinsJobKey) bool {
 			return stringutil.StringArrayCompare(k2.Keys, key.Keys)
 		})
 		if result != nil {
 			// delete
+			resultKey := result.(jenkinsmodel.JenkinsJobKey)
 			results = append(results, jenkinsmodel.JenkinsEdit{
-				Name:      "",
-				Url:       "",
-				EditType:  0,
-				JobRecord: JenkinsJobRecord{},
+				Keys:     resultKey.Keys,
+				Contents: "",
+				EditType: jenkinsmodel.RemoveJobFolder,
 			})
 		}
 	}
 
-	return nil
+	return results
 }

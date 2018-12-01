@@ -1,8 +1,26 @@
 package jenkinsmodel
 
 type JenkinsEdit struct {
-	Name      string
-	Url       string
-	EditType  JenkinsEditType
-	JobRecord JenkinsJobRecord
+	Keys     []string
+	Contents string
+	EditType JenkinsEditType
+}
+
+func (je JenkinsEdit) GetJobRequest() JenkinsJobRequest {
+	return JenkinsJobRequest{
+		FolderSegments: je.Keys,
+		Contents:       je.Contents,
+	}
+}
+
+type JenkinsEditList []JenkinsEdit
+
+func (jel JenkinsEditList) Len() int {
+	return len(jel)
+}
+func (jel JenkinsEditList) Swap(i, j int) {
+	jel[i], jel[j] = jel[j], jel[i]
+}
+func (jel JenkinsEditList) Less(i, j int) bool {
+	return len(jel[i].Keys) < len(jel[j].Keys)
 }
