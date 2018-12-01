@@ -87,3 +87,16 @@ func StringArrayCompare(arr1, arr2 []string) bool {
 	}
 	return true
 }
+
+func StringArrayContainsArray(arr1, arr2 []string) bool {
+	if len(arr1) < len(arr2) {
+		return false
+	}
+
+	for i, el2 := range arr2 {
+		if arr1[i] != el2 {
+			return false
+		}
+	}
+	return true
+}
