@@ -101,6 +101,7 @@ func (dnsg DotNetScriptGenerator) GenerateBuildScripts(
 				KeyElements: flattenedDeliverable.GetScriptKey(),
 				Value:       *templateResult,
 				Type:        string(buildScript.Type),
+				Extension:   buildScript.Extension,
 				ToolScope:   buildScript.ToolScope,
 			}
 			logging.LogInfoMultiline("Generating build script",
@@ -131,6 +132,7 @@ func (dnsg DotNetScriptGenerator) GenerateBuildInfrastructureScripts(
 				KeyElements: flattenedDeliverable.GetScriptKey(),
 				Value:       *templateResult,
 				Type:        string(buildInfraScript.Type),
+				Extension:   buildInfraScript.Extension,
 				ToolScope:   buildInfraScript.ToolScope,
 			}
 			logging.LogInfoMultiline("Generated build infrastructure script",
