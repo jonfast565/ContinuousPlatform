@@ -7,9 +7,9 @@ import (
 	"../../../models/inframodel"
 	"../../../models/jobmodel"
 	"../../../models/projectmodel"
+	"../../../timeutil"
 	"github.com/ahmetb/go-linq"
 	"github.com/satori/go.uuid"
-	"time"
 )
 
 type DotNetScriptGenerator struct {
@@ -94,22 +94,41 @@ func NewDotNetBuildScriptHeader(dnd projectmodel.FlattenedDotNetDeliverable) *Do
 		CanonicalId:            dnd.GetScriptKeyString(),
 		DashedCanonicalId:      dnd.GetScriptKeyString(),
 		Hash:                   uid.String(),
-		GeneratedDateTime:      time.Now().String(),
+		GeneratedDateTime:      timeutil.GetCurrentTime(),
 	}
 }
 
 type DotNetBuildInfrastructureScriptHeader struct {
+	Deliverable       projectmodel.FlattenedDotNetDeliverable
+	Solution          projectmodel.MsBuildSolutionExport
+	Project           projectmodel.MsBuildProjectExport
+	Infrastructure    inframodel.ServerTypeMetadataList
+	Environments      []string
+	CanonicalId       string
+	DashedCanonicalId string
+	Hash              string
+	GeneratedDateTime string
 }
 
-func NewDotNetBuildInfrastructureScriptHeader(dnd projectmodel.FlattenedDotNetDeliverable) *DotNetBuildInfrastructureScriptHeader {
-	return &DotNetBuildInfrastructureScriptHeader{}
+func NewDotNetBuildInfrastructureScriptHeader(dnd projectmodel.FlattenedDotNetDeliverable, bim *inframodel.BuildInfrastructureMetadata) *DotNetBuildInfrastructureScriptHeader {
+	uid, _ := uuid.NewV4()
+	return &DotNetBuildInfrastructureScriptHeader{
+		Deliverable:       dnd,
+		Solution:          *dnd.Solution,
+		Project:           *dnd.Project,
+		Infrastructure:    bim.Metadata,
+		Environments:      inframodel.ServerTypeMetadataList(bim.Metadata).GetEnvironments(),
+		CanonicalId:       dnd.GetScriptKeyString(),
+		DashedCanonicalId: dnd.GetScriptKeyString(),
+		Hash:              uid.String(),
+		GeneratedDateTime: timeutil.GetCurrentTime(),
+	}
 }
 
 type DotNetEnvironmentInfrastructureScriptHeader struct {
 }
 
-func NewDotNetEnvironmentInfrastructureScriptHeader(
-/*env inframodel.EnvironmentPart*/ ) *DotNetEnvironmentInfrastructureScriptHeader {
+func NewDotNetEnvironmentInfrastructureScriptHeader() *DotNetEnvironmentInfrastructureScriptHeader {
 	return &DotNetEnvironmentInfrastructureScriptHeader{}
 }
 
@@ -154,7 +173,11 @@ func (dnsg DotNetScriptGenerator) GenerateBuildInfrastructureScripts(
 		if !test {
 			continue
 		}
-		scriptHeader := NewDotNetBuildInfrastructureScriptHeader(flattenedDeliverable)
+		buildInfrastructure, err := dnsg.persistenceClient.GetBuildInfrastructure(flattenedDeliverable.GetRepositoryKey())
+		if err != nil {
+			panic(err)
+		}
+		scriptHeader := NewDotNetBuildInfrastructureScriptHeader(flattenedDeliverable, buildInfrastructure)
 		for _, buildInfraScript := range dnsg.BuildInfrastructureScripts {
 			details.IncrementTotalProgress()
 			templateResult := buildInfraScript.GenerateScriptFromTemplate(scriptHeader)

@@ -40,8 +40,8 @@
     </properties>
     <!-- TODO?: Re-write logic for this to check for an existing build and if not build it. -->
     <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.26">
-        <script>// build script for: {{deliverable.Branch}} -> {{solution.Name}} -> {{project.Name}}
-// generated on: {{GeneratedDatetime}}
+        <script>// build script for: {{deliverable.Repository}} -> {{deliverable.Branch}} -> {{solution.Name}} -> {{project.Name}}
+// generated on: {{GeneratedDateTime}}
 
 /*
 =================================
@@ -51,7 +51,7 @@ BUILD DATA
 
 // solution/project information
 def projectKey = "{{DashedCanonicalId}}"
-def projectScriptHeader = "{{deliverable.Branch}} -> {{solution.Name}} -> {{project.Name}}"
+def projectScriptHeader = "{{deliverable.Repository}} -> {{deliverable.Branch}} -> {{solution.Name}} -> {{project.Name}}"
 def solution = "{{solution.Name}}"
 def branch = "{{deliverable.Branch}}"
 def project = "{{project.Name}}"
