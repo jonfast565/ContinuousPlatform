@@ -107,7 +107,7 @@ func main() {
 				if controller.DeployJenkinsJobs.Trigger {
 					logging.LogInfo("Deploy Jenkins jobs")
 					controller.DeployJenkinsJobs.UnsetTriggerBeginRun()
-					// server.DeployJenkinsJobs(&controller.DeployJenkinsJobs)
+					server.DeployJenkinsJobs(&controller.DeployJenkinsJobs)
 					controller.DeployJenkinsJobs.SetJobStoppedOrErrored()
 
 					if !controller.DeployJenkinsJobs.Errored() &&
