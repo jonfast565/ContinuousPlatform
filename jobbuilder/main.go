@@ -87,6 +87,18 @@ func main() {
 					controller.GenerateScripts.SetJobStoppedOrErrored()
 
 					if !controller.GenerateScripts.Errored() {
+						controller.DeployDebugScripts.TriggerJob()
+					}
+					continue
+				}
+
+				if controller.DeployDebugScripts.Trigger {
+					logging.LogInfo("Deploy scripts for debugging")
+					controller.DeployDebugScripts.UnsetTriggerBeginRun()
+					server.DeployScriptsForDebugging(&controller.DeployDebugScripts)
+					controller.DeployDebugScripts.SetJobStoppedOrErrored()
+
+					if !controller.DeployDebugScripts.Errored() {
 						controller.DeployJenkinsJobs.TriggerJob()
 					}
 					continue
@@ -95,7 +107,7 @@ func main() {
 				if controller.DeployJenkinsJobs.Trigger {
 					logging.LogInfo("Deploy Jenkins jobs")
 					controller.DeployJenkinsJobs.UnsetTriggerBeginRun()
-					server.DeployJenkinsJobs(&controller.DeployJenkinsJobs)
+					// server.DeployJenkinsJobs(&controller.DeployJenkinsJobs)
 					controller.DeployJenkinsJobs.SetJobStoppedOrErrored()
 
 					if !controller.DeployJenkinsJobs.Errored() &&
@@ -145,6 +157,9 @@ func triggerJob(w http.ResponseWriter, r *http.Request) {
 		break
 	case "GenerateScripts":
 		controller.GenerateScripts.TriggerJob()
+		break
+	case "DeployDebugScripts":
+		controller.DeployDebugScripts.TriggerJob()
 		break
 	case "DeployJenkinsJobs":
 		controller.DeployJenkinsJobs.TriggerJob()
