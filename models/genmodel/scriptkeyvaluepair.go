@@ -22,7 +22,20 @@ func (s ScriptKeyValuePair) GetDebugFilePath(debugPathBase string) string {
 	return fileName
 }
 
-func (s ScriptKeyValuePair) GetJenkinsKeySequence() []jenkinsmodel.JenkinsJobKey {
-	// TODO: Implement
-	return nil
+func (s ScriptKeyValuePair) GetJenkinsKeySet() []jenkinsmodel.JenkinsJobKey {
+	scriptMetadataKeys := make([]jenkinsmodel.JenkinsJobKey, 0)
+	for i := range s.KeyElements {
+		if i != len(s.KeyElements)-1 {
+			scriptMetadataKeys = append(scriptMetadataKeys, jenkinsmodel.JenkinsJobKey{
+				Keys: s.KeyElements[0 : i+1],
+				Type: jenkinsmodel.Folder,
+			})
+		} else {
+			scriptMetadataKeys = append(scriptMetadataKeys, jenkinsmodel.JenkinsJobKey{
+				Keys: s.KeyElements[0 : i+1],
+				Type: jenkinsmodel.PipelineJob,
+			})
+		}
+	}
+	return scriptMetadataKeys
 }

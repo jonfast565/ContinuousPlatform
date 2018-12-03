@@ -1,14 +1,15 @@
 package jenkinsmodel
 
-type JenkinsJobRecordType string
+type JenkinsJobType string
 
 var (
-	FreestyleJob JenkinsJobRecordType = "hudson.model.FreeStyleProject"
-	PipelineJob  JenkinsJobRecordType = "org.jenkinsci.plugins.workflow.job.WorkflowJob"
-	Folder       JenkinsJobRecordType = "com.cloudbees.hudson.plugins.folder.Folder"
+	FreestyleJob JenkinsJobType = "hudson.model.FreeStyleProject"
+	PipelineJob  JenkinsJobType = "org.jenkinsci.plugins.workflow.job.WorkflowJob"
+	Folder       JenkinsJobType = "com.cloudbees.hudson.plugins.folder.Folder"
+	BuildServer  JenkinsJobType = "hudson.model.Hudson"
 )
 
 type JenkinsJobRecord struct {
 	KeyElements []string
-	Type        JenkinsJobRecordType
+	Type        JenkinsJobType
 }
