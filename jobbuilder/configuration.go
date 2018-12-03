@@ -8,4 +8,5 @@ type Configuration struct {
 	ChangeRateLimit         int
 	BetweenJobWait          int
 	ProceedDespiteNoChanges bool
+	DebugBasePath           string
 }

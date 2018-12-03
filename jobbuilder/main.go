@@ -95,7 +95,7 @@ func main() {
 				if controller.DeployDebugScripts.Trigger {
 					logging.LogInfo("Deploy scripts for debugging")
 					controller.DeployDebugScripts.UnsetTriggerBeginRun()
-					server.DeployScriptsForDebugging(&controller.DeployDebugScripts)
+					server.DeployScriptsForDebugging(configuration.DebugBasePath, &controller.DeployDebugScripts)
 					controller.DeployDebugScripts.SetJobStoppedOrErrored()
 
 					if !controller.DeployDebugScripts.Errored() {
