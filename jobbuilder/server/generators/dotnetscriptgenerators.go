@@ -8,6 +8,8 @@ import (
 	"../../../models/jobmodel"
 	"../../../models/projectmodel"
 	"github.com/ahmetb/go-linq"
+	"github.com/satori/go.uuid"
+	"time"
 )
 
 type DotNetScriptGenerator struct {
@@ -62,10 +64,38 @@ func NewDotNetScriptGenerator() *DotNetScriptGenerator {
 }
 
 type DotNetBuildScriptHeader struct {
+	Deliverable            projectmodel.FlattenedDotNetDeliverable
+	Solution               projectmodel.MsBuildSolutionExport
+	Solutions              []*projectmodel.MsBuildSolutionReference
+	Project                projectmodel.MsBuildProjectExport
+	ProjectFolder          string
+	PublishProfiles        []projectmodel.MsBuildPublishProfile
+	TargetFrameworks       []string
+	DefaultNamespace       string
+	SolutionConfigurations []string
+	CanonicalId            string
+	DashedCanonicalId      string
+	Hash                   string
+	GeneratedDateTime      string
 }
 
 func NewDotNetBuildScriptHeader(dnd projectmodel.FlattenedDotNetDeliverable) *DotNetBuildScriptHeader {
-	return &DotNetBuildScriptHeader{}
+	uid, _ := uuid.NewV4()
+	return &DotNetBuildScriptHeader{
+		Deliverable:            dnd,
+		Solution:               *dnd.Solution,
+		Solutions:              dnd.Project.SolutionParents,
+		Project:                *dnd.Project,
+		ProjectFolder:          dnd.Project.FolderPath,
+		PublishProfiles:        []projectmodel.MsBuildPublishProfile{},
+		TargetFrameworks:       dnd.Project.TargetFrameworks,
+		DefaultNamespace:       dnd.Project.DefaultNamespace,
+		SolutionConfigurations: dnd.Solution.Configurations,
+		CanonicalId:            dnd.GetScriptKeyString(),
+		DashedCanonicalId:      dnd.GetScriptKeyString(),
+		Hash:                   uid.String(),
+		GeneratedDateTime:      time.Now().String(),
+	}
 }
 
 type DotNetBuildInfrastructureScriptHeader struct {
