@@ -48,8 +48,8 @@
         </hudson.model.ParametersDefinitionProperty>
     </properties>
     <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.26">
-        <script>// deploy script for: {{repository.Name}} -> {{deliverable.Branch}} -> {{solution.Name}} -> {{project.Name}}
-// generated on: {{GeneratedDatetime}}
+        <script>// deploy script for: {{deliverable.Repository}} -> {{deliverable.Branch}} -> {{solution.Name}} -> {{project.Name}}
+// generated on: {{GeneratedDateTime}}
 
 // imports
 import java.io.File
@@ -69,14 +69,14 @@ def repository = "{{deliverable.Repository}}"
 def branch = "{{deliverable.Branch}}"
 def solution = "{{solution.Name}}"
 def project = "{{project.Name}}"
-def isDotNetCoreProject = "{{project.IsNetCoreProject}}" == "True"
+def isDotNetCoreProject = {{project.IsNetCoreProject}} == true
 
 // deployment information
 def deploymentFolders = [
 {{#each infrastructure}}
     [
         "Name": "{{ServerName}}",
-        "Group": "{{ServerGroup}}",
+        "Group": "{{EnvironmentName}}",
         "DeploymentLocations": [{{#each DeploymentLocations}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],
         "AppPoolNames": [{{#each AppPoolNames}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],
         "ServiceNames": [{{#each ServiceNames}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],

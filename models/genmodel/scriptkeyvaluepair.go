@@ -1,6 +1,7 @@
 package genmodel
 
 import (
+	"../../models/jenkinsmodel"
 	"../../stringutil"
 	"strings"
 )
@@ -19,4 +20,9 @@ func (s ScriptKeyValuePair) GetDebugFilePath(debugPathBase string) string {
 	// TODO: Replace with path algos
 	fileName := debugPathBase + scriptPart + "-" + s.Type + "." + s.Extension
 	return fileName
+}
+
+func (s ScriptKeyValuePair) GetJenkinsKeySequence() []jenkinsmodel.JenkinsJobKey {
+	// TODO: Implement
+	return nil
 }
