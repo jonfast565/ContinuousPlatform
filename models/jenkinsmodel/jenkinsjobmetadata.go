@@ -1,6 +1,7 @@
 package jenkinsmodel
 
 import (
+	"../../constants"
 	"../../stringutil"
 	"sort"
 )
@@ -9,12 +10,12 @@ type JenkinsJobMetadata struct {
 	Name  string
 	Url   string
 	Jobs  []JenkinsJobMetadata
-	Class string `json:"_class"`
+	Class JenkinsJobType `json:"_class"`
 }
 
 type JenkinsJobKey struct {
 	Keys []string
-	Type string
+	Type JenkinsJobType
 }
 
 type JenkinsJobKeyList []JenkinsJobKey
@@ -49,8 +50,22 @@ func (jjkl JenkinsJobKeyList) PartialKeyAlreadyExists(keys []string) bool {
 
 func (jjm JenkinsJobMetadata) GetFlattenedKeys() *JenkinsJobKeyList {
 	result := getFlattenedKeysInternal(nil, jjm)
-	sort.Sort(result)
-	return &result
+	// key cleanup
+	var cleanedKeys JenkinsJobKeyList
+	for _, key := range result {
+		if key.Type == BuildServer {
+			continue
+		}
+		if key.Keys[0] == constants.JenkinsRootVariable {
+			newKeyList := key.Keys[1:len(key.Keys)]
+			cleanedKeys = append(cleanedKeys, JenkinsJobKey{
+				Keys: newKeyList,
+				Type: key.Type,
+			})
+		}
+	}
+	sort.Sort(cleanedKeys)
+	return &cleanedKeys
 }
 
 func getFlattenedKeysInternal(currentKey *JenkinsJobKey, metadata JenkinsJobMetadata) JenkinsJobKeyList {

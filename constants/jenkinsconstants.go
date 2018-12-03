@@ -1,5 +1,6 @@
 package constants
 
 var (
-	JenkinsToolName = "Jenkins"
+	JenkinsToolName     = "Jenkins"
+	JenkinsRootVariable = "Build Server"
 )
