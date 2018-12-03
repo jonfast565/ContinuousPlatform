@@ -54,9 +54,10 @@ func (dndbc *DotNetDeliverableBuildContext) extractDeliverables() []*projectmode
 	results := make([]*projectmodel.DotNetDeliverable, 0)
 	for _, solution := range dndbc.solutions {
 		results = append(results, &projectmodel.DotNetDeliverable{
-			Repository: dndbc.metadata.Name,
-			Branch:     dndbc.metadata.Branch,
-			Solution:   solution.Export(),
+			Repository:    dndbc.metadata.Name,
+			RepositoryUrl: dndbc.metadata.OptionalUrl,
+			Branch:        dndbc.metadata.Branch,
+			Solution:      solution.Export(),
 		})
 	}
 	return results
