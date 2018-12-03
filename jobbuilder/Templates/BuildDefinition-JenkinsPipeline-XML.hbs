@@ -55,12 +55,12 @@ def projectScriptHeader = "{{deliverable.Branch}} -> {{solution.Name}} -> {{proj
 def solution = "{{solution.Name}}"
 def branch = "{{deliverable.Branch}}"
 def project = "{{project.Name}}"
-def projectPath = "{{project.Path}}"
+def projectPath = "{{project.FolderPath}}"
 def projectFolder = removeLastPathComponent(projectPath)
 
 def referenceSolutions = [
 	{{#each Solutions}}
-	"{{this.Name}}": $/{{this.Path}}/${{#unless @last}},{{/unless}}  
+	"{{this.Name}}": $/{{this.AbsolutePath}}/${{#unless @last}},{{/unless}}
 	{{/each}}
 ]
 
@@ -105,7 +105,7 @@ node {
         ws(workspaceFolder) {
             stage ("Pull Sources") {
 				println "Pulling ${projectScriptHeader} from source control"
-                git url: '{{deliverable.OptionalRepositoryUrl}}', 
+                git url: '{{deliverable.RepositoryUrl}}',
 				branch: '{{deliverable.Branch}}', 
 				credentialsId: 'defaultGitCredentials', 
 				poll: true

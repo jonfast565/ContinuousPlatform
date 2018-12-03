@@ -6,26 +6,29 @@ import (
 )
 
 type DotNetDeliverable struct {
-	Repository string
-	Branch     string
-	Solution   *MsBuildSolutionExport
+	Repository    string
+	RepositoryUrl string
+	Branch        string
+	Solution      *MsBuildSolutionExport
 }
 
 type FlattenedDotNetDeliverable struct {
-	Repository string
-	Branch     string
-	Solution   *MsBuildSolutionExport
-	Project    *MsBuildProjectExport
+	Repository    string
+	RepositoryUrl string
+	Branch        string
+	Solution      *MsBuildSolutionExport
+	Project       *MsBuildProjectExport
 }
 
 func (dnd DotNetDeliverable) GetFlattenedDeliverables() *[]FlattenedDotNetDeliverable {
 	var result []FlattenedDotNetDeliverable
 	for _, project := range dnd.Solution.Projects {
 		result = append(result, FlattenedDotNetDeliverable{
-			Repository: dnd.Repository,
-			Branch:     dnd.Branch,
-			Solution:   dnd.Solution,
-			Project:    project,
+			Repository:    dnd.Repository,
+			RepositoryUrl: dnd.RepositoryUrl,
+			Branch:        dnd.Branch,
+			Solution:      dnd.Solution,
+			Project:       project,
 		})
 	}
 	return &result
