@@ -20,12 +20,8 @@ func SourceControlChangesExist(details *jobmodel.JobDetails) bool {
 	details.ResetProgress()
 	oldPackage, err := GetRepositoriesCache()
 	if err != nil {
-		if err.Error() != "EOF" {
-			panic(err)
-		} else {
-			logging.LogInfo("Got nothing back, starting from scratch")
-			oldPackage = repomodel.NewRepositoryPackage()
-		}
+		logging.LogInfo("Got nothing back, starting from scratch")
+		oldPackage = repomodel.NewRepositoryPackage()
 	}
 
 	repoClient := repoclient.NewRepoClient()

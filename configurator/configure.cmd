@@ -1,4 +1,6 @@
 :: Make a build output directory
+:: Change to sh to run on Linux
+:: Runs on Windows with Bash for Linux Subsystem
 
 mkdir output
 cd "./output"
@@ -17,7 +19,7 @@ cd "./jenkinsservice"
 go build "../../../jenkinsservice"
 cp "../../../jenkinsservice/appsettings.json" .
 mkdir "Templates"
-cp -r "../../../jenkinsservice/Templates" "./Templates"
+cp -r "../../../jenkinsservice/Templates" .
 cd "../"
 
 :: Build job builder batch
@@ -31,7 +33,7 @@ cp "../../../jobbuilder/persistenceclient-settings.json" .
 cp "../../../jobbuilder/repoclient-settings.json" .
 cp "../../../jobbuilder/scripttemplates.json" .
 mkdir "Templates"
-cp -r "../../../jobbuilder/Templates" "./Templates"
+cp -r "../../../jobbuilder/Templates" .
 cd "../"
 
 :: Build persistence service
@@ -52,7 +54,7 @@ cd "../"
 mkdir "msbuildservice"
 cd "./msbuildservice"
 dotnet build "../../../msbuildservice/PlatformCI.MsBuildService.Api/"
-cp -r "../../../msbuildservice/PlatformCI.MsBuildService.Api/bin/Debug/netcoreapp2.1" "./"
+cp -a "../../../msbuildservice/PlatformCI.MsBuildService.Api/bin/Debug/netcoreapp2.1/." "."
 cd "../"
 
 echo "Done!"
