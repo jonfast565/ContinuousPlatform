@@ -4,6 +4,7 @@ import (
 	"../../constants"
 	"../../stringutil"
 	"sort"
+	"strings"
 )
 
 type JenkinsJobMetadata struct {
@@ -18,6 +19,12 @@ type JenkinsJobKey struct {
 	Type JenkinsJobType
 }
 
+func (jjk JenkinsJobKey) SanitizeKeys() {
+	for i, key := range jjk.Keys {
+		jjk.Keys[i] = strings.Replace(key, "/", "-", -1)
+	}
+}
+
 type JenkinsJobKeyList []JenkinsJobKey
 
 func (jjkl JenkinsJobKeyList) Len() int {
@@ -28,6 +35,12 @@ func (jjkl JenkinsJobKeyList) Swap(i, j int) {
 }
 func (jjkl JenkinsJobKeyList) Less(i, j int) bool {
 	return len(jjkl[i].Keys) < len(jjkl[j].Keys)
+}
+
+func (jjkl JenkinsJobKeyList) SanitizeKeyList() {
+	for _, kl := range jjkl {
+		kl.SanitizeKeys()
+	}
 }
 
 func (jjkl JenkinsJobKeyList) KeyAlreadyExists(keys []string) bool {

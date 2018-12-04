@@ -22,7 +22,7 @@ func (s ScriptKeyValuePair) GetDebugFilePath(debugPathBase string) string {
 	return fileName
 }
 
-func (s ScriptKeyValuePair) GetJenkinsKeySet() []jenkinsmodel.JenkinsJobKey {
+func (s ScriptKeyValuePair) GetJenkinsKeyList() jenkinsmodel.JenkinsJobKeyList {
 	scriptMetadataKeys := make([]jenkinsmodel.JenkinsJobKey, 0)
 	for i := range s.KeyElements {
 		if i != len(s.KeyElements)-1 {
