@@ -76,7 +76,8 @@ func buildKeyListFromScripts(scripts *genmodel.ScriptPackage) jenkinsmodel.Jenki
 		if !isJenkinsScript {
 			continue
 		}
-		keySet := script.GetJenkinsKeySet()
+		keySet := script.GetJenkinsKeyList()
+		keySet.SanitizeKeyList()
 		for _, key := range keySet {
 			if !myMetadataKeys.KeyAlreadyExists(key.Keys) {
 				myMetadataKeys = append(myMetadataKeys, key)
@@ -124,19 +125,21 @@ func buildEditList(
 		}
 	}
 
-	for _, k2 := range *l2 {
-		result := linq.From(*l2).FirstWithT(func(key jenkinsmodel.JenkinsJobKey) bool {
-			return stringutil.StringArrayCompare(k2.Keys, key.Keys)
-		})
-		if result != nil {
-			// delete
-			resultKey := result.(jenkinsmodel.JenkinsJobKey)
-			results = append(results, jenkinsmodel.JenkinsEdit{
-				Keys:     resultKey.Keys,
-				EditType: jenkinsmodel.RemoveJobFolder,
+	/*
+		for _, k2 := range *l2 {
+			result := linq.From(*l2).FirstWithT(func(key jenkinsmodel.JenkinsJobKey) bool {
+				return stringutil.StringArrayCompare(k2.Keys, key.Keys)
 			})
+			if result != nil {
+				// delete
+				resultKey := result.(jenkinsmodel.JenkinsJobKey)
+				results = append(results, jenkinsmodel.JenkinsEdit{
+					Keys:     resultKey.Keys,
+					EditType: jenkinsmodel.RemoveJobFolder,
+				})
+			}
 		}
-	}
+	*/
 
 	sort.Sort(results)
 	return results

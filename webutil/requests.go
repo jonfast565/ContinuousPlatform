@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"strings"
 )
-import b64 "encoding/base64"
 
 const (
 	AuthorizationHeader              string = "Authorization"
@@ -49,7 +48,9 @@ func ExecuteRequestAndReadJsonBody(c *http.Client, r *http.Request, object inter
 	if err != nil {
 		return err
 	}
-	defer response.Body.Close()
+	if response.Body != nil {
+		defer response.Body.Close()
+	}
 
 	if response.StatusCode >= 400 {
 		return errors.New("bad status (" + response.Status + ") returned from server")
@@ -65,9 +66,11 @@ func ExecuteRequestAndReadJsonBody(c *http.Client, r *http.Request, object inter
 
 func ExecuteRequestAndReadBinaryBody(c *http.Client, r *http.Request) (*[]byte, error) {
 	response, err := c.Do(r)
-	defer response.Body.Close()
 	if err != nil {
 		return nil, err
+	}
+	if response.Body != nil {
+		defer response.Body.Close()
 	}
 
 	if response.StatusCode >= 400 {
@@ -85,9 +88,11 @@ func ExecuteRequestAndReadBinaryBody(c *http.Client, r *http.Request) (*[]byte, 
 
 func ExecuteRequestAndReadStringBody(c *http.Client, r *http.Request) (*string, error) {
 	response, err := c.Do(r)
-	defer response.Body.Close()
 	if err != nil {
 		return nil, err
+	}
+	if response.Body != nil {
+		defer response.Body.Close()
 	}
 
 	if response.StatusCode >= 400 {
@@ -111,9 +116,11 @@ func ExecuteRequestAndReadStringBody(c *http.Client, r *http.Request) (*string, 
 
 func ExecuteRequestWithoutRead(c *http.Client, r *http.Request) error {
 	response, err := c.Do(r)
-	defer response.Body.Close()
 	if err != nil {
 		return err
+	}
+	if response.Body != nil {
+		defer response.Body.Close()
 	}
 
 	if response.StatusCode >= 400 {
@@ -121,10 +128,4 @@ func ExecuteRequestWithoutRead(c *http.Client, r *http.Request) error {
 	}
 
 	return nil
-}
-
-// obsolete?
-func EncodeBase64String(someString string) string {
-	stringEncoding := b64.StdEncoding.EncodeToString([]byte(someString))
-	return stringEncoding
 }
