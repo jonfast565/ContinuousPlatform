@@ -205,7 +205,7 @@ func (je *JenkinsEndpoint) buildCreateFolderUrl(request jenkinsmodel.JenkinsJobR
 	result, _ := json.Marshal(jenkinsmodel.NewFolderRequest(folderName))
 	createFolderPath.AppendQueryValue("json", string(result))
 	createFolderPath.AppendQueryValue("Submit", "OK")
-	return createFolderPath.GetUrlStringValue()
+	return createFolderPath.GetForciblyEncodedUrlStringValue()
 }
 
 func (je *JenkinsEndpoint) buildCheckUrl(request jenkinsmodel.JenkinsJobRequest) string {
@@ -213,7 +213,7 @@ func (je *JenkinsEndpoint) buildCheckUrl(request jenkinsmodel.JenkinsJobRequest)
 	createUpdatePath.AppendPathFragments(request.GetParentJobFragments())
 	createUpdatePath.AppendPathFragment("checkJobName")
 	createUpdatePath.AppendQueryValue("value", request.GetLastFragment())
-	return createUpdatePath.GetUrlStringValue()
+	return createUpdatePath.GetForciblyEncodedUrlStringValue()
 }
 
 func (je *JenkinsEndpoint) buildCreateUpdateUrl(request jenkinsmodel.JenkinsJobRequest) string {
@@ -221,14 +221,14 @@ func (je *JenkinsEndpoint) buildCreateUpdateUrl(request jenkinsmodel.JenkinsJobR
 	createUpdatePath.AppendPathFragments(request.GetParentJobFragments())
 	createUpdatePath.AppendPathFragment("createItem")
 	createUpdatePath.AppendQueryValue("name", request.GetLastFragment())
-	return createUpdatePath.GetUrlStringValue()
+	return createUpdatePath.GetForciblyEncodedUrlStringValue()
 }
 
 func (je *JenkinsEndpoint) buildDeleteUrl(request jenkinsmodel.JenkinsJobRequest) string {
 	deletePath := je.configuration.GetJenkinsUrlObject()
 	deletePath.AppendPathFragments(request.GetJobFragments())
 	deletePath.AppendPathFragment("doDelete")
-	return deletePath.GetUrlStringValue()
+	return deletePath.GetForciblyEncodedUrlStringValue()
 }
 
 func (je *JenkinsEndpoint) buildCrumbUrl() string {
