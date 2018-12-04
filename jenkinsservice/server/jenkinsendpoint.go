@@ -185,7 +185,9 @@ func (je *JenkinsEndpoint) GetJenkinsCrumb() (*jenkinsmodel.JenkinsCrumb, error)
 }
 
 func (je *JenkinsEndpoint) addAuthHeader(r *http.Request) {
-	r.SetBasicAuth(je.configuration.JenkinsUsername, je.configuration.JenkinsAccessToken)
+	if je.configuration.JenkinsCredentialsRequired {
+		r.SetBasicAuth(je.configuration.JenkinsUsername, je.configuration.JenkinsAccessToken)
+	}
 }
 
 func addCrumbHeader(crumb jenkinsmodel.JenkinsCrumb, r *http.Request) {
