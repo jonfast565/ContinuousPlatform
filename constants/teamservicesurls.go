@@ -14,8 +14,8 @@ func GetApiFilesPath(collectionUrl string,
 		scopePath = optionalScopePath
 	}
 	// TODO: Change functionality to use MyURL struct
-	//myUrl := webutil.NewEmptyUrl()
-	//myUrl.AppendPathFragments([]string {projectName, "_apis", "git", "repositories", repositoryId, "items"})
+	// myUrl := webutil.NewEmptyUrl()
+	// myUrl.AppendPathFragments([]string {projectName, "_apis", "git", "repositories", repositoryId, "items"})
 	return collectionUrl + "/" + projectName + RepositoryApiSubpath + "/" +
 		repositoryId + "/items" + "?" + "scopePath=" + url.QueryEscape(scopePath) +
 		"&recursionLevel=Full&includeContentMetadata=true" +
