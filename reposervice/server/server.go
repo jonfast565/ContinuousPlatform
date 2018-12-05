@@ -25,13 +25,11 @@ type TeamServicesConfiguration struct {
 }
 
 type TeamServicesEndpoint struct {
-	Client        http.Client
 	Configuration TeamServicesConfiguration
 }
 
 func NewTeamServicesEndpoint(configuration TeamServicesConfiguration) *TeamServicesEndpoint {
 	result := new(TeamServicesEndpoint)
-	result.Client = http.Client{}
 	result.Configuration = configuration
 	return result
 }
@@ -194,7 +192,7 @@ func (e TeamServicesEndpoint) getRepositoryInformation() (*repomodel.TsGitReposi
 	webutil.AddJsonHeader(request)
 
 	var result repomodel.TsGitRepositoryList
-	err = webutil.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &result)
 	if err != nil {
 		return nil, err
 	}
@@ -227,7 +225,7 @@ func (e TeamServicesEndpoint) getFileInformation(
 
 	var result miscmodel.FilePayload
 	var resultBytes *[]byte
-	resultBytes, err = webutil.ExecuteRequestAndReadBinaryBody(&e.Client, request)
+	resultBytes, err = webutil.ExecuteRequestAndReadBinaryBody(request)
 	if err != nil {
 		return nil, err
 	}
@@ -254,7 +252,7 @@ func (e TeamServicesEndpoint) getBranchInformation(
 	webutil.AddJsonHeader(request)
 
 	var result repomodel.TsGitRefsList
-	err = webutil.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &result)
 	if err != nil {
 		return nil, err
 	}
@@ -281,7 +279,7 @@ func (e TeamServicesEndpoint) getBranchFileList(
 	webutil.AddJsonHeader(request)
 
 	var result repomodel.TsGitFileList
-	err = webutil.ExecuteRequestAndReadJsonBody(&e.Client, request, &result)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &result)
 	if err != nil {
 		return nil, err
 	}

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/go-errors/errors"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -43,7 +44,8 @@ func AddBearerToken(request *http.Request, bearerToken string) {
 	request.Header.Add(AuthorizationHeader, "Bearer "+bearerToken)
 }
 
-func ExecuteRequestAndReadJsonBody(c *http.Client, r *http.Request, object interface{}) error {
+func ExecuteRequestAndReadJsonBody(r *http.Request, object interface{}) error {
+	c := NewHttpClient()
 	response, err := c.Do(r)
 	if err != nil {
 		return err
@@ -64,7 +66,8 @@ func ExecuteRequestAndReadJsonBody(c *http.Client, r *http.Request, object inter
 	return nil
 }
 
-func ExecuteRequestAndReadBinaryBody(c *http.Client, r *http.Request) (*[]byte, error) {
+func ExecuteRequestAndReadBinaryBody(r *http.Request) (*[]byte, error) {
+	c := NewHttpClient()
 	response, err := c.Do(r)
 	if err != nil {
 		return nil, err
@@ -86,7 +89,8 @@ func ExecuteRequestAndReadBinaryBody(c *http.Client, r *http.Request) (*[]byte, 
 	return &resultBytes, nil
 }
 
-func ExecuteRequestAndReadStringBody(c *http.Client, r *http.Request) (*string, error) {
+func ExecuteRequestAndReadStringBody(r *http.Request) (*string, error) {
+	c := NewHttpClient()
 	response, err := c.Do(r)
 	if err != nil {
 		return nil, err
@@ -114,7 +118,8 @@ func ExecuteRequestAndReadStringBody(c *http.Client, r *http.Request) (*string, 
 	return &s, nil
 }
 
-func ExecuteRequestWithoutRead(c *http.Client, r *http.Request) error {
+func ExecuteRequestWithoutRead(r *http.Request) error {
+	c := NewHttpClient()
 	response, err := c.Do(r)
 	if err != nil {
 		return err
@@ -125,6 +130,11 @@ func ExecuteRequestWithoutRead(c *http.Client, r *http.Request) error {
 
 	if response.StatusCode >= 400 {
 		return errors.New("bad status (" + response.Status + ") returned from server")
+	}
+
+	_, err = io.Copy(ioutil.Discard, response.Body)
+	if err != nil {
+		return err
 	}
 
 	return nil

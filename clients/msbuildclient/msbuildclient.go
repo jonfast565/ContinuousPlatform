@@ -23,13 +23,12 @@ type ClientConfiguration struct {
 
 type MsBuildClient struct {
 	configuration ClientConfiguration
-	client        http.Client
 }
 
 func NewMsBuildClient() MsBuildClient {
 	var config ClientConfiguration
 	jsonutil.DecodeJsonFromFile(SettingsFilePath, &config)
-	return MsBuildClient{configuration: config, client: http.Client{Timeout: constants.ClientTimeout}}
+	return MsBuildClient{configuration: config}
 }
 
 func (msbc MsBuildClient) GetSolution(
@@ -55,7 +54,7 @@ func (msbc MsBuildClient) GetSolution(
 	}
 
 	var value projectmodel.MsBuildSolution
-	err = webutil.ExecuteRequestAndReadJsonBody(&msbc.client, request, &value)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &value)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +85,7 @@ func (msbc MsBuildClient) GetProject(
 	}
 
 	var value projectmodel.MsBuildProject
-	err = webutil.ExecuteRequestAndReadJsonBody(&msbc.client, request, &value)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &value)
 	if err != nil {
 		return nil, err
 	}
@@ -117,7 +116,7 @@ func (msbc MsBuildClient) GetPublishProfile(
 	}
 
 	var value projectmodel.MsBuildPublishProfile
-	err = webutil.ExecuteRequestAndReadJsonBody(&msbc.client, request, &value)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &value)
 	if err != nil {
 		return nil, err
 	}
