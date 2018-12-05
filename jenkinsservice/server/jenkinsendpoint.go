@@ -15,13 +15,11 @@ import (
 
 type JenkinsEndpoint struct {
 	configuration JenkinsConfiguration
-	client        http.Client
 }
 
 func NewJenkinsEndpoint(configuration JenkinsConfiguration) JenkinsEndpoint {
 	return JenkinsEndpoint{
 		configuration: configuration,
-		client:        http.Client{},
 	}
 }
 
@@ -41,7 +39,7 @@ func (je *JenkinsEndpoint) CheckJobExistence(
 	addCrumbHeader(crumb, req)
 	webutil.AddXmlHeader(req)
 
-	result, err := webutil.ExecuteRequestAndReadStringBody(&je.client, req)
+	result, err := webutil.ExecuteRequestAndReadStringBody(req)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +63,7 @@ func (je *JenkinsEndpoint) CreateUpdateJob(
 	addCrumbHeader(crumb, req)
 	webutil.AddXmlHeader(req)
 
-	result, err := webutil.ExecuteRequestAndReadStringBody(&je.client, req)
+	result, err := webutil.ExecuteRequestAndReadStringBody(req)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +92,7 @@ func (je *JenkinsEndpoint) CreateFolder(
 	addCrumbHeader(crumb, req)
 	webutil.AddFormHeader(req)
 
-	result, err := webutil.ExecuteRequestAndReadStringBody(&je.client, req)
+	result, err := webutil.ExecuteRequestAndReadStringBody(req)
 	if err != nil {
 		return nil, err
 	}
@@ -118,7 +116,7 @@ func (je *JenkinsEndpoint) DeleteJobOrFolder(
 	addCrumbHeader(crumb, req)
 	webutil.AddXmlHeader(req)
 
-	result, err := webutil.ExecuteRequestAndReadStringBody(&je.client, req)
+	result, err := webutil.ExecuteRequestAndReadStringBody(req)
 	if err != nil {
 		return nil, err
 	}
@@ -142,7 +140,7 @@ func (je *JenkinsEndpoint) GetJenkinsMetadata(
 	webutil.AddJsonHeader(request)
 
 	var result jenkinsmodel.JenkinsJobMetadata
-	err = webutil.ExecuteRequestAndReadJsonBody(&je.client, request, &result)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &result)
 	if err != nil {
 		return nil, err
 	}
@@ -171,7 +169,7 @@ func (je *JenkinsEndpoint) GetJenkinsCrumb() (*jenkinsmodel.JenkinsCrumb, error)
 	webutil.AddJsonHeader(request)
 
 	var result jenkinsmodel.JenkinsCrumb
-	err = webutil.ExecuteRequestAndReadJsonBody(&je.client, request, &result)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &result)
 	if err != nil {
 		return nil, err
 	}

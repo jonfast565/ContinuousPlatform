@@ -30,7 +30,7 @@ type OutputMessage struct {
 }
 
 func SendMessage(inputMessage *InputMessage, config *Configuration) (*[]byte, error) {
-	client := &http.Client{}
+	client := webutil.NewHttpClient()
 	outputMessage := getOutputMessage(inputMessage, config)
 	outputBytes, err := json.Marshal(outputMessage)
 	if err != nil {

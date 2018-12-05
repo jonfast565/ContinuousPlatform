@@ -24,13 +24,12 @@ type ClientConfiguration struct {
 
 type PersistenceClient struct {
 	configuration ClientConfiguration
-	client        http.Client
 }
 
 func NewPersistenceClient() PersistenceClient {
 	var config ClientConfiguration
 	jsonutil.DecodeJsonFromFile(SettingsFilePath, &config)
-	return PersistenceClient{configuration: config, client: http.Client{Timeout: constants.ClientTimeout}}
+	return PersistenceClient{configuration: config}
 }
 
 func (pc PersistenceClient) GetKeyValueCache(key string, uncompress bool) ([]byte, error) {
@@ -57,7 +56,7 @@ func (pc PersistenceClient) GetKeyValueCache(key string, uncompress bool) ([]byt
 	}
 
 	var value persistmodel.KeyValueResult
-	err = webutil.ExecuteRequestAndReadJsonBody(&pc.client, request, &value)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &value)
 	if err != nil {
 		return nil, err
 	}
@@ -110,7 +109,7 @@ func (pc PersistenceClient) SetKeyValueCache(key string, value []byte, compress 
 		return err
 	}
 
-	_ = webutil.ExecuteRequestWithoutRead(&pc.client, request)
+	_ = webutil.ExecuteRequestWithoutRead(request)
 	return nil
 }
 
@@ -139,7 +138,7 @@ func (pc PersistenceClient) GetBuildInfrastructure(
 	}
 
 	var value inframodel.BuildInfrastructureMetadata
-	err = webutil.ExecuteRequestAndReadJsonBody(&pc.client, request, &value)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &value)
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +164,7 @@ func (pc PersistenceClient) GetResourceList() (*inframodel.ResourceList, error) 
 	}
 
 	var value inframodel.ResourceList
-	err = webutil.ExecuteRequestAndReadJsonBody(&pc.client, request, &value)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &value)
 	if err != nil {
 		return nil, err
 	}
