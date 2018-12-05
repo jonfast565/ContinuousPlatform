@@ -90,7 +90,8 @@ func buildKeyListFromScripts(scripts *genmodel.ScriptPackage) jenkinsmodel.Jenki
 
 func buildEditList(
 	l1 *jenkinsmodel.JenkinsJobKeyList,
-	l2 *jenkinsmodel.JenkinsJobKeyList) jenkinsmodel.JenkinsEditList {
+	l2 *jenkinsmodel.JenkinsJobKeyList,
+	scripts *genmodel.ScriptPackage) jenkinsmodel.JenkinsEditList {
 	var results jenkinsmodel.JenkinsEditList
 	for _, k1 := range *l1 {
 		result := linq.From(*l2).FirstWithT(func(key jenkinsmodel.JenkinsJobKey) bool {
@@ -105,7 +106,7 @@ func buildEditList(
 			}
 			results = append(results, jenkinsmodel.JenkinsEdit{
 				Keys:     resultKey.Keys,
-				Contents: "",
+				Contents: *scripts.GetScriptContentsByKey(k1),
 				EditType: jenkinsmodel.AddUpdateJob,
 			})
 		} else {
@@ -118,7 +119,7 @@ func buildEditList(
 			} else {
 				results = append(results, jenkinsmodel.JenkinsEdit{
 					Keys:     k1.Keys,
-					Contents: "",
+					Contents: *scripts.GetScriptContentsByKey(k1),
 					EditType: jenkinsmodel.AddUpdateJob,
 				})
 			}
