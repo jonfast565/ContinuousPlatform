@@ -23,13 +23,12 @@ type ClientConfiguration struct {
 
 type RepoClient struct {
 	configuration ClientConfiguration
-	client        http.Client
 }
 
 func NewRepoClient() RepoClient {
 	var config ClientConfiguration
 	jsonutil.DecodeJsonFromFile(SettingsFilePath, &config)
-	return RepoClient{configuration: config, client: http.Client{Timeout: constants.ClientTimeout}}
+	return RepoClient{configuration: config}
 }
 
 func (rc RepoClient) GetRepositories() (*repomodel.RepositoryPackage, error) {
@@ -49,7 +48,7 @@ func (rc RepoClient) GetRepositories() (*repomodel.RepositoryPackage, error) {
 	}
 
 	var value repomodel.RepositoryPackage
-	err = webutil.ExecuteRequestAndReadJsonBody(&rc.client, request, &value)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &value)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +80,7 @@ func (rc RepoClient) GetFile(
 	}
 
 	var value miscmodel.FilePayload
-	err = webutil.ExecuteRequestAndReadJsonBody(&rc.client, request, &value)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &value)
 	if err != nil {
 		return nil, err
 	}

@@ -22,13 +22,12 @@ type ClientConfiguration struct {
 
 type JenkinsClient struct {
 	configuration ClientConfiguration
-	client        http.Client
 }
 
 func NewJenkinsClient() JenkinsClient {
 	var config ClientConfiguration
 	jsonutil.DecodeJsonFromFile(SettingsFilePath, &config)
-	return JenkinsClient{configuration: config, client: http.Client{Timeout: constants.ClientTimeout}}
+	return JenkinsClient{configuration: config}
 }
 
 func (jc JenkinsClient) GetJenkinsCrumb() (*jenkinsmodel.JenkinsCrumb, error) {
@@ -49,7 +48,7 @@ func (jc JenkinsClient) GetJenkinsCrumb() (*jenkinsmodel.JenkinsCrumb, error) {
 	webutil.AddFormHeader(request)
 
 	var value jenkinsmodel.JenkinsCrumb
-	err = webutil.ExecuteRequestAndReadJsonBody(&jc.client, request, &value)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &value)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +74,7 @@ func (jc JenkinsClient) GetJenkinsMetadata() (*jenkinsmodel.JenkinsJobMetadata, 
 	webutil.AddFormHeader(request)
 
 	var value jenkinsmodel.JenkinsJobMetadata
-	err = webutil.ExecuteRequestAndReadJsonBody(&jc.client, request, &value)
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &value)
 	if err != nil {
 		return nil, err
 	}
@@ -105,7 +104,7 @@ func (jc JenkinsClient) CreateUpdateJob(jobRequest jenkinsmodel.JenkinsJobReques
 	}
 	webutil.AddFormHeader(request)
 
-	value, err := webutil.ExecuteRequestAndReadStringBody(&jc.client, request)
+	value, err := webutil.ExecuteRequestAndReadStringBody(request)
 	if err != nil {
 		return nil, err
 	}
@@ -135,7 +134,7 @@ func (jc JenkinsClient) CreateFolder(jobRequest jenkinsmodel.JenkinsJobRequest) 
 	}
 	webutil.AddFormHeader(request)
 
-	value, err := webutil.ExecuteRequestAndReadStringBody(&jc.client, request)
+	value, err := webutil.ExecuteRequestAndReadStringBody(request)
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +164,7 @@ func (jc JenkinsClient) DeleteJobOrFolder(jobRequest jenkinsmodel.JenkinsJobRequ
 	}
 	webutil.AddFormHeader(request)
 
-	value, err := webutil.ExecuteRequestAndReadStringBody(&jc.client, request)
+	value, err := webutil.ExecuteRequestAndReadStringBody(request)
 	if err != nil {
 		return nil, err
 	}
