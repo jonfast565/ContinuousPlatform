@@ -33,7 +33,7 @@ func DeployJenkinsJobs(details *jobmodel.JobDetails) {
 
 	myMetadataKeys := buildKeyListFromScripts(scripts)
 	jenkinsInstanceMetadataKeys := jenkinsMetadata.GetFlattenedKeys()
-	edits := buildEditList(&myMetadataKeys, jenkinsInstanceMetadataKeys)
+	edits := buildEditList(&myMetadataKeys, jenkinsInstanceMetadataKeys, scripts)
 	persistEditList(edits, jenkinsClient)
 }
 
