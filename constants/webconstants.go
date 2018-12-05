@@ -1,9 +1,18 @@
 package constants
 
-import "time"
+import (
+	"net/http"
+	"time"
+)
 
-var PostMethod = "POST"
-var GetMethod = "GET"
-var DefaultScheme = "http"
-var ClientTimeout = 60 * time.Minute
-var MaxIdleConnections = 50
+var (
+	PostMethod         = "POST"
+	GetMethod          = "GET"
+	DefaultScheme      = "http"
+	ClientTimeout      = 60 * time.Minute
+	MaxIdleConnections = 50
+)
+
+var DefaultTransport = &http.Transport{
+	MaxIdleConnsPerHost: MaxIdleConnections,
+}
