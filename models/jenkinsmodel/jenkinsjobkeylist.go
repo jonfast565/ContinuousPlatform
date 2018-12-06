@@ -41,7 +41,7 @@ func (jjkl JenkinsJobKeyList) PartialKeyAlreadyExists(keys []string) bool {
 	return false
 }
 
-func (jjkl JenkinsJobKeyList) cleanKeys() *JenkinsJobKeyList {
+func (jjkl JenkinsJobKeyList) CleanKeys() *JenkinsJobKeyList {
 	var cleanedKeys JenkinsJobKeyList
 	for _, key := range jjkl {
 		if key.Type == BuildServer {
