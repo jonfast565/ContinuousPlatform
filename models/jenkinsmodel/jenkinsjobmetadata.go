@@ -1,5 +1,12 @@
 package jenkinsmodel
 
+import (
+	"../../logging"
+	"sort"
+)
+
+// import "sort"
+
 type JenkinsJobMetadata struct {
 	Name  string
 	Url   string
@@ -8,11 +15,86 @@ type JenkinsJobMetadata struct {
 }
 
 func (jjm JenkinsJobMetadata) GetFlattenedKeys() *JenkinsJobKeyList {
-	// TODO: Reimplement key flattening...... w/o recursion
+	var jenkinsKeyStack JenkinsJobMetadataStack
+	keyChan := make(chan JenkinsJobKey)
+
+	getFlattenedKeysInternal(jjm, jenkinsKeyStack, keyChan)
+	var resultKeys JenkinsJobKeyList
+	for {
+		noMore := false
+		select {
+		case msg := <-keyChan:
+			if !resultKeys.KeyAlreadyExists(msg.Keys) {
+				resultKeys = append(resultKeys, msg)
+			}
+		default:
+			logging.LogInfo("No more repositories/branches received")
+			noMore = true
+		}
+		if noMore {
+			break
+		}
+	}
 
 	// key cleanup & sort
-	//cleanedKeys := *cleanKeys()
-	//sort.Sort(cleanedKeys)
-	//return &cleanedKeys
-	return nil
+	cleanedKeys := resultKeys.CleanKeys()
+	sort.Sort(cleanedKeys)
+	return cleanedKeys
+}
+
+func getFlattenedKeysInternal(
+	currentMetadata JenkinsJobMetadata,
+	currentStack JenkinsJobMetadataStack,
+	keyChan chan JenkinsJobKey) {
+
+	currentStack.Push(currentMetadata)
+	metadataList := currentStack.ReadStackAsList()
+
+	var jobKey JenkinsJobKey
+	keyStrings := metadataList.GetKeyNames()
+	jobKey.Keys = keyStrings
+
+	if len(currentMetadata.Jobs) > 0 {
+		jobKey.Type = Folder
+		go func() { keyChan <- jobKey }()
+		getFlattenedKeysInternal(currentMetadata, currentStack, keyChan)
+	} else {
+		jobKey.Type = currentMetadata.Class
+		go func() { keyChan <- jobKey }()
+	}
+	currentStack.Pop()
+}
+
+type JenkinsJobMetadataList []JenkinsJobMetadata
+type JenkinsJobMetadataStack JenkinsJobMetadataList
+
+func (jjml JenkinsJobMetadataList) GetKeyNames() []string {
+	var result []string
+	for _, metadataItem := range jjml {
+		result = append(result, metadataItem.Name)
+	}
+	return result
+}
+
+func (jjms *JenkinsJobMetadataStack) Push(key JenkinsJobMetadata) {
+	*jjms = append(*jjms, key)
+}
+
+func (jjms *JenkinsJobMetadataStack) Top() *JenkinsJobMetadata {
+	lastItem := (*jjms)[len(*jjms)-1]
+	return &lastItem
+}
+
+func (jjms *JenkinsJobMetadataStack) Pop() *JenkinsJobMetadata {
+	lastItem := (*jjms)[len(*jjms)-1]
+	*jjms = (*jjms)[0 : len(*jjms)-1]
+	return &lastItem
+}
+
+func (jjms JenkinsJobMetadataStack) ReadStackAsList() JenkinsJobMetadataList {
+	var result JenkinsJobMetadataList
+	for _, stackItem := range jjms {
+		result = append(result, stackItem)
+	}
+	return result
 }

@@ -1,6 +1,10 @@
 package jenkinsmodel
 
-type JenkinsKeyStack []JenkinsJobKey
+type JenkinsKeyStack JenkinsJobKeyList
+
+func ListToStack(list JenkinsJobKeyList) JenkinsKeyStack {
+	return JenkinsKeyStack(list)
+}
 
 func (jks *JenkinsKeyStack) Push(key JenkinsJobKey) {
 	*jks = append(*jks, key)
