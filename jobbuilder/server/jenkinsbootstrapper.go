@@ -8,7 +8,7 @@ import (
 	"../../models/jenkinsmodel"
 	"../../models/jobmodel"
 	"../../stringutil"
-	"github.com/ahmetb/go-linq"
+	"encoding/json"
 	"sort"
 )
 
@@ -31,9 +31,9 @@ func DeployJenkinsJobs(details *jobmodel.JobDetails) {
 		panic(err)
 	}
 
-	myMetadataKeys := buildKeyListFromScripts(scripts)
-	jenkinsInstanceMetadataKeys := jenkinsMetadata.GetFlattenedKeys()
-	edits := buildEditList(&myMetadataKeys, jenkinsInstanceMetadataKeys, scripts)
+	myKeys := buildKeyListFromScripts(scripts)
+	jenkinsKeys := jenkinsMetadata.GetFlattenedKeys()
+	edits := buildEditList(&myKeys, jenkinsKeys, scripts)
 	persistEditList(edits, jenkinsClient)
 }
 
@@ -89,37 +89,40 @@ func buildKeyListFromScripts(scripts *genmodel.ScriptPackage) jenkinsmodel.Jenki
 }
 
 func buildEditList(
-	l1 *jenkinsmodel.JenkinsJobKeyList,
-	l2 *jenkinsmodel.JenkinsJobKeyList,
+	myKeys *jenkinsmodel.JenkinsJobKeyList,
+	jenkinsKeys *jenkinsmodel.JenkinsJobKeyList,
 	scripts *genmodel.ScriptPackage) jenkinsmodel.JenkinsEditList {
 	var results jenkinsmodel.JenkinsEditList
-	for _, k1 := range *l1 {
-		result := linq.From(*l2).FirstWithT(func(key jenkinsmodel.JenkinsJobKey) bool {
-			return stringutil.StringArrayCompare(k1.Keys, key.Keys) && k1.Type == key.Type
-		})
-
-		if result != nil {
-			// update
-			resultKey := result.(jenkinsmodel.JenkinsJobKey)
-			if resultKey.Type == jenkinsmodel.Folder {
-				continue
+	debugLogKeys(myKeys, jenkinsKeys)
+	for _, myKey := range *myKeys {
+		found := false
+		for _, jenkinsKey := range *jenkinsKeys {
+			keyMatch := stringutil.StringArrayCompare(myKey.Keys, jenkinsKey.Keys) && myKey.Type == jenkinsKey.Type
+			if keyMatch {
+				found = true
+				break
 			}
-			results = append(results, jenkinsmodel.JenkinsEdit{
-				Keys:     resultKey.Keys,
-				Contents: *scripts.GetScriptContentsByKey(k1),
-				EditType: jenkinsmodel.AddUpdateJob,
-			})
-		} else {
-			// insert
-			if k1.Type == jenkinsmodel.Folder {
+		}
+		if found == false {
+			if myKey.Type == jenkinsmodel.Folder {
 				results = append(results, jenkinsmodel.JenkinsEdit{
-					Keys:     k1.Keys,
+					Keys:     myKey.Keys,
 					EditType: jenkinsmodel.AddFolder,
 				})
 			} else {
 				results = append(results, jenkinsmodel.JenkinsEdit{
-					Keys:     k1.Keys,
-					Contents: *scripts.GetScriptContentsByKey(k1),
+					Keys:     myKey.Keys,
+					Contents: *scripts.GetScriptContentsByKey(myKey),
+					EditType: jenkinsmodel.AddUpdateJob,
+				})
+			}
+		} else {
+			if myKey.Type == jenkinsmodel.Folder {
+				continue
+			} else {
+				results = append(results, jenkinsmodel.JenkinsEdit{
+					Keys:     myKey.Keys,
+					Contents: *scripts.GetScriptContentsByKey(myKey),
 					EditType: jenkinsmodel.AddUpdateJob,
 				})
 			}
@@ -144,4 +147,13 @@ func buildEditList(
 
 	sort.Sort(results)
 	return results
+}
+
+func debugLogKeys(myKeys *jenkinsmodel.JenkinsJobKeyList, jenkinsKeys *jenkinsmodel.JenkinsJobKeyList) {
+	json1, _ := json.Marshal(jenkinsKeys)
+	logging.LogInfo("Jenkins Keys")
+	logging.LogInfo(string(json1))
+	json2, _ := json.Marshal(myKeys)
+	logging.LogInfo("My Keys")
+	logging.LogInfo(string(json2))
 }

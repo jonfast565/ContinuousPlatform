@@ -4,11 +4,11 @@
     <bookmark url="file://$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" description="&#10;" line="68" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="">
+    <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="transport is centralized">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/teamservicesurls.go" beforeDir="false" afterPath="$PROJECT_DIR$/constants/teamservicesurls.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/webconstants.go" beforeDir="false" afterPath="$PROJECT_DIR$/constants/webconstants.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webutil/clients.go" beforeDir="false" afterPath="$PROJECT_DIR$/webutil/clients.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jenkinsservice/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/jenkinsservice/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobmetadata.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobmetadata.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,7 +23,35 @@
     <favorites_list name="PlatformCI" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="410">
+              <caret line="96" selection-start-line="96" selection-end-line="96" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobmetadata.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="63" column="69" selection-start-line="63" selection-start-column="69" selection-end-line="63" selection-end-column="69" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobrecord.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="66" selection-start-line="7" selection-start-column="66" selection-end-line="7" selection-end-column="66" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -90,11 +118,9 @@
         <option value="$PROJECT_DIR$/constants/jenkinsconstants.go" />
         <option value="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobrequest.go" />
         <option value="$PROJECT_DIR$/webutil/urls.go" />
-        <option value="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobmetadata.go" />
         <option value="$PROJECT_DIR$/models/genmodel/scriptkeyvaluepair.go" />
         <option value="$PROJECT_DIR$/configurator/main.go" />
         <option value="$PROJECT_DIR$/configurator/configure.cmd" />
-        <option value="$PROJECT_DIR$/jenkinsservice/appsettings.json" />
         <option value="$PROJECT_DIR$/jenkinsservice/server/jenkinsconfiguration.go" />
         <option value="$PROJECT_DIR$/reposervice/server/server.go" />
         <option value="$PROJECT_DIR$/jenkinsservice/server/jenkinsendpoint.go" />
@@ -105,17 +131,19 @@
         <option value="$PROJECT_DIR$/webutil/requests.go" />
         <option value="$PROJECT_DIR$/teamsnotifier/server/server.go" />
         <option value="$PROJECT_DIR$/models/genmodel/scriptpackage.go" />
-        <option value="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" />
         <option value="$PROJECT_DIR$/webutil/clients.go" />
         <option value="$PROJECT_DIR$/constants/webconstants.go" />
         <option value="$PROJECT_DIR$/constants/teamservicesurls.go" />
+        <option value="$PROJECT_DIR$/jenkinsservice/appsettings.json" />
+        <option value="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" />
+        <option value="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobmetadata.go" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1364" />
+    <option name="x" value="197" />
+    <option name="y" value="103" />
+    <option name="width" value="1125" />
     <option name="height" value="726" />
   </component>
   <component name="ProjectView">
@@ -130,6 +158,17 @@
             <path>
               <item name="PlatformCI" type="b2602c69:ProjectViewProjectNode" />
               <item name="PlatformCI" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PlatformCI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PlatformCI" type="462c0819:PsiDirectoryNode" />
+              <item name="jobbuilder" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PlatformCI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PlatformCI" type="462c0819:PsiDirectoryNode" />
+              <item name="jobbuilder" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -281,14 +320,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.27382752" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.27912253" />
       <window_info id="Structure" order="1" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info id="Favorites" order="2" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49626866" visible="true" weight="0.31751227" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49167928" weight="0.50812566" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48773006" weight="0.5368249" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49626866" weight="0.31751227" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49167928" weight="0.507365" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48773006" weight="0.40425533" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32502708" />
@@ -347,7 +387,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="cleanup, added build infra getter" />
     <MESSAGE value="fixed endpoint" />
     <MESSAGE value="fixed bug with pulling data" />
     <MESSAGE value="add templates and template description json" />
@@ -372,7 +411,8 @@
     <MESSAGE value="put scripts into the stuff" />
     <MESSAGE value="added additional constants" />
     <MESSAGE value="increased client timeout" />
-    <option name="LAST_COMMIT_MESSAGE" value="increased client timeout" />
+    <MESSAGE value="transport is centralized" />
+    <option name="LAST_COMMIT_MESSAGE" value="transport is centralized" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -400,17 +440,83 @@
           <line>8</line>
           <option name="timeStamp" value="158" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go</url>
+          <line>96</line>
+          <properties />
+          <option name="timeStamp" value="186" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobmetadata.go</url>
+          <line>66</line>
+          <properties />
+          <option name="timeStamp" value="188" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateCodeFragment">
+      <expression>
+        <expression-string>linq.From()</expression-string>
+        <language-id>go</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>jenkinsKeys[100].Keys</expression-string>
+        <language-id>go</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>jenkinsKeys[0].Keys</expression-string>
+        <language-id>go</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+    </expressions>
+    <expressions id="breakpointCondition">
+      <expression>
+        <expression-string>key.Type == Folder</expression-string>
+        <language-id>go</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>el1 == &quot;ActonUpgrade&quot;</expression-string>
+        <language-id>go</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>arr1[i] == &quot;ActonUpgrade&quot; &amp;&amp; el2 == &quot;ActonUpgrade&quot;</expression-string>
+        <language-id>go</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>el1 == &quot;ActonUpgrade&quot; &amp;&amp; arr2[i] == &quot;ActonUpgrade&quot;</expression-string>
+        <language-id>go</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>arr2[i] == &quot;ActonUpgrade&quot;</expression-string>
+        <language-id>go</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>result == false &amp;&amp; len(k.Keys) == 3</expression-string>
+        <language-id>go</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>result == false</expression-string>
+        <language-id>go</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>result == true</expression-string>
+        <language-id>go</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/stringutil/stringutil.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="92" column="20" selection-start-line="92" selection-start-column="20" selection-end-line="92" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/jenkinsmodel/jenkinsedit.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="349">
@@ -463,13 +569,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-85">
           <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/appsettings.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -563,13 +662,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobrecord.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="30" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobrequest.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="281">
@@ -577,13 +669,6 @@
           <folding>
             <element signature="e#22#60#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobmetadata.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -668,13 +753,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jenkinsservice/appsettings.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/teamsnotifier/server/server.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -693,20 +771,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="22" column="29" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/genmodel/scriptkeyvaluepair.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="39" column="29" lean-forward="true" selection-start-line="39" selection-start-column="29" selection-end-line="39" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="526">
-          <caret line="136" column="26" selection-start-line="136" selection-start-column="26" selection-end-line="136" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -757,6 +821,55 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="14" column="5" lean-forward="true" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jenkinsservice/appsettings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="37" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/appsettings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stringutil/stringutil.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="80" column="5" lean-forward="true" selection-start-line="80" selection-start-column="5" selection-end-line="80" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/genmodel/scriptkeyvaluepair.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="33">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobrecord.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="66" selection-start-line="7" selection-start-column="66" selection-end-line="7" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="410">
+          <caret line="96" selection-start-line="96" selection-end-line="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobmetadata.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="63" column="69" selection-start-line="63" selection-start-column="69" selection-end-line="63" selection-end-column="69" />
         </state>
       </provider>
     </entry>
