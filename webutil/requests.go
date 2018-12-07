@@ -19,6 +19,7 @@ const (
 	XmlHeaderContentType             string = "text/xml"
 	FormUnEncodedHeaderContentType   string = "application/x-www-form-urlencoded"
 	HtmlDocumentHeader               string = "<!DOCTYPE html>"
+	NoDataError                      string = "Nothing Returned"
 )
 
 var windowsNewLines = "\r\n"
@@ -80,7 +81,11 @@ func ExecuteRequestAndReadBinaryBody(r *http.Request) (*[]byte, error) {
 
 	resultBytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		return nil, err
+		if err.Error() != "EOF" {
+			return nil, err
+		} else {
+			resultBytes = []byte(NoDataError)
+		}
 	}
 
 	if response.StatusCode >= 400 {
@@ -107,7 +112,11 @@ func ExecuteRequestAndReadStringBody(r *http.Request) (*string, error) {
 
 	resultBytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		return nil, err
+		if err.Error() != "EOF" {
+			return nil, err
+		} else {
+			resultBytes = []byte(NoDataError)
+		}
 	}
 
 	if response.StatusCode >= 400 {
