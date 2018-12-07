@@ -8,7 +8,6 @@ import (
 	"../../models/jenkinsmodel"
 	"../../models/jobmodel"
 	"../../stringutil"
-	"encoding/json"
 	"sort"
 )
 
@@ -33,7 +32,7 @@ func DeployJenkinsJobs(details *jobmodel.JobDetails) {
 
 	myKeys := buildKeyListFromScripts(scripts)
 	jenkinsKeys := jenkinsMetadata.GetFlattenedKeys()
-	edits := buildEditList(&myKeys, jenkinsKeys, scripts)
+	edits := buildEditList(myKeys, jenkinsKeys, scripts)
 	persistEditList(edits, jenkinsClient)
 }
 
@@ -42,15 +41,27 @@ func persistEditList(edits jenkinsmodel.JenkinsEditList, jenkinsClient jenkinscl
 		jobRequest := edit.GetJobRequest()
 		jobRequest.SanitizeSegments()
 		switch edit.EditType {
-		case jenkinsmodel.AddUpdateJob:
-			logging.LogInfo("Create/Update Job: " + jobRequest.GetJobFragmentUrl())
-			_, err := jenkinsClient.CreateUpdateJob(jobRequest)
+		case jenkinsmodel.UpdateJob:
+			logging.LogInfo("Update Job: " + jobRequest.GetJobFragmentUrl())
+			_, err := jenkinsClient.UpdateJob(jobRequest)
+			if err != nil {
+				panic(err)
+			}
+			break
+		case jenkinsmodel.AddJob:
+			logging.LogInfo("Add Job: " + jobRequest.GetJobFragmentUrl())
+			_, err := jenkinsClient.CreateJob(jobRequest)
+			if err != nil {
+				panic(err)
+			}
+			// ensure update possible
+			_, err = jenkinsClient.UpdateJob(jobRequest)
 			if err != nil {
 				panic(err)
 			}
 			break
 		case jenkinsmodel.AddFolder:
-			logging.LogInfo("Create Folder Job: " + jobRequest.GetJobFragmentUrl())
+			logging.LogInfo("Add Folder Job: " + jobRequest.GetJobFragmentUrl())
 			_, err := jenkinsClient.CreateFolder(jobRequest)
 			if err != nil {
 				panic(err)
@@ -69,7 +80,7 @@ func persistEditList(edits jenkinsmodel.JenkinsEditList, jenkinsClient jenkinscl
 	}
 }
 
-func buildKeyListFromScripts(scripts *genmodel.ScriptPackage) jenkinsmodel.JenkinsJobKeyList {
+func buildKeyListFromScripts(scripts *genmodel.ScriptPackage) *jenkinsmodel.JenkinsJobKeyList {
 	myMetadataKeys := make(jenkinsmodel.JenkinsJobKeyList, 0)
 	for _, script := range scripts.Scripts {
 		isJenkinsScript := stringutil.StringArrayContains(script.ToolScope, constants.JenkinsToolName)
@@ -85,7 +96,7 @@ func buildKeyListFromScripts(scripts *genmodel.ScriptPackage) jenkinsmodel.Jenki
 		}
 	}
 	sort.Sort(myMetadataKeys)
-	return myMetadataKeys
+	return &myMetadataKeys
 }
 
 func buildEditList(
@@ -93,7 +104,6 @@ func buildEditList(
 	jenkinsKeys *jenkinsmodel.JenkinsJobKeyList,
 	scripts *genmodel.ScriptPackage) jenkinsmodel.JenkinsEditList {
 	var results jenkinsmodel.JenkinsEditList
-	debugLogKeys(myKeys, jenkinsKeys)
 	for _, myKey := range *myKeys {
 		found := false
 		for _, jenkinsKey := range *jenkinsKeys {
@@ -113,7 +123,7 @@ func buildEditList(
 				results = append(results, jenkinsmodel.JenkinsEdit{
 					Keys:     myKey.Keys,
 					Contents: *scripts.GetScriptContentsByKey(myKey),
-					EditType: jenkinsmodel.AddUpdateJob,
+					EditType: jenkinsmodel.AddJob,
 				})
 			}
 		} else {
@@ -123,7 +133,7 @@ func buildEditList(
 				results = append(results, jenkinsmodel.JenkinsEdit{
 					Keys:     myKey.Keys,
 					Contents: *scripts.GetScriptContentsByKey(myKey),
-					EditType: jenkinsmodel.AddUpdateJob,
+					EditType: jenkinsmodel.UpdateJob,
 				})
 			}
 		}
@@ -147,13 +157,4 @@ func buildEditList(
 
 	sort.Sort(results)
 	return results
-}
-
-func debugLogKeys(myKeys *jenkinsmodel.JenkinsJobKeyList, jenkinsKeys *jenkinsmodel.JenkinsJobKeyList) {
-	json1, _ := json.Marshal(jenkinsKeys)
-	logging.LogInfo("Jenkins Keys")
-	logging.LogInfo(string(json1))
-	json2, _ := json.Marshal(myKeys)
-	logging.LogInfo("My Keys")
-	logging.LogInfo(string(json2))
 }

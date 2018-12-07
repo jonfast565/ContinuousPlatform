@@ -27,7 +27,8 @@ func main() {
 	endpoint = server.NewJenkinsEndpoint(configuration)
 	router.HandleFunc("/Daemon/GetJenkinsMetadata", getJenkinsMetadata).Methods(constants.PostMethod)
 	router.HandleFunc("/Daemon/GetJenkinsCrumb", getJenkinsCrumb).Methods(constants.PostMethod)
-	router.HandleFunc("/Daemon/CreateUpdateJob", createUpdateJob).Methods(constants.PostMethod)
+	router.HandleFunc("/Daemon/CreateJob", createJob).Methods(constants.PostMethod)
+	router.HandleFunc("/Daemon/UpdateJob", updateJob).Methods(constants.PostMethod)
 	router.HandleFunc("/Daemon/CheckJob", checkJob).Methods(constants.PostMethod)
 	router.HandleFunc("/Daemon/CreateFolder", createFolder).Methods(constants.PostMethod)
 	router.HandleFunc("/Daemon/DeleteJobOrFolder", deleteJobOrFolder).Methods(constants.PostMethod)
@@ -64,7 +65,7 @@ func checkJob(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(200)
 }
 
-func createUpdateJob(w http.ResponseWriter, r *http.Request) {
+func createJob(w http.ResponseWriter, r *http.Request) {
 	var jobRequest jenkinsmodel.JenkinsJobRequest
 	err := jsonutil.DecodeJsonFromBody(r, &jobRequest)
 	if err != nil {
@@ -80,7 +81,33 @@ func createUpdateJob(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = endpoint.CreateUpdateJob(*crumb, jobRequest)
+	_, err = endpoint.CreateJob(*crumb, jobRequest)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+
+	w.WriteHeader(200)
+}
+
+func updateJob(w http.ResponseWriter, r *http.Request) {
+	var jobRequest jenkinsmodel.JenkinsJobRequest
+	err := jsonutil.DecodeJsonFromBody(r, &jobRequest)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+
+	crumb, err := endpoint.GetJenkinsCrumb()
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+
+	_, err = endpoint.UpdateJob(*crumb, jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)

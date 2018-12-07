@@ -14,7 +14,8 @@ func (jjkl JenkinsJobKeyList) Swap(i, j int) {
 	jjkl[i], jjkl[j] = jjkl[j], jjkl[i]
 }
 func (jjkl JenkinsJobKeyList) Less(i, j int) bool {
-	return len(jjkl[i].Keys) < len(jjkl[j].Keys)
+	return len(jjkl[i].Keys) < len(jjkl[j].Keys) &&
+		stringutil.StringArrayCompareNumeric(jjkl[i].Keys, jjkl[j].Keys) < 0
 }
 
 func (jjkl JenkinsJobKeyList) SanitizeKeyList() {
@@ -41,9 +42,12 @@ func (jjkl JenkinsJobKeyList) PartialKeyAlreadyExists(keys []string) bool {
 	return false
 }
 
-func (jjkl JenkinsJobKeyList) CleanKeys() *JenkinsJobKeyList {
+func (jjkl JenkinsJobKeyList) CleanRawBuildServerKeys() *JenkinsJobKeyList {
 	var cleanedKeys JenkinsJobKeyList
 	for _, key := range jjkl {
+		if len(key.Keys) == 0 {
+			continue
+		}
 		if key.Type == BuildServer {
 			continue
 		}
