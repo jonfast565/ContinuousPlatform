@@ -1,9 +1,9 @@
 package server
 
 import (
+	"../../fileutil"
 	"../../logging"
 	"../../models/jobmodel"
-	"io/ioutil"
 )
 
 func DeployScriptsForDebugging(debugBasePath string, details *jobmodel.JobDetails) {
@@ -22,9 +22,6 @@ func DeployScriptsForDebugging(debugBasePath string, details *jobmodel.JobDetail
 	for _, script := range scripts.Scripts {
 		fileName := script.GetDebugFilePath(debugBasePath)
 		logging.LogInfo("Writing " + fileName + " to disk")
-		err := ioutil.WriteFile(fileName, []byte(script.Value), 0666)
-		if err != nil {
-			panic(err)
-		}
+		fileutil.WriteFile(fileName, script.Value)
 	}
 }

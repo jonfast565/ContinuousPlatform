@@ -1,6 +1,7 @@
 package jsonutil
 
 import (
+	"bytes"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -36,4 +37,14 @@ func EncodeJsonToBytes(object interface{}) (*[]byte, error) {
 		return nil, err
 	}
 	return &result, nil
+}
+
+// TODO: Use?
+func JsonPrettyPrint(in string) string {
+	var out bytes.Buffer
+	err := json.Indent(&out, []byte(in), "", "\t")
+	if err != nil {
+		return in
+	}
+	return out.String()
 }

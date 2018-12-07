@@ -1,6 +1,9 @@
 package stringutil
 
-import "regexp"
+import (
+	"regexp"
+	"strings"
+)
 
 func ConcatMultipleWithSeparator(separator string, inputs ...string) string {
 	var result string
@@ -86,6 +89,23 @@ func StringArrayCompare(arr1, arr2 []string) bool {
 		}
 	}
 	return true
+}
+
+func StringArrayCompareNumeric(arr1, arr2 []string) int {
+	if len(arr1) != len(arr2) {
+		if len(arr1) < len(arr2) {
+			return -1
+		} else {
+			return 1
+		}
+	}
+
+	for i, el1 := range arr1 {
+		if comp := strings.Compare(arr2[i], el1); comp != 0 {
+			return comp
+		}
+	}
+	return 0
 }
 
 func StringArrayContainsArray(arr1, arr2 []string) bool {

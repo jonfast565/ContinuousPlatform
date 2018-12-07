@@ -8,6 +8,7 @@ type JenkinsEditType int
 
 const (
 	RemoveJobFolder JenkinsEditType = 0
-	AddUpdateJob    JenkinsEditType = 1
-	AddFolder       JenkinsEditType = 2
+	AddJob          JenkinsEditType = 1
+	UpdateJob       JenkinsEditType = 2
+	AddFolder       JenkinsEditType = 3
 )

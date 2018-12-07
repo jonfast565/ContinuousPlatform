@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/go-errors/errors"
+	"github.com/yosssi/gohtml"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -17,6 +18,7 @@ const (
 	OctetStreamHeaderContentType     string = "application/octet-stream"
 	XmlHeaderContentType             string = "text/xml"
 	FormUnEncodedHeaderContentType   string = "application/x-www-form-urlencoded"
+	HtmlDocumentHeader               string = "<!DOCTYPE html>"
 )
 
 var windowsNewLines = "\r\n"
@@ -76,13 +78,17 @@ func ExecuteRequestAndReadBinaryBody(r *http.Request) (*[]byte, error) {
 		defer response.Body.Close()
 	}
 
-	if response.StatusCode >= 400 {
-		return nil, errors.New("bad status (" + response.Status + ") returned from server")
-	}
-
 	resultBytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		return nil, err
+	}
+
+	if response.StatusCode >= 400 {
+		resultStr := string(resultBytes)
+		if strings.Contains(resultStr, HtmlDocumentHeader) {
+			resultStr = gohtml.Format(resultStr)
+		}
+		return nil, errors.New("bad status (" + response.Status + ") returned from server: \n" + resultStr)
 	}
 
 	resultBytes = bytes.Replace(resultBytes, unixNewLinesByte, windowsNewLinesByte, -1)
@@ -99,13 +105,17 @@ func ExecuteRequestAndReadStringBody(r *http.Request) (*string, error) {
 		defer response.Body.Close()
 	}
 
-	if response.StatusCode >= 400 {
-		return nil, errors.New("bad status (" + response.Status + ") returned from server")
-	}
-
 	resultBytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		return nil, err
+	}
+
+	if response.StatusCode >= 400 {
+		resultStr := string(resultBytes)
+		if strings.Contains(resultStr, HtmlDocumentHeader) {
+			resultStr = gohtml.Format(resultStr)
+		}
+		return nil, errors.New("bad status (" + response.Status + ") returned from server: \n" + resultStr)
 	}
 
 	// build a string and return
@@ -129,7 +139,7 @@ func ExecuteRequestWithoutRead(r *http.Request) error {
 	}
 
 	if response.StatusCode >= 400 {
-		return errors.New("bad status (" + response.Status + ") returned from server")
+		return errors.New("bad status (" + response.Status + ") returned from server, no response body")
 	}
 
 	_, err = io.Copy(ioutil.Discard, response.Body)
