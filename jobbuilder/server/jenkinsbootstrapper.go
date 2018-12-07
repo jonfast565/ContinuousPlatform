@@ -61,7 +61,7 @@ func persistEditList(edits jenkinsmodel.JenkinsEditList, jenkinsClient jenkinscl
 			}
 			break
 		case jenkinsmodel.AddFolder:
-			logging.LogInfo("Add Folder Job: " + jobRequest.GetJobFragmentUrl())
+			logging.LogInfo("Add Folder: " + jobRequest.GetJobFragmentUrl())
 			_, err := jenkinsClient.CreateFolder(jobRequest)
 			if err != nil {
 				panic(err)
