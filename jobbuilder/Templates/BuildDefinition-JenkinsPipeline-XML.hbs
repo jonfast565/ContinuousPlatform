@@ -29,14 +29,6 @@
                 </hudson.model.ChoiceParameterDefinition>
             </parameterDefinitions>
         </hudson.model.ParametersDefinitionProperty>
-        <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
-            <triggers>
-                <hudson.triggers.SCMTrigger>
-                    <spec>H/12 * * * *</spec>
-                    <ignorePostCommitHooks>false</ignorePostCommitHooks>
-                </hudson.triggers.SCMTrigger>
-            </triggers>
-        </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
     </properties>
     <!-- TODO?: Re-write logic for this to check for an existing build and if not build it. -->
     <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.26">
