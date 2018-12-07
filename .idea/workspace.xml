@@ -4,26 +4,8 @@
     <bookmark url="file://$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" description="&#10;" line="68" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="create/update split. updates are working. fixing folder creates, etc.">
-      <change afterPath="$PROJECT_DIR$/fileutil/filewriter.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jenkinsservice/server/jenkinsutil.go" afterDir="false" />
+    <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clients/jenkinsclient/jenkinsclient.go" beforeDir="false" afterPath="$PROJECT_DIR$/clients/jenkinsclient/jenkinsclient.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jenkinsservice/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/jenkinsservice/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jenkinsservice/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/jenkinsservice/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jenkinsservice/server/jenkinsendpoint.go" beforeDir="false" afterPath="$PROJECT_DIR$/jenkinsservice/server/jenkinsendpoint.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/Templates/DeployDefinition-JenkinsPipeline-XML.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/Templates/DeployDefinition-JenkinsPipeline-XML.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/scriptdebugger.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/scriptdebugger.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jsonutil/jsonutil.go" beforeDir="false" afterPath="$PROJECT_DIR$/jsonutil/jsonutil.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/jenkinsmodel/jenkinsedit.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/jenkinsmodel/jenkinsedit.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobkeylist.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobkeylist.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobmetadata.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobmetadata.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/jenkinsmodel/jenkinsmodel.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/jenkinsmodel/jenkinsmodel.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stringutil/stringutil.go" beforeDir="false" afterPath="$PROJECT_DIR$/stringutil/stringutil.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webutil/requests.go" beforeDir="false" afterPath="$PROJECT_DIR$/webutil/requests.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,20 +20,7 @@
     <favorites_list name="PlatformCI" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/webutil/requests.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2468">
-              <caret line="149" column="14" lean-forward="true" selection-start-line="149" selection-start-column="14" selection-end-line="149" selection-end-column="14" />
-              <folding>
-                <element signature="e#17#153#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -130,19 +99,19 @@
         <option value="$PROJECT_DIR$/jenkinsservice/main.go" />
         <option value="$PROJECT_DIR$/clients/jenkinsclient/jenkinsclient.go" />
         <option value="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" />
-        <option value="$PROJECT_DIR$/jobbuilder/appsettings.json" />
         <option value="$PROJECT_DIR$/jenkinsservice/server/jenkinsutil.go" />
         <option value="$PROJECT_DIR$/jenkinsservice/server/jenkinsendpoint.go" />
         <option value="$PROJECT_DIR$/jobbuilder/Templates/DeployDefinition-JenkinsPipeline-XML.hbs" />
-        <option value="$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs" />
         <option value="$PROJECT_DIR$/jsonutil/jsonutil.go" />
         <option value="$PROJECT_DIR$/webutil/requests.go" />
+        <option value="$PROJECT_DIR$/jobbuilder/appsettings.json" />
+        <option value="$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="437" />
-    <option name="y" value="152" />
+    <option name="x" value="104" />
+    <option name="y" value="34" />
     <option name="width" value="1125" />
     <option name="height" value="726" />
   </component>
@@ -158,11 +127,6 @@
             <path>
               <item name="PlatformCI" type="b2602c69:ProjectViewProjectNode" />
               <item name="PlatformCI" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlatformCI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlatformCI" type="462c0819:PsiDirectoryNode" />
-              <item name="jsonutil" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -314,24 +278,23 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.2859304" />
       <window_info id="Structure" order="1" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info id="Favorites" order="2" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49626866" weight="0.42716858" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49167928" weight="0.44353518" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48773006" weight="0.49099836" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49092284" weight="0.5008183" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.48773006" visible="true" weight="0.690671" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32502708" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.41061756" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49520257" weight="0.19476268" />
-      <window_info active="true" anchor="bottom" id="Messages" order="10" visible="true" weight="0.32733223" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32733223" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50832075" side_tool="true" weight="0.5090016" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50907713" side_tool="true" weight="0.55482817" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24962178" />
@@ -379,9 +342,9 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="added more metadata, renamed code elements." />
     <MESSAGE value="test push" />
     <MESSAGE value="update readme" />
     <MESSAGE value="moved alot of script weight" />
@@ -406,10 +369,8 @@
     <MESSAGE value="reorg, code is not working, added key stack functionality" />
     <MESSAGE value="commit this code" />
     <MESSAGE value="create/update split. updates are working. fixing folder creates, etc." />
-    <option name="LAST_COMMIT_MESSAGE" value="create/update split. updates are working. fixing folder creates, etc." />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
+    <MESSAGE value="added no data string, removed auto build from build script" />
+    <option name="LAST_COMMIT_MESSAGE" value="added no data string, removed auto build from build script" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -762,13 +723,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/appsettings.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -779,13 +733,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="32" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/Templates/DeployDefinition-JenkinsPipeline-XML.hbs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-408">
-          <caret lean-forward="true" />
         </state>
       </provider>
     </entry>
@@ -827,20 +774,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="841">
-          <caret line="137" column="31" selection-start-line="137" selection-start-column="31" selection-end-line="137" selection-end-column="31" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/Templates/DeployDefinition-JenkinsPipeline-XML.hbs">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/webutil/requests.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2468">
-          <caret line="149" column="14" lean-forward="true" selection-start-line="149" selection-start-column="14" selection-end-line="149" selection-end-column="14" />
+        <state relative-caret-position="-119">
+          <caret line="86" column="45" selection-start-line="86" selection-start-column="45" selection-end-line="86" selection-end-column="45" />
           <folding>
             <element signature="e#17#153#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/appsettings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-521">
+          <caret line="30" column="52" selection-start-line="30" selection-start-column="52" selection-end-line="30" selection-end-column="52" />
         </state>
       </provider>
     </entry>
