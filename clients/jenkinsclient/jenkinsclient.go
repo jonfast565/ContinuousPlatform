@@ -82,13 +82,43 @@ func (jc JenkinsClient) GetJenkinsMetadata() (*jenkinsmodel.JenkinsJobMetadata, 
 	return &value, nil
 }
 
-func (jc JenkinsClient) CreateUpdateJob(jobRequest jenkinsmodel.JenkinsJobRequest) (*string, error) {
+func (jc JenkinsClient) CreateJob(jobRequest jenkinsmodel.JenkinsJobRequest) (*string, error) {
 	// build service url
 	myUrl := webutil.NewEmptyUrl()
 	myUrl.SetBase(constants.DefaultScheme,
 		jc.configuration.Hostname,
 		strconv.Itoa(jc.configuration.Port))
-	myUrl.AppendPathFragments([]string{"Daemon", "CreateUpdateJob"})
+	myUrl.AppendPathFragments([]string{"Daemon", "CreateJob"})
+
+	requestJson, err := json.Marshal(jobRequest)
+	if err != nil {
+		return nil, err
+	}
+
+	// execute request
+	request, err := http.NewRequest(constants.PostMethod,
+		myUrl.GetUrlStringValue(),
+		bytes.NewReader(requestJson))
+	if err != nil {
+		return nil, err
+	}
+	webutil.AddFormHeader(request)
+
+	value, err := webutil.ExecuteRequestAndReadStringBody(request)
+	if err != nil {
+		return nil, err
+	}
+
+	return value, nil
+}
+
+func (jc JenkinsClient) UpdateJob(jobRequest jenkinsmodel.JenkinsJobRequest) (*string, error) {
+	// build service url
+	myUrl := webutil.NewEmptyUrl()
+	myUrl.SetBase(constants.DefaultScheme,
+		jc.configuration.Hostname,
+		strconv.Itoa(jc.configuration.Port))
+	myUrl.AppendPathFragments([]string{"Daemon", "UpdateJob"})
 
 	requestJson, err := json.Marshal(jobRequest)
 	if err != nil {

@@ -1,5 +1,9 @@
 package jenkinsmodel
 
+import (
+	"../../stringutil"
+)
+
 type JenkinsEdit struct {
 	Keys     []string
 	Contents string
@@ -22,5 +26,6 @@ func (jel JenkinsEditList) Swap(i, j int) {
 	jel[i], jel[j] = jel[j], jel[i]
 }
 func (jel JenkinsEditList) Less(i, j int) bool {
-	return len(jel[i].Keys) < len(jel[j].Keys)
+	return len(jel[i].Keys) < len(jel[j].Keys) &&
+		stringutil.StringArrayCompareNumeric(jel[i].Keys, jel[j].Keys) < 0
 }

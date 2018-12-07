@@ -28,7 +28,7 @@ func (jjm JenkinsJobMetadata) GetFlattenedKeys() *JenkinsJobKeyList {
 				resultKeys = append(resultKeys, msg)
 			}
 		default:
-			logging.LogInfo("No more repositories/branches received")
+			logging.LogInfo("No more keys received")
 			noMore = true
 		}
 		if noMore {
@@ -37,7 +37,7 @@ func (jjm JenkinsJobMetadata) GetFlattenedKeys() *JenkinsJobKeyList {
 	}
 
 	// key cleanup & sort
-	cleanedKeys := resultKeys.CleanKeys()
+	cleanedKeys := resultKeys.CleanRawBuildServerKeys()
 	sort.Sort(cleanedKeys)
 	return cleanedKeys
 }
@@ -57,7 +57,9 @@ func getFlattenedKeysInternal(
 	if len(currentMetadata.Jobs) > 0 {
 		jobKey.Type = Folder
 		go func() { keyChan <- jobKey }()
-		getFlattenedKeysInternal(currentMetadata, currentStack, keyChan)
+		for _, childMetadata := range currentMetadata.Jobs {
+			getFlattenedKeysInternal(childMetadata, currentStack, keyChan)
+		}
 	} else {
 		jobKey.Type = currentMetadata.Class
 		go func() { keyChan <- jobKey }()

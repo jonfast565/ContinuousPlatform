@@ -10,7 +10,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	"strings"
 )
 
 type JenkinsEndpoint struct {
@@ -30,7 +29,7 @@ func (je *JenkinsEndpoint) CheckJobExistence(
 	checkUrl := je.buildCheckUrl(request)
 	logging.LogInfo("Check Existence Job URL: " + checkUrl)
 
-	req, err := http.NewRequest(constants.PostMethod, checkUrl, strings.NewReader(request.Contents))
+	req, err := http.NewRequest(constants.PostMethod, checkUrl, jenkinsByteReaderFromString(request.Contents))
 	if err != nil {
 		return nil, err
 	}
@@ -47,14 +46,38 @@ func (je *JenkinsEndpoint) CheckJobExistence(
 	return result, nil
 }
 
-func (je *JenkinsEndpoint) CreateUpdateJob(
+func (je *JenkinsEndpoint) CreateJob(
 	crumb jenkinsmodel.JenkinsCrumb,
 	request jenkinsmodel.JenkinsJobRequest) (*string, error) {
-	logging.LogInfo("Create/Update Jenkins Job -> " + request.GetJobFragmentUrl())
-	createUpdateUrl := je.buildCreateUpdateUrl(request)
-	logging.LogInfo("Create/Update Job URL: " + createUpdateUrl)
+	logging.LogInfo("Create Jenkins Job -> " + request.GetJobFragmentUrl())
+	createUrl := je.buildCreateUrl(request)
+	logging.LogInfo("Create Job URL: " + createUrl)
 
-	req, err := http.NewRequest(constants.PostMethod, createUpdateUrl, strings.NewReader(request.Contents))
+	req, err := http.NewRequest(constants.PostMethod, createUrl, jenkinsByteReaderFromString(request.Contents))
+	if err != nil {
+		return nil, err
+	}
+
+	je.addAuthHeader(req)
+	addCrumbHeader(crumb, req)
+	webutil.AddXmlHeader(req)
+
+	result, err := webutil.ExecuteRequestAndReadStringBody(req)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (je *JenkinsEndpoint) UpdateJob(
+	crumb jenkinsmodel.JenkinsCrumb,
+	request jenkinsmodel.JenkinsJobRequest) (*string, error) {
+	logging.LogInfo("Update Jenkins Job -> " + request.GetJobFragmentUrl())
+	updateUrl := je.buildUpdateUrl(request)
+	logging.LogInfo("Update Job URL: " + updateUrl)
+
+	req, err := http.NewRequest(constants.PostMethod, updateUrl, jenkinsByteReaderFromString(request.Contents))
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +106,7 @@ func (je *JenkinsEndpoint) CreateFolder(
 		return nil, err
 	}
 
-	req, err := http.NewRequest(constants.PostMethod, folderUrl, strings.NewReader(*folderTemplate))
+	req, err := http.NewRequest(constants.PostMethod, folderUrl, jenkinsByteReaderFromString(*folderTemplate))
 	if err != nil {
 		return nil, err
 	}
@@ -146,7 +169,7 @@ func (je *JenkinsEndpoint) GetJenkinsMetadata(
 	}
 
 	// give parent meaningful data
-	result.Name = "Build Server"
+	result.Name = constants.JenkinsRootVariable
 	result.Url = je.configuration.GetJenkinsUrl()
 
 	logging.LogInfoMultiline(
@@ -216,12 +239,19 @@ func (je *JenkinsEndpoint) buildCheckUrl(request jenkinsmodel.JenkinsJobRequest)
 	return createUpdatePath.GetForciblyEncodedUrlStringValue()
 }
 
-func (je *JenkinsEndpoint) buildCreateUpdateUrl(request jenkinsmodel.JenkinsJobRequest) string {
-	createUpdatePath := je.configuration.GetJenkinsUrlObject()
-	createUpdatePath.AppendPathFragments(request.GetParentJobFragments())
-	createUpdatePath.AppendPathFragment("createItem")
-	createUpdatePath.AppendQueryValue("name", request.GetLastFragment())
-	return createUpdatePath.GetForciblyEncodedUrlStringValue()
+func (je *JenkinsEndpoint) buildUpdateUrl(request jenkinsmodel.JenkinsJobRequest) string {
+	updatePath := je.configuration.GetJenkinsUrlObject()
+	updatePath.AppendPathFragments(request.GetJobFragments())
+	updatePath.AppendPathFragment("config.xml")
+	return updatePath.GetForciblyEncodedUrlStringValue()
+}
+
+func (je *JenkinsEndpoint) buildCreateUrl(request jenkinsmodel.JenkinsJobRequest) string {
+	createPath := je.configuration.GetJenkinsUrlObject()
+	createPath.AppendPathFragments(request.GetParentJobFragments())
+	createPath.AppendPathFragment("createItem")
+	createPath.AppendQueryValue("name", request.GetLastFragment())
+	return createPath.GetForciblyEncodedUrlStringValue()
 }
 
 func (je *JenkinsEndpoint) buildDeleteUrl(request jenkinsmodel.JenkinsJobRequest) string {
