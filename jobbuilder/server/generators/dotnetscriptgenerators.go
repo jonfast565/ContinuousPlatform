@@ -79,7 +79,9 @@ type DotNetBuildScriptHeader struct {
 	GeneratedDateTime      string
 }
 
-func NewDotNetBuildScriptHeader(dnd projectmodel.FlattenedDotNetDeliverable) *DotNetBuildScriptHeader {
+func NewDotNetBuildScriptHeader(
+	dnd projectmodel.FlattenedDotNetDeliverable,
+	template genmodel.ScriptTemplate) *DotNetBuildScriptHeader {
 	uid, _ := uuid.NewV4()
 	return &DotNetBuildScriptHeader{
 		Deliverable:            dnd,
@@ -91,8 +93,8 @@ func NewDotNetBuildScriptHeader(dnd projectmodel.FlattenedDotNetDeliverable) *Do
 		TargetFrameworks:       dnd.Project.TargetFrameworks,
 		DefaultNamespace:       dnd.Project.DefaultNamespace,
 		SolutionConfigurations: dnd.Solution.Configurations,
-		CanonicalId:            dnd.GetScriptKeyString(),
-		DashedCanonicalId:      dnd.GetScriptKeyString(),
+		CanonicalId:            dnd.GetScriptKeyString(template),
+		DashedCanonicalId:      dnd.GetScriptKeyString(template),
 		Hash:                   uid.String(),
 		GeneratedDateTime:      timeutil.GetCurrentTime(),
 	}
@@ -110,7 +112,10 @@ type DotNetBuildInfrastructureScriptHeader struct {
 	GeneratedDateTime string
 }
 
-func NewDotNetBuildInfrastructureScriptHeader(dnd projectmodel.FlattenedDotNetDeliverable, bim *inframodel.BuildInfrastructureMetadata) *DotNetBuildInfrastructureScriptHeader {
+func NewDotNetBuildInfrastructureScriptHeader(
+	dnd projectmodel.FlattenedDotNetDeliverable,
+	template genmodel.ScriptTemplate,
+	bim *inframodel.BuildInfrastructureMetadata) *DotNetBuildInfrastructureScriptHeader {
 	uid, _ := uuid.NewV4()
 	return &DotNetBuildInfrastructureScriptHeader{
 		Deliverable:       dnd,
@@ -118,8 +123,8 @@ func NewDotNetBuildInfrastructureScriptHeader(dnd projectmodel.FlattenedDotNetDe
 		Project:           *dnd.Project,
 		Infrastructure:    bim.Metadata,
 		Environments:      inframodel.ServerTypeMetadataList(bim.Metadata).GetEnvironments(),
-		CanonicalId:       dnd.GetScriptKeyString(),
-		DashedCanonicalId: dnd.GetScriptKeyString(),
+		CanonicalId:       dnd.GetScriptKeyString(template),
+		DashedCanonicalId: dnd.GetScriptKeyString(template),
 		Hash:              uid.String(),
 		GeneratedDateTime: timeutil.GetCurrentTime(),
 	}
@@ -142,12 +147,12 @@ func (dnsg DotNetScriptGenerator) GenerateBuildScripts(
 		if !test {
 			continue
 		}
-		scriptHeader := NewDotNetBuildScriptHeader(flattenedDeliverable)
 		for _, buildScript := range dnsg.BuildScripts {
+			scriptHeader := NewDotNetBuildScriptHeader(flattenedDeliverable, buildScript)
 			details.IncrementTotalProgress()
 			templateResult := buildScript.GenerateScriptFromTemplate(scriptHeader)
 			result := genmodel.ScriptKeyValuePair{
-				KeyElements: flattenedDeliverable.GetScriptKey(),
+				KeyElements: flattenedDeliverable.GetScriptKey(buildScript),
 				Value:       *templateResult,
 				Type:        string(buildScript.Type),
 				Extension:   buildScript.Extension,
@@ -155,7 +160,7 @@ func (dnsg DotNetScriptGenerator) GenerateBuildScripts(
 			}
 			logging.LogInfoMultiline("Generating build script",
 				"Script: "+buildScript.Name,
-				"Script Key: "+flattenedDeliverable.GetScriptKeyString())
+				"Script Key: "+flattenedDeliverable.GetScriptKeyString(buildScript))
 			results = append(results, result)
 			details.IncrementProgress()
 		}
@@ -173,16 +178,20 @@ func (dnsg DotNetScriptGenerator) GenerateBuildInfrastructureScripts(
 		if !test {
 			continue
 		}
-		buildInfrastructure, err := dnsg.persistenceClient.GetBuildInfrastructure(flattenedDeliverable.GetRepositoryKey())
+		buildInfrastructure, err := dnsg.persistenceClient.GetBuildInfrastructure(
+			flattenedDeliverable.GetRepositoryKey())
 		if err != nil {
 			panic(err)
 		}
-		scriptHeader := NewDotNetBuildInfrastructureScriptHeader(flattenedDeliverable, buildInfrastructure)
 		for _, buildInfraScript := range dnsg.BuildInfrastructureScripts {
+			scriptHeader := NewDotNetBuildInfrastructureScriptHeader(
+				flattenedDeliverable,
+				buildInfraScript,
+				buildInfrastructure)
 			details.IncrementTotalProgress()
 			templateResult := buildInfraScript.GenerateScriptFromTemplate(scriptHeader)
 			result := genmodel.ScriptKeyValuePair{
-				KeyElements: flattenedDeliverable.GetScriptKey(),
+				KeyElements: flattenedDeliverable.GetScriptKey(buildInfraScript),
 				Value:       *templateResult,
 				Type:        string(buildInfraScript.Type),
 				Extension:   buildInfraScript.Extension,
@@ -190,7 +199,7 @@ func (dnsg DotNetScriptGenerator) GenerateBuildInfrastructureScripts(
 			}
 			logging.LogInfoMultiline("Generated build infrastructure script",
 				"Script: "+buildInfraScript.Name,
-				"Script Key: "+flattenedDeliverable.GetScriptKeyString())
+				"Script Key: "+flattenedDeliverable.GetScriptKeyString(buildInfraScript))
 			results = append(results, result)
 			details.IncrementProgress()
 		}
