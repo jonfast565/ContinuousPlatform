@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobdashboard/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobdashboard/main.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,7 +21,20 @@
     <favorites_list name="PlatformCI" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/jobdashboard/main.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="10" column="19" lean-forward="true" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
+              <folding>
+                <element signature="e#14#70#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -55,7 +69,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/persistenceservice/main.go" />
         <option value="$PROJECT_DIR$/models/jobmodel/jobstatus.go" />
         <option value="$PROJECT_DIR$/jobbuilder/server/persistencehelpers.go" />
         <option value="$PROJECT_DIR$/datautil/simplestack.go" />
@@ -106,6 +119,7 @@
         <option value="$PROJECT_DIR$/webutil/requests.go" />
         <option value="$PROJECT_DIR$/jobbuilder/appsettings.json" />
         <option value="$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs" />
+        <option value="$PROJECT_DIR$/jobdashboard/main.go" />
       </list>
     </option>
   </component>
@@ -125,8 +139,13 @@
         <subPane>
           <expand>
             <path>
-              <item name="PlatformCI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlatformCI" type="462c0819:PsiDirectoryNode" />
+              <item name="ContinuousPlatform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ContinuousPlatform" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ContinuousPlatform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ContinuousPlatform" type="462c0819:PsiDirectoryNode" />
+              <item name="jobdashboard" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -174,7 +193,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.JobBuilder">
+  <component name="RunManager" selected="Go Build.JobDashboard">
     <configuration name="DataLoader" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="SystemCI" />
       <working_directory value="$PROJECT_DIR$/dataloader" />
@@ -203,6 +222,16 @@
       <filePath value="$PROJECT_DIR$/" />
       <directory value="$PROJECT_DIR$/jobbuilder" />
       <output_directory value="$PROJECT_DIR$/jobbuilder" />
+      <method v="2" />
+    </configuration>
+    <configuration name="JobDashboard" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="SystemCI" />
+      <working_directory value="$PROJECT_DIR$/jobdashboard" />
+      <go_parameters value="-i" />
+      <kind value="DIRECTORY" />
+      <filePath value="$PROJECT_DIR$/" />
+      <directory value="$PROJECT_DIR$/jobdashboard" />
+      <output_directory value="$PROJECT_DIR$/jobdashboard" />
       <method v="2" />
     </configuration>
     <configuration name="PersistenceService" type="GoApplicationRunConfiguration" factoryName="Go Application">
@@ -237,11 +266,11 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Go Build.JobDashboard" />
       <item itemvalue="Go Build.RepoService" />
       <item itemvalue="Go Build.DataLoader" />
       <item itemvalue="Go Build.JenkinsService" />
       <item itemvalue="Go Build.JobBuilder" />
+      <item itemvalue="Go Build.JobDashboard" />
       <item itemvalue="Go Build.PersistenceService" />
       <item itemvalue="Go Build.TeamsNotifier" />
       <item itemvalue="Go Test.FileUtil Tests" />
@@ -278,20 +307,21 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.2859304" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.290469" />
       <window_info id="Structure" order="1" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info id="Favorites" order="2" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49626866" weight="0.42716858" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49092284" weight="0.5008183" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.48773006" visible="true" weight="0.690671" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49092284" visible="true" weight="0.5008183" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48773006" weight="0.690671" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32502708" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.41061756" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49520257" weight="0.19476268" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49520257" weight="0.19312602" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32733223" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50907713" side_tool="true" weight="0.55482817" />
@@ -393,7 +423,6 @@
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/models/genmodel/scriptpackage.go</url>
           <line>25</line>
-          <properties />
           <option name="timeStamp" value="170" />
         </line-breakpoint>
       </breakpoints>
@@ -713,16 +742,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jobdashboard/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#14#60#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -798,6 +817,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-521">
           <caret line="30" column="52" selection-start-line="30" selection-start-column="52" selection-end-line="30" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobdashboard/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="19" lean-forward="true" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
+          <folding>
+            <element signature="e#14#70#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
