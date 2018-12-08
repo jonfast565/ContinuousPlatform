@@ -1,6 +1,7 @@
 package projectmodel
 
 import (
+	"../genmodel"
 	"../inframodel"
 	"strings"
 )
@@ -34,12 +35,12 @@ func (dnd DotNetDeliverable) GetFlattenedDeliverables() *[]FlattenedDotNetDelive
 	return &result
 }
 
-func (fdnd FlattenedDotNetDeliverable) GetScriptKey() []string {
-	return []string{fdnd.Repository, fdnd.Branch, fdnd.Solution.Name, fdnd.Project.Name}
+func (fdnd FlattenedDotNetDeliverable) GetScriptKey(template genmodel.ScriptTemplate) []string {
+	return []string{fdnd.Repository, fdnd.Branch, fdnd.Solution.Name, fdnd.Project.Name + " " + string(template.Type)}
 }
 
-func (fdnd FlattenedDotNetDeliverable) GetScriptKeyString() string {
-	keyArray := fdnd.GetScriptKey()
+func (fdnd FlattenedDotNetDeliverable) GetScriptKeyString(template genmodel.ScriptTemplate) string {
+	keyArray := fdnd.GetScriptKey(template)
 	keyString := strings.Join(keyArray, "-")
 	return keyString
 }
