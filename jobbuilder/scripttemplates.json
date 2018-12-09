@@ -23,7 +23,7 @@
     {
       "Name": "Deploy Definition (Jenkins)",
       "Framework": "DotNet",
-      "Type": "BuildInfrastructure",
+      "Type": "Deploy",
       "Extension": "xml",
       "ContentsPath": "./Templates/DeployDefinition-JenkinsPipeline-XML.hbs",
       "Enabled": true,
