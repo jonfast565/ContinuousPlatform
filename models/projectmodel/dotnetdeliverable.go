@@ -36,7 +36,12 @@ func (dnd DotNetDeliverable) GetFlattenedDeliverables() *[]FlattenedDotNetDelive
 }
 
 func (fdnd FlattenedDotNetDeliverable) GetScriptKey(template genmodel.ScriptTemplate) []string {
-	return []string{fdnd.Repository, fdnd.Branch, fdnd.Solution.Name, fdnd.Project.Name + " " + string(template.Type)}
+	return []string{
+		fdnd.Repository,
+		fdnd.Branch,
+		fdnd.Solution.Name,
+		fdnd.Project.Name + " " + string(template.Type),
+	}
 }
 
 func (fdnd FlattenedDotNetDeliverable) GetScriptKeyString(template genmodel.ScriptTemplate) string {
