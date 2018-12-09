@@ -42,7 +42,7 @@ func NewDotNetScriptGenerator() *DotNetScriptGenerator {
 		case genmodel.Build:
 			scriptGenerator.BuildScripts = append(scriptGenerator.BuildScripts, template)
 			break
-		case genmodel.BuildInfrastructure:
+		case genmodel.Deploy:
 			scriptGenerator.BuildInfrastructureScripts = append(scriptGenerator.BuildInfrastructureScripts, template)
 			break
 		case genmodel.EnvironmentInfrastructure:

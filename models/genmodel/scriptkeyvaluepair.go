@@ -3,6 +3,7 @@ package genmodel
 import (
 	"../../models/jenkinsmodel"
 	"../../stringutil"
+	"path/filepath"
 	"strings"
 )
 
@@ -16,9 +17,9 @@ type ScriptKeyValuePair struct {
 
 func (s ScriptKeyValuePair) GetDebugFilePath(debugPathBase string) string {
 	scriptPart := stringutil.ConcatMultipleWithSeparator("-", s.KeyElements...)
-	scriptPart = strings.Replace(scriptPart, "/", "-", -1)
-	// TODO: Replace with path algos
-	fileName := debugPathBase + scriptPart + "-" + s.Type + "." + s.Extension
+	scriptNameExtension := scriptPart + "-" + s.Type + "." + s.Extension
+	scriptResultName := strings.Replace(scriptNameExtension, "/", "-", -1)
+	fileName := ".\\" + filepath.Join(debugPathBase, scriptResultName)
 	return fileName
 }
 

@@ -8,6 +8,7 @@ import (
 	"../../models/jenkinsmodel"
 	"../../models/jobmodel"
 	"../../stringutil"
+	"github.com/ahmetb/go-linq"
 	"sort"
 )
 
@@ -98,7 +99,22 @@ func buildEditList(
 	myKeys *jenkinsmodel.JenkinsJobKeyList,
 	jenkinsKeys *jenkinsmodel.JenkinsJobKeyList,
 	scripts *genmodel.ScriptPackage) jenkinsmodel.JenkinsEditList {
-	var results jenkinsmodel.JenkinsEditList
+
+	addUpdateResults := getAddUpdateResults(myKeys, jenkinsKeys, scripts)
+	deleteResults := getDeleteEdits(jenkinsKeys, myKeys)
+
+	sort.Sort(addUpdateResults)
+	sort.Sort(sort.Reverse(deleteResults))
+
+	results := append(addUpdateResults, deleteResults...)
+	return results
+}
+
+func getAddUpdateResults(
+	myKeys *jenkinsmodel.JenkinsJobKeyList,
+	jenkinsKeys *jenkinsmodel.JenkinsJobKeyList,
+	scripts *genmodel.ScriptPackage) jenkinsmodel.JenkinsEditList {
+	var addUpdateResults jenkinsmodel.JenkinsEditList
 	for _, myKey := range *myKeys {
 		found := false
 		for _, jenkinsKey := range *jenkinsKeys {
@@ -110,12 +126,12 @@ func buildEditList(
 		}
 		if found == false {
 			if myKey.Type == jenkinsmodel.Folder {
-				results = append(results, jenkinsmodel.JenkinsEdit{
+				addUpdateResults = append(addUpdateResults, jenkinsmodel.JenkinsEdit{
 					Keys:     myKey.Keys,
 					EditType: jenkinsmodel.AddFolder,
 				})
 			} else {
-				results = append(results, jenkinsmodel.JenkinsEdit{
+				addUpdateResults = append(addUpdateResults, jenkinsmodel.JenkinsEdit{
 					Keys:     myKey.Keys,
 					Contents: *scripts.GetScriptContentsByKey(myKey),
 					EditType: jenkinsmodel.AddJob,
@@ -125,7 +141,7 @@ func buildEditList(
 			if myKey.Type == jenkinsmodel.Folder {
 				continue
 			} else {
-				results = append(results, jenkinsmodel.JenkinsEdit{
+				addUpdateResults = append(addUpdateResults, jenkinsmodel.JenkinsEdit{
 					Keys:     myKey.Keys,
 					Contents: *scripts.GetScriptContentsByKey(myKey),
 					EditType: jenkinsmodel.UpdateJob,
@@ -133,23 +149,23 @@ func buildEditList(
 			}
 		}
 	}
+	return addUpdateResults
+}
 
-	/*
-		for _, k2 := range *l2 {
-			result := linq.From(*l2).FirstWithT(func(key jenkinsmodel.JenkinsJobKey) bool {
-				return stringutil.StringArrayCompare(k2.Keys, key.Keys)
+func getDeleteEdits(
+	jenkinsKeys *jenkinsmodel.JenkinsJobKeyList,
+	myKeys *jenkinsmodel.JenkinsJobKeyList) jenkinsmodel.JenkinsEditList {
+	var deleteResults jenkinsmodel.JenkinsEditList
+	for _, myDeleteKey := range *jenkinsKeys {
+		result := linq.From(*myKeys).FirstWithT(func(key jenkinsmodel.JenkinsJobKey) bool {
+			return stringutil.StringArrayCompare(myDeleteKey.Keys, key.Keys)
+		})
+		if result == nil && len(myDeleteKey.Keys) > 0 {
+			deleteResults = append(deleteResults, jenkinsmodel.JenkinsEdit{
+				Keys:     myDeleteKey.Keys,
+				EditType: jenkinsmodel.RemoveJobFolder,
 			})
-			if result != nil {
-				// delete
-				resultKey := result.(jenkinsmodel.JenkinsJobKey)
-				results = append(results, jenkinsmodel.JenkinsEdit{
-					Keys:     resultKey.Keys,
-					EditType: jenkinsmodel.RemoveJobFolder,
-				})
-			}
 		}
-	*/
-
-	sort.Sort(results)
-	return results
+	}
+	return deleteResults
 }

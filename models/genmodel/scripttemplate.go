@@ -14,7 +14,7 @@ const (
 
 const (
 	Build                     ScriptType = "Build"
-	BuildInfrastructure       ScriptType = "BuildInfrastructure"
+	Deploy                    ScriptType = "Deploy"
 	EnvironmentInfrastructure ScriptType = "EnvironmentInfrastructure"
 )
 

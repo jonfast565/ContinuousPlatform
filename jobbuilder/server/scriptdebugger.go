@@ -1,7 +1,6 @@
 package server
 
 import (
-	"../../fileutil"
 	"../../logging"
 	"../../models/jobmodel"
 )
@@ -14,14 +13,17 @@ func DeployScriptsForDebugging(debugBasePath string, details *jobmodel.JobDetail
 		}
 	}()
 
-	scripts, err := GetScriptCache()
-	if err != nil {
-		panic(err)
-	}
+	// TODO: Enable when debugging
+	/*
+		scripts, err := GetScriptCache()
+		if err != nil {
+			panic(err)
+		}
 
-	for _, script := range scripts.Scripts {
-		fileName := script.GetDebugFilePath(debugBasePath)
-		logging.LogInfo("Writing " + fileName + " to disk")
-		fileutil.WriteFile(fileName, script.Value)
-	}
+		for _, script := range scripts.Scripts {
+			fileName := script.GetDebugFilePath(debugBasePath)
+			logging.LogInfo("Writing " + fileName + " to disk")
+			fileutil.WriteFile(fileName, script.Value)
+		}
+	*/
 }
