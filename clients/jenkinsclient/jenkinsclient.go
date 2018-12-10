@@ -4,6 +4,7 @@ import (
 	"../../constants"
 	"../../jsonutil"
 	"../../models/jenkinsmodel"
+	"../../models/miscmodel"
 	"../../webutil"
 	"bytes"
 	"encoding/json"
@@ -104,7 +105,7 @@ func (jc JenkinsClient) CreateJob(jobRequest jenkinsmodel.JenkinsJobRequest) (*s
 	}
 	webutil.AddFormHeader(request)
 
-	value, err := webutil.ExecuteRequestAndReadStringBody(request)
+	value, err := webutil.ExecuteRequestAndReadStringBody(request, false)
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +135,7 @@ func (jc JenkinsClient) UpdateJob(jobRequest jenkinsmodel.JenkinsJobRequest) (*s
 	}
 	webutil.AddFormHeader(request)
 
-	value, err := webutil.ExecuteRequestAndReadStringBody(request)
+	value, err := webutil.ExecuteRequestAndReadStringBody(request, false)
 	if err != nil {
 		return nil, err
 	}
@@ -164,7 +165,7 @@ func (jc JenkinsClient) CreateFolder(jobRequest jenkinsmodel.JenkinsJobRequest) 
 	}
 	webutil.AddFormHeader(request)
 
-	value, err := webutil.ExecuteRequestAndReadStringBody(request)
+	value, err := webutil.ExecuteRequestAndReadStringBody(request, false)
 	if err != nil {
 		return nil, err
 	}
@@ -194,10 +195,40 @@ func (jc JenkinsClient) DeleteJobOrFolder(jobRequest jenkinsmodel.JenkinsJobRequ
 	}
 	webutil.AddFormHeader(request)
 
-	value, err := webutil.ExecuteRequestAndReadStringBody(request)
+	value, err := webutil.ExecuteRequestAndReadStringBody(request, false)
 	if err != nil {
 		return nil, err
 	}
 
 	return value, nil
+}
+
+func (jc JenkinsClient) CheckJobExists(jobRequest jenkinsmodel.JenkinsJobRequest) (*bool, error) {
+	// build service url
+	myUrl := webutil.NewEmptyUrl()
+	myUrl.SetBase(constants.DefaultScheme,
+		jc.configuration.Hostname,
+		strconv.Itoa(jc.configuration.Port))
+	myUrl.AppendPathFragments([]string{"Daemon", "CheckJob"})
+
+	requestJson, err := json.Marshal(jobRequest)
+	if err != nil {
+		return nil, err
+	}
+
+	// execute request
+	request, err := http.NewRequest(constants.PostMethod,
+		myUrl.GetUrlStringValue(),
+		bytes.NewReader(requestJson))
+	if err != nil {
+		return nil, err
+	}
+
+	var value miscmodel.YesNoResult
+	err = webutil.ExecuteRequestAndReadJsonBody(request, &value)
+	if err != nil {
+		return nil, err
+	}
+
+	return &value.Value, nil
 }

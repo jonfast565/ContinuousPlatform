@@ -1,7 +1,6 @@
 package constants
 
 const (
-	SqlServerDatabaseDriver string = "sqlserver"
-	DatabaseKey             string = "database"
-	AppNameKey              string = "app name"
+	DatabaseDriver string = "postgres"
+	ValueType      string = "Binary"
 )

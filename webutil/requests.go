@@ -100,7 +100,7 @@ func ExecuteRequestAndReadBinaryBody(r *http.Request) (*[]byte, error) {
 	return &resultBytes, nil
 }
 
-func ExecuteRequestAndReadStringBody(r *http.Request) (*string, error) {
+func ExecuteRequestAndReadStringBody(r *http.Request, ignoreStatusCode bool) (*string, error) {
 	c := NewHttpClient()
 	response, err := c.Do(r)
 	if err != nil {
@@ -119,7 +119,7 @@ func ExecuteRequestAndReadStringBody(r *http.Request) (*string, error) {
 		}
 	}
 
-	if response.StatusCode >= 400 {
+	if response.StatusCode >= 400 && !ignoreStatusCode {
 		resultStr := string(resultBytes)
 		if strings.Contains(resultStr, HtmlDocumentHeader) {
 			resultStr = gohtml.Format(resultStr)
@@ -129,9 +129,11 @@ func ExecuteRequestAndReadStringBody(r *http.Request) (*string, error) {
 
 	// build a string and return
 	builder := strings.Builder{}
-	builder.Write(resultBytes)
-	var s string
-	builder.WriteString(s)
+	_, err = builder.Write(resultBytes)
+	if err != nil {
+		panic(err)
+	}
+	s := builder.String()
 
 	s = strings.Replace(s, windowsNewLines, unixNewLines, -1)
 	return &s, nil
