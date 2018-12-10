@@ -236,7 +236,7 @@ func (je *JenkinsEndpoint) buildCreateFolderUrl(request jenkinsmodel.JenkinsJobR
 	result, _ := json.Marshal(jenkinsmodel.NewFolderRequest(folderName))
 	createFolderPath.AppendQueryValue("json", string(result))
 	createFolderPath.AppendQueryValue("Submit", "OK")
-	return createFolderPath.GetForciblyEncodedUrlStringValue()
+	return createFolderPath.GetUrlStringValue()
 }
 
 func (je *JenkinsEndpoint) buildCheckUrl(request jenkinsmodel.JenkinsJobRequest) string {
@@ -244,14 +244,14 @@ func (je *JenkinsEndpoint) buildCheckUrl(request jenkinsmodel.JenkinsJobRequest)
 	createUpdatePath.AppendPathFragments(request.GetParentJobFragments())
 	createUpdatePath.AppendPathFragment("checkJobName")
 	createUpdatePath.AppendQueryValue("value", request.GetLastFragment())
-	return createUpdatePath.GetForciblyEncodedUrlStringValue()
+	return createUpdatePath.GetUrlStringValue()
 }
 
 func (je *JenkinsEndpoint) buildUpdateUrl(request jenkinsmodel.JenkinsJobRequest) string {
 	updatePath := je.configuration.GetJenkinsUrlObject()
 	updatePath.AppendPathFragments(request.GetJobFragments())
 	updatePath.AppendPathFragment("config.xml")
-	return updatePath.GetForciblyEncodedUrlStringValue()
+	return updatePath.GetUrlStringValue()
 }
 
 func (je *JenkinsEndpoint) buildCreateUrl(request jenkinsmodel.JenkinsJobRequest) string {
@@ -259,14 +259,14 @@ func (je *JenkinsEndpoint) buildCreateUrl(request jenkinsmodel.JenkinsJobRequest
 	createPath.AppendPathFragments(request.GetParentJobFragments())
 	createPath.AppendPathFragment("createItem")
 	createPath.AppendQueryValue("name", request.GetLastFragment())
-	return createPath.GetForciblyEncodedUrlStringValue()
+	return createPath.GetUrlStringValue()
 }
 
 func (je *JenkinsEndpoint) buildDeleteUrl(request jenkinsmodel.JenkinsJobRequest) string {
 	deletePath := je.configuration.GetJenkinsUrlObject()
 	deletePath.AppendPathFragments(request.GetJobFragments())
 	deletePath.AppendPathFragment("doDelete")
-	return deletePath.GetForciblyEncodedUrlStringValue()
+	return deletePath.GetUrlStringValue()
 }
 
 func (je *JenkinsEndpoint) buildCrumbUrl() string {
