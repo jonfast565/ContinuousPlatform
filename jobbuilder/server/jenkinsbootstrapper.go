@@ -87,6 +87,8 @@ func persistEditList(edits jenkinsmodel.JenkinsEditList, jenkinsClient jenkinscl
 				if err != nil {
 					panic(err)
 				}
+			} else {
+				logging.LogInfo("Don't Add Folder: " + jobRequest.GetJobFragmentUrl())
 			}
 			break
 		case jenkinsmodel.RemoveJobFolder:
@@ -100,6 +102,8 @@ func persistEditList(edits jenkinsmodel.JenkinsEditList, jenkinsClient jenkinscl
 				if err != nil {
 					panic(err)
 				}
+			} else {
+				logging.LogInfo("Don't Remove Job/Folder: " + jobRequest.GetJobFragmentUrl())
 			}
 			break
 		default:
