@@ -55,14 +55,25 @@ func checkJob(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = endpoint.CheckJobExistence(*crumb, jobRequest)
+	result, err := endpoint.CheckJobExistence(*crumb, jobRequest)
 	if err != nil {
 		w.WriteHeader(500)
 		logging.LogError(err)
 		return
 	}
 
-	w.WriteHeader(200)
+	resultBytes, err := jsonutil.EncodeJsonToBytes(&result)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+		return
+	}
+
+	_, err = w.Write(*resultBytes)
+	if err != nil {
+		w.WriteHeader(500)
+		logging.LogError(err)
+	}
 }
 
 func createJob(w http.ResponseWriter, r *http.Request) {

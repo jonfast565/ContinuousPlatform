@@ -5,11 +5,13 @@ import (
 	"../../jsonutil"
 	"../../logging"
 	"../../models/jenkinsmodel"
+	"../../models/miscmodel"
 	"../../templating"
 	"../../webutil"
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 type JenkinsEndpoint struct {
@@ -24,7 +26,7 @@ func NewJenkinsEndpoint(configuration JenkinsConfiguration) JenkinsEndpoint {
 
 func (je *JenkinsEndpoint) CheckJobExistence(
 	crumb jenkinsmodel.JenkinsCrumb,
-	request jenkinsmodel.JenkinsJobRequest) (*string, error) {
+	request jenkinsmodel.JenkinsJobRequest) (*miscmodel.YesNoResult, error) {
 	logging.LogInfo("Check Existence Jenkins Job -> " + request.GetJobFragmentUrl())
 	checkUrl := je.buildCheckUrl(request)
 	logging.LogInfo("Check Existence Job URL: " + checkUrl)
@@ -38,12 +40,18 @@ func (je *JenkinsEndpoint) CheckJobExistence(
 	addCrumbHeader(crumb, req)
 	webutil.AddXmlHeader(req)
 
-	result, err := webutil.ExecuteRequestAndReadStringBody(req)
+	var result miscmodel.YesNoResult
+	stringResult, err := webutil.ExecuteRequestAndReadStringBody(req, true)
 	if err != nil {
 		return nil, err
 	}
 
-	return result, nil
+	if strings.Contains(*stringResult, constants.JenkinsJobExistsMessage) {
+		result = miscmodel.YesNoResult{Value: true}
+	} else {
+		result = miscmodel.YesNoResult{Value: false}
+	}
+	return &result, nil
 }
 
 func (je *JenkinsEndpoint) CreateJob(
@@ -62,7 +70,7 @@ func (je *JenkinsEndpoint) CreateJob(
 	addCrumbHeader(crumb, req)
 	webutil.AddXmlHeader(req)
 
-	result, err := webutil.ExecuteRequestAndReadStringBody(req)
+	result, err := webutil.ExecuteRequestAndReadStringBody(req, false)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +94,7 @@ func (je *JenkinsEndpoint) UpdateJob(
 	addCrumbHeader(crumb, req)
 	webutil.AddXmlHeader(req)
 
-	result, err := webutil.ExecuteRequestAndReadStringBody(req)
+	result, err := webutil.ExecuteRequestAndReadStringBody(req, false)
 	if err != nil {
 		return nil, err
 	}
@@ -115,7 +123,7 @@ func (je *JenkinsEndpoint) CreateFolder(
 	addCrumbHeader(crumb, req)
 	webutil.AddFormHeader(req)
 
-	result, err := webutil.ExecuteRequestAndReadStringBody(req)
+	result, err := webutil.ExecuteRequestAndReadStringBody(req, false)
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +147,7 @@ func (je *JenkinsEndpoint) DeleteJobOrFolder(
 	addCrumbHeader(crumb, req)
 	webutil.AddXmlHeader(req)
 
-	result, err := webutil.ExecuteRequestAndReadStringBody(req)
+	result, err := webutil.ExecuteRequestAndReadStringBody(req, false)
 	if err != nil {
 		return nil, err
 	}

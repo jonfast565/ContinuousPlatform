@@ -1,6 +1,7 @@
 package constants
 
 var (
-	JenkinsToolName     = "Jenkins"
-	JenkinsRootVariable = "Build Server"
+	JenkinsToolName         = "Jenkins"
+	JenkinsRootVariable     = "Build Server"
+	JenkinsJobExistsMessage = "A job already exists with the name"
 )
