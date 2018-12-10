@@ -2,7 +2,6 @@ package webutil
 
 import (
 	"net/url"
-	"strings"
 )
 
 type MyUrl struct {
@@ -84,11 +83,5 @@ func (u *MyUrl) GetUrlStringValue() string {
 	if len(u.QueryValues) > 0 {
 		result += "?" + u.GetQueryValue()
 	}
-	return result
-}
-
-func (u *MyUrl) GetForciblyEncodedUrlStringValue() string {
-	result := u.GetUrlStringValue()
-	result = strings.Replace(result, "+", "%20", -1)
 	return result
 }
