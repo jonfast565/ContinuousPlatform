@@ -40,12 +40,12 @@ func DeployJenkinsJobs(details *jobmodel.JobDetails) {
 func persistEditList(edits jenkinsmodel.JenkinsEditList, jenkinsClient jenkinsclient.JenkinsClient) {
 	for _, edit := range edits {
 		jobRequest := edit.GetJobRequest()
+		exists, err := jenkinsClient.CheckJobExists(jobRequest)
+		if err != nil {
+			panic(err)
+		}
 		switch edit.EditType {
 		case jenkinsmodel.UpdateJob:
-			exists, err := jenkinsClient.CheckJobExists(jobRequest)
-			if err != nil {
-				panic(err)
-			}
 			if *exists {
 				logging.LogInfo("Update Job: " + jobRequest.GetJobFragmentUrl())
 				_, err = jenkinsClient.UpdateJob(jobRequest)
@@ -57,10 +57,6 @@ func persistEditList(edits jenkinsmodel.JenkinsEditList, jenkinsClient jenkinscl
 			}
 			break
 		case jenkinsmodel.AddJob:
-			exists, err := jenkinsClient.CheckJobExists(jobRequest)
-			if err != nil {
-				panic(err)
-			}
 			if !*exists {
 				logging.LogInfo("Add Job: " + jobRequest.GetJobFragmentUrl())
 				_, err := jenkinsClient.CreateJob(jobRequest)
@@ -76,10 +72,6 @@ func persistEditList(edits jenkinsmodel.JenkinsEditList, jenkinsClient jenkinscl
 			}
 			break
 		case jenkinsmodel.AddFolder:
-			exists, err := jenkinsClient.CheckJobExists(jobRequest)
-			if err != nil {
-				panic(err)
-			}
 			if !*exists {
 				logging.LogInfo("Add Folder: " + jobRequest.GetJobFragmentUrl())
 				_, err := jenkinsClient.CreateFolder(jobRequest)
@@ -91,10 +83,6 @@ func persistEditList(edits jenkinsmodel.JenkinsEditList, jenkinsClient jenkinscl
 			}
 			break
 		case jenkinsmodel.RemoveJobFolder:
-			exists, err := jenkinsClient.CheckJobExists(jobRequest)
-			if err != nil {
-				panic(err)
-			}
 			if *exists {
 				logging.LogInfo("Remove Job/Folder: " + jobRequest.GetJobFragmentUrl())
 				_, err := jenkinsClient.DeleteJobOrFolder(jobRequest)
