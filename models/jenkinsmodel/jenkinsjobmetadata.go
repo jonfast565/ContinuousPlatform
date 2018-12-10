@@ -2,6 +2,7 @@ package jenkinsmodel
 
 import (
 	"../../logging"
+	"net/url"
 	"sort"
 )
 
@@ -73,7 +74,12 @@ type JenkinsJobMetadataStack JenkinsJobMetadataList
 func (jjml JenkinsJobMetadataList) GetKeyNames() []string {
 	var result []string
 	for _, metadataItem := range jjml {
-		result = append(result, metadataItem.Name)
+		// TODO: Need to know if this is necessary?
+		unescapedName, err := url.PathUnescape(metadataItem.Name)
+		if err != nil {
+			panic(err)
+		}
+		result = append(result, unescapedName)
 	}
 	return result
 }

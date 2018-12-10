@@ -2,7 +2,6 @@ package jenkinsmodel
 
 import (
 	"../../webutil"
-	"net/url"
 )
 
 type JenkinsJobRequest struct {
@@ -44,12 +43,4 @@ func (jr *JenkinsJobRequest) GetParentJobFragmentUrl() string {
 
 func (jr *JenkinsJobRequest) GetLastFragment() string {
 	return jr.FolderSegments[len(jr.FolderSegments)-1]
-}
-
-func (jr *JenkinsJobRequest) SanitizeSegments() {
-	var result []string
-	for _, frag := range jr.FolderSegments {
-		result = append(result, url.QueryEscape(frag))
-	}
-	jr.FolderSegments = result
 }
