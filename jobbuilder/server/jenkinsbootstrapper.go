@@ -43,31 +43,63 @@ func persistEditList(edits jenkinsmodel.JenkinsEditList, jenkinsClient jenkinscl
 		jobRequest.SanitizeSegments()
 		switch edit.EditType {
 		case jenkinsmodel.UpdateJob:
-			logging.LogInfo("Update Job: " + jobRequest.GetJobFragmentUrl())
-			_, err := jenkinsClient.UpdateJob(jobRequest)
+			exists, err := jenkinsClient.CheckJobExists(jobRequest)
 			if err != nil {
 				panic(err)
+			}
+			if *exists {
+				logging.LogInfo("Update Job: " + jobRequest.GetJobFragmentUrl())
+				_, err = jenkinsClient.UpdateJob(jobRequest)
+				if err != nil {
+					panic(err)
+				}
+			} else {
+				logging.LogInfo("Don't Update Job: " + jobRequest.GetJobFragmentUrl())
 			}
 			break
 		case jenkinsmodel.AddJob:
-			logging.LogInfo("Add Job: " + jobRequest.GetJobFragmentUrl())
-			_, err := jenkinsClient.CreateJob(jobRequest)
+			exists, err := jenkinsClient.CheckJobExists(jobRequest)
 			if err != nil {
 				panic(err)
+			}
+			if !*exists {
+				logging.LogInfo("Add Job: " + jobRequest.GetJobFragmentUrl())
+				_, err := jenkinsClient.CreateJob(jobRequest)
+				if err != nil {
+					panic(err)
+				}
+			} else {
+				logging.LogInfo("Update Job: " + jobRequest.GetJobFragmentUrl())
+				_, err = jenkinsClient.UpdateJob(jobRequest)
+				if err != nil {
+					panic(err)
+				}
 			}
 			break
 		case jenkinsmodel.AddFolder:
-			logging.LogInfo("Add Folder: " + jobRequest.GetJobFragmentUrl())
-			_, err := jenkinsClient.CreateFolder(jobRequest)
+			exists, err := jenkinsClient.CheckJobExists(jobRequest)
 			if err != nil {
 				panic(err)
 			}
+			if !*exists {
+				logging.LogInfo("Add Folder: " + jobRequest.GetJobFragmentUrl())
+				_, err := jenkinsClient.CreateFolder(jobRequest)
+				if err != nil {
+					panic(err)
+				}
+			}
 			break
 		case jenkinsmodel.RemoveJobFolder:
-			logging.LogInfo("Remove Job/Folder: " + jobRequest.GetJobFragmentUrl())
-			_, err := jenkinsClient.DeleteJobOrFolder(jobRequest)
+			exists, err := jenkinsClient.CheckJobExists(jobRequest)
 			if err != nil {
 				panic(err)
+			}
+			if !*exists {
+				logging.LogInfo("Remove Job/Folder: " + jobRequest.GetJobFragmentUrl())
+				_, err := jenkinsClient.DeleteJobOrFolder(jobRequest)
+				if err != nil {
+					panic(err)
+				}
 			}
 			break
 		default:
@@ -118,7 +150,8 @@ func getAddUpdateResults(
 	for _, myKey := range *myKeys {
 		found := false
 		for _, jenkinsKey := range *jenkinsKeys {
-			keyMatch := stringutil.StringArrayCompare(myKey.Keys, jenkinsKey.Keys) && myKey.Type == jenkinsKey.Type
+			keyMatch := stringutil.StringArrayCompare(myKey.Keys, jenkinsKey.Keys) &&
+				myKey.Type == jenkinsKey.Type
 			if keyMatch {
 				found = true
 				break

@@ -1,6 +1,7 @@
 package server
 
 import (
+	"../../constants"
 	"../../databasemodels"
 	"../../logging"
 	"../../models/inframodel"
@@ -43,7 +44,7 @@ func (c PersistenceServiceConfiguration) GetPostgresConnectionString() string {
 
 func (c *PersistenceServiceConfiguration) GetConnection() (*gorm.DB, error) {
 	connStr := c.GetPostgresConnectionString()
-	return gorm.Open("postgres", connStr)
+	return gorm.Open(constants.DatabaseDriver, connStr)
 }
 
 type PersistenceServiceEndpoint struct {
@@ -98,7 +99,7 @@ func (p *PersistenceServiceEndpoint) SetKeyValueCache(
 			MachineName: hostname,
 			KeyString:   setRequest.Key,
 			Value:       setRequest.Value,
-			ValueType:   "Binary",
+			ValueType:   constants.ValueType,
 			AuditFields: databasemodels.AuditFields{
 				CreatedDateTime:      time.Now(),
 				CreatedBy:            currentUser.Name,
@@ -140,7 +141,7 @@ func (p *PersistenceServiceEndpoint) GetKeyValueCache(
 
 func (p *PersistenceServiceEndpoint) SetLogRecord(logRecord *loggingmodel.LogRecord) error {
 
-	logging.LogInfo("Getting cache value: " + stringutil.PartialMessage(logRecord.Message))
+	fmt.Printf("Getting cache value: %s", stringutil.PartialMessage(logRecord.Message))
 
 	db, err := p.Configuration.GetConnection()
 	if err != nil {
