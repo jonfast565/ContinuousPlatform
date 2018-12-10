@@ -40,7 +40,7 @@ func (fdnd FlattenedDotNetDeliverable) GetScriptKey(template genmodel.ScriptTemp
 		fdnd.Repository,
 		fdnd.Branch,
 		fdnd.Solution.Name,
-		fdnd.Project.Name + " " + string(template.Type),
+		fdnd.Project.Name + " - " + string(template.Type),
 	}
 }
 

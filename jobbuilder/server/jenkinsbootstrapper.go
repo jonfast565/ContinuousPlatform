@@ -40,7 +40,6 @@ func DeployJenkinsJobs(details *jobmodel.JobDetails) {
 func persistEditList(edits jenkinsmodel.JenkinsEditList, jenkinsClient jenkinsclient.JenkinsClient) {
 	for _, edit := range edits {
 		jobRequest := edit.GetJobRequest()
-		jobRequest.SanitizeSegments()
 		switch edit.EditType {
 		case jenkinsmodel.UpdateJob:
 			exists, err := jenkinsClient.CheckJobExists(jobRequest)
@@ -96,7 +95,7 @@ func persistEditList(edits jenkinsmodel.JenkinsEditList, jenkinsClient jenkinscl
 			if err != nil {
 				panic(err)
 			}
-			if !*exists {
+			if *exists {
 				logging.LogInfo("Remove Job/Folder: " + jobRequest.GetJobFragmentUrl())
 				_, err := jenkinsClient.DeleteJobOrFolder(jobRequest)
 				if err != nil {
