@@ -8,6 +8,7 @@ import (
 	"../../../models/filesysmodel"
 	"../../../models/projectmodel"
 	"../../../models/repomodel"
+	"../../../pathutil"
 	"../../../stringutil"
 	"github.com/ahmetb/go-linq"
 )
@@ -75,6 +76,7 @@ func (dndbc *DotNetDeliverableBuildContext) BuildContext() ([]*projectmodel.DotN
 	dndbc.resolveSolutionReferencePaths()
 	for _, project := range dndbc.projects {
 		dndbc.resolveProjectDependencies(project)
+		dndbc.linkProjectPublishProfiles(project, dndbc.publishProfiles)
 	}
 	for _, solution := range dndbc.solutions {
 		dndbc.linkProjectSolutions(solution)
@@ -202,6 +204,12 @@ func (dndbc *DotNetDeliverableBuildContext) populatePublishProfiles() {
 	for _, publishProfilePath := range dndbc.publishProfilePaths {
 		dndbc.LogInfoWithContext("Downloading publish profile: " + publishProfilePath)
 		publishProfile := dndbc.getPublishProfileFromSourceControl(publishProfilePath)
+		publishProfile.AbsolutePath = publishProfilePath
+		folderPath, err := dndbc.fileGraph.GetParentPath(publishProfile.AbsolutePath)
+		if err != nil {
+			panic(err)
+		}
+		publishProfile.FolderPath = *folderPath
 		publishProfiles = append(publishProfiles, publishProfile)
 	}
 	dndbc.publishProfiles = publishProfiles
@@ -283,6 +291,24 @@ func (dndbc *DotNetDeliverableBuildContext) resolveProjectDependencies(project *
 	}
 }
 
+func (dndbc *DotNetDeliverableBuildContext) linkProjectPublishProfiles(
+	project *projectmodel.MsBuildProject,
+	publishProfiles []*projectmodel.MsBuildPublishProfile) {
+	dndbc.LogInfoWithContext("Linking publish profiles for: " + project.Name)
+	projectPath := pathutil.NewPathParserFromString(project.FolderPath)
+	for _, publishProfile := range publishProfiles {
+		publishProfilePath := pathutil.NewPathParserFromString(publishProfile.AbsolutePath)
+		zipPaths := projectPath.ZipPathParsers(publishProfilePath)
+		if zipPaths.PartialMatch() {
+			absolutePath, err := dndbc.fileGraph.AddFolderByRelativePath(project.FolderPath, publishProfile.PublishUrl)
+			if err == nil {
+				publishProfile.PublishUrl = (*absolutePath).GetPathString()
+			}
+			project.PublishProfiles = append(project.PublishProfiles, publishProfile)
+		}
+	}
+}
+
 func (dndbc *DotNetDeliverableBuildContext) linkProjectSolutions(solution *projectmodel.MsBuildSolution) {
 	for _, projectPath := range solution.AbsoluteProjectPaths {
 		found := false
@@ -292,8 +318,6 @@ func (dndbc *DotNetDeliverableBuildContext) linkProjectSolutions(solution *proje
 			}
 			solutionReference := solution.GetSolutionReference()
 			project.SolutionParents = append(project.SolutionParents, &solutionReference)
-			// TODO: Understand this duplication, it's causing issues
-			// solution.Projects = append(solution.Projects, project)
 			found = true
 			dndbc.LogInfoWithContext("Linked " + solution.Name + " -> " + project.Name)
 			break

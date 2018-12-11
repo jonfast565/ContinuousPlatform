@@ -10,6 +10,7 @@ type MsBuildProject struct {
 	AbsoluteProjectReferencePaths []string
 	ProjectDependencies           []*MsBuildProjectReference
 	SolutionParents               []*MsBuildSolutionReference
+	PublishProfiles               []*MsBuildPublishProfile
 	IsNetCoreProject              bool
 	Name                          string
 	Failed                        bool
@@ -27,6 +28,7 @@ func (p MsBuildProject) Export() *MsBuildProjectExport {
 	return &MsBuildProjectExport{
 		TargetFrameworks:    p.TargetFrameworks,
 		DefaultNamespace:    p.DefaultNamespace,
+		PublishProfiles:     p.PublishProfiles,
 		AssemblyName:        p.AssemblyName,
 		AbsolutePath:        p.AbsolutePath,
 		FolderPath:          p.FolderPath,

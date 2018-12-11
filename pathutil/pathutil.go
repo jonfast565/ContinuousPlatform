@@ -20,6 +20,8 @@ type PathAction struct {
 	Name string
 }
 
+type PathActionList []PathAction
+
 type PathParser struct {
 	ActionSeries *[]PathAction
 }
@@ -128,38 +130,33 @@ func (parser *PathParser) GetPathString(includeStartDelimiter bool) string {
 }
 
 type PathActionZipped struct {
-	item1 *PathAction
-	item2 *PathAction
+	item1 PathAction
+	item2 PathAction
 }
 
-func (parser *PathParser) NullZipSeries(parser2 *PathParser, strictLength bool) []PathActionZipped {
-	zippedSeries := make([]PathActionZipped, 0)
-	items1Length := len(*parser.ActionSeries)
-	for counter, item1 := range *parser.ActionSeries {
-		if counter >= items1Length-1 && strictLength {
-			break
-		} else if counter >= items1Length-1 && !strictLength {
-			zippedSeries = append(zippedSeries, PathActionZipped{
-				item1: &item1,
-				item2: nil,
-			})
-		} else {
-			zippedSeries = append(zippedSeries, PathActionZipped{
-				item1: &item1,
-				item2: &(*parser2.ActionSeries)[counter],
-			})
+type PathActionZipList []PathActionZipped
+
+func (pazl PathActionZipList) PartialMatch() bool {
+	for _, zipAction := range pazl {
+		if zipAction.item1 != zipAction.item2 {
+			return false
 		}
+	}
+	return true
+}
+
+func (parser *PathParser) ZipPathParsers(parser2 *PathParser) PathActionZipList {
+	zippedSeries := make(PathActionZipList, 0)
+	pLength := len(*parser.ActionSeries)
+	for counter, item := range *parser.ActionSeries {
+		if counter > pLength-1 {
+			break
+		}
+		item2 := (*parser2.ActionSeries)[counter]
+		zippedSeries = append(zippedSeries, PathActionZipped{
+			item1: item,
+			item2: item2,
+		})
 	}
 	return zippedSeries
-}
-
-func (parser *PathParser) RemoveLastNActions(nActions int) {
-	if len(*parser.ActionSeries) <= 0 {
-		return
-	}
-	for i := 0; i < nActions; i++ {
-		if len(*parser.ActionSeries) > 0 {
-			*parser.ActionSeries = (*parser.ActionSeries)[:len(*parser.ActionSeries)-1]
-		}
-	}
 }

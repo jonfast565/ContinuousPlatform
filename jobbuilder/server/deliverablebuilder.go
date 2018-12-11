@@ -64,7 +64,14 @@ func buildDeliverable(repository repomodel.RepositoryMetadata,
 	wg *sync.WaitGroup,
 	details *jobmodel.JobDetails,
 	resultsChan chan projectmodel.Deliverable) {
+	// log both the failure of this goroutine (job) and the failure of the whole job
 	defer wg.Done()
+	defer func() {
+		if r := recover(); r != nil {
+			details.SetJobErrored()
+			logging.LogPanicRecover(r)
+		}
+	}()
 
 	logging.LogInfo("Building deliverables for " + repository.Name + " b. " + repository.Branch)
 

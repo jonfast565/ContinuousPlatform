@@ -69,7 +69,7 @@ type DotNetBuildScriptHeader struct {
 	Solutions              []*projectmodel.MsBuildSolutionReference
 	Project                projectmodel.MsBuildProjectExport
 	ProjectFolder          string
-	PublishProfiles        []projectmodel.MsBuildPublishProfile
+	PublishProfiles        []*projectmodel.MsBuildPublishProfile
 	TargetFrameworks       []string
 	DefaultNamespace       string
 	SolutionConfigurations []string
@@ -89,7 +89,7 @@ func NewDotNetBuildScriptHeader(
 		Solutions:              dnd.Project.SolutionParents,
 		Project:                *dnd.Project,
 		ProjectFolder:          dnd.Project.FolderPath,
-		PublishProfiles:        []projectmodel.MsBuildPublishProfile{},
+		PublishProfiles:        dnd.Project.PublishProfiles,
 		TargetFrameworks:       dnd.Project.TargetFrameworks,
 		DefaultNamespace:       dnd.Project.DefaultNamespace,
 		SolutionConfigurations: dnd.Solution.Configurations,

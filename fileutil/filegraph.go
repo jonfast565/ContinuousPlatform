@@ -121,12 +121,53 @@ func getParentOfCurrentNode(currentNode *FileGraphItem) (*FileGraphItem, error) 
 	return nodeForParent.NavigateParent()
 }
 
+func AddFolderByRelativePath(item *FileGraphItem, basePath string) (*FileGraphItem, error) {
+	pp := pathutil.NewPathParserFromString(basePath)
+	currentNode := item
+	for _, action := range *pp.ActionSeries {
+		if action.Name == "." {
+			continue
+		} else if action.Name == ".." {
+			parent, err := getParentOfCurrentNode(currentNode)
+			if err != nil {
+				return nil, errors.New("Navigating to parent of '" + (*currentNode).GetName() +
+					"' goes off the root of the graph")
+			}
+			currentNode = parent
+		} else {
+			_, folder := navigateChildFolderFile(currentNode, action)
+			if folder == nil {
+				parentNode := *currentNode
+				parentFolder := parentNode.(FileGraphFolder)
+				parentFolder.NewChildFolder(action.Name)
+				item := FileGraphItem(parentFolder)
+				currentNode = &item
+			} else {
+				currentNode = folder
+			}
+		}
+	}
+	return currentNode, nil
+}
+
 func (f *FileGraph) GetItemByRelativePath(basePath string, relativePath string) (*FileGraphItem, error) {
 	item, err := f.GetItemByRootPath(basePath)
 	if err != nil {
 		return nil, err
 	}
 	item, err = GetItemByRelativePath(item, relativePath)
+	if err != nil {
+		return nil, err
+	}
+	return item, nil
+}
+
+func (f *FileGraph) AddFolderByRelativePath(basePath string, relativePath string) (*FileGraphItem, error) {
+	item, err := f.GetItemByRootPath(basePath)
+	if err != nil {
+		return nil, err
+	}
+	item, err = AddFolderByRelativePath(item, relativePath)
 	if err != nil {
 		return nil, err
 	}
