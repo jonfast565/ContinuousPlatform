@@ -14,18 +14,6 @@ func TestGetLastPathComponent(t *testing.T) {
 	}
 }
 
-func TestPathParser_RemoveLastNActions(t *testing.T) {
-	t.Logf("Testing removal of last n-actions")
-	parser := NewPathParserFromString("./Something/Hello.csproj")
-	parser.RemoveLastNActions(2)
-	pathString := parser.GetPathString(true)
-	if pathString != "./" {
-		t.Errorf("%s != ./", pathString)
-	} else {
-		t.Logf("%s == ./", pathString)
-	}
-}
-
 func TestNormalizePath(t *testing.T) {
 	t.Logf("Testing normalize path")
 	normalizedPath := NormalizePath("./Something\\Hello.csproj")
