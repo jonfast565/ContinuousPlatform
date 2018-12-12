@@ -57,6 +57,13 @@ dotnet build "../../../msbuildservice/PlatformCI.MsBuildService.Api/"
 cp -a "../../../msbuildservice/PlatformCI.MsBuildService.Api/bin/Debug/netcoreapp2.1/." "."
 cd "../"
 
+:: Build teams notifier service
+mkdir "teamsnotifier"
+cd "./teamsnotifier"
+go build "../../../teamsnotifier"
+cp "../../../teamsnotifier/appsettings.json" .
+cd "../"
+
 echo "Done!"
 
 
