@@ -4,6 +4,7 @@ import (
 	"../logging"
 	"../pathutil"
 	"github.com/go-errors/errors"
+	"reflect"
 )
 
 type FileGraph struct {
@@ -138,10 +139,18 @@ func AddFolderByRelativePath(item *FileGraphItem, basePath string) (*FileGraphIt
 			_, folder := navigateChildFolderFile(currentNode, action)
 			if folder == nil {
 				parentNode := *currentNode
-				parentFolder := parentNode.(FileGraphFolder)
-				parentFolder.NewChildFolder(action.Name)
-				item := FileGraphItem(parentFolder)
-				currentNode = &item
+				// TODO: This is a hack, needs to be fixed
+				if reflect.TypeOf(parentNode).Kind() == reflect.Ptr {
+					parentFolder := parentNode.(*FileGraphFolder)
+					parentFolder.NewChildFolder(action.Name)
+					item := FileGraphItem(parentFolder)
+					currentNode = &item
+				} else if reflect.TypeOf(parentNode).Kind() == reflect.Struct {
+					parentFolder := parentNode.(FileGraphFolder)
+					parentFolder.NewChildFolder(action.Name)
+					item := FileGraphItem(parentFolder)
+					currentNode = &item
+				}
 			} else {
 				currentNode = folder
 			}
