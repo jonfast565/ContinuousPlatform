@@ -4,14 +4,10 @@
     <bookmark url="file://$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" description="&#10;" line="75" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="small refac, publish profiles should now work correctly.">
-      <change afterPath="$PROJECT_DIR$/constants/projectconstants.go" afterDir="false" />
+    <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="small refac, publish profiles should now work correctly. added sanitization map for bad filenames">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/builders/dotnetdeliverablebuilder.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/builders/dotnetdeliverablebuilder.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/generators/dotnetscriptgenerators.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/generators/dotnetscriptgenerators.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/projectmodel/dotnetdeliverable.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/projectmodel/dotnetdeliverable.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stringutil/stringutil.go" beforeDir="false" afterPath="$PROJECT_DIR$/stringutil/stringutil.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/constants/projectconstants.go" beforeDir="false" afterPath="$PROJECT_DIR$/constants/projectconstants.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,33 +22,21 @@
     <favorites_list name="PlatformCI" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/jobbuilder/server/builders/dotnetdeliverablebuilder.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="303" column="74" selection-start-line="303" selection-start-column="74" selection-end-line="303" selection-end-column="74" />
-              <folding>
-                <element signature="e#18#322#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/constants/projectconstants.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="20" column="33" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="33" />
+            <state relative-caret-position="85">
+              <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/stringutil/stringutil.go">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="132" column="19" selection-start-line="132" selection-start-column="5" selection-end-line="132" selection-end-column="19" />
+            <state relative-caret-position="272">
+              <caret line="49" column="42" selection-start-line="49" selection-start-column="42" selection-end-line="49" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -112,7 +96,6 @@
         <option value="$PROJECT_DIR$/jobbuilder/Templates/DeployDefinition-JenkinsPipeline-XML.hbs" />
         <option value="$PROJECT_DIR$/jsonutil/jsonutil.go" />
         <option value="$PROJECT_DIR$/jobbuilder/appsettings.json" />
-        <option value="$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs" />
         <option value="$PROJECT_DIR$/jobdashboard/main.go" />
         <option value="$PROJECT_DIR$/jobbuilder/scripttemplates.json" />
         <option value="$PROJECT_DIR$/fileutil/filewriter.go" />
@@ -141,9 +124,10 @@
         <option value="$PROJECT_DIR$/models/projectmodel/dotnetdeliverable.go" />
         <option value="$PROJECT_DIR$/jobbuilder/server/generators/dotnetscriptgenerators.go" />
         <option value="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" />
-        <option value="$PROJECT_DIR$/constants/projectconstants.go" />
         <option value="$PROJECT_DIR$/stringutil/stringutil.go" />
         <option value="$PROJECT_DIR$/jobbuilder/server/builders/dotnetdeliverablebuilder.go" />
+        <option value="$PROJECT_DIR$/constants/projectconstants.go" />
+        <option value="$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs" />
       </list>
     </option>
   </component>
@@ -158,7 +142,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -169,12 +152,19 @@
             <path>
               <item name="ContinuousPlatform" type="b2602c69:ProjectViewProjectNode" />
               <item name="ContinuousPlatform" type="462c0819:PsiDirectoryNode" />
-              <item name="stringutil" type="462c0819:PsiDirectoryNode" />
+              <item name="jobbuilder" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ContinuousPlatform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ContinuousPlatform" type="462c0819:PsiDirectoryNode" />
+              <item name="jobbuilder" type="462c0819:PsiDirectoryNode" />
+              <item name="Templates" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -217,7 +207,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.JobBuilder">
+  <component name="RunManager" selected="Go Build.JenkinsService">
     <configuration name="DataLoader" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="SystemCI" />
       <working_directory value="$PROJECT_DIR$/dataloader" />
@@ -330,16 +320,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.18003026" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.19936034" />
       <window_info id="Structure" order="1" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info id="Favorites" order="2" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49626866" weight="0.25531915" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4904051" weight="0.34860885" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48789713" visible="true" weight="0.41898528" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4904051" visible="true" weight="0.34777898" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48789713" weight="0.4182015" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32502708" />
@@ -399,7 +389,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="add debug path as configuration parameter" />
     <MESSAGE value="build scripts generate properly... almost" />
     <MESSAGE value="scripts generate ok w/o publish profile. onto deployment with Jenkins" />
     <MESSAGE value="add build script, finalize some additions to jenkins code" />
@@ -424,7 +413,8 @@
     <MESSAGE value="simplify repeated code" />
     <MESSAGE value="fixed folder addition code" />
     <MESSAGE value="added teams notifier to build script" />
-    <option name="LAST_COMMIT_MESSAGE" value="added teams notifier to build script" />
+    <MESSAGE value="small refac, publish profiles should now work correctly. added sanitization map for bad filenames" />
+    <option name="LAST_COMMIT_MESSAGE" value="small refac, publish profiles should now work correctly. added sanitization map for bad filenames" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -519,9 +509,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/jenkinsservice/server/jenkinsutil.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -546,13 +533,6 @@
     <entry file="file://$PROJECT_DIR$/jobbuilder/Templates/DeployDefinition-JenkinsPipeline-XML.hbs">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-521">
-          <caret line="30" column="52" selection-start-line="30" selection-start-column="52" selection-end-line="30" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jobdashboard/main.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
@@ -560,20 +540,6 @@
           <folding>
             <element signature="e#14#69#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/appsettings.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/scripttemplates.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="14" column="20" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -872,13 +838,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/constants/projectconstants.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="20" column="33" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jobbuilder/server/builders/dotnetdeliverablebuilder.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -886,6 +845,41 @@
           <folding>
             <element signature="e#18#322#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/scripttemplates.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="14" column="20" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/appsettings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/data.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="614" column="5" lean-forward="true" selection-start-line="614" selection-start-column="5" selection-end-line="614" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/constants/projectconstants.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="49" column="42" selection-start-line="49" selection-start-column="42" selection-end-line="49" selection-end-column="42" />
         </state>
       </provider>
     </entry>
