@@ -19,6 +19,6 @@ var PublishProfilePathExclusionList = []string{
 }
 
 var PublishProfileSanitizationMap = map[string]string{
-	"$(ProjectDir)":  ".",
-	"$(SolutionDir)": ".",
+	"$(ProjectDir)":  "",
+	"$(SolutionDir)": "",
 }
