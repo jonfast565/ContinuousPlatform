@@ -78,6 +78,15 @@ func StringArrayContains(strArray []string, value string) bool {
 	return false
 }
 
+func StringContainsValues(value string, values []string) bool {
+	for _, str := range values {
+		if strings.Contains(value, str) {
+			return true
+		}
+	}
+	return false
+}
+
 func StringArrayCompare(arr1, arr2 []string) bool {
 	if len(arr1) != len(arr2) {
 		return false
@@ -119,4 +128,12 @@ func StringArrayContainsArray(arr1, arr2 []string) bool {
 		}
 	}
 	return true
+}
+
+func StringSanitize(value string, sanitizationMap map[string]string) string {
+	result := value
+	for key, value := range sanitizationMap {
+		result = strings.Replace(result, key, value, -1)
+	}
+	return result
 }
