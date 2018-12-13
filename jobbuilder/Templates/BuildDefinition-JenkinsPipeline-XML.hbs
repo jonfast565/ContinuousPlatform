@@ -47,7 +47,7 @@ def projectScriptHeader = "{{deliverable.Repository}} -> {{deliverable.Branch}} 
 def solution = "{{solution.Name}}"
 def branch = "{{deliverable.Branch}}"
 def project = "{{project.Name}}"
-def projectPath = "{{project.FolderPath}}"
+def projectPath = "{{project.AbsolutePath}}"
 def projectFolder = removeLastPathComponent(projectPath)
 
 def referenceSolutions = [
