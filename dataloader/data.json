@@ -466,6 +466,37 @@
         "FrameworkVersion": "v4.0"
       },
       "Applications": [
+        "ACTIONDCT",
+        "CathPCI4",
+        "CathPCIWhiskerApplication",
+        "ClientLogo",
+        "DCT",
+        "DeviceListAutomation",
+        "EContracting/PracticeSignUpPortal",
+        "EContracting/SignUpService",
+        "ICD2",
+        "IISSiteManager",
+        "IMPACTDCT",
+        "Interoperability",
+        "LAAODCT",
+        "lb",
+        "NcdrAdminControl",
+        "NcdrDataSubmissionApi",
+        "NcdrDataSubmissionWCF",
+        "NCDRServices",
+        "NCDRWebServiceUtility",
+        "PinnacleVendorService",
+        "PublicReportingApi",
+        "PVIDCT",
+        "registries",
+        "ServerSpec",
+        "SiteHelp",
+        "Status",
+        "Survey",
+        "SurveyMetadata",
+        "TVTDCT",
+        "unified",
+        "UnifiedAPI",
         "WebNCDR"
       ],
       "Environments": [
@@ -484,6 +515,37 @@
         "FrameworkVersion": "v4.0"
       },
       "Applications": [
+        "ACTIONDCT",
+        "CathPCI4",
+        "CathPCIWhiskerApplication",
+        "ClientLogo",
+        "DCT",
+        "DeviceListAutomation",
+        "EContracting/PracticeSignUpPortal",
+        "EContracting/SignUpService",
+        "ICD2",
+        "IISSiteManager",
+        "IMPACTDCT",
+        "Interoperability",
+        "LAAODCT",
+        "lb",
+        "NcdrAdminControl",
+        "NcdrDataSubmissionApi",
+        "NcdrDataSubmissionWCF",
+        "NCDRServices",
+        "NCDRWebServiceUtility",
+        "PinnacleVendorService",
+        "PublicReportingApi",
+        "PVIDCT",
+        "registries",
+        "ServerSpec",
+        "SiteHelp",
+        "Status",
+        "Survey",
+        "SurveyMetadata",
+        "TVTDCT",
+        "unified",
+        "UnifiedAPI",
         "WebNCDR"
       ],
       "Environments": [
@@ -502,6 +564,37 @@
         "FrameworkVersion": "v4.0"
       },
       "Applications": [
+        "ACTIONDCT",
+        "CathPCI4",
+        "CathPCIWhiskerApplication",
+        "ClientLogo",
+        "DCT-Scalable",
+        "DeviceListAutomation",
+        "EContracting/PracticeSignUpPortal",
+        "EContracting/SignUpService",
+        "ICD2",
+        "IISSiteManager",
+        "IMPACTDCT",
+        "Interoperability",
+        "LAAODCT",
+        "lb",
+        "NcdrAdminControl",
+        "NcdrDataSubmissionApi",
+        "NcdrDataSubmissionWCF",
+        "NCDRServices",
+        "NCDRWebServiceUtility",
+        "PinnacleVendorService",
+        "PublicReportingApi",
+        "PVIDCT",
+        "registries",
+        "ServerSpec",
+        "SiteHelp",
+        "Status",
+        "Survey",
+        "SurveyMetadata",
+        "TVTDCT",
+        "unified",
+        "UnifiedAPI",
         "WebNCDR"
       ],
       "Environments": [
@@ -520,6 +613,37 @@
         "FrameworkVersion": "v4.0"
       },
       "Applications": [
+        "ACTIONDCT",
+        "CathPCI4",
+        "CathPCIWhiskerApplication",
+        "ClientLogo",
+        "DCT-Scalable",
+        "DeviceListAutomation",
+        "EContracting/PracticeSignUpPortal",
+        "EContracting/SignUpService",
+        "ICD2",
+        "IISSiteManager",
+        "IMPACTDCT",
+        "Interoperability",
+        "LAAODCT",
+        "lb",
+        "NcdrAdminControl",
+        "NcdrDataSubmissionApi",
+        "NcdrDataSubmissionWCF",
+        "NCDRServices",
+        "NCDRWebServiceUtility",
+        "PinnacleVendorService",
+        "PublicReportingApi",
+        "PVIDCT",
+        "registries",
+        "ServerSpec",
+        "SiteHelp",
+        "Status",
+        "Survey",
+        "SurveyMetadata",
+        "TVTDCT",
+        "unified",
+        "UnifiedAPI",
         "WebNCDR"
       ],
       "Environments": [
@@ -538,6 +662,37 @@
         "FrameworkVersion": "v4.0"
       },
       "Applications": [
+        "ACTIONDCT",
+        "CathPCI4",
+        "CathPCIWhiskerApplication",
+        "ClientLogo",
+        "DCT-Scalable",
+        "DeviceListAutomation",
+        "EContracting/PracticeSignUpPortal",
+        "EContracting/SignUpService",
+        "ICD2",
+        "IISSiteManager",
+        "IMPACTDCT",
+        "Interoperability",
+        "LAAODCT",
+        "lb",
+        "NcdrAdminControl",
+        "NcdrDataSubmissionApi",
+        "NcdrDataSubmissionWCF",
+        "NCDRServices",
+        "NCDRWebServiceUtility",
+        "PinnacleVendorService",
+        "PublicReportingApi",
+        "PVIDCT",
+        "registries",
+        "ServerSpec",
+        "SiteHelp",
+        "Status",
+        "Survey",
+        "SurveyMetadata",
+        "TVTDCT",
+        "unified",
+        "UnifiedAPI",
         "WebNCDR"
       ],
       "Environments": [
@@ -556,6 +711,37 @@
         "FrameworkVersion": "v4.0"
       },
       "Applications": [
+        "ACTIONDCT",
+        "CathPCI4",
+        "CathPCIWhiskerApplication",
+        "ClientLogo",
+        "DCT-Scalable",
+        "DeviceListAutomation",
+        "EContracting/PracticeSignUpPortal",
+        "EContracting/SignUpService",
+        "ICD2",
+        "IISSiteManager",
+        "IMPACTDCT",
+        "Interoperability",
+        "LAAODCT",
+        "lb",
+        "NcdrAdminControl",
+        "NcdrDataSubmissionApi",
+        "NcdrDataSubmissionWCF",
+        "NCDRServices",
+        "NCDRWebServiceUtility",
+        "PinnacleVendorService",
+        "PublicReportingApi",
+        "PVIDCT",
+        "registries",
+        "ServerSpec",
+        "SiteHelp",
+        "Status",
+        "Survey",
+        "SurveyMetadata",
+        "TVTDCT",
+        "unified",
+        "UnifiedAPI",
         "WebNCDR"
       ],
       "Environments": [
@@ -574,6 +760,37 @@
         "FrameworkVersion": "v4.0"
       },
       "Applications": [
+        "ACTIONDCT",
+        "CathPCI4",
+        "CathPCIWhiskerApplication",
+        "ClientLogo",
+        "DCT-Scalable",
+        "DeviceListAutomation",
+        "EContracting/PracticeSignUpPortal",
+        "EContracting/SignUpService",
+        "ICD2",
+        "IISSiteManager",
+        "IMPACTDCT",
+        "Interoperability",
+        "LAAODCT",
+        "lb",
+        "NcdrAdminControl",
+        "NcdrDataSubmissionApi",
+        "NcdrDataSubmissionWCF",
+        "NCDRServices",
+        "NCDRWebServiceUtility",
+        "PinnacleVendorService",
+        "PublicReportingApi",
+        "PVIDCT",
+        "registries",
+        "ServerSpec",
+        "SiteHelp",
+        "Status",
+        "Survey",
+        "SurveyMetadata",
+        "TVTDCT",
+        "unified",
+        "UnifiedAPI",
         "WebNCDR"
       ],
       "Environments": [
@@ -592,6 +809,37 @@
         "FrameworkVersion": "v4.0"
       },
       "Applications": [
+        "ACTIONDCT",
+        "CathPCI4",
+        "CathPCIWhiskerApplication",
+        "ClientLogo",
+        "DCT",
+        "DeviceListAutomation",
+        "EContracting/PracticeSignUpPortal",
+        "EContracting/SignUpService",
+        "ICD2",
+        "IISSiteManager",
+        "IMPACTDCT",
+        "Interoperability",
+        "LAAODCT",
+        "lb",
+        "NcdrAdminControl",
+        "NcdrDataSubmissionApi",
+        "NcdrDataSubmissionWCF",
+        "NCDRServices",
+        "NCDRWebServiceUtility",
+        "PinnacleVendorService",
+        "PublicReportingApi",
+        "PVIDCT",
+        "registries",
+        "ServerSpec",
+        "SiteHelp",
+        "Status",
+        "Survey",
+        "SurveyMetadata",
+        "TVTDCT",
+        "unified",
+        "UnifiedAPI",
         "WebNCDR"
       ],
       "Environments": [
@@ -604,11 +852,331 @@
   ],
   "IisApplications": [
     {
+      "Name": "ACTIONDCT",
+      "VirtualPath": "/ACTIONDCT",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\ACTIONDCT",
+      "ApplicationPool": {
+        "Name": "ACTIONDCT",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "CathPCI4",
+      "VirtualPath": "/CathPCI4",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\CathPCI4",
+      "ApplicationPool": {
+        "Name": "CathPCIDCT",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "CathPCIWhiskerApplication",
+      "VirtualPath": "/CathPCIWhiskerApplication",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\CathPCIWhiskerApplication",
+      "ApplicationPool": {
+        "Name": "CathPCIWhiskerApplication",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "ClientLogo",
+      "VirtualPath": "/ClientLogo",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\ClientLogo",
+      "ApplicationPool": {
+        "Name": "ClientLogo",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "DCT",
+      "VirtualPath": "/DCT",
+      "PhysicalPath": "C:\\Websites\\Ncdr.UnifiedPlatform.Web.Dct",
+      "ApplicationPool": {
+        "Name": "Ncdr.UnifiedPlatform.Web.Dct",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": ""
+      }
+    },
+    {
+      "Name": "DCT-Scalable",
+      "VirtualPath": "/DCT",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\DCT",
+      "ApplicationPool": {
+        "Name": "Ncdr.UnifiedPlatform.Web.Dct",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": ""
+      }
+    },
+    {
+      "Name": "DeviceListAutomation",
+      "VirtualPath": "/DeviceListAutomation",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\DeviceListAutomation",
+      "ApplicationPool": {
+        "Name": "DeviceListAutomation",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v2.0"
+      }
+    },
+    {
+      "Name": "EContracting/PracticeSignUpPortal",
+      "VirtualPath": "/EContracting/PracticeSignUpPortal",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\EContracting\\PracticeSignUpPortal",
+      "ApplicationPool": {
+        "Name": "EContractingPracticeSignUpPortal",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "EContracting/SignUpService",
+      "VirtualPath": "/EContracting/SignUpService",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\EContracting\\SignUpService",
+      "ApplicationPool": {
+        "Name": "EContractingSignUpService",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "ICD2",
+      "VirtualPath": "/ICD2",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\ICD2",
+      "ApplicationPool": {
+        "Name": "ICD2DCT",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v2.0"
+      }
+    },
+    {
+      "Name": "IISSiteManager",
+      "VirtualPath": "/IISSiteManager",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\IISSiteManager",
+      "ApplicationPool": {
+        "Name": "IISSiteManager",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "IMPACTDCT",
+      "VirtualPath": "/IMPACTDCT",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\IMPACTDCT",
+      "ApplicationPool": {
+        "Name": "IMPACTDCT",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "Interoperability",
+      "VirtualPath": "/Interoperability",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\Interoperability",
+      "ApplicationPool": {
+        "Name": "Interoperability",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "LAAODCT",
+      "VirtualPath": "/LAAODCT",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\LAAODCT",
+      "ApplicationPool": {
+        "Name": "LAAODCT",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "lb",
+      "VirtualPath": "/lb",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\lb",
+      "ApplicationPool": {
+        "Name": "LbTest",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "NcdrAdminControl",
+      "VirtualPath": "/NcdrAdminControl",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\NcdrAdminControl",
+      "ApplicationPool": {
+        "Name": "NcdrAdminControl",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": ""
+      }
+    },
+    {
+      "Name": "NcdrDataSubmissionApi",
+      "VirtualPath": "/NcdrDataSubmissionApi",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\NcdrDataSubmissionApi",
+      "ApplicationPool": {
+        "Name": "NcdrDataSubmissionApi",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "NcdrDataSubmissionWCF",
+      "VirtualPath": "/NcdrDataSubmissionWCF",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\NcdrDataSubmissionWCF",
+      "ApplicationPool": {
+        "Name": "NCDRDataSubmissionWCF",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "NCDRServices",
+      "VirtualPath": "/NCDRServices",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\NCDRServices",
+      "ApplicationPool": {
+        "Name": "NCDRWebApi",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "NCDRWebServiceUtility",
+      "VirtualPath": "/NCDRWebServiceUtility",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\NCDRWebServiceUtility",
+      "ApplicationPool": {
+        "Name": "NCDRWebServiceUtility",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "PinnacleVendorService",
+      "VirtualPath": "/PinnacleVendorService",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\PinnacleVendorService",
+      "ApplicationPool": {
+        "Name": "PinnacleVendorService",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": ""
+      }
+    },
+    {
+      "Name": "PublicReportingApi",
+      "VirtualPath": "/PublicReportingApi",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\PublicReportingApi",
+      "ApplicationPool": {
+        "Name": "PublicReportingApi",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "PVIDCT",
+      "VirtualPath": "/PVIDCT",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\PVIDCT",
+      "ApplicationPool": {
+        "Name": "PVIDCT",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "registries",
+      "VirtualPath": "/registries",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\registries",
+      "ApplicationPool": {
+        "Name": "NcdrDataDictionaryService",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "ServerSpec",
+      "VirtualPath": "/ServerSpec",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\ServerSpec",
+      "ApplicationPool": {
+        "Name": "ServerSpec",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": ""
+      }
+    },
+    {
+      "Name": "SiteHelp",
+      "VirtualPath": "/SiteHelp",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\SiteHelp",
+      "ApplicationPool": {
+        "Name": "NcdrSiteHelp",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": ""
+      }
+    },
+    {
+      "Name": "Status",
+      "VirtualPath": "/Status",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\Status",
+      "ApplicationPool": {
+        "Name": "NcdrStatusDashboard",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": ""
+      }
+    },
+    {
+      "Name": "Survey",
+      "VirtualPath": "/Survey",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\Survey",
+      "ApplicationPool": {
+        "Name": "Survey",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "SurveyMetadata",
+      "VirtualPath": "/SurveyMetadata",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\SurveyMetadata",
+      "ApplicationPool": {
+        "Name": "SurveyMetadata",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "TVTDCT",
+      "VirtualPath": "/TVTDCT",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\TVTDCT",
+      "ApplicationPool": {
+        "Name": "TVTDCT",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      }
+    },
+    {
+      "Name": "unified",
+      "VirtualPath": "/unified",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\unified",
+      "ApplicationPool": {
+        "Name": "NcdrDataDictionaryServiceCore",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": ""
+      }
+    },
+    {
+      "Name": "UnifiedAPI",
+      "VirtualPath": "/UnifiedAPI",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\UnifiedApi",
+      "ApplicationPool": {
+        "Name": "Ncdr.UnifiedPlatform.Web.Api",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": ""
+      }
+    },
+    {
       "Name": "WebNCDR",
       "VirtualPath": "/WebNCDR",
       "PhysicalPath": "C:\\Websites\\{{SiteName}}\\WebNCDR",
       "ApplicationPool": {
-        "Name": "WebNCDR-{{SiteName}}",
+        "Name": "WebNCDR",
         "ProcessType": "Integrated",
         "FrameworkVersion": "v4.0"
       }
@@ -868,7 +1436,8 @@
     {
       "BusinessLine": "Ncdr",
       "Names": [
-        "Production"
+        "Production",
+        "Vendor"
       ],
       "Servers": [
         {
@@ -889,6 +1458,62 @@
         },
         {
           "Name": "prdncdrapp2",
+          "Type": "App"
+        }
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
+        "Disaster Recovery"
+      ],
+      "Servers": [
+        {
+          "Name": "rdprdncdrweb1",
+          "Type": "Web"
+        },
+        {
+          "Name": "rdprdncdrweb2",
+          "Type": "Web"
+        },
+        {
+          "Name": "rdprdncdrweb3",
+          "Type": "Web"
+        },
+        {
+          "Name": "rdprdncdrapp1",
+          "Type": "App"
+        },
+        {
+          "Name": "rdprdncdrapp2",
+          "Type": "App"
+        }
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
+        "Release"
+      ],
+      "Servers": [
+        {
+          "Name": "rlsncdrweb1",
+          "Type": "Web"
+        },
+        {
+          "Name": "rlsncdrweb2",
+          "Type": "Web"
+        },
+        {
+          "Name": "rlsncdrweb3",
+          "Type": "Web"
+        },
+        {
+          "Name": "rlsncdrapp1",
+          "Type": "App"
+        },
+        {
+          "Name": "rlsncdrapp2",
           "Type": "App"
         }
       ]
