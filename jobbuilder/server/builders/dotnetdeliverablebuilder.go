@@ -3,6 +3,7 @@ package builders
 import (
 	"../../../clients/msbuildclient"
 	"../../../clients/repoclient"
+	"../../../constants"
 	"../../../fileutil"
 	"../../../logging"
 	"../../../models/filesysmodel"
@@ -12,20 +13,6 @@ import (
 	"../../../stringutil"
 	"github.com/ahmetb/go-linq"
 )
-
-var ValidProjectExtensions = []string{
-	`^.*\.csproj$`,
-	`^.*\.fsproj$`,
-	`^.*\.vbproj$`,
-}
-
-var ValidSolutionExtensions = []string{
-	`^.*\.sln$`,
-}
-
-var ValidPublishProfileExtensions = []string{
-	`^.*\.pubxml$`,
-}
 
 type DotNetDeliverableBuildContext struct {
 	repoClient          repoclient.RepoClient
@@ -52,15 +39,23 @@ func NewDotNetDeliverableBuildContext(metadata repomodel.RepositoryMetadata) *Do
 }
 
 func (dndbc *DotNetDeliverableBuildContext) extractDeliverables() []*projectmodel.DotNetDeliverable {
+	dependencySolutions := make([]*projectmodel.MsBuildSolutionReference, 0)
+	for _, solution := range dndbc.solutions {
+		solutionRef := solution.GetSolutionReference()
+		dependencySolutions = append(dependencySolutions, &solutionRef)
+	}
+
 	results := make([]*projectmodel.DotNetDeliverable, 0)
 	for _, solution := range dndbc.solutions {
 		results = append(results, &projectmodel.DotNetDeliverable{
-			Repository:    dndbc.metadata.Name,
-			RepositoryUrl: dndbc.metadata.OptionalUrl,
-			Branch:        dndbc.metadata.Branch,
-			Solution:      solution.Export(),
+			Repository:          dndbc.metadata.Name,
+			RepositoryUrl:       dndbc.metadata.OptionalUrl,
+			Branch:              dndbc.metadata.Branch,
+			Solution:            solution.Export(),
+			DependencySolutions: dependencySolutions,
 		})
 	}
+
 	return results
 }
 
@@ -156,7 +151,7 @@ func (dndbc *DotNetDeliverableBuildContext) populateSolutions() {
 		relativePathsWithoutFoldersQuery := linq.
 			From(solution.RelativeProjectPaths).
 			WhereT(func(path string) bool {
-				match, err := stringutil.StringMatchesOneOfRegStr(path, ValidProjectExtensions)
+				match, err := stringutil.StringMatchesOneOfRegStr(path, constants.ValidProjectExtensions)
 				if err != nil {
 					return false
 				}
@@ -300,9 +295,14 @@ func (dndbc *DotNetDeliverableBuildContext) linkProjectPublishProfiles(
 		publishProfilePath := pathutil.NewPathParserFromString(publishProfile.AbsolutePath)
 		zipPaths := projectPath.ZipPathParsers(publishProfilePath)
 		if zipPaths.PartialMatch() {
-			absolutePath, err := dndbc.fileGraph.AddFolderByRelativePath(project.FolderPath, publishProfile.PublishUrl)
-			if err == nil {
-				publishProfile.PublishUrl = (*absolutePath).GetPathString()
+			publishProfile.PublishUrl = stringutil.StringSanitize(publishProfile.PublishUrl,
+				constants.PublishProfileSanitizationMap)
+			if !stringutil.StringContainsValues(publishProfile.PublishUrl,
+				constants.PublishProfilePathExclusionList) {
+				absolutePath, err := dndbc.fileGraph.AddFolderByRelativePath(project.FolderPath, publishProfile.PublishUrl)
+				if err == nil {
+					publishProfile.PublishUrl = (*absolutePath).GetPathString()
+				}
 			}
 			project.PublishProfiles = append(project.PublishProfiles, publishProfile)
 		}
@@ -319,7 +319,7 @@ func (dndbc *DotNetDeliverableBuildContext) linkProjectSolutions(solution *proje
 			solutionReference := solution.GetSolutionReference()
 			project.SolutionParents = append(project.SolutionParents, &solutionReference)
 			found = true
-			dndbc.LogInfoWithContext("Linked " + solution.Name + " -> " + project.Name)
+			dndbc.LogInfoWithContext("Linked solution: " + solution.Name + " -> " + project.Name)
 			break
 		}
 
@@ -411,13 +411,13 @@ func getRepositoryFileMetadataFromPath(metadata repomodel.RepositoryMetadata,
 }
 
 func getSolutionPaths(metadata repomodel.RepositoryMetadata) ([]string, error) {
-	return metadata.GetMatchingFiles(ValidSolutionExtensions)
+	return metadata.GetMatchingFiles(constants.ValidSolutionExtensions)
 }
 
 func getProjectPaths(metadata repomodel.RepositoryMetadata) ([]string, error) {
-	return metadata.GetMatchingFiles(ValidProjectExtensions)
+	return metadata.GetMatchingFiles(constants.ValidProjectExtensions)
 }
 
 func getPublishProfilePaths(metadata repomodel.RepositoryMetadata) ([]string, error) {
-	return metadata.GetMatchingFiles(ValidPublishProfileExtensions)
+	return metadata.GetMatchingFiles(constants.ValidPublishProfileExtensions)
 }
