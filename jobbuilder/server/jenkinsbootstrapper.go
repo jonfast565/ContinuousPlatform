@@ -20,6 +20,7 @@ func DeployJenkinsJobs(details *jobmodel.JobDetails) {
 		}
 	}()
 
+	details.ResetProgress()
 	scripts, err := GetScriptCache()
 	if err != nil {
 		panic(err)
@@ -34,11 +35,16 @@ func DeployJenkinsJobs(details *jobmodel.JobDetails) {
 	myKeys := buildKeyListFromScripts(scripts)
 	jenkinsKeys := jenkinsMetadata.GetFlattenedKeys()
 	edits := buildEditList(myKeys, jenkinsKeys, scripts)
-	persistEditList(edits, jenkinsClient)
+	persistEditList(details, edits, jenkinsClient)
 }
 
-func persistEditList(edits jenkinsmodel.JenkinsEditList, jenkinsClient jenkinsclient.JenkinsClient) {
-	for _, edit := range edits {
+func persistEditList(
+	details *jobmodel.JobDetails,
+	edits jenkinsmodel.JenkinsEditList,
+	jenkinsClient jenkinsclient.JenkinsClient) {
+	details.SetTotalProgress(int64(len(edits)))
+	for i, edit := range edits {
+		details.SetProgress(int64(i + 1))
 		jobRequest := edit.GetJobRequest()
 		exists, err := jenkinsClient.CheckJobExists(jobRequest)
 		if err != nil {
