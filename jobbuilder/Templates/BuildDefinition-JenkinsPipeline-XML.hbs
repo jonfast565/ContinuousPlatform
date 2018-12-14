@@ -189,7 +189,7 @@ UTILITY FUNCTIONS (DO NOT MODIFY)
 // build commands
 def restoreNugetPackages(String solution, String solutionPath) {
     println "Restoring NuGet packages for ${solution}"
-	def nugetPath = "C:\\\\BuildScripts\\\\BaseExecutables\\\\nuget.exe"
+	def nugetPath = "C:\\BuildScripts\\BaseExecutables\\nuget.exe"
 	def status = bat returnStatus: true, script:  "\"${nugetPath}\" restore \"${solutionPath}\""
     if (status != 0) {
         error("Restoring nuget packages for ${solution} failed")
@@ -202,7 +202,7 @@ def runMsBuildClean(
     String configuration, 
     Integer numberOfCores) {
     println "Cleaning ${solution}"
-	def msBuildPath = "C:\\\\Program Files (x86)\\\\Microsoft Visual Studio\\\\2017\\\\Enterprise\\\\MSBuild\\\\15.0\\\\Bin\\\\MsBuild.exe"
+	def msBuildPath = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\MSBuild\\15.0\\Bin\\MsBuild.exe"
 	def command = "\"${msBuildPath}\" \"${solutionPath}\" /t:Clean /p:Configuration=${configuration} /m:${numberOfCores} /verbosity:minimal"
     def status = bat returnStatus: true, script: command
     if (status != 0) {
@@ -216,7 +216,7 @@ def runMsBuildBuild(
     String configuration, 
     Integer numberOfCores) {
     println "Building ${project}"
-	def msBuildPath = "C:\\\\Program Files (x86)\\\\Microsoft Visual Studio\\\\2017\\\\Enterprise\\\\MSBuild\\\\15.0\\\\Bin\\\\MsBuild.exe"
+	def msBuildPath = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\MSBuild\\15.0\\Bin\\MsBuild.exe"
 	def command = "\"${msBuildPath}\" \"${projectPath}\" /t:Clean,Build /p:Configuration=${configuration} /m:${numberOfCores} /verbosity:minimal"
     def status = bat returnStatus: true, script: command
     if (status != 0) {
@@ -231,7 +231,7 @@ def runMsBuildPublish(
 	String publishProfileName,
     Integer numberOfCores) {
     println "Building/publishing web project ${project}"
-	def msBuildPath = "C:\\\\Program Files (x86)\\\\Microsoft Visual Studio\\\\2017\\\\Enterprise\\\\MSBuild\\\\15.0\\\\Bin\\\\MsBuild.exe"
+	def msBuildPath = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\MSBuild\\15.0\\Bin\\MsBuild.exe"
 	def command = "\"${msBuildPath}\" \"${projectPath}\" /t:Clean,Build,Publish /p:Configuration=${configuration} /m:${numberOfCores} /verbosity:minimal /p:DeployOnBuild=True /p:PublishProfile=${publishProfileName} /p:TransformConfigFiles=true"
     def status = bat returnStatus: true, script: command
     if (status != 0) {
@@ -246,7 +246,7 @@ def runMsBuildRestore(
     Integer numberOfCores
 ) {
     println "Restoring package references for ${project}"
-	def msBuildPath = "C:\\\\Program Files (x86)\\\\Microsoft Visual Studio\\\\2017\\\\Enterprise\\\\MSBuild\\\\15.0\\\\Bin\\\\MsBuild.exe"
+	def msBuildPath = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\MSBuild\\15.0\\Bin\\MsBuild.exe"
 	def command = "\"${msBuildPath}\" \"${projectPath}\" /t:Restore /p:Configuration=${configuration} /m:${numberOfCores} /verbosity:minimal"
     def status = bat returnStatus: true, script: command
     if (status != 0) {
@@ -260,7 +260,7 @@ def runRobocopy(
 	String destinationPath
 ) {
     println "Copying ${sourcePath} to ${destinationPath}"
-	def robocopyPath = "C:\\\\Windows\\\\System32\\\\Robocopy.exe"
+	def robocopyPath = "C:\\Windows\\System32\\Robocopy.exe"
 	def command = "\"${robocopyPath}\" \"${sourcePath}\" \"${destinationPath}\" /e /purge"
     def status = bat returnStatus: true, script: command
     if (status &lt; 0 || status &gt; 3) {
@@ -301,8 +301,8 @@ def removeLastPathComponent(String path) {
 }
 
 // unused utility paths
-def anyTransformPath = "C:\\\\BuildScripts\\\\AnyTransform\\\\AnyTransform.exe"
-def npmPath = "C:\\\\Program Files\\\\nodejs\\\\npm.cmd"
+def anyTransformPath = "C:\\BuildScripts\\AnyTransform\\AnyTransform.exe"
+def npmPath = "C:\\Program Files\\nodejs\\npm.cmd"
 
 </script>
         <sandbox>false</sandbox>
