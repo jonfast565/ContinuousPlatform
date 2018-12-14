@@ -64,7 +64,9 @@ func getIisApplicationNames(models []inframodel.IisApplication) []string {
 }
 */
 
-func getIisSiteForEnvironment(environment *inframodel.Environment, sites *[]inframodel.IisSitePart) *inframodel.IisSitePart {
+func getIisSiteForEnvironment(
+	environment *inframodel.Environment,
+	sites *[]inframodel.IisSitePart) *inframodel.IisSitePart {
 	for _, site := range *sites {
 		// TODO: Make a business rule here? This is sketchy...
 		firstEnvironment := site.Environments[0]
@@ -410,7 +412,9 @@ func getIisApplicationEnvironments(
 	return envs
 }
 
-func getTaskEnvironments(allEnvironments []inframodel.Environment, resourceScheduledTask []inframodel.ScheduledTask) []inframodel.Environment {
+func getTaskEnvironments(
+	allEnvironments []inframodel.Environment,
+	resourceScheduledTask []inframodel.ScheduledTask) []inframodel.Environment {
 	var envs []inframodel.Environment
 	for _, environment := range allEnvironments {
 		for _, task := range resourceScheduledTask {
@@ -425,7 +429,9 @@ func getTaskEnvironments(allEnvironments []inframodel.Environment, resourceSched
 	return envs
 }
 
-func getServiceEnvironments(allEnvironments []inframodel.Environment, resourceServices []inframodel.WindowsService) []inframodel.Environment {
+func getServiceEnvironments(
+	allEnvironments []inframodel.Environment,
+	resourceServices []inframodel.WindowsService) []inframodel.Environment {
 	var envs []inframodel.Environment
 	for _, environment := range allEnvironments {
 		for _, service := range resourceServices {
