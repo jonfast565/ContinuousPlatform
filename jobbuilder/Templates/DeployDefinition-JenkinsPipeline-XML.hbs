@@ -251,12 +251,12 @@ def latestBuildPath(
 // TODO: This only works on Windows!
 @NonCPS
 def localPathToUncPath(localPath, serverName) {
-    def splittedPath = localPath.split("\\\\\\\\|/")
+    def splittedPath = localPath.split("\\\\|/")
     if (splittedPath[0] ==~ /([a-zA-Z]):/) {
         def matcher = splittedPath[0] =~ /([a-zA-Z]):/
         def driveLetter = matcher[0][1].toLowerCase()
-        def pathRest = splittedPath[1..splittedPath.length - 1].join("\\\\")
-        def resultPath = "\\\\\\\\" + serverName + "\\\\" + driveLetter + "\$" + "\\\\" + pathRest
+        def pathRest = splittedPath[1..splittedPath.length - 1].join("\\")
+        def resultPath = "\\\\" + serverName + "\\" + driveLetter + "\$" + "\\" + pathRest
         return resultPath
     }
     else {
@@ -270,7 +270,7 @@ def runRobocopy(
 	String destinationPath
 ) {
     println "Copying ${sourcePath} to ${destinationPath}"
-	def robocopyPath = "C:\\\\Windows\\\\System32\\\\Robocopy.exe"
+	def robocopyPath = "C:\\Windows\\System32\\Robocopy.exe"
 	def command = "\"${robocopyPath}\" \"${sourcePath}\" \"${destinationPath}\" /e /purge"
     def status = bat returnStatus: true, script: command
     if (status &lt; 0 || status &gt; 3) {
@@ -285,7 +285,7 @@ def stopAppPool(
 ) {
     println "Stopping app pool ${appPool} on ${server}"
     def command = """
-    . C:\\\\BuildScripts\\\\BaseScripts\\\\IISMgmtScripts.ps1
+    . C:\\BuildScripts\\BaseScripts\\IISMgmtScripts.ps1
     try {
         Start-Sleep -s ${sleepPeriod}
         Stop-AppPool "${appPool}" @("${server}")
@@ -307,7 +307,7 @@ def startAppPool(
 ) {
     println "Starting app pool ${appPool} on ${server}"
     def command = """
-    . C:\\\\BuildScripts\\\\BaseScripts\\\\IISMgmtScripts.ps1
+    . C:\\BuildScripts\\BaseScripts\\IISMgmtScripts.ps1
     try {
         Start-Sleep -s ${sleepPeriod}
         Start-AppPool "${appPool}" @("${server}")
@@ -329,7 +329,7 @@ def recycleAppPool(
 ) {
     println "Recycling app pool ${appPool} on ${server}"
     def command = """
-    . C:\\\\BuildScripts\\\\BaseScripts\\\\IISMgmtScripts.ps1
+    . C:\\BuildScripts\\BaseScripts\\IISMgmtScripts.ps1
     try {
         Start-Sleep -s ${sleepPeriod}
         Recycle-AppPool "${appPool}" @("${server}")
