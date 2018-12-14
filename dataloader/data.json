@@ -8,15 +8,13 @@
         "IisApplications": [
           "WebNCDR"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "BurstFileProcessor",
       "Solution": "BurstFileProcessor.sln",
       "Project": "BurstFileProcessor.csproj",
-      "Resources": {},
-      "Type": "App"
+      "Resources": {}
     },
     {
       "Repository": "CathPCIWhiskerApplication",
@@ -26,8 +24,7 @@
         "IisApplications": [
           "CathPCIWhiskerApplication"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "CMSDataSubmission",
@@ -37,8 +34,7 @@
         "ScheduledTasks": [
           "CmsSubmission"
         ]
-      },
-      "Type": "App"
+      }
     },
     {
       "Repository": "CMSDataSubmission",
@@ -48,8 +44,7 @@
         "ScheduledTasks": [
           "LoadFigSubmissionToDataSource"
         ]
-      },
-      "Type": "App"
+      }
     },
     {
       "Repository": "EContracting",
@@ -59,8 +54,7 @@
         "ScheduledTasks": [
           "EContractingProcessor"
         ]
-      },
-      "Type": "App"
+      }
     },
     {
       "Repository": "EContracting",
@@ -68,10 +62,9 @@
       "Project": "PracticeSignUpPortalUI.csproj",
       "Resources": {
         "IisApplications": [
-          "PracticeSignUpPortalUI"
+          "EContracting/PracticeSignUpPortal"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "EContracting",
@@ -79,10 +72,9 @@
       "Project": "SignUpService.csproj",
       "Resources": {
         "IisApplications": [
-          "SignUpService"
+          "EContracting/SignUpService"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "IISSiteManager",
@@ -92,8 +84,7 @@
         "IisApplications": [
           "IISSiteManager"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "LbTest",
@@ -101,10 +92,9 @@
       "Project": "LbTest.csproj",
       "Resources": {
         "IisApplications": [
-          "LbTest"
+          "lb"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "LegacyDeviceListAutomation",
@@ -114,8 +104,7 @@
         "IisApplications": [
           "DeviceListAutomation"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "LegacyPlatform",
@@ -123,10 +112,9 @@
       "Project": "ACTION2.Web.csproj",
       "Resources": {
         "IisApplications": [
-          "ACTION2"
+          "ACTIONDCT"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "LegacyPlatform",
@@ -136,8 +124,7 @@
         "IisApplications": [
           "CathPCI4"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "LegacyPlatform",
@@ -147,8 +134,7 @@
         "ScheduledTasks": [
           "DataExport"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "LegacyPlatform",
@@ -158,8 +144,7 @@
         "IisApplications": [
           "ICD2"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "LegacyPlatform",
@@ -167,10 +152,9 @@
       "Project": "IMPACT2.Web.csproj",
       "Resources": {
         "IisApplications": [
-          "IMPACT2"
+          "IMPACTDCT"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "LegacyPlatform",
@@ -180,8 +164,7 @@
         "IisApplications": [
           "Interoperability"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "LegacyPlatform",
@@ -191,8 +174,7 @@
         "IisApplications": [
           "LAAODCT"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "LegacyPlatform",
@@ -202,8 +184,7 @@
         "ScheduledTasks": [
           "Pinnacle DQR Service"
         ]
-      },
-      "Type": "App"
+      }
     },
     {
       "Repository": "LegacyPlatform",
@@ -213,8 +194,7 @@
         "IisApplications": [
           "PVIDCT"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "LegacyPlatform",
@@ -224,8 +204,7 @@
         "ScheduledTasks": [
           "DQR Service1"
         ]
-      },
-      "Type": "App"
+      }
     },
     {
       "Repository": "LegacyPlatform",
@@ -235,8 +214,7 @@
         "IisApplications": [
           "TVTDCT"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "NcdrAdminControl",
@@ -246,8 +224,7 @@
         "IisApplications": [
           "NcdrAdminControl"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "NCDRCRMSalesforce",
@@ -257,8 +234,7 @@
         "ScheduledTasks": [
           "NCDRCRMSalesforce"
         ]
-      },
-      "Type": "App"
+      }
     },
     {
       "Repository": "NcdrDataDictionaryService",
@@ -268,8 +244,7 @@
         "IisApplications": [
           "registries"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "NCDRDataSubmissionWCF",
@@ -279,8 +254,7 @@
         "IisApplications": [
           "NCDRDataSubmissionApi"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "NCDRDataSubmissionWCF",
@@ -290,8 +264,7 @@
         "IisApplications": [
           "NCDRDataSubmissionWCF"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "NcdrEmailService",
@@ -301,8 +274,7 @@
         "WindowsServices": [
           "NcdrEmailService"
         ]
-      },
-      "Type": "App"
+      }
     },
     {
       "Repository": "NcdrPublicReporting",
@@ -312,8 +284,7 @@
         "IisApplications": [
           "NCDRDataSubmissionWCF"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "NcdrSiteHelp",
@@ -323,8 +294,7 @@
         "IisApplications": [
           "SiteHelp"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "NCDRWebAPI",
@@ -332,10 +302,9 @@
       "Project": "NCDRWebAPI.csproj",
       "Resources": {
         "IisApplications": [
-          "NCDRWebApi"
+          "NCDRServices"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "NCDRWebServiceUtility",
@@ -345,15 +314,13 @@
         "IisApplications": [
           "NCDRWebServiceUtility"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "OutcomesReportWatcher",
       "Solution": "OutcomesReportWatcher.sln",
       "Project": "OutcomesReportWatcherExe.csproj",
-      "Resources": {},
-      "Type": "App"
+      "Resources": {}
     },
     {
       "Repository": "PatientNavigatorSurvey",
@@ -363,8 +330,7 @@
         "IisApplications": [
           "Survey"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "PatientNavigatorSurvey",
@@ -374,8 +340,7 @@
         "IisApplications": [
           "SurveyMetadata"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "UnifiedDataDictionary",
@@ -385,8 +350,7 @@
         "IisApplications": [
           "unified"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "UnifiedPlatform",
@@ -396,8 +360,7 @@
         "WindowsServices": [
           "NCDR CDA Processor"
         ]
-      },
-      "Type": "App"
+      }
     },
     {
       "Repository": "UnifiedPlatform",
@@ -407,8 +370,7 @@
         "WindowsServices": [
           "NCDR DQR Processor"
         ]
-      },
-      "Type": "App"
+      }
     },
     {
       "Repository": "UnifiedPlatform",
@@ -418,8 +380,7 @@
         "WindowsServices": [
           "NCDR Export Processor"
         ]
-      },
-      "Type": "App"
+      }
     },
     {
       "Repository": "UnifiedPlatform",
@@ -427,10 +388,9 @@
       "Project": "Ncdr.UnifiedPlatform.Web.Api.csproj",
       "Resources": {
         "IisApplications": [
-          "UnifiedApi"
+          "UnifiedAPI"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "UnifiedPlatform",
@@ -438,10 +398,10 @@
       "Project": "Ncdr.UnifiedPlatform.Web.Dct.csproj",
       "Resources": {
         "IisApplications": [
-          "DCT"
+          "DCT",
+          "DCT-Scalable"
         ]
-      },
-      "Type": "Web"
+      }
     },
     {
       "Repository": "UnifiedPlatform",
@@ -452,8 +412,7 @@
           "metadata.ncdr.com",
           "metadata.stage.ncdr.com"
         ]
-      },
-      "Type": "Web"
+      }
     }
   ],
   "IisSites": [
@@ -502,7 +461,32 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production"
+          "Name": "Production Web"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Disaster Recovery Web"
+        }
+      ]
+    },
+    {
+      "Name": "metadata.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\metadata.ncdr.com",
+      "ApplicationPool": {
+        "Name": "metadata.ncdr.com",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      },
+      "Applications": [
+      ],
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production Web"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Disaster Recovery Web"
         }
       ]
     },
@@ -551,7 +535,24 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage"
+          "Name": "Stage Site"
+        }
+      ]
+    },
+    {
+      "Name": "metadata.stage.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\metadata.stage.ncdr.com",
+      "ApplicationPool": {
+        "Name": "Ncdr.UnifiedPlatform.Web.Mdt",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": ""
+      },
+      "Applications": [
+      ],
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage Site"
         }
       ]
     },
@@ -845,7 +846,7 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Development"
+          "Name": "Development Web"
         }
       ]
     }
@@ -1192,11 +1193,11 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production"
+          "Name": "Production App"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage"
+          "Name": "Stage App"
         }
       ]
     },
@@ -1209,11 +1210,11 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production"
+          "Name": "Production App"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage"
+          "Name": "Stage App"
         }
       ]
     },
@@ -1226,11 +1227,11 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production"
+          "Name": "Production App"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage"
+          "Name": "Stage App"
         }
       ]
     },
@@ -1243,11 +1244,11 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production"
+          "Name": "Production App"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage"
+          "Name": "Stage App"
         }
       ]
     },
@@ -1260,11 +1261,11 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production"
+          "Name": "Production App"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage"
+          "Name": "Stage App"
         }
       ]
     }
@@ -1290,11 +1291,11 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production"
+          "Name": "Production App"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage"
+          "Name": "Stage App"
         }
       ]
     },
@@ -1309,11 +1310,11 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production"
+          "Name": "Production App"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage"
+          "Name": "Stage App"
         }
       ]
     },
@@ -1328,11 +1329,11 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production"
+          "Name": "Production App"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage"
+          "Name": "Stage App"
         }
       ]
     },
@@ -1347,11 +1348,11 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production"
+          "Name": "Production App"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage"
+          "Name": "Stage App"
         }
       ]
     },
@@ -1366,11 +1367,11 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production"
+          "Name": "Production App"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage"
+          "Name": "Stage App"
         }
       ]
     },
@@ -1385,11 +1386,11 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production"
+          "Name": "Production App"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage"
+          "Name": "Stage App"
         }
       ]
     },
@@ -1404,11 +1405,11 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production"
+          "Name": "Production App"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage"
+          "Name": "Stage App"
         }
       ]
     },
@@ -1423,11 +1424,11 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production"
+          "Name": "Production App"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage"
+          "Name": "Stage App"
         }
       ]
     }
@@ -1436,92 +1437,71 @@
     {
       "BusinessLine": "Ncdr",
       "Names": [
-        "Production",
-        "Vendor"
+        "Production Web",
+        "Vendor Web"
       ],
       "Servers": [
-        {
-          "Name": "prdncdrweb1",
-          "Type": "Web"
-        },
-        {
-          "Name": "prdncdrweb2",
-          "Type": "Web"
-        },
-        {
-          "Name": "prdncdrweb3",
-          "Type": "Web"
-        },
-        {
-          "Name": "prdncdrapp1",
-          "Type": "App"
-        },
-        {
-          "Name": "prdncdrapp2",
-          "Type": "App"
-        }
+        "prdncdrweb1",
+        "prdncdrweb2",
+        "prdncdrweb3"
       ]
     },
     {
       "BusinessLine": "Ncdr",
       "Names": [
-        "Disaster Recovery"
+        "Production App"
       ],
       "Servers": [
-        {
-          "Name": "rdprdncdrweb1",
-          "Type": "Web"
-        },
-        {
-          "Name": "rdprdncdrweb2",
-          "Type": "Web"
-        },
-        {
-          "Name": "rdprdncdrweb3",
-          "Type": "Web"
-        },
-        {
-          "Name": "rdprdncdrapp1",
-          "Type": "App"
-        },
-        {
-          "Name": "rdprdncdrapp2",
-          "Type": "App"
-        }
+        "prdncdrapp1",
+        "prdncdrapp2"
       ]
     },
     {
       "BusinessLine": "Ncdr",
       "Names": [
-        "Release"
+        "Disaster Recovery Web"
       ],
       "Servers": [
-        {
-          "Name": "rlsncdrweb1",
-          "Type": "Web"
-        },
-        {
-          "Name": "rlsncdrweb2",
-          "Type": "Web"
-        },
-        {
-          "Name": "rlsncdrweb3",
-          "Type": "Web"
-        },
-        {
-          "Name": "rlsncdrapp1",
-          "Type": "App"
-        },
-        {
-          "Name": "rlsncdrapp2",
-          "Type": "App"
-        }
+        "rdprdncdrweb1",
+        "rdprdncdrweb2",
+        "rdprdncdrweb3"
       ]
     },
     {
       "BusinessLine": "Ncdr",
       "Names": [
-        "Stage",
+        "Disaster Recovery App"
+      ],
+      "Servers": [
+        "rdprdncdrapp1",
+        "rdprdncdrapp2"
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
+        "Release Web"
+      ],
+      "Servers": [
+        "rlsncdrweb1",
+        "rlsncdrweb2",
+        "rlsncdrweb3"
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
+        "Release App"
+      ],
+      "Servers": [
+        "rlsncdrapp1",
+        "rlsncdrapp2"
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
+        "Stage Site",
         "Support Stage Site",
         "Stage Test Site #1",
         "Stage Test Site #2",
@@ -1529,54 +1509,40 @@
         "Stage Test Site #4"
       ],
       "Servers": [
-        {
-          "Name": "stgncdrweb1",
-          "Type": "Web"
-        },
-        {
-          "Name": "stgncdrweb2",
-          "Type": "Web"
-        },
-        {
-          "Name": "stgncdrweb3",
-          "Type": "Web"
-        },
-        {
-          "Name": "stgncdrapp1",
-          "Type": "App"
-        },
-        {
-          "Name": "stgncdrapp2",
-          "Type": "App"
-        }
+        "stgncdrweb1",
+        "stgncdrweb2",
+        "stgncdrweb3"
       ]
     },
     {
       "BusinessLine": "Ncdr",
       "Names": [
-        "Development"
+        "Stage App"
       ],
       "Servers": [
-        {
-          "Name": "devncdrweb1",
-          "Type": "Web"
-        },
-        {
-          "Name": "devncdrweb2",
-          "Type": "Web"
-        },
-        {
-          "Name": "devncdrweb3",
-          "Type": "Web"
-        },
-        {
-          "Name": "devncdrapp1",
-          "Type": "App"
-        },
-        {
-          "Name": "devncdrapp2",
-          "Type": "App"
-        }
+        "stgncdrapp1",
+        "stgncdrapp2"
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
+        "Development Web"
+      ],
+      "Servers": [
+        "devncdrweb1",
+        "devncdrweb2",
+        "devncdrweb3"
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
+        "Development App"
+      ],
+      "Servers": [
+        "devncdrapp1",
+        "devncdrapp2"
       ]
     }
   ]

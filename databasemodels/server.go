@@ -7,6 +7,5 @@ import (
 type Server struct {
 	ServerId uuid.UUID `gorm:"primary_key"`
 	Name     string    `gorm:"not null"`
-	Type     string    `gorm:"not null"`
 	AuditFields
 }
