@@ -77,6 +77,17 @@ func getIisSiteForEnvironment(environment *inframodel.Environment, sites *[]infr
 	return nil
 }
 
+func getAllIisSites(db *gorm.DB) *[]inframodel.IisSite {
+	var iisSites []databasemodels.IisSite
+	db.Find(&iisSites, &databasemodels.IisSite{})
+	var siteGuids []string
+	for _, site := range iisSites {
+		siteGuids = append(siteGuids, site.IisSiteId.String())
+	}
+	result := getIisSites(siteGuids, db)
+	return result
+}
+
 func getIisSites(siteGuids []string, db *gorm.DB) *[]inframodel.IisSite {
 	var sites []inframodel.IisSite
 	for _, iisSiteUid := range siteGuids {
@@ -117,7 +128,7 @@ func getIisSites(siteGuids []string, db *gorm.DB) *[]inframodel.IisSite {
 	return &sites
 }
 
-func getAllIisSites(db *gorm.DB) *[]inframodel.IisSitePart {
+func getAllIisSiteParts(db *gorm.DB) *[]inframodel.IisSitePart {
 	var iisSiteList []databasemodels.IisSite
 
 	if db.Find(&iisSiteList, &databasemodels.IisSite{}).RecordNotFound() {
@@ -319,7 +330,6 @@ func getEnvironments(db *gorm.DB) *[]inframodel.Environment {
 		for _, server := range servers {
 			infraServers = append(infraServers, inframodel.ServerType{
 				ServerName: server.Name,
-				ServerType: server.Type,
 			})
 		}
 
@@ -330,4 +340,102 @@ func getEnvironments(db *gorm.DB) *[]inframodel.Environment {
 		})
 	}
 	return &environmentResult
+}
+
+func filterEnvironments(
+	resourceIisApplications []inframodel.IisApplication,
+	allIisSites []inframodel.IisSite,
+	resourceIisSites []inframodel.IisSite,
+	resourceScheduledTask []inframodel.ScheduledTask,
+	resourceServices []inframodel.WindowsService,
+	allEnvironments []inframodel.Environment) *[]inframodel.Environment {
+	if len(resourceIisApplications) > 0 {
+		envs := getIisApplicationEnvironments(allIisSites, resourceIisApplications, allEnvironments)
+		return &envs
+	}
+	if len(resourceIisSites) > 0 {
+		envs := getSiteEnvironments(allEnvironments, resourceIisSites)
+		return &envs
+	}
+	if len(resourceScheduledTask) > 0 {
+		envs := getTaskEnvironments(allEnvironments, resourceScheduledTask)
+		return &envs
+	}
+	if len(resourceServices) > 0 {
+		envs := getServiceEnvironments(allEnvironments, resourceServices)
+		return &envs
+	}
+	return &[]inframodel.Environment{}
+}
+
+func getSiteEnvironments(
+	allEnvironments []inframodel.Environment,
+	resourceIisSites []inframodel.IisSite) []inframodel.Environment {
+	var envs []inframodel.Environment
+	for _, iisSite := range resourceIisSites {
+		for _, iisSiteEnvironments := range iisSite.Environments {
+			for _, environment := range allEnvironments {
+				if iisSiteEnvironments.Name == environment.Name &&
+					iisSiteEnvironments.BusinessLine == environment.BusinessLine {
+					envs = append(envs, environment)
+				}
+			}
+		}
+	}
+	return envs
+}
+
+func getIisApplicationEnvironments(
+	allIisSites []inframodel.IisSite,
+	apps []inframodel.IisApplication,
+	allEnvironments []inframodel.Environment) []inframodel.Environment {
+	var envs []inframodel.Environment
+	// TODO: This feels fucking ridiculous
+	for _, iisSite := range allIisSites {
+		for _, siteApplication := range iisSite.Applications {
+			for _, resourceApplication := range apps {
+				if siteApplication.ApplicationGuid == resourceApplication.ApplicationGuid {
+					for _, siteEnvironment := range iisSite.Environments {
+						for _, environment := range allEnvironments {
+							if siteEnvironment.Name == environment.Name &&
+								siteEnvironment.BusinessLine == environment.BusinessLine {
+								envs = append(envs, environment)
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return envs
+}
+
+func getTaskEnvironments(allEnvironments []inframodel.Environment, resourceScheduledTask []inframodel.ScheduledTask) []inframodel.Environment {
+	var envs []inframodel.Environment
+	for _, environment := range allEnvironments {
+		for _, task := range resourceScheduledTask {
+			for _, taskEnvironment := range task.Environments {
+				if environment.Name == taskEnvironment.Name &&
+					environment.BusinessLine == taskEnvironment.BusinessLine {
+					envs = append(envs, environment)
+				}
+			}
+		}
+	}
+	return envs
+}
+
+func getServiceEnvironments(allEnvironments []inframodel.Environment, resourceServices []inframodel.WindowsService) []inframodel.Environment {
+	var envs []inframodel.Environment
+	for _, environment := range allEnvironments {
+		for _, service := range resourceServices {
+			for _, serviceEnvironment := range service.Environments {
+				if environment.Name == serviceEnvironment.Name &&
+					environment.BusinessLine == serviceEnvironment.BusinessLine {
+					envs = append(envs, environment)
+				}
+			}
+		}
+	}
+	return envs
 }

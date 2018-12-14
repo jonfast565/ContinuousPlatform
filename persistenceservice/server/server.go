@@ -210,7 +210,7 @@ func (p *PersistenceServiceEndpoint) GetResourceCache() (*inframodel.ResourceLis
 
 func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.ResourceKey) (
 	*inframodel.BuildInfrastructureMetadata, error) {
-	logging.LogInfo("Getting infrastructure metadata")
+	logging.LogInfo("Getting infrastructure metadata: " + key.String())
 
 	var im inframodel.BuildInfrastructureMetadata
 	db, err := p.Configuration.GetConnection()
@@ -221,6 +221,7 @@ func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.Resou
 
 	resource := getResource(key, db)
 	sites := getIisSites(resource.IisSites, db)
+	allSiteParts := getAllIisSiteParts(db)
 	allSites := getAllIisSites(db)
 	applications := getIisApplications(resource.IisApplications, db)
 	appPools := getRelevantAppPools(*sites, *applications)
@@ -230,31 +231,34 @@ func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.Resou
 	services := getWindowsServices(resource.WindowsServices, db)
 	serviceNames := getWindowsServiceNames(*services)
 	environments := getEnvironments(db)
+	environments = filterEnvironments(*applications, *allSites, *sites, *tasks, *services, *environments)
 	deploymentLocations := getDeploymentLocations(*applications, *sites, *tasks, *services)
 
 	var results []inframodel.ServerTypeMetadata
 	for _, environment := range *environments {
 		// TODO: Move business logic somewhere else, seems un-ideal here
-		siteInfo := getIisSiteForEnvironment(&environment, allSites)
+		siteInfo := getIisSiteForEnvironment(&environment, allSiteParts)
 
-		deploymentLocationsTrans := templating.TranscludeVariableInList(
-			deploymentLocations,
-			"SiteName",
-			siteInfo.SiteName)
+		var deploymentLocationsTrans []string
+		var appPoolNamesTrans []string
+		if siteInfo != nil {
+			deploymentLocationsTrans = templating.TranscludeVariableInList(
+				deploymentLocations,
+				"SiteName",
+				siteInfo.SiteName)
 
-		appPoolNamesTrans := templating.TranscludeVariableInList(
-			appPoolNames,
-			"SiteName",
-			siteInfo.SiteName)
+			appPoolNamesTrans = templating.TranscludeVariableInList(
+				appPoolNames,
+				"SiteName",
+				siteInfo.SiteName)
+		} else {
+			deploymentLocationsTrans = deploymentLocations
+			appPoolNamesTrans = appPoolNames
+		}
 
 		for _, server := range environment.Servers {
-			if server.ServerType != resource.Type {
-				continue
-			}
-
 			results = append(results, inframodel.ServerTypeMetadata{
 				ServerName:          server.ServerName,
-				ServerType:          server.ServerType,
 				EnvironmentName:     environment.GetEnvironmentName(),
 				DeploymentLocations: deploymentLocationsTrans,
 				AppPoolNames:        appPoolNamesTrans,
