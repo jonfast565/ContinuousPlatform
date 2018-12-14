@@ -117,7 +117,7 @@ node {
         ws(workspacePath) {
             stage ('Approval') {
             	ticketInfos.checkValidity(pipelineScope)
-                if (environment == productionEnvironment) {
+                if (environment.contains(productionEnvironment)) {
                     input "You are about to deploy code to Production. Are you sure you would like to proceed?"
                 }
             }
