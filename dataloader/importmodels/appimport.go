@@ -5,5 +5,4 @@ type AppImport struct {
 	Solution   string
 	Project    string
 	Resources  ResourceImport
-	Type       string
 }
