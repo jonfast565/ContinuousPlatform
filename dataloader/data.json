@@ -428,7 +428,6 @@
         "ACTIONDCT",
         "CathPCI4",
         "CathPCIWhiskerApplication",
-        "ClientLogo",
         "DCT",
         "DeviceListAutomation",
         "EContracting/PracticeSignUpPortal",
@@ -440,32 +439,74 @@
         "LAAODCT",
         "lb",
         "NcdrAdminControl",
-        "NcdrDataSubmissionApi",
-        "NcdrDataSubmissionWCF",
-        "NCDRServices",
         "NCDRWebServiceUtility",
-        "PinnacleVendorService",
-        "PublicReportingApi",
         "PVIDCT",
-        "registries",
         "ServerSpec",
         "SiteHelp",
         "Status",
         "Survey",
         "SurveyMetadata",
         "TVTDCT",
-        "unified",
-        "UnifiedAPI",
         "WebNCDR"
       ],
       "Environments": [
         {
           "BusinessLine": "Ncdr",
           "Name": "Production Web"
-        },
+        }
+      ]
+    },
+    {
+      "Name": "services.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\services.ncdr.com",
+      "ApplicationPool": {
+        "Name": "services.ncdr.com",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      },
+      "Applications": [
+        "ClientLogo",
+        "lb",
+        "NcdrDataSubmissionApi",
+        "NcdrDataSubmissionWCF",
+        "NCDRServices",
+        "PinnacleVendorService",
+        "PublicReportingApi",
+        "registries",
+        "unified",
+        "UnifiedAPI"
+      ],
+      "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Disaster Recovery Web"
+          "Name": "Production Web"
+        }
+      ]
+    },
+    {
+      "Name": "vendor.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\vendor.ncdr.com",
+      "ApplicationPool": {
+        "Name": "vendor.ncdr.com",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      },
+      "Applications": [
+        "ClientLogo",
+        "lb",
+        "NcdrDataSubmissionApi",
+        "NcdrDataSubmissionWCF",
+        "NCDRServices",
+        "PinnacleVendorService",
+        "PublicReportingApi",
+        "registries",
+        "unified",
+        "UnifiedAPI"
+      ],
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Production Web"
         }
       ]
     },
@@ -483,10 +524,6 @@
         {
           "BusinessLine": "Ncdr",
           "Name": "Production Web"
-        },
-        {
-          "BusinessLine": "Ncdr",
-          "Name": "Disaster Recovery Web"
         }
       ]
     },
@@ -502,7 +539,6 @@
         "ACTIONDCT",
         "CathPCI4",
         "CathPCIWhiskerApplication",
-        "ClientLogo",
         "DCT",
         "DeviceListAutomation",
         "EContracting/PracticeSignUpPortal",
@@ -514,28 +550,47 @@
         "LAAODCT",
         "lb",
         "NcdrAdminControl",
-        "NcdrDataSubmissionApi",
-        "NcdrDataSubmissionWCF",
-        "NCDRServices",
         "NCDRWebServiceUtility",
-        "PinnacleVendorService",
-        "PublicReportingApi",
         "PVIDCT",
-        "registries",
         "ServerSpec",
         "SiteHelp",
         "Status",
         "Survey",
         "SurveyMetadata",
         "TVTDCT",
-        "unified",
-        "UnifiedAPI",
         "WebNCDR"
       ],
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage Site"
+          "Name": "Stage Web"
+        }
+      ]
+    },
+    {
+      "Name": "services.stage.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\services.stage.ncdr.com",
+      "ApplicationPool": {
+        "Name": "services.stage.ncdr.com",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      },
+      "Applications": [
+        "ClientLogo",
+        "lb",
+        "NcdrDataSubmissionApi",
+        "NcdrDataSubmissionWCF",
+        "NCDRServices",
+        "PinnacleVendorService",
+        "PublicReportingApi",
+        "registries",
+        "unified",
+        "UnifiedAPI"
+      ],
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage Web"
         }
       ]
     },
@@ -552,7 +607,7 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage Site"
+          "Name": "Stage Web"
         }
       ]
     },
@@ -601,7 +656,7 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Support Stage Site"
+          "Name": "Support Stage Web"
         }
       ]
     },
@@ -813,8 +868,92 @@
         "ACTIONDCT",
         "CathPCI4",
         "CathPCIWhiskerApplication",
-        "ClientLogo",
         "DCT",
+        "DeviceListAutomation",
+        "EContracting/PracticeSignUpPortal",
+        "EContracting/SignUpService",
+        "ICD2",
+        "IISSiteManager",
+        "IMPACTDCT",
+        "Interoperability",
+        "LAAODCT",
+        "lb",
+        "NcdrAdminControl",
+        "NCDRWebServiceUtility",
+        "PVIDCT",
+        "ServerSpec",
+        "SiteHelp",
+        "Status",
+        "Survey",
+        "SurveyMetadata",
+        "TVTDCT",
+        "WebNCDR"
+      ],
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development Web"
+        }
+      ]
+    },
+    {
+      "Name": "services.dev.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\services.dev.ncdr.com",
+      "ApplicationPool": {
+        "Name": "services.dev.ncdr.com",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": "v4.0"
+      },
+      "Applications": [
+        "ClientLogo",
+        "lb",
+        "NcdrDataSubmissionApi",
+        "NcdrDataSubmissionWCF",
+        "NCDRServices",
+        "PinnacleVendorService",
+        "PublicReportingApi",
+        "registries",
+        "unified",
+        "UnifiedAPI"
+      ],
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development Web"
+        }
+      ]
+    },
+    {
+      "Name": "metadata.dev.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\metadata.dev.ncdr.com",
+      "ApplicationPool": {
+        "Name": "Ncdr.UnifiedPlatform.Web.Mdt",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": ""
+      },
+      "Applications": [
+      ],
+      "Environments": [
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development Web"
+        }
+      ]
+    },
+    {
+      "Name": "build.ncdr.com",
+      "PhysicalPath": "C:\\Websites\\build.ncdr.com",
+      "ApplicationPool": {
+        "Name": "build.ncdr.com",
+        "ProcessType": "Integrated",
+        "FrameworkVersion": ""
+      },
+      "Applications": [
+        "ACTIONDCT",
+        "CathPCI4",
+        "CathPCIWhiskerApplication",
+        "ClientLogo",
+        "DCT-Scalable",
         "DeviceListAutomation",
         "EContracting/PracticeSignUpPortal",
         "EContracting/SignUpService",
@@ -846,7 +985,7 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Development Web"
+          "Name": "Build Test"
         }
       ]
     }
@@ -1189,7 +1328,6 @@
       "BinaryPath": "C:\\WindowsApp\\NcdrEmailService",
       "BinaryExecutableName": "dotnet.exe",
       "BinaryExecutableArguments": "NcdrEmailService.ConsoleDaemon.dll",
-      "LoadBalanced": true,
       "Environments": [
         {
           "BusinessLine": "Ncdr",
@@ -1197,7 +1335,15 @@
         },
         {
           "BusinessLine": "Ncdr",
+          "Name": "Release App"
+        },
+        {
+          "BusinessLine": "Ncdr",
           "Name": "Stage App"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development App"
         }
       ]
     },
@@ -1206,7 +1352,6 @@
       "BinaryPath": "C:\\WindowsApp\\Ncdr.UnifiedPlatform.Console.DqrProcessor",
       "BinaryExecutableName": "Ncdr.UnifiedPlatform.Console.DqrProcessor.exe",
       "BinaryExecutableArguments": "--service",
-      "LoadBalanced": true,
       "Environments": [
         {
           "BusinessLine": "Ncdr",
@@ -1214,7 +1359,15 @@
         },
         {
           "BusinessLine": "Ncdr",
+          "Name": "Release App"
+        },
+        {
+          "BusinessLine": "Ncdr",
           "Name": "Stage App"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development App"
         }
       ]
     },
@@ -1223,15 +1376,22 @@
       "BinaryPath": "C:\\WindowsApp\\NCDR Survey Export",
       "BinaryExecutableName": "Survey.Export.exe",
       "BinaryExecutableArguments": "--service",
-      "LoadBalanced": false,
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production App"
+          "Name": "Production App (Single Node)"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage App"
+          "Name": "Release App (Single Node)"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage App (Single Node)"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development App (Single Node)"
         }
       ]
     },
@@ -1240,7 +1400,6 @@
       "BinaryPath": "C:\\WindowsApp\\Ncdr.UnifiedPlatform.Console.ExportProcessor",
       "BinaryExecutableName": "Ncdr.UnifiedPlatform.Console.ExportProcessor.exe",
       "BinaryExecutableArguments": "--service",
-      "LoadBalanced": true,
       "Environments": [
         {
           "BusinessLine": "Ncdr",
@@ -1248,7 +1407,15 @@
         },
         {
           "BusinessLine": "Ncdr",
+          "Name": "Release App"
+        },
+        {
+          "BusinessLine": "Ncdr",
           "Name": "Stage App"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development App"
         }
       ]
     },
@@ -1257,7 +1424,6 @@
       "BinaryPath": "C:\\WindowsApp\\Ncdr.UnifiedPlatform.Console.CdaProcessor",
       "BinaryExecutableName": "Ncdr.UnifiedPlatform.Console.CdaProcessor.exe",
       "BinaryExecutableArguments": "--service",
-      "LoadBalanced": true,
       "Environments": [
         {
           "BusinessLine": "Ncdr",
@@ -1265,7 +1431,15 @@
         },
         {
           "BusinessLine": "Ncdr",
+          "Name": "Release App"
+        },
+        {
+          "BusinessLine": "Ncdr",
           "Name": "Stage App"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development App"
         }
       ]
     }
@@ -1287,7 +1461,6 @@
       "RepetitionDuration": 10000,
       "ExecutionTimeLimit": 10000,
       "Priority": 1,
-      "LoadBalanced": true,
       "Environments": [
         {
           "BusinessLine": "Ncdr",
@@ -1295,7 +1468,15 @@
         },
         {
           "BusinessLine": "Ncdr",
+          "Name": "Release App"
+        },
+        {
+          "BusinessLine": "Ncdr",
           "Name": "Stage App"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development App"
         }
       ]
     },
@@ -1306,7 +1487,6 @@
       "BinaryPath": "C:\\WindowsApp\\PinnacleDQR",
       "BinaryExecutableName": "PinnacleSubmissionProcessor.exe",
       "BinaryExecutableArguments": "",
-      "LoadBalanced": true,
       "Environments": [
         {
           "BusinessLine": "Ncdr",
@@ -1314,7 +1494,15 @@
         },
         {
           "BusinessLine": "Ncdr",
+          "Name": "Release App"
+        },
+        {
+          "BusinessLine": "Ncdr",
           "Name": "Stage App"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development App"
         }
       ]
     },
@@ -1325,15 +1513,22 @@
       "BinaryPath": "C:\\WindowsApp\\CmsDataSubmission",
       "BinaryExecutableName": "Ncdr.Console.CmsDataSubmission.exe",
       "BinaryExecutableArguments": "",
-      "LoadBalanced": false,
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production App"
+          "Name": "Production App (Single Node)"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage App"
+          "Name": "Release App (Single Node)"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage App (Single Node)"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development App (Single Node)"
         }
       ]
     },
@@ -1344,15 +1539,22 @@
       "BinaryPath": "C:\\WindowsApp\\NCDRCRMSalesForce",
       "BinaryExecutableName": "NCDRCRMSalesforce.exe",
       "BinaryExecutableArguments": "",
-      "LoadBalanced": false,
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production App"
+          "Name": "Production App (Single Node)"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage App"
+          "Name": "Release App (Single Node)"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage App (Single Node)"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development App (Single Node)"
         }
       ]
     },
@@ -1363,15 +1565,22 @@
       "BinaryPath": "C:\\WindowsApp\\LoadFigSubmissionToDataSource",
       "BinaryExecutableName": "Ncdr.Console.LoadFigSubmissionToDataSource.exe",
       "BinaryExecutableArguments": "",
-      "LoadBalanced": false,
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production App"
+          "Name": "Production App (Single Node)"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage App"
+          "Name": "Release App (Single Node)"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage App (Single Node)"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development App (Single Node)"
         }
       ]
     },
@@ -1382,7 +1591,6 @@
       "BinaryPath": "C:\\WindowsApp\\DataExport",
       "BinaryExecutableName": "DataExportProcessor.exe",
       "BinaryExecutableArguments": "",
-      "LoadBalanced": true,
       "Environments": [
         {
           "BusinessLine": "Ncdr",
@@ -1390,7 +1598,15 @@
         },
         {
           "BusinessLine": "Ncdr",
+          "Name": "Release App"
+        },
+        {
+          "BusinessLine": "Ncdr",
           "Name": "Stage App"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development App"
         }
       ]
     },
@@ -1401,15 +1617,22 @@
       "BinaryPath": "C:\\WindowsApp\\EContractingProcessor",
       "BinaryExecutableName": "EContractingProcessor.Console.exe",
       "BinaryExecutableArguments": "",
-      "LoadBalanced": false,
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production App"
+          "Name": "Production App (Single Node)"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage App"
+          "Name": "Release App (Single Node)"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage App (Single Node)"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development App (Single Node)"
         }
       ]
     },
@@ -1420,15 +1643,22 @@
       "BinaryPath": "C:\\WindowsApp\\DataQualityAuditReportWatcher",
       "BinaryExecutableName": "DataQualityAuditReportWatcher.exe",
       "BinaryExecutableArguments": "",
-      "LoadBalanced": false,
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production App"
+          "Name": "Production App (Single Node)"
         },
         {
           "BusinessLine": "Ncdr",
-          "Name": "Stage App"
+          "Name": "Release App (Single Node)"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Stage App (Single Node)"
+        },
+        {
+          "BusinessLine": "Ncdr",
+          "Name": "Development App (Single Node)"
         }
       ]
     }
@@ -1459,6 +1689,15 @@
     {
       "BusinessLine": "Ncdr",
       "Names": [
+        "Production App (Single Node)"
+      ],
+      "Servers": [
+        "prdncdrapp1"
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
         "Disaster Recovery Web"
       ],
       "Servers": [
@@ -1475,6 +1714,15 @@
       "Servers": [
         "rdprdncdrapp1",
         "rdprdncdrapp2"
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
+        "Disaster Recovery App (Single Node)"
+      ],
+      "Servers": [
+        "rdprdncdrapp1"
       ]
     },
     {
@@ -1501,8 +1749,17 @@
     {
       "BusinessLine": "Ncdr",
       "Names": [
-        "Stage Site",
-        "Support Stage Site",
+        "Release App (Single Node)"
+      ],
+      "Servers": [
+        "rlsncdrapp1"
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
+        "Stage Web",
+        "Support Stage Web",
         "Stage Test Site #1",
         "Stage Test Site #2",
         "Stage Test Site #3",
@@ -1510,8 +1767,7 @@
       ],
       "Servers": [
         "stgncdrweb1",
-        "stgncdrweb2",
-        "stgncdrweb3"
+        "stgncdrweb2"
       ]
     },
     {
@@ -1527,12 +1783,20 @@
     {
       "BusinessLine": "Ncdr",
       "Names": [
+        "Stage App (Single Node)"
+      ],
+      "Servers": [
+        "stgncdrapp1"
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
         "Development Web"
       ],
       "Servers": [
         "devncdrweb1",
-        "devncdrweb2",
-        "devncdrweb3"
+        "devncdrweb2"
       ]
     },
     {
@@ -1543,6 +1807,24 @@
       "Servers": [
         "devncdrapp1",
         "devncdrapp2"
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
+        "Development App (Single Node)"
+      ],
+      "Servers": [
+        "devncdrapp1"
+      ]
+    },
+    {
+      "BusinessLine": "Ncdr",
+      "Names": [
+        "Build Test"
+      ],
+      "Servers": [
+        "entbuild1"
       ]
     }
   ]

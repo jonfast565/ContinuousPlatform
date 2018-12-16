@@ -10,6 +10,5 @@ type ScheduledTaskImport struct {
 	RepetitionDuration        int64
 	ExecutionTimeLimit        int64
 	Priority                  int64
-	LoadBalanced              bool
 	Environments              []EnvironmentImportPart
 }
