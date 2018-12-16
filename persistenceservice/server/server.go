@@ -241,35 +241,36 @@ func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.Resou
 
 	var results []inframodel.ServerTypeMetadata
 	for _, environment := range *environments {
-		// TODO: Move business logic somewhere else, seems un-ideal here
-		siteInfo := getIisSiteForEnvironment(&environment, allSiteParts)
+		// TODO: Is this algorithm even correct?
+		siteInfos := getIisSitesForEnvironment(&environment, allSiteParts)
+		for _, siteInfo := range *siteInfos {
+			var deploymentLocationsTrans []string
+			var appPoolNamesTrans []string
+			if len(*siteInfos) > 0 {
+				deploymentLocationsTrans = templating.TranscludeVariableInList(
+					deploymentLocations,
+					"SiteName",
+					siteInfo.SiteName)
 
-		var deploymentLocationsTrans []string
-		var appPoolNamesTrans []string
-		if siteInfo != nil {
-			deploymentLocationsTrans = templating.TranscludeVariableInList(
-				deploymentLocations,
-				"SiteName",
-				siteInfo.SiteName)
+				appPoolNamesTrans = templating.TranscludeVariableInList(
+					appPoolNames,
+					"SiteName",
+					siteInfo.SiteName)
+			} else {
+				deploymentLocationsTrans = deploymentLocations
+				appPoolNamesTrans = appPoolNames
+			}
 
-			appPoolNamesTrans = templating.TranscludeVariableInList(
-				appPoolNames,
-				"SiteName",
-				siteInfo.SiteName)
-		} else {
-			deploymentLocationsTrans = deploymentLocations
-			appPoolNamesTrans = appPoolNames
-		}
-
-		for _, server := range environment.Servers {
-			results = append(results, inframodel.ServerTypeMetadata{
-				ServerName:          server.ServerName,
-				EnvironmentName:     environment.GetEnvironmentName(),
-				DeploymentLocations: deploymentLocationsTrans,
-				AppPoolNames:        appPoolNamesTrans,
-				ServiceNames:        serviceNames,
-				TaskNames:           taskNames,
-			})
+			for _, server := range environment.Servers {
+				results = append(results, inframodel.ServerTypeMetadata{
+					ServerName:          server.ServerName,
+					EnvironmentName:     environment.GetEnvironmentName(),
+					DeploymentLocations: deploymentLocationsTrans,
+					AppPoolNames:        appPoolNamesTrans,
+					ServiceNames:        serviceNames,
+					TaskNames:           taskNames,
+				})
+			}
 		}
 	}
 

@@ -54,29 +54,19 @@ func getIisApplications(applicationGuids []string, db *gorm.DB) *[]inframodel.Ii
 	return &applications
 }
 
-/*
-func getIisApplicationNames(models []inframodel.IisApplication) []string {
-	var names []string
-	for _, model := range models {
-		names = append(names, model.ApplicationName)
-	}
-	return names
-}
-*/
-
-func getIisSiteForEnvironment(
+func getIisSitesForEnvironment(
 	environment *inframodel.Environment,
-	sites *[]inframodel.IisSitePart) *inframodel.IisSitePart {
+	sites *[]inframodel.IisSitePart) *[]inframodel.IisSitePart {
+	var results []inframodel.IisSitePart
 	for _, site := range *sites {
-		// TODO: Make a business rule here? This is sketchy...
-		firstEnvironment := site.Environments[0]
-		if firstEnvironment.Name == environment.Name &&
-			firstEnvironment.BusinessLine == environment.BusinessLine {
-			return &site
+		for _, siteEnvironment := range site.Environments {
+			if siteEnvironment.Name == environment.Name &&
+				siteEnvironment.BusinessLine == environment.BusinessLine {
+				results = append(results, site)
+			}
 		}
 	}
-	// TODO: This is also sketchy
-	return nil
+	return &results
 }
 
 func getAllIisSites(db *gorm.DB) *[]inframodel.IisSite {
@@ -149,16 +139,6 @@ func getAllIisSiteParts(db *gorm.DB) *[]inframodel.IisSitePart {
 	}
 	return &results
 }
-
-/*
-func getIisSiteNames(models []inframodel.IisSite) []string {
-	var names []string
-	for _, model := range models {
-		names = append(names, model.SiteName)
-	}
-	return names
-}
-*/
 
 func getRelevantAppPools(siteModels []inframodel.IisSite,
 	appModels []inframodel.IisApplication) []inframodel.IisApplicationPool {
