@@ -1,6 +1,7 @@
 package server
 
 import (
+	"../../cache"
 	"../../constants"
 	"../../databasemodels"
 	"../../logging"
@@ -13,7 +14,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/jinzhu/gorm"
-	"github.com/patrickmn/go-cache"
 	"github.com/satori/go.uuid"
 	"os/user"
 	"time"
@@ -28,10 +28,6 @@ type PersistenceServiceConfiguration struct {
 	DbName    string
 	EnableSsl bool
 }
-
-var (
-	c = cache.New(5*time.Minute, 10*time.Minute)
-)
 
 func (c PersistenceServiceConfiguration) GetPostgresConnectionString() string {
 	enableSslResult := "enable"
@@ -216,7 +212,7 @@ func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.Resou
 	*inframodel.BuildInfrastructureMetadata, error) {
 	logging.LogInfo("Getting infrastructure metadata: " + key.String())
 
-	if data, found := c.Get("InfrastructureMetadata-" + key.String()); found == true {
+	if data, found := cache.GetCache("InfrastructureMetadata", key.String()); found == true {
 		im := data.(*inframodel.BuildInfrastructureMetadata)
 		return im, nil
 	}
@@ -278,6 +274,6 @@ func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.Resou
 	}
 
 	im.Metadata = results
-	c.Set("InfrastructureMetadata-"+key.String(), &im, cache.DefaultExpiration)
+	cache.SetCache("InfrastructureMetadata", key.String(), &im)
 	return &im, nil
 }
