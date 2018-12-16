@@ -5,6 +5,5 @@ type WindowsServiceImport struct {
 	BinaryPath                string
 	BinaryExecutableName      string
 	BinaryExecutableArguments string
-	LoadBalanced              bool
 	Environments              []EnvironmentImportPart
 }

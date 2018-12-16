@@ -242,7 +242,6 @@ func loadServices(i *importmodels.InfrastructureImport, db *gorm.DB) {
 			BinaryPath:                windowsService.BinaryPath,
 			BinaryExecutableName:      windowsService.BinaryExecutableName,
 			BinaryExecutableArguments: windowsService.BinaryExecutableArguments,
-			LoadBalanced:              windowsService.LoadBalanced,
 			Environments:              environmentIds,
 		}); result.Error != nil {
 			panic(result.Error)
@@ -266,7 +265,6 @@ func loadScheduledTasks(i *importmodels.InfrastructureImport, db *gorm.DB) {
 				RepetitionDuration:        scheduledTask.RepetitionDuration,
 				ExecutionTimeLimit:        scheduledTask.ExecutionTimeLimit,
 				Priority:                  scheduledTask.Priority,
-				LoadBalanced:              scheduledTask.LoadBalanced,
 				Environments:              environmentIds,
 			}); result.Error != nil {
 				panic(result.Error)
