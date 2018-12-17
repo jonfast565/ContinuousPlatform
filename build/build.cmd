@@ -53,8 +53,9 @@ cd "../"
 :: Build msbuild service
 mkdir "msbuildservice"
 cd "./msbuildservice"
-dotnet build "../../../msbuildservice/PlatformCI.MsBuildService.Api/"
-cp -a "../../../msbuildservice/PlatformCI.MsBuildService.Api/bin/Debug/netcoreapp2.1/." "."
+dotnet publish "../../../msbuildservice/PlatformCI.MsBuildService.Api/" --self-contained --output "."
+:: use dotnet build with the line below
+:: cp -a "../../../msbuildservice/PlatformCI.MsBuildService.Api/bin/Debug/netcoreapp2.1/." "."
 cd "../"
 
 :: Build teams notifier service
