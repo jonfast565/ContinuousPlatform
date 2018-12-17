@@ -506,7 +506,7 @@
       "Environments": [
         {
           "BusinessLine": "Ncdr",
-          "Name": "Production Web"
+          "Name": "Vendor Web"
         }
       ]
     },
@@ -1612,7 +1612,7 @@
     },
     {
       "Names": [
-        "EContracting"
+        "EContractingProcessor"
       ],
       "BinaryPath": "C:\\WindowsApp\\EContractingProcessor",
       "BinaryExecutableName": "EContractingProcessor.Console.exe",
