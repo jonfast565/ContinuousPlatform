@@ -226,7 +226,7 @@ func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.Resou
 
 	resource := getResource(key, db)
 	sites := getIisSites(resource.IisSites, db)
-	allSiteParts := getAllIisSiteParts(db)
+	// allSiteParts := getAllIisSiteParts(db)
 	allSites := getAllIisSites(db)
 	applications := getIisApplications(resource.IisApplications, db)
 	appPools := getRelevantAppPools(*sites, *applications)
@@ -240,37 +240,51 @@ func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.Resou
 	deploymentLocations := getDeploymentLocations(*applications, *sites, *tasks, *services)
 
 	var results []inframodel.ServerTypeMetadata
+	if len(*applications) > 0 {
+		for _, environment := range *environments {
+			for _, application := range *applications {
+				siteInfos := getIisSitesForEnvironment(&environment, allSites, &application)
+				var deploymentLocationsWithSiteName []string
+				var appPoolsWithSiteName []string
+				for _, siteInfo := range *siteInfos {
+					deploymentLocationsWithSiteName = templating.TranscludeVariableInList(
+						deploymentLocations,
+						"SiteName",
+						siteInfo.SiteName)
+
+					appPoolsWithSiteName = templating.TranscludeVariableInList(
+						appPoolNames,
+						"SiteName",
+						siteInfo.SiteName)
+
+					for _, server := range environment.Servers {
+						results = append(results, inframodel.ServerTypeMetadata{
+							ServerName:          server.ServerName,
+							EnvironmentName:     environment.GetEnvironmentName(),
+							DeploymentLocations: deploymentLocationsWithSiteName,
+							AppPoolNames:        appPoolsWithSiteName,
+							ServiceNames:        serviceNames,
+							TaskNames:           taskNames,
+						})
+					}
+				}
+			}
+		}
+		im.Metadata = results
+		cache.SetCache("InfrastructureMetadata", key.String(), &im)
+		return &im, nil
+	}
+
 	for _, environment := range *environments {
-		// TODO: Is this algorithm even correct?
-		siteInfos := getIisSitesForEnvironment(&environment, allSiteParts)
-		for _, siteInfo := range *siteInfos {
-			var deploymentLocationsTrans []string
-			var appPoolNamesTrans []string
-			if len(*siteInfos) > 0 {
-				deploymentLocationsTrans = templating.TranscludeVariableInList(
-					deploymentLocations,
-					"SiteName",
-					siteInfo.SiteName)
-
-				appPoolNamesTrans = templating.TranscludeVariableInList(
-					appPoolNames,
-					"SiteName",
-					siteInfo.SiteName)
-			} else {
-				deploymentLocationsTrans = deploymentLocations
-				appPoolNamesTrans = appPoolNames
-			}
-
-			for _, server := range environment.Servers {
-				results = append(results, inframodel.ServerTypeMetadata{
-					ServerName:          server.ServerName,
-					EnvironmentName:     environment.GetEnvironmentName(),
-					DeploymentLocations: deploymentLocationsTrans,
-					AppPoolNames:        appPoolNamesTrans,
-					ServiceNames:        serviceNames,
-					TaskNames:           taskNames,
-				})
-			}
+		for _, server := range environment.Servers {
+			results = append(results, inframodel.ServerTypeMetadata{
+				ServerName:          server.ServerName,
+				EnvironmentName:     environment.GetEnvironmentName(),
+				DeploymentLocations: deploymentLocations,
+				AppPoolNames:        appPoolNames,
+				ServiceNames:        serviceNames,
+				TaskNames:           taskNames,
+			})
 		}
 	}
 
