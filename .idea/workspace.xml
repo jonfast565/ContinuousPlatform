@@ -4,11 +4,10 @@
     <bookmark url="file://$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" description="&#10;" line="75" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="update to allow multiple sites. is this even valid? rollback if necessary.">
+    <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/inframodel/environment.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/inframodel/environment.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/persistenceservice/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/server/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/build.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/build/build.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataloader/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/appsettings.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,28 +24,31 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistenceservice/server/server.go">
+        <entry file="file://$PROJECT_DIR$/dataloader/data.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="237" column="23" lean-forward="true" selection-start-line="237" selection-start-column="23" selection-end-line="237" selection-end-column="23" />
+            <state relative-caret-position="20281">
+              <caret line="1608" column="35" selection-start-line="1608" selection-start-column="35" selection-end-line="1608" selection-end-column="35" />
+              <folding>
+                <element signature="e#20#9933#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go">
+        <entry file="file://$PROJECT_DIR$/dataloader/appsettings.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="312" column="52" selection-start-line="312" selection-start-column="52" selection-end-line="312" selection-end-column="52" />
+            <state relative-caret-position="68">
+              <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/inframodel/environment.go">
+        <entry file="file://$PROJECT_DIR$/jobbuilder/appsettings.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+            <state relative-caret-position="153">
+              <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -71,6 +73,8 @@
       <find>SystemCI</find>
       <find>SanitizeSegments</find>
       <find>Development Site</find>
+      <find>econtracting</find>
+      <find>EContractingProcessor</find>
     </findStrings>
     <replaceStrings>
       <replace>models.JenkinsJobMetadata</replace>
@@ -88,9 +92,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/jenkinsservice/server/jenkinsutil.go" />
         <option value="$PROJECT_DIR$/jsonutil/jsonutil.go" />
-        <option value="$PROJECT_DIR$/jobbuilder/appsettings.json" />
         <option value="$PROJECT_DIR$/jobdashboard/main.go" />
         <option value="$PROJECT_DIR$/jobbuilder/scripttemplates.json" />
         <option value="$PROJECT_DIR$/fileutil/filewriter.go" />
@@ -134,11 +136,13 @@
         <option value="$PROJECT_DIR$/dataloader/importmodels/windowsserviceimport.go" />
         <option value="$PROJECT_DIR$/dataloader/importmodels/scheduledtaskimport.go" />
         <option value="$PROJECT_DIR$/dataloader/main.go" />
-        <option value="$PROJECT_DIR$/dataloader/data.json" />
         <option value="$PROJECT_DIR$/cache/cache.go" />
-        <option value="$PROJECT_DIR$/persistenceservice/server/server.go" />
         <option value="$PROJECT_DIR$/models/inframodel/environment.go" />
         <option value="$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go" />
+        <option value="$PROJECT_DIR$/persistenceservice/server/server.go" />
+        <option value="$PROJECT_DIR$/dataloader/data.json" />
+        <option value="$PROJECT_DIR$/jobbuilder/appsettings.json" />
+        <option value="$PROJECT_DIR$/dataloader/appsettings.json" />
       </list>
     </option>
   </component>
@@ -160,17 +164,6 @@
             <path>
               <item name="ContinuousPlatform" type="b2602c69:ProjectViewProjectNode" />
               <item name="ContinuousPlatform" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ContinuousPlatform" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ContinuousPlatform" type="462c0819:PsiDirectoryNode" />
-              <item name="persistenceservice" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ContinuousPlatform" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ContinuousPlatform" type="462c0819:PsiDirectoryNode" />
-              <item name="persistenceservice" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -218,7 +211,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.PersistenceService">
+  <component name="RunManager" selected="Go Build.JobBuilder">
     <configuration name="DataLoader" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="SystemCI" />
       <working_directory value="$PROJECT_DIR$/dataloader" />
@@ -339,8 +332,8 @@
       <window_info id="Favorites" order="2" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49626866" weight="0.4844517" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48865354" weight="0.43661973" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.48789713" visible="true" weight="0.4171181" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.48827294" visible="true" weight="0.5146262" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48789713" weight="0.4171181" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32502708" />
@@ -349,7 +342,7 @@
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49520257" weight="0.19312602" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32733223" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.51134646" side_tool="true" weight="0.45662847" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5117271" side_tool="true" weight="0.63163596" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24962178" />
@@ -400,8 +393,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="transport is centralized" />
-    <MESSAGE value="rename + debug logging" />
     <MESSAGE value="reorg, code is not working, added key stack functionality" />
     <MESSAGE value="commit this code" />
     <MESSAGE value="create/update split. updates are working. fixing folder creates, etc." />
@@ -425,7 +416,9 @@
     <MESSAGE value="added single node environments" />
     <MESSAGE value="added cache as a separate file" />
     <MESSAGE value="update to allow multiple sites. is this even valid? rollback if necessary." />
-    <option name="LAST_COMMIT_MESSAGE" value="update to allow multiple sites. is this even valid? rollback if necessary." />
+    <MESSAGE value="created allowances for site environments and applications." />
+    <MESSAGE value="updated publishing, data, etc. for production" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated publishing, data, etc. for production" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -520,13 +513,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/fileutil/filegraphfolder.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1046">
-          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fileutil/filegraph.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
@@ -607,13 +593,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/appsettings.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/constants/projectconstants.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -623,13 +602,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dataloader/error.log">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dataloader/appsettings.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/persistenceservice/appsettings.json">
       <provider selected="true" editor-type-id="text-editor">
@@ -787,16 +759,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dataloader/data.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="688">
-          <caret line="561" column="8" selection-start-line="561" selection-start-column="8" selection-end-line="561" selection-end-column="8" />
-          <folding>
-            <element signature="e#20#9933#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cache/cache.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -814,17 +776,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/persistenceservice/server/server.go">
+    <entry file="file://$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="237" column="23" lean-forward="true" selection-start-line="237" selection-start-column="23" selection-end-line="237" selection-end-column="23" />
+        <state relative-caret-position="315">
+          <caret line="312" column="52" selection-start-line="312" selection-start-column="52" selection-end-line="312" selection-end-column="52" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go">
+    <entry file="file://$PROJECT_DIR$/persistenceservice/server/server.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="312" column="52" selection-start-line="312" selection-start-column="52" selection-end-line="312" selection-end-column="52" />
+        <state relative-caret-position="317">
+          <caret line="275" column="5" lean-forward="true" selection-start-line="275" selection-start-column="5" selection-end-line="275" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/data.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20281">
+          <caret line="1608" column="35" selection-start-line="1608" selection-start-column="35" selection-end-line="1608" selection-end-column="35" />
+          <folding>
+            <element signature="e#20#9933#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/main.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/appsettings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataloader/appsettings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="33" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="33" />
         </state>
       </provider>
     </entry>
