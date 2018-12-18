@@ -4,8 +4,10 @@
     <bookmark url="file://$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" description="&#10;" line="75" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="">
+    <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="update data and templates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataloader/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/data.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,7 +22,20 @@
     <favorites_list name="PlatformCI" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="683">
+                <caret line="59" column="30" lean-forward="true" selection-start-line="59" selection-start-column="30" selection-end-line="59" selection-end-column="30" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -49,7 +64,7 @@
       <replace>dndbc.LogInfoMultilineWithContext(</replace>
     </replaceStrings>
     <dirStrings>
-      <dir>C:\Users\***REMOVED***\Desktop\Repos\PlatformCI</dir>
+      <dir>C:\Users\jfast\Desktop\Repos\PlatformCI</dir>
     </dirStrings>
   </component>
   <component name="GOROOT" path="C:\Go" />
@@ -59,7 +74,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/jobdashboard/main.go" />
         <option value="$PROJECT_DIR$/jobbuilder/scripttemplates.json" />
         <option value="$PROJECT_DIR$/fileutil/filewriter.go" />
         <option value="$PROJECT_DIR$/models/genmodel/scripttemplate.go" />
@@ -110,12 +124,13 @@
         <option value="$PROJECT_DIR$/jobbuilder/appsettings.json" />
         <option value="$PROJECT_DIR$/dataloader/appsettings.json" />
         <option value="$PROJECT_DIR$/persistenceservice/appsettings.json" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="497" />
-    <option name="y" value="183" />
+    <option name="x" value="678" />
+    <option name="y" value="286" />
     <option name="width" value="1026" />
     <option name="height" value="546" />
   </component>
@@ -124,7 +139,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="ContinuousPlatform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ContinuousPlatform" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ContinuousPlatform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ContinuousPlatform" type="462c0819:PsiDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
     </panes>
   </component>
@@ -142,18 +172,18 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\PlatformCI\clients" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\PlatformCI\modelgenerator\models" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\models\jobmodel" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\models\repomodel" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\models\persistmodel" />
+      <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\clients" />
+      <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\modelgenerator\models" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\jobmodel" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\repomodel" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\persistmodel" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\PlatformCI\jobbuilder" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\jobbuilder" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\jobcontroller" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\persistenceservice" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\offlinetester" />
+      <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\jobbuilder" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\jobbuilder" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\jobcontroller" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\persistenceservice" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\offlinetester" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -236,7 +266,7 @@
       <framework value="gotest" />
       <kind value="FILE" />
       <directory value="$PROJECT_DIR$/fileutil" />
-      <filePath value="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\fileutil\filegraph.go|C:\Users\***REMOVED***\Desktop\Repos\SystemCI\fileutil\filegraph_test.go" />
+      <filePath value="C:\Users\jfast\Desktop\Repos\SystemCI\fileutil\filegraph.go|C:\Users\jfast\Desktop\Repos\SystemCI\fileutil\filegraph_test.go" />
       <output_directory value="$PROJECT_DIR$/fileutil" />
       <method v="2" />
     </configuration>
@@ -282,8 +312,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.22334754" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.13432837" />
       <window_info id="Structure" order="1" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info id="Favorites" order="2" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -295,7 +326,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32502708" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.41061756" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49520257" weight="0.19312602" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49520257" weight="0.7713976" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32733223" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5117271" side_tool="true" weight="0.5146262" />
@@ -349,7 +380,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="commit this code" />
     <MESSAGE value="create/update split. updates are working. fixing folder creates, etc." />
     <MESSAGE value="added no data string, removed auto build from build script" />
     <MESSAGE value="added gocui starter code" />
@@ -374,7 +404,8 @@
     <MESSAGE value="created allowances for site environments and applications." />
     <MESSAGE value="updated publishing, data, etc. for production" />
     <MESSAGE value="fix database names and build script for publishing" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix database names and build script for publishing" />
+    <MESSAGE value="go fmt all" />
+    <option name="LAST_COMMIT_MESSAGE" value="go fmt all" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -469,13 +500,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/fileutil/filegraph.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="148" column="37" selection-start-line="148" selection-start-column="37" selection-end-line="148" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build/build.cmd">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="31">
@@ -708,16 +732,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cache/cache.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="61" selection-start-line="16" selection-start-column="61" selection-end-line="16" selection-end-column="61" />
-          <folding>
-            <element signature="e#15#66#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/inframodel/environment.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -770,6 +784,26 @@
           <folding>
             <element signature="e#20#9933#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cache/cache.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="57" selection-start-line="16" selection-start-column="57" selection-end-line="16" selection-end-column="57" />
+          <folding>
+            <element signature="e#15#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="683">
+            <caret line="59" column="30" lean-forward="true" selection-start-line="59" selection-start-column="30" selection-end-line="59" selection-end-column="30" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
