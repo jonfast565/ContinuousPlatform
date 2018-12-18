@@ -10,7 +10,7 @@ import (
 	"sync"
 )
 
-func BuildDeliverables(details *jobmodel.JobDetails) {
+func BuildDeliverables(details *jobmodel.JobDetails) bool {
 	defer func() {
 		if r := recover(); r != nil {
 			details.SetJobErrored()
@@ -58,6 +58,8 @@ func BuildDeliverables(details *jobmodel.JobDetails) {
 	if err != nil {
 		panic(err)
 	}
+
+	return true
 }
 
 func buildDeliverable(repository repomodel.RepositoryMetadata,

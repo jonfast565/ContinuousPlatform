@@ -1,15 +1,39 @@
 package jobmodel
 
 import (
+	"../../logging"
 	"fmt"
 	"sync/atomic"
 )
 
 type JobDetails struct {
-	Trigger       bool
-	Status        JobStatus
-	Progress      int64
-	TotalProgress int64
+	Name           string
+	Trigger        bool
+	Status         JobStatus
+	Progress       int64
+	TotalProgress  int64
+	jobDescription string
+	nextJob        *JobDetails
+	runnable       func(jobDetails *JobDetails) bool
+}
+
+type JobDetailsList []*JobDetails
+
+func NewJobDetails(
+	name string,
+	jobDescription string,
+	nextJob *JobDetails,
+	runnable func(jobDetails *JobDetails) bool) *JobDetails {
+	return &JobDetails{
+		Name:           name,
+		Trigger:        false,
+		Status:         Stopped,
+		Progress:       0,
+		TotalProgress:  0,
+		jobDescription: jobDescription,
+		nextJob:        nextJob,
+		runnable:       runnable,
+	}
 }
 
 func (jd *JobDetails) SetProgress(newValue int64) {
@@ -70,4 +94,21 @@ func (jd *JobDetails) TriggerJob() {
 
 func (jd *JobDetails) Errored() bool {
 	return jd.Status == Errored
+}
+
+func (jd *JobDetails) RunJob() bool {
+	result := false
+	if jd.Trigger {
+		logging.LogInfo(jd.jobDescription)
+		jd.UnsetTriggerBeginRun()
+		result = jd.runnable(jd)
+		jd.SetJobStoppedOrErrored()
+		if !jd.Errored() {
+			if jd.nextJob != nil {
+				jd.nextJob.TriggerJob()
+			}
+			return result
+		}
+	}
+	return false
 }

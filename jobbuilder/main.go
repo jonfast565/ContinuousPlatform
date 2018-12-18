@@ -24,12 +24,15 @@ func main() {
 	logging.LogApplicationStart()
 
 	jsonutil.DecodeJsonFromFile("./appsettings.json", &configuration)
-	controller = jobmodel.NewJobController()
+
+	jobs := initializeJobDetailsList()
+
+	controller = jobmodel.NewJobController(jobs)
 	if configuration.RunJobsOnStartup {
 		controller.TriggerStartingJob()
 	}
-	quit := make(chan bool)
 
+	quit := make(chan bool)
 	go func() {
 		for {
 			select {
@@ -37,90 +40,10 @@ func main() {
 				return
 			default:
 				logging.LogInfo("Beginning job cycle")
-
-				if controller.DetectChanges.Trigger {
-					logging.LogInfo("Detect changes")
-					controller.DetectChanges.UnsetTriggerBeginRun()
-					changesExist := server.SourceControlChangesExist(&controller.DetectChanges)
-					controller.DetectChanges.SetJobStoppedOrErrored()
-
-					if !controller.DetectChanges.Errored() {
-						if changesExist {
-							logging.LogInfo("Changes detected. Building deliverables")
-							controller.BuildDeliverables.TriggerJob()
-						} else {
-							if configuration.ProceedDespiteNoChanges {
-								logging.LogInfo("Change override set. Proceeding despite no changes")
-								controller.BuildDeliverables.TriggerJob()
-							} else {
-								logging.LogInfo("No changes detected. Initiating change cycle again")
-								controller.DetectChanges.TriggerJob()
-
-								if configuration.ChangeRateLimiting {
-									logging.LogInfo("Rate limit wait time: " +
-										strconv.Itoa(configuration.ChangeRateLimit) + "s")
-									rateLimitDuration := time.Duration(configuration.ChangeRateLimit)
-									time.Sleep(rateLimitDuration * time.Second)
-								}
-							}
-						}
-					}
-					continue
-				}
-
-				if controller.BuildDeliverables.Trigger {
-					logging.LogInfo("Build deliverables")
-					controller.BuildDeliverables.UnsetTriggerBeginRun()
-					server.BuildDeliverables(&controller.BuildDeliverables)
-					controller.BuildDeliverables.SetJobStoppedOrErrored()
-
-					if !controller.BuildDeliverables.Errored() {
-						controller.GenerateScripts.TriggerJob()
-					}
-					continue
-				}
-
-				if controller.GenerateScripts.Trigger {
-					logging.LogInfo("Generate scripts")
-					controller.GenerateScripts.UnsetTriggerBeginRun()
-					server.GenerateScripts(&controller.GenerateScripts)
-					controller.GenerateScripts.SetJobStoppedOrErrored()
-
-					if !controller.GenerateScripts.Errored() {
-						controller.DeployDebugScripts.TriggerJob()
-					}
-					continue
-				}
-
-				if controller.DeployDebugScripts.Trigger {
-					logging.LogInfo("Deploy scripts for debugging")
-					controller.DeployDebugScripts.UnsetTriggerBeginRun()
-					server.DeployScriptsForDebugging(configuration.DebugBasePath, &controller.DeployDebugScripts)
-					controller.DeployDebugScripts.SetJobStoppedOrErrored()
-
-					if !controller.DeployDebugScripts.Errored() {
-						controller.DeployJenkinsJobs.TriggerJob()
-					}
-					continue
-				}
-
-				if controller.DeployJenkinsJobs.Trigger {
-					logging.LogInfo("Deploy Jenkins jobs")
-					controller.DeployJenkinsJobs.UnsetTriggerBeginRun()
-					server.DeployJenkinsJobs(&controller.DeployJenkinsJobs)
-					controller.DeployJenkinsJobs.SetJobStoppedOrErrored()
-
-					if !controller.DeployJenkinsJobs.Errored() &&
-						configuration.CyclicalRuns {
-						logging.LogInfo("Cyclical run enabled. Triggering starting job.")
-						controller.TriggerStartingJob()
-					}
-					continue
-				}
-
+				controller.RunSequence()
 				logging.LogInfo("Between job wait: " +
-					strconv.Itoa(configuration.BetweenJobWait) + "s")
-				betweenJobDuration := time.Duration(configuration.BetweenJobWait)
+					strconv.Itoa(configuration.BetweenCycleWait) + "s")
+				betweenJobDuration := time.Duration(configuration.BetweenCycleWait)
 				time.Sleep(betweenJobDuration * time.Second)
 			}
 		}
@@ -136,6 +59,42 @@ func main() {
 
 	quit <- true
 	logging.LogApplicationEnd()
+}
+
+func initializeJobDetailsList() jobmodel.JobDetailsList {
+	deployJenkinsJobsJob := jobmodel.NewJobDetails(
+		"DeployJenkinsJobs",
+		"Deploy Jenkins jobs",
+		nil,
+		server.DeployJenkinsJobs)
+	deployDebugScriptsJob := jobmodel.NewJobDetails(
+		"DeployDebugScripts",
+		"Deploy debug scripts",
+		deployJenkinsJobsJob,
+		server.DeployScriptsForDebugging)
+	generateScriptsJob := jobmodel.NewJobDetails(
+		"GenerateScripts",
+		"Generate scripts",
+		deployDebugScriptsJob,
+		server.GenerateScripts)
+	buildDeliverablesJob := jobmodel.NewJobDetails(
+		"BuildDeliverables",
+		"Build deliverables",
+		generateScriptsJob,
+		server.BuildDeliverables)
+	changeDetectorJob := jobmodel.NewJobDetails(
+		"DetectChanges",
+		"Detect changes",
+		buildDeliverablesJob,
+		server.DetectChanges)
+	jobs := jobmodel.JobDetailsList{
+		changeDetectorJob,
+		buildDeliverablesJob,
+		generateScriptsJob,
+		deployDebugScriptsJob,
+		deployJenkinsJobsJob,
+	}
+	return jobs
 }
 
 func triggerJob(w http.ResponseWriter, r *http.Request) {
