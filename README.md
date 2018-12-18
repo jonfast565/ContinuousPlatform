@@ -6,45 +6,65 @@ an internal app used at ACC to instrument Jenkins builds from source control met
  
 #### Run the following to get everything built:
 
+##### Windows
 ~~~~Batchfile
 :: TODO: fix this, not all copy steps for config files are here
 cd ./directory/where/this/repo/is/cloned
 
-:: Build all the Go stuff
-go build -o build ./dataloader/main.go 
-go build -o build ./jenkinsservice/main.go
-go build -o build ./jobbuilder/main.go
-go build -o build ./jobdashboard/main.go
-go build -o build ./persistenceservice/main.go
-go build -o build ./reposervice/main.go
-go build -o build ./teamsnotifier/main.go
+:: Build all the things
+./build/build.cmd
+~~~~
 
-:: Build all the .NET Core stuff
-cd ./msbuildservice/PlatformCI.MsBuildService.Api
-dotnet build
+##### Linux/OSX
+~~~~bash
+# TODO: fix this, not all copy steps for config files are here
+cd ./directory/where/this/repo/is/cloned
+
+# Build all the things
+./build/build.sh
 ~~~~
 
 #### Run the following to run everything:
 
+##### Windows
 ~~~~Batchfile
 cd ./directory/where/this/repo/is/cloned
 
 :: Run all the Go stuff
-start ./build/dataloader.exe
-start ./build/jenkinsservice.exe
-start ./build/jobbuilder.exe
-start ./build/jobdashboard.exe
-start ./build/persistenceservice.exe
-start ./build/reposervice.exe
-start ./build/teamnotifier.exe
+start ./build/output/dataloader/dataloader.exe
+start ./build/output/jenkinsservice/jenkinsservice.exe
+start ./build/output/jobbuilder/jobbuilder.exe
+start ./build/output/jobdashboard/jobdashboard.exe
+start ./build/output/persistenceservice/persistenceservice.exe
+start ./build/output/reposervice/reposervice.exe
+start ./build/output/teamsnotifier/teamsnotifier.exe
 
 :: Run all the .NET Core stuff
-cd ./msbuildservice/PlatformCI.MsBuildService.Api
-dotnet run
+cd ./output/msbuildservice
+start ./PlatformCI.MsBuildService.Api.exe
 ~~~~
 
-## Library Credits
+##### Linux/OSX
+~~~~bash
+cd ./directory/where/this/repo/is/cloned
+
+# Run all the Go stuff
+bg ./build/output/dataloader/dataloader.exe
+bg ./build/output/jenkinsservice/jenkinsservice.exe
+bg ./build/output/jobbuilder/jobbuilder.exe
+bg ./build/output/jobdashboard/jobdashboard.exe
+bg ./build/output/persistenceservice/persistenceservice.exe
+bg ./build/output/reposervice/reposervice.exe
+bg ./build/output/teamsnotifier/teamsnotifier.exe
+
+# Run all the .NET Core stuff
+cd ./output/msbuildservice
+bg dotnet ./PlatformCI.MsBuildService.Api.dll # ??
+~~~~
+
+### Libraries
 1. Gorm - https://github.com/jinzhu/gorm
 1. Lumberjack - https://gopkg.in/natefinch/lumberjack.v2	
 1. Go-Errors - https://github.com/go-errors/errors
 1. Raymond - https://github.com/aymerick/raymond
+1. Go-Cache - https://github.com/patrickmn/go-cache
