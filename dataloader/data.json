@@ -282,7 +282,7 @@
       "Project": "PublicReportingApi.csproj",
       "Resources": {
         "IisApplications": [
-          "NCDRDataSubmissionWCF"
+          "PublicReportingApi"
         ]
       }
     },
@@ -467,8 +467,8 @@
       "Applications": [
         "ClientLogo",
         "lb",
-        "NcdrDataSubmissionApi",
-        "NcdrDataSubmissionWCF",
+        "NCDRDataSubmissionApi",
+        "NCDRDataSubmissionWCF",
         "NCDRServices",
         "PinnacleVendorService",
         "PublicReportingApi",
@@ -494,8 +494,8 @@
       "Applications": [
         "ClientLogo",
         "lb",
-        "NcdrDataSubmissionApi",
-        "NcdrDataSubmissionWCF",
+        "NCDRDataSubmissionApi",
+        "NCDRDataSubmissionWCF",
         "NCDRServices",
         "PinnacleVendorService",
         "PublicReportingApi",
@@ -578,8 +578,8 @@
       "Applications": [
         "ClientLogo",
         "lb",
-        "NcdrDataSubmissionApi",
-        "NcdrDataSubmissionWCF",
+        "NCDRDataSubmissionApi",
+        "NCDRDataSubmissionWCF",
         "NCDRServices",
         "PinnacleVendorService",
         "PublicReportingApi",
@@ -635,8 +635,8 @@
         "LAAODCT",
         "lb",
         "NcdrAdminControl",
-        "NcdrDataSubmissionApi",
-        "NcdrDataSubmissionWCF",
+        "NCDRDataSubmissionApi",
+        "NCDRDataSubmissionWCF",
         "NCDRServices",
         "NCDRWebServiceUtility",
         "PinnacleVendorService",
@@ -684,8 +684,8 @@
         "LAAODCT",
         "lb",
         "NcdrAdminControl",
-        "NcdrDataSubmissionApi",
-        "NcdrDataSubmissionWCF",
+        "NCDRDataSubmissionApi",
+        "NCDRDataSubmissionWCF",
         "NCDRServices",
         "NCDRWebServiceUtility",
         "PinnacleVendorService",
@@ -733,8 +733,8 @@
         "LAAODCT",
         "lb",
         "NcdrAdminControl",
-        "NcdrDataSubmissionApi",
-        "NcdrDataSubmissionWCF",
+        "NCDRDataSubmissionApi",
+        "NCDRDataSubmissionWCF",
         "NCDRServices",
         "NCDRWebServiceUtility",
         "PinnacleVendorService",
@@ -782,8 +782,8 @@
         "LAAODCT",
         "lb",
         "NcdrAdminControl",
-        "NcdrDataSubmissionApi",
-        "NcdrDataSubmissionWCF",
+        "NCDRDataSubmissionApi",
+        "NCDRDataSubmissionWCF",
         "NCDRServices",
         "NCDRWebServiceUtility",
         "PinnacleVendorService",
@@ -831,8 +831,8 @@
         "LAAODCT",
         "lb",
         "NcdrAdminControl",
-        "NcdrDataSubmissionApi",
-        "NcdrDataSubmissionWCF",
+        "NCDRDataSubmissionApi",
+        "NCDRDataSubmissionWCF",
         "NCDRServices",
         "NCDRWebServiceUtility",
         "PinnacleVendorService",
@@ -907,8 +907,8 @@
       "Applications": [
         "ClientLogo",
         "lb",
-        "NcdrDataSubmissionApi",
-        "NcdrDataSubmissionWCF",
+        "NCDRDataSubmissionApi",
+        "NCDRDataSubmissionWCF",
         "NCDRServices",
         "PinnacleVendorService",
         "PublicReportingApi",
@@ -964,8 +964,8 @@
         "LAAODCT",
         "lb",
         "NcdrAdminControl",
-        "NcdrDataSubmissionApi",
-        "NcdrDataSubmissionWCF",
+        "NCDRDataSubmissionApi",
+        "NCDRDataSubmissionWCF",
         "NCDRServices",
         "NCDRWebServiceUtility",
         "PinnacleVendorService",
@@ -1152,19 +1152,19 @@
       }
     },
     {
-      "Name": "NcdrDataSubmissionApi",
-      "VirtualPath": "/NcdrDataSubmissionApi",
-      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\NcdrDataSubmissionApi",
+      "Name": "NCDRDataSubmissionApi",
+      "VirtualPath": "/NCDRDataSubmissionApi",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\NCDRDataSubmissionApi",
       "ApplicationPool": {
-        "Name": "NcdrDataSubmissionApi",
+        "Name": "NCDRDataSubmissionApi",
         "ProcessType": "Integrated",
         "FrameworkVersion": "v4.0"
       }
     },
     {
-      "Name": "NcdrDataSubmissionWCF",
-      "VirtualPath": "/NcdrDataSubmissionWCF",
-      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\NcdrDataSubmissionWCF",
+      "Name": "NCDRDataSubmissionWCF",
+      "VirtualPath": "/NCDRDataSubmissionWCF",
+      "PhysicalPath": "C:\\Websites\\{{SiteName}}\\NCDRDataSubmissionWCF",
       "ApplicationPool": {
         "Name": "NCDRDataSubmissionWCF",
         "ProcessType": "Integrated",
