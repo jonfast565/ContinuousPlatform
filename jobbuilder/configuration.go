@@ -1,6 +1,6 @@
 package main
 
-type Configuration struct {
+type JobConfiguration struct {
 	Port              int
 	RunJobsOnStartup  bool
 	CyclicalRuns      bool
