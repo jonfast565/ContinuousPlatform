@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" description="&#10;" line="75" />
+    <bookmark url="file://$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" description="&#10;" line="77" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="update data and templates">
+    <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="update data, templates, and readme.">
+      <change afterPath="$PROJECT_DIR$/jobbuilder/server/reportbuilder.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobbuilder/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobbuilder/configuration.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/configuration.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobbuilder/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobbuilder/server/changedetector.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/changedetector.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobbuilder/server/scriptdebugger.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/scriptdebugger.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/jobmodel/jobcontroller.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/jobmodel/jobcontroller.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/jobmodel/jobdetails.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/jobmodel/jobdetails.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,15 +31,48 @@
     <favorites_list name="PlatformCI" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jobbuilder/main.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="16" column="20" lean-forward="true" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/jobmodel/jobcontroller.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="18" column="26" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="683">
-                <caret line="59" column="30" lean-forward="true" selection-start-line="59" selection-start-column="30" selection-end-line="59" selection-end-column="30" />
-              </first_editor>
-              <second_editor />
+        <entry file="file://$PROJECT_DIR$/models/jobmodel/jobdetails.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="753">
+              <caret line="112" column="15" selection-start-line="112" selection-start-column="15" selection-end-line="112" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jobbuilder/appsettings.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jobbuilder/configuration.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="31" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -70,18 +112,15 @@
   <component name="GOROOT" path="C:\Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/jobbuilder/scripttemplates.json" />
-        <option value="$PROJECT_DIR$/fileutil/filewriter.go" />
-        <option value="$PROJECT_DIR$/models/genmodel/scripttemplate.go" />
-        <option value="$PROJECT_DIR$/models/genmodel/scriptkeyvaluepair.go" />
-        <option value="$PROJECT_DIR$/jobbuilder/server/scriptdebugger.go" />
-        <option value="$PROJECT_DIR$/models/miscmodel/yesno.go" />
-        <option value="$PROJECT_DIR$/jenkinsservice/main.go" />
-        <option value="$PROJECT_DIR$/constants/persistenceconstants.go" />
         <option value="$PROJECT_DIR$/clients/jenkinsclient/jenkinsclient.go" />
         <option value="$PROJECT_DIR$/constants/jenkinsconstants.go" />
         <option value="$PROJECT_DIR$/webutil/requests.go" />
@@ -89,7 +128,6 @@
         <option value="$PROJECT_DIR$/jenkinsservice/server/jenkinsendpoint.go" />
         <option value="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobmetadata.go" />
         <option value="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobrequest.go" />
-        <option value="$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" />
         <option value="$PROJECT_DIR$/models/projectmodel/msbuildpublishprofile.go" />
         <option value="$PROJECT_DIR$/pathutil/pathutil_test.go" />
         <option value="$PROJECT_DIR$/models/projectmodel/msbuildprojectexport.go" />
@@ -99,7 +137,6 @@
         <option value="$PROJECT_DIR$/build/build.cmd" />
         <option value="$PROJECT_DIR$/models/projectmodel/dotnetdeliverable.go" />
         <option value="$PROJECT_DIR$/jobbuilder/server/generators/dotnetscriptgenerators.go" />
-        <option value="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" />
         <option value="$PROJECT_DIR$/stringutil/stringutil.go" />
         <option value="$PROJECT_DIR$/jobbuilder/server/builders/dotnetdeliverablebuilder.go" />
         <option value="$PROJECT_DIR$/constants/projectconstants.go" />
@@ -121,16 +158,26 @@
         <option value="$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go" />
         <option value="$PROJECT_DIR$/persistenceservice/server/server.go" />
         <option value="$PROJECT_DIR$/dataloader/data.json" />
-        <option value="$PROJECT_DIR$/jobbuilder/appsettings.json" />
         <option value="$PROJECT_DIR$/dataloader/appsettings.json" />
         <option value="$PROJECT_DIR$/persistenceservice/appsettings.json" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/jobbuilder/server/reportbuilder.go" />
+        <option value="$PROJECT_DIR$/jobbuilder/server/changedetector.go" />
+        <option value="$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go" />
+        <option value="$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go" />
+        <option value="$PROJECT_DIR$/jobbuilder/server/scriptdebugger.go" />
+        <option value="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" />
+        <option value="$PROJECT_DIR$/models/jobmodel/jobcontroller.go" />
+        <option value="$PROJECT_DIR$/jobbuilder/main.go" />
+        <option value="$PROJECT_DIR$/jobbuilder/configuration.go" />
+        <option value="$PROJECT_DIR$/jobbuilder/appsettings.json" />
+        <option value="$PROJECT_DIR$/models/jobmodel/jobdetails.go" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="678" />
-    <option name="y" value="286" />
+    <option name="x" value="609" />
+    <option name="y" value="465" />
     <option name="width" value="1026" />
     <option name="height" value="546" />
   </component>
@@ -139,6 +186,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -149,13 +197,12 @@
             <path>
               <item name="ContinuousPlatform" type="b2602c69:ProjectViewProjectNode" />
               <item name="ContinuousPlatform" type="462c0819:PsiDirectoryNode" />
-              <item name="build" type="462c0819:PsiDirectoryNode" />
+              <item name="jobbuilder" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -314,7 +361,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.13432837" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.26865673" />
       <window_info id="Structure" order="1" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info id="Favorites" order="2" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -380,7 +427,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="create/update split. updates are working. fixing folder creates, etc." />
     <MESSAGE value="added no data string, removed auto build from build script" />
     <MESSAGE value="added gocui starter code" />
     <MESSAGE value="added script types to script keying" />
@@ -405,7 +451,8 @@
     <MESSAGE value="updated publishing, data, etc. for production" />
     <MESSAGE value="fix database names and build script for publishing" />
     <MESSAGE value="go fmt all" />
-    <option name="LAST_COMMIT_MESSAGE" value="go fmt all" />
+    <MESSAGE value="update data, templates, and readme." />
+    <option name="LAST_COMMIT_MESSAGE" value="update data, templates, and readme." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -500,72 +547,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/build/build.cmd">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="44" lean-forward="true" selection-start-line="44" selection-end-line="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/projectmodel/msbuildproject.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/projectmodel/msbuildsolutionexport.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/projectmodel/dotnetdeliverable.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="26" column="38" selection-start-line="26" selection-start-column="38" selection-end-line="26" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/jobmodel/jobdetails.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/server/generators/dotnetscriptgenerators.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="230" column="5" lean-forward="true" selection-start-line="230" selection-start-column="5" selection-end-line="230" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2414">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stringutil/stringutil.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="132" column="19" selection-start-line="132" selection-start-column="5" selection-end-line="132" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/server/builders/dotnetdeliverablebuilder.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="303" column="74" selection-start-line="303" selection-start-column="74" selection-end-line="303" selection-end-column="74" />
-          <folding>
-            <element signature="e#18#322#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jobbuilder/scripttemplates.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -753,16 +734,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/main.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jobbuilder/appsettings.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/persistenceservice/appsettings.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -787,23 +758,100 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="34">
+            <caret line="2" column="20" lean-forward="true" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/server/reportbuilder.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cache/cache.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="57" selection-start-line="16" selection-start-column="57" selection-end-line="16" selection-end-column="57" />
+        <state relative-caret-position="170">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
           <folding>
             <element signature="e#15#66#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="683">
-            <caret line="59" column="30" lean-forward="true" selection-start-line="59" selection-start-column="30" selection-end-line="59" selection-end-column="30" />
-          </first_editor>
-          <second_editor />
+    <entry file="file://$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/server/scriptdebugger.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="7" column="66" selection-start-line="7" selection-start-column="66" selection-end-line="7" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/server/jenkinsbootstrapper.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="42" column="21" lean-forward="true" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/server/changedetector.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="11" column="53" selection-start-line="11" selection-start-column="49" selection-end-line="11" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/server/deliverablebuilder.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="918">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/jobmodel/jobcontroller.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="26" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="16" column="20" lean-forward="true" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/configuration.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="31" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jobbuilder/appsettings.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/jobmodel/jobdetails.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="753">
+          <caret line="112" column="15" selection-start-line="112" selection-start-column="15" selection-end-line="112" selection-end-column="15" />
         </state>
       </provider>
     </entry>

@@ -5,7 +5,7 @@ import (
 	"../../models/jobmodel"
 )
 
-func DeployScriptsForDebugging(debugBasePath string, details *jobmodel.JobDetails) {
+func DeployScriptsForDebugging(details *jobmodel.JobDetails) bool {
 	defer func() {
 		if r := recover(); r != nil {
 			details.SetJobErrored()
@@ -26,4 +26,6 @@ func DeployScriptsForDebugging(debugBasePath string, details *jobmodel.JobDetail
 			fileutil.WriteFile(fileName, script.Value)
 		}
 	*/
+
+	return true
 }
