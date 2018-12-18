@@ -7,6 +7,7 @@ import (
 	"../models/jobmodel"
 	"../networking"
 	"./server"
+	"github.com/ahmetb/go-linq"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
@@ -14,7 +15,7 @@ import (
 )
 
 var (
-	configuration Configuration
+	configuration JobConfiguration
 	controller    jobmodel.JobController
 )
 
@@ -41,10 +42,12 @@ func main() {
 			default:
 				logging.LogInfo("Beginning job cycle")
 				controller.RunSequence()
-				logging.LogInfo("Between job wait: " +
-					strconv.Itoa(configuration.BetweenCycleWait) + "s")
-				betweenJobDuration := time.Duration(configuration.BetweenCycleWait)
-				time.Sleep(betweenJobDuration * time.Second)
+				if configuration.CycleRateLimiting {
+					logging.LogInfo("Cycle rate limit: " +
+						strconv.Itoa(configuration.CycleRateLimit) + "s")
+					betweenJobDuration := time.Duration(configuration.CycleRateLimit)
+					time.Sleep(betweenJobDuration * time.Second)
+				}
 			}
 		}
 	}()
@@ -107,28 +110,17 @@ func triggerJob(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	switch model.JobName {
-	case "DetectChanges":
-		controller.DetectChanges.TriggerJob()
-		break
-	case "BuildDeliverables":
-		controller.BuildDeliverables.TriggerJob()
-		break
-	case "GenerateScripts":
-		controller.GenerateScripts.TriggerJob()
-		break
-	case "DeployDebugScripts":
-		controller.DeployDebugScripts.TriggerJob()
-		break
-	case "DeployJenkinsJobs":
-		controller.DeployJenkinsJobs.TriggerJob()
-		break
-	default:
-		w.WriteHeader(500)
-		return
-	}
+	result := linq.From(controller.JobList).FirstWithT(func(jobDetail *jobmodel.JobDetails) bool {
+		return jobDetail.Name == model.JobName
+	})
 
-	w.WriteHeader(200)
+	if result != nil {
+		resultPtr := result.(*jobmodel.JobDetails)
+		resultPtr.TriggerJob()
+		w.WriteHeader(200)
+	} else {
+		w.WriteHeader(500)
+	}
 }
 
 func getJobDetails(w http.ResponseWriter, r *http.Request) {
