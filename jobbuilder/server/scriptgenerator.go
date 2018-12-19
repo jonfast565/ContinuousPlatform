@@ -8,7 +8,7 @@ import (
 	"./generators"
 )
 
-func GenerateScripts(details *jobmodel.JobDetails) {
+func GenerateScripts(details *jobmodel.JobDetails) bool {
 	defer func() {
 		if r := recover(); r != nil {
 			details.SetJobErrored()
@@ -38,6 +38,8 @@ func GenerateScripts(details *jobmodel.JobDetails) {
 	if err != nil {
 		panic(err)
 	}
+
+	return true
 }
 
 func generateDotNetScripts(
