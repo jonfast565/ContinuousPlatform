@@ -2,6 +2,20 @@
 :: Change to sh to run on Linux
 :: Runs on Windows with Bash for Linux Subsystem
 
+:: go get all libs
+go get "github.com/ahmetb/go-linq"
+go get "github.com/go-errors/errors"
+go get "github.com/jinzhu/gorm"
+go get "github.com/jinzhu/gorm/dialects/postgres"
+go get "github.com/lib/pq"
+go get "github.com/satori/go.uuid"
+go get "gopkg.in/natefinch/lumberjack.v2"
+go get "github.com/aymerick/raymond"
+go get "github.com/gorilla/mux"
+go get "github.com/yosssi/gohtml"
+go get "github.com/patrickmn/go-cache"
+
+:: output folder
 mkdir output
 cd "./output"
 
