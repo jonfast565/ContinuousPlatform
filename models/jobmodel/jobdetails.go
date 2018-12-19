@@ -109,6 +109,8 @@ func (jd *JobDetails) RunJob() bool {
 			}
 			return result
 		}
+	} else {
+		return true
 	}
 	return false
 }
