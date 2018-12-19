@@ -1,23 +1,24 @@
 package jobmodel
 
 type JobController struct {
-	DetectChanges      JobDetails
-	BuildDeliverables  JobDetails
-	GenerateScripts    JobDetails
-	DeployDebugScripts JobDetails
-	DeployJenkinsJobs  JobDetails
+	JobList JobDetailsList
 }
 
-func NewJobController() JobController {
+func NewJobController(jobs JobDetailsList) JobController {
 	return JobController{
-		DetectChanges:      JobDetails{Trigger: false, Status: Stopped},
-		BuildDeliverables:  JobDetails{Trigger: false, Status: Stopped},
-		GenerateScripts:    JobDetails{Trigger: false, Status: Stopped},
-		DeployDebugScripts: JobDetails{Trigger: false, Status: Stopped},
-		DeployJenkinsJobs:  JobDetails{Trigger: false, Status: Stopped},
+		JobList: jobs,
 	}
 }
 
 func (jc *JobController) TriggerStartingJob() {
-	jc.DetectChanges.Trigger = true
+	jc.JobList[0].Trigger = true
+}
+
+func (jc JobController) RunSequence() {
+	for _, job := range jc.JobList {
+		result := job.RunJob()
+		if !result {
+			break
+		}
+	}
 }

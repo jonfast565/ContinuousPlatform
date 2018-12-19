@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-func SourceControlChangesExist(details *jobmodel.JobDetails) bool {
+func DetectChanges(details *jobmodel.JobDetails) bool {
 	defer func() {
 		if r := recover(); r != nil {
 			details.SetJobErrored()

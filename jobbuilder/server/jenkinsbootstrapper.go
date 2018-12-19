@@ -12,7 +12,7 @@ import (
 	"sort"
 )
 
-func DeployJenkinsJobs(details *jobmodel.JobDetails) {
+func DeployJenkinsJobs(details *jobmodel.JobDetails) bool {
 	defer func() {
 		if r := recover(); r != nil {
 			details.SetJobErrored()
@@ -36,6 +36,8 @@ func DeployJenkinsJobs(details *jobmodel.JobDetails) {
 	jenkinsKeys := jenkinsMetadata.GetFlattenedKeys()
 	edits := buildEditList(myKeys, jenkinsKeys, scripts)
 	persistEditList(details, edits, jenkinsClient)
+
+	return true
 }
 
 func persistEditList(
