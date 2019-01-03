@@ -10,7 +10,7 @@ var (
 	GetMethod          = "GET"
 	DefaultScheme      = "http"
 	ClientTimeout      = 60 * time.Minute
-	MaxIdleConnections = 50
+	MaxIdleConnections = 999999
 )
 
 var DefaultTransport = &http.Transport{

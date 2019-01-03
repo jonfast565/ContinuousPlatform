@@ -2,6 +2,7 @@ package server
 
 import (
 	"../../constants"
+	"../../limitutil"
 	"../../logging"
 	"../../models/filesysmodel"
 	"../../models/miscmodel"
@@ -37,6 +38,7 @@ func NewTeamServicesEndpoint(configuration TeamServicesConfiguration) *TeamServi
 func (e TeamServicesEndpoint) GetRepositories() (*repomodel.RepositoryPackage, error) {
 	results := make([]repomodel.RepositoryMetadata, 0)
 	resultsChannel := make(chan repomodel.RepositoryMetadata)
+	rateLimiter := limitutil.NewRateLimiter(2, 2)
 	repositories, err := e.getRepositoryInformation()
 	if err != nil {
 		return nil, err
@@ -46,6 +48,7 @@ func (e TeamServicesEndpoint) GetRepositories() (*repomodel.RepositoryPackage, e
 	wg.Add(len(repositories.Value))
 	for _, repository := range repositories.Value {
 		go e.getRepositoryBranches(repository, &wg, resultsChannel)
+		limitutil.WaitForAllow(rateLimiter)
 	}
 	wg.Wait()
 
