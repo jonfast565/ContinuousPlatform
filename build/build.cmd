@@ -14,6 +14,7 @@ go get "github.com/aymerick/raymond"
 go get "github.com/gorilla/mux"
 go get "github.com/yosssi/gohtml"
 go get "github.com/patrickmn/go-cache"
+go get "golang.org/x/time"
 
 :: output folder
 mkdir output
