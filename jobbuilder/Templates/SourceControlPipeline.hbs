@@ -1,0 +1,1045 @@
+// build script for: {{deliverable.Repository}} -> {{solution.Name}} -> {{project.Name}}
+// generated on: {{GeneratedDateTime}}
+
+/*
+=================================
+IMPORTS
+=================================
+*/
+import java.io.File
+import java.util.List
+import java.lang.Iterable
+import groovy.json.*
+
+/*
+=================================
+BUILD DATA
+=================================
+*/
+
+// solution/project information
+def projectKey = "{{DashedCanonicalId}}"
+def projectScriptHeader = "{{deliverable.Repository}} -> " + env.BRANCH_NAME + " -> {{solution.Name}} -> {{project.Name}}"
+def solution = "{{solution.Name}}"
+def branch = env.BRANCH_NAME
+def project = "{{project.Name}}"
+def projectPath = "{{project.AbsolutePath}}"
+def projectFolder = removeLastPathComponent(projectPath)
+
+// reference solution information, for package restores
+// NOTE: Better to restore solutions across the entire repo, as it may be difficult to know which DLL
+// is referenced by which project
+// name: solution path key/value pairs, with the solution path starting at the root of the repository
+def referenceSolutions = [
+    {{#each Solutions}}
+        "{{this.Name}}": $/{{this.AbsolutePath}}/${{#unless @last}},{{/unless}}
+    {{/each}}
+]
+
+// build configuration and publishing
+def targetFrameworks = [
+    {{#each TargetFrameworks}}
+        "{{this}}"{{#unless @last}},{{/unless}}
+    {{/each}}
+]
+
+// publish profile information,
+// name : publishUrl key/value pairs, with the publish url starting at the root of the repository
+def publishProfiles = [
+    {{#each PublishProfiles}}
+        "{{this.Name}}": $/{{this.PublishUrl}}/${{#unless @last}},{{/unless}}
+    {{/each}}
+]
+
+// ensure this variable is a map, not a list
+if (publishProfiles.size() == 0) {
+    publishProfiles = [:]
+}
+
+// script flags
+def hasPublishProfiles = publishProfiles.any()
+def isDotNetCoreProject = targetFrameworks.any()
+def folderProfileExists = publishProfiles.containsKey("FolderProfile.pubxml")
+
+// static script settings
+def enableSonarqubeAnalysis = false
+def numberOfCores = 16
+def artifactBaseFolder = 'C:/BuildArtifactsJenkins'
+def productionEnvironment = 'Production'
+def sleepPeriodSeconds = 2
+def pipelineScope = this
+
+// script variables
+TicketInfos ticketInfos = null
+
+// deployment information
+// list, not map
+def deploymentFolders = [
+{{#each infrastructure}}
+    [
+    "Name": "{{ServerName}}",
+    "Group": "{{EnvironmentName}}",
+    "DeploymentLocations": [{{#each DeploymentLocations}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],
+    "AppPoolNames": [{{#each AppPoolNames}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],
+    "ServiceNames": [{{#each ServiceNames}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],
+    "TaskNames": [{{#each TaskNames}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}]
+    ]{{#unless @last}}, {{/unless}}
+{{/each}}
+]
+
+/*
+=================================
+BUILD SCRIPT
+=================================
+*/
+
+pipeline {
+    agent any
+
+    parameters {
+        choice(choices: [{{#each SolutionConfigurations}}'{{this}}'{{#unless @last}}, {{/unless}}{{/each}}],
+               description: 'Solution configuration (as selectable in Visual Studio)',
+               name: 'SolutionConfiguration')
+        choice(choices: [{{#each Environments}}'{{this}}'{{#unless @last}}, {{/unless}}{{/each}}],
+               description: 'The name of the environment that code should be deployed to',
+               name: 'Environment')
+        booleanParam(name: 'CanaryDeployment',
+                description: 'Deploy to the first server in an environment and then accept prompt to deploy to additional servers',
+                defaultValue: false)
+        booleanParam(name: 'ModifySnapshotBeforeDeploy',
+                description: 'Allows the build to be frozen right before the deployment stage, so a user can modify files before pushing to an environment',
+                defaultValue: false)
+        booleanParam(name: 'DeleteWorkspaceAfterBuild',
+                description: 'Post-build, the workspace will be deleted. Otherwise, can be left alone for a post-mortem analysis of the files',
+                defaultValue: true)
+        text(name: 'TicketNumbers',
+             description: 'A list of whitespace, newline, or comma delimited JIRA ticket numbers that should have a comment as a result of this build (required)',
+             defaultValue: '',
+             trim: false)
+        text(name: 'TicketComment',
+             description: 'Additional free-text user-defined comments to add to the JIRA ticket if desired (optional)',
+             defaultValue: '',
+             trim: false)
+    }
+
+    stages {
+        stage ("Pre-Build Init") {
+            steps {
+                script {
+                    // parse and validate ticket numbers
+                    def parser = new TicketParser()
+                    parser.ticketList = env.TicketNumbers?.trim()
+                    ticketInfos = parser.getTicketInfos(
+                        projectScriptHeader,
+                        env.Environment,
+                        getBuildUser(),
+                        env.TicketComment)
+                    ticketInfos.checkValidity(pipelineScope)
+
+                    // present the 'are you sure?' message for Production
+                    if (environment.contains(productionEnvironment)) {
+                        input "You are about to deploy code to Production. Are you sure you would like to proceed?"
+                    }
+                }
+            }
+        }
+        stage (".NET Clean") {
+            steps {
+                script {
+                    // clean each of the solutions, lest some obj/bin stuff lies around that was part
+                    // of an old build
+                    referenceSolutions.each{
+                        runMsBuildClean(it.key, it.value, params.SolutionConfiguration, numberOfCores)
+                    }
+                }
+            }
+        }
+        stage (".NET Restore Packages") {
+            steps {
+                script {
+                    // restore NuGet packages for each solution (.NET 4.x.x and below)
+                    referenceSolutions.each{
+                        restoreNugetPackages(it.key, it.value)
+                    }
+
+                    // restore NuGet packages for .NET CoreApp/Standard projects
+                    if (isDotNetCoreProject) {
+                        runMsBuildRestore(project, projectPath, params.SolutionConfiguration, numberOfCores)
+                    }
+                }
+            }
+        }
+        stage (".NET Build") {
+            steps {
+                println "Building project: ${project}"
+                script {
+                    // enable Sonarqube if necessary
+                    if (enableSonarqubeAnalysis) {
+                        invokeSonarqubeScan(projectKey)
+                    }
+
+                    // if the app is a web app, publish it (which includes the build step)
+                    if (hasPublishProfiles) {
+
+                        // check for a publish profile with a name matching the solution configuration
+                        def publishProfileFile = params.SolutionConfiguration + ".pubxml"
+                        if (!publishProfiles.containsKey(publishProfileFile)) {
+                            // if no such profile, use the default .NET Core publish profile
+                            publishProfileFile = "FolderProfile.pubxml"
+                        }
+
+                        // check again for an error, if there's profiles but no key, the build should error out
+                        if (hasPublishProfiles && !publishProfiles.containsKey(publishProfileFile)) {
+                            error("No suitable publish profile exists for this solution configuration. Build failed.")
+                        }
+
+                        // run a publish
+                        runMsBuildPublish(project, projectPath, params.SolutionConfiguration, publishProfileFile, numberOfCores)
+                    } else {
+
+                        // run a plain old build
+                        runMsBuildBuild(project, projectPath, params.SolutionConfiguration, numberOfCores)
+                    }
+
+                    // turn off Sonarqube after the build has finished, so that it can collect metrics
+                    if (enableSonarqubeAnalysis) {
+                        disinvokeSonarqubeScan(projectKey)
+                    }
+                }
+            }
+        }
+        stage ("Snapshot Build Artifacts") {
+            steps {
+                println "Snapshot artifacts"
+                script {
+                    // NOTE: Publish paths are different than build paths. Publishes are used specifically for web projects
+                    // so that they get built with all of the static assets (i.e. pages, etc.) that are necessary for
+                    // deploying them. Publishing removes most service hooks so this should never be done for a batch
+                    // application or Windows service.
+
+                    // get the publish profile based on the solution configuration
+                    def publishProfileFile = params.SolutionConfiguration + ".pubxml"
+
+                    // get a temporary folder for where to snapshot the build,
+                    // based on the datetime of the build
+                    def snapshotPath = buildPathFromTimestamp(artifactBaseFolder, branch, solution, project)
+                    if (hasPublishProfiles) {
+                        def publishPath = ""
+                        // if a key doesn't exist for the specific solution configuration,
+                        // use the default .NET Core publish profile
+                        if (!publishProfiles.containsKey(publishProfileFile)) {
+                            publishPath = publishProfiles["FolderProfile.pubxml"]
+                        } else {
+                            publishPath = publishProfiles[publishProfileFile]
+                        }
+                        // copy from the publish location to the snapshot path
+                        runRobocopy(publishPath, snapshotPath)
+                    }
+                    else {
+                        def sourcePath = ""
+                        // .NET Core introduces a target frameworks concept, which allows targetting different
+                        // if not multiple target frameworks for a build
+                        if (isDotNetCoreProject) {
+                            // selects the target framework by looking at the list of target frameworks
+                            // TODO: The target framework is not selectable, but should be
+                            // TODO: what if there are multiple target frameworks?
+                            sourcePath = "${projectFolder}/bin/${params.SolutionConfiguration}/${targetFrameworks[0]}"
+                        }
+                        else {
+                            // This is the typical .NET 4.x.x bin folder path
+                            // TODO: has always been a lucky guess...
+                            sourcePath = "${projectFolder}/bin/${params.SolutionConfiguration}"
+                        }
+                        // run a robocopy from a bin folder to the snapshot path
+                        runRobocopy(sourcePath, snapshotPath)
+                    }
+
+                    // allow the snapshot to be modified before a deployment
+                    if (params.ModifySnapshotBeforeDeploy) {
+                        println "User desired to modify application snapshot before deploying code"
+                        println "Snapshot path is here: ${snapshotPath}"
+                        input 'Press *Confirm* to continue with the deployment after modifying the snapshot on disk'
+                    }
+                }
+            }
+        }
+		stage ('.NET Deployment') {
+			steps {
+				script {
+                    // get the latest artifacts
+					def latestArtifacts = latestBuildPath(artifactBaseFolder, branch, solution, project)
+
+                    // get server information for deployment
+					def servers = filterServersByEnvironment(deploymentFolders, environment)
+
+                    // print a bunch of debug information
+					println "Latest artifacts exist here: " + latestArtifacts
+					printServerNamesInOrder(servers)
+					def canaryCounter = 0
+
+					for (server in servers) {
+                        // pull out variables from this deployment location item
+						def serverName = server["Name"]
+						def deploymentLocations = server["DeploymentLocations"]
+						def appPools = server["AppPoolNames"]
+						def services = server["ServiceNames"]
+						def tasks = server["TaskNames"]
+
+                        // a couple of useful variables
+						def isDisasterRecoveryServer = serverName.startsWith('rd')
+						def isWebProject = appPools.size() > 0
+						def isWindowsService = services.size() > 0
+						def isTask = tasks.size() > 0
+
+                        // implementation of the canary deployment
+						if (params.CanaryDeployment && canaryCounter == 1) {
+							input "Deploy code for ${project} to the remaining servers?"
+						}
+
+                        // app pool stop for .NET Core applications
+						if (isDotNetCoreProject && 
+							isWebProject &&
+							!isDisasterRecoveryServer) {
+							for (appPool in appPools) {
+								stopAppPool(appPool, serverName, sleepPeriodSeconds)
+							}
+						}
+
+                        // service stop for service applications
+						if (isWindowsService &&
+							!isDisasterRecoveryServer) {
+							for (service in services) {
+								stopService(service, serverName, sleepPeriodSeconds)
+							}
+						}
+
+						// TODO: Implement task stopping, though it doesn't seem
+						// to matter for most deployments
+
+                        // file copying for all apps
+						for (location in deploymentLocations) {
+                            // change the C:\ path to a \\machine\c$ path
+							def locationUncPath = localPathToUncPath(location, serverName)
+							runRobocopy(latestArtifacts, locationUncPath)
+						}
+
+                        // .NET Core app pool start
+						if (isDotNetCoreProject && 
+							isWebProject &&
+							!isDisasterRecoveryServer) {
+							for (appPool in appPools) {
+								startAppPool(appPool, serverName, sleepPeriodSeconds)
+							}
+						}
+
+                        // service start
+						if (isWindowsService &&
+							!isDisasterRecoveryServer) {
+							for (service in services) {
+								startService(service, serverName, sleepPeriodSeconds)
+							}
+						}
+
+						// TODO: Implement task starting, though it doesn't seem
+						// to matter for most deployments
+
+                        // recycle app pool for .NET 4.x.x web applications
+                        // TODO: wish that .NET core would allow this
+						if (!isDotNetCoreProject && 
+							isWebProject &&
+							!isDisasterRecoveryServer) {
+							for (appPool in appPools) {
+								recycleAppPool(appPool, serverName, sleepPeriodSeconds)
+							}
+						}
+
+                        // increment this counter, so can deploy to the remaining servers
+                        // without an interruption
+						canaryCounter += 1
+					}
+				}
+            }
+		}
+        stage ('Post-Build Notifications') {
+            steps {
+                script {
+                    // send JIRA and teams notifications
+                    ticketInfos.sendToJira(pipelineScope)
+                    ticketInfos.sendToTeams(pipelineScope, ticketInfos)
+                }
+            }
+        }
+
+        stage("Delete Workspace/Snapshot") {
+            steps {
+                script {
+                    if (params.DeleteWorkspaceAfterBuild) {
+                        // delete the workspace folder
+                        deleteDir()
+
+                        // delete the snapshot folder post-deploy
+						def latestArtifacts = latestBuildPath(artifactBaseFolder, branch, solution, project)
+						dir (latestArtifacts) {
+							deleteDir()
+						}
+                    } else {
+                        println "Workspace not deleted."
+                    }
+                }
+            }
+        }
+    }
+}
+
+/*
+=================================
+UTILITY FUNCTIONS (DO NOT MODIFY)
+=================================
+*/
+
+// build commands
+
+/**
+* Runs the .NET NuGet package restore step for a given *.sln file
+* @params solution The *.sln file
+* @params solutionPath The parent folder which this *.sln file is located in
+* WARNING: A package restore may fail if a solution does not exist, a solution does not contain a packages.config file,
+* or the NuGet server for pulling packages is unavailable.
+*/
+def restoreNugetPackages(String solution, String solutionPath) {
+    println "Restoring NuGet packages for ${solution}"
+    def nugetPath = "C:\\BuildScripts\\BaseExecutables\\nuget.exe"
+    def status = bat returnStatus: true, script:  "\"${nugetPath}\" restore \"${solutionPath}\""
+    if (status != 0) {
+        println "WARNING: Restoring nuget packages for ${solution} failed. May cause build errors."
+    }
+}
+
+/**
+* Runs the .NET clean step for a given *.csproj file
+* @params solution The *.sln file
+* @params solutionPath The parent folder which this *.sln file is located in
+* @params configuration The solution configuration
+* @params numberOfCores The number of cores this call to MsBuild should use. Improves MsBuild performance.
+* WARNING: A clean may fail in instances where the project's solution cannot be found or packages cannot be pulled
+*/
+def runMsBuildClean(
+        String solution,
+        String solutionPath,
+        String configuration,
+        Integer numberOfCores) {
+    println "Cleaning ${solution}"
+    def msBuildPath = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\MSBuild\\15.0\\Bin\\MsBuild.exe"
+    def command = "\"${msBuildPath}\" \"${solutionPath}\" /t:Clean /p:Configuration=${configuration} /m:${numberOfCores} /verbosity:minimal"
+    def status = bat returnStatus: true, script: command
+    if (status != 0) {
+        println "WARNING: Clean for ${solution} failed. May cause build errors."
+    }
+}
+
+/**
+ * Runs the .NET build step for a given *.csproj file
+ * @params project The *.csproj file
+ * @params projectPath The parent folder which this *.csproj file is located in
+ * @params configuration The solution configuration, which becomes the project configuration in this step
+ * @params numberOfCores The number of cores this call to MsBuild should use. Improves MsBuild performance.
+ */
+def runMsBuildBuild(
+        String project,
+        String projectPath,
+        String configuration,
+        Integer numberOfCores) {
+    println "Building ${project}"
+    def msBuildPath = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\MSBuild\\15.0\\Bin\\MsBuild.exe"
+    def command = "\"${msBuildPath}\" \"${projectPath}\" /t:Clean,Build /p:Configuration=${configuration} /m:${numberOfCores} /verbosity:minimal"
+    def status = bat returnStatus: true, script: command
+    if (status != 0) {
+        error("Build for ${project} failed")
+    }
+}
+
+/**
+* Runs the .NET publish step for a given *.pubxml file
+* @params project The *.csproj file
+* @params projectPath The parent folder which this *.csproj file is located in
+* @params configuration The solution configuration, which becomes the project configuration in this step
+* @params publishProfileName The publish profile name, which is converted to publishProfileName.pubxml in this step
+* @params numberOfCores The number of cores this call to MsBuild should use. Improves MsBuild performance.
+* WARNING: MsBuild uses the name of the publish profile, instead of the file name. Publish profiles are any *.pubxml file
+* stored in projectPath/Properties/PublishProfiles/** and must have a similar structure to a *.csproj file. The publishUrl
+* inside of these files should be set to a path relative to the build directory, so when it is later deleted the artifacts
+* are properly cleaned up. Otherwise, space will get wasted on the build server.
+*/
+def runMsBuildPublish(
+        String project,
+        String projectPath,
+        String configuration,
+        String publishProfileName,
+        Integer numberOfCores) {
+    println "Building/publishing web project ${project}"
+    def msBuildPath = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\MSBuild\\15.0\\Bin\\MsBuild.exe"
+    def command = "\"${msBuildPath}\" \"${projectPath}\" /t:Clean,Build,Publish /p:Configuration=${configuration} /m:${numberOfCores} /verbosity:minimal /p:DeployOnBuild=True /p:PublishProfile=${publishProfileName} /p:TransformConfigFiles=true"
+    def status = bat returnStatus: true, script: command
+    if (status != 0) {
+        error("Build/Publish for ${project} -> ${publishProfileName} failed")
+    }
+}
+
+/**
+ * Runs the .NET Core specific package restore for a given *.csproj file
+ * @params project The *.csproj file
+ * @params projectPath The parent folder which this *.csproj file is located in
+ * @params configuration The solution configuration, which becomes the project configuration in this step
+ * @params numberOfCores The number of cores this call to MsBuild should use. Improves MsBuild performance.
+ */
+def runMsBuildRestore(
+        String project,
+        String projectPath,
+        String configuration,
+        Integer numberOfCores
+) {
+    println "Restoring package references for ${project}"
+    def msBuildPath = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\MSBuild\\15.0\\Bin\\MsBuild.exe"
+    def command = "\"${msBuildPath}\" \"${projectPath}\" /t:Restore /p:Configuration=${configuration} /m:${numberOfCores} /verbosity:minimal"
+    def status = bat returnStatus: true, script: command
+    if (status != 0) {
+        error("Restore for ${project} failed")
+    }
+}
+
+// deployment commands
+
+/**
+ * Runs robocopy
+ * @params sourcePath The path where the copy should obtain files and folders
+ * @params destinationPath The path where the copy should drop files and folders
+ * WARNING: Robocopy does not follow the status code conventions of other windows applications,
+ * so status codes 0 through 3 are valid, otherwise, they are invalid.
+ * Also, robocopy is set up to purge the destination path. All artifacts to be copied must be present in the `sourcePath`
+ * before running this method. Traditionally this was done by separating the build and deploy steps.
+ */
+def runRobocopy(
+        String sourcePath,
+        String destinationPath
+) {
+    println "Copying ${sourcePath} to ${destinationPath}"
+    def robocopyPath = "C:\\Windows\\System32\\Robocopy.exe"
+    def command = "\"${robocopyPath}\" \"${sourcePath}\" \"${destinationPath}\" /e /purge"
+    def status = bat returnStatus: true, script: command
+    if (status < 0 || status > 3) {
+        error("Copy failed with exit code ${status}")
+    }
+}
+
+/**
+ * Builds an artifact snapshot path using a timestamp. This means that artifacts from a build
+ * will always get copied to a unique location based on the datetime of the build.
+ * TODO: Replace this functionality with an artifact server (JFrog Artifactory or Nexus, etc.)
+ */
+def buildPathFromTimestamp(
+        String artifactBaseFolder,
+        String branchName,
+        String solutionName,
+        String projectName
+) {
+    def now = new Date()
+    def snapshotDateString = now.format("yyyy-MM-dd_HH-mm-ss", TimeZone.getTimeZone('EST'))
+    return "${artifactBaseFolder}/${branchName}/${solutionName}/${projectName}/${snapshotDateString}"
+}
+
+// code scanning functionality
+
+/**
+ * Starts a Sonarqube scan. A call to execute MsBuild should be made directly after this call.
+ */
+def invokeSonarqubeScan(String projectKey) {
+    println "Invoke Sonarqube with project key: ${projectKey}"
+    def sonarQubePath = "C:/SonarMsBuild/SonarScanner.MSBuild.exe"
+    bat "\"${sonarQubePath}\" begin /k:${projectKey} /d:sonar.login=admin /d:sonar.password=admin"
+}
+
+/**
+ * Ends the Sonarqube scan. The ending batch call tells Sonarqube to stop collecting metrics from MsBuild,
+ * regardless of whether MsBuild has been closed or not (will recognize multiple processes)
+ */
+def disinvokeSonarqubeScan(String projectKey) {
+    println "Disinvoke Sonarqube and run scan on ${projectKey}"
+    def sonarQubePath = "C:/SonarMsBuild/SonarScanner.MSBuild.exe"
+    bat "\"${sonarQubePath}\" end /d:sonar.login=admin /d:sonar.password=admin"
+}
+
+// misc utilities
+
+/**
+ * Splits a path by '/' and gets anything after before the last slash delimiter
+ * @param path A path 
+ * @returns String A path before the last item in it
+ */
+@NonCPS
+def removeLastPathComponent(String path) {
+    def splitted = path.split("/")
+    def result = splitted[0..splitted.size() - 2]
+    return result.join("/")
+}
+
+// server mapping/artifact gathering utilities
+
+/**
+ * Filters servers based on a specified environment (or group parameter)
+ * @param deploymentFolders The deployment folder variable
+ * @param environment The specified environment
+ * @return List The deployment folders specific to an environment
+ */
+@NonCPS
+def filterServersByEnvironment(
+    List deploymentFolders, 
+    String environment) {
+    return deploymentFolders
+        .findAll{ it["Group"] == environment }
+        .sort{ it["Name"] }
+}
+
+/**
+ * Debug prints server names in order, so it is 
+ * easy to figure out which server you are deploying to
+ * @param deploymentFolders The deployment folders for an environment (must be filtered first)
+ */
+def printServerNamesInOrder (
+    List deploymentFolders) {
+    def result = ""
+    for (server in deploymentFolders) {
+        result += '- ' + server["Name"] + '\n'
+    }
+    println "Deploying to:\n${result}"
+}
+
+/**
+ * Get the path containing the latest build snapshot
+ * TODO: Replace this functionality with an artifact server (JFrog Artifactory or Nexus, etc.)
+ * @param artifactBaseFolder The base folder where artifacts are stored on the build server.
+ * @param branchName The project's branch name
+ * @param solutionName The project's solution name
+ * @param projectName The project's project name
+ * @return String The resulting path
+ */
+@NonCPS
+def latestBuildPath(
+    String artifactBaseFolder,
+    String branchName,
+    String solutionName,
+    String projectName
+) {
+    def path = "${artifactBaseFolder}/${branchName}/${solutionName}/${projectName}/"
+    def mostRecentDir = new File(path).list()
+        .findAll{ new File(path, it).isDirectory() }
+        .sort { -new File(path, it).lastModified() }?.head()
+    return "${path}${mostRecentDir}"
+}
+
+/**
+ * Converts a local path to a UNC (network) path
+ * TODO: This method is not cross-platform.
+ * @param localPath The local path of the object, usually delimited like C:\
+ * @param serverName The server name for conversion to a UNC path
+ * @return String The resulting path
+ */
+@NonCPS
+def localPathToUncPath(localPath, serverName) {
+    def splittedPath = localPath.split("\\\\|/")
+    if (splittedPath[0] ==~ /([a-zA-Z]):/) {
+        def matcher = splittedPath[0] =~ /([a-zA-Z]):/
+        def driveLetter = matcher[0][1].toLowerCase()
+        def pathRest = splittedPath[1..splittedPath.length - 1].join("\\")
+        def resultPath = "\\\\" + serverName + "\\" + driveLetter + "\$" + "\\" + pathRest
+        return resultPath
+    }
+    else {
+        throw new Exception('Path does not have a valid drive letter')
+    }
+}
+
+// deployment commands
+
+/**
+ * Stops and IIS application pool
+ * @param appPool The name of the app pool
+ * @param serverName The name of the server the app pool is configured on
+ * @param sleepPeriod The sleep period. IIS and WMI require a sleep period before responding to commands
+ * WARNING: This operation may fail by design if a sleep period is not provided, as the server may not be able to respond
+ * at the time that the command is issued.
+ */
+def stopAppPool(
+    String appPool,
+    String server,
+    Integer sleepPeriod
+) {
+    println "Stopping app pool ${appPool} on ${server}"
+    def command = """
+    . C:\\BuildScripts\\BaseScripts\\IISMgmtScripts.ps1
+    try {
+        Start-Sleep -s ${sleepPeriod}
+        Stop-AppPool "${appPool}" @("${server}")
+        Start-Sleep -s ${sleepPeriod}
+    } catch {
+        Exit -1
+    }
+    """
+    def status = powershell returnStatus: true, script: command
+    if (status != 0) {
+        error("Failed to stop app pool ${appPool} on ${server}")
+    }
+}
+
+/**
+ * Starts and IIS application pool
+ * @param appPool The name of the app pool
+ * @param serverName The name of the server the app pool is configured on
+ * @param sleepPeriod The sleep period. IIS and WMI require a sleep period before responding to commands
+ * WARNING: This operation may fail by design if a sleep period is not provided, as the server may not be able to respond
+ * at the time that the command is issued.
+ */
+def startAppPool(
+    String appPool,
+    String server,
+    Integer sleepPeriod
+) {
+    println "Starting app pool ${appPool} on ${server}"
+    def command = """
+    . C:\\BuildScripts\\BaseScripts\\IISMgmtScripts.ps1
+    try {
+        Start-Sleep -s ${sleepPeriod}
+        Start-AppPool "${appPool}" @("${server}")
+        Start-Sleep -s ${sleepPeriod}
+    } catch {
+        Exit -1
+    }
+    """
+    def status = powershell returnStatus: true, script: command
+    if (status != 0) {
+        error("Failed to start app pool ${appPool} on ${server}")
+    }
+}
+
+/**
+ * Recycles and IIS application pool
+ * @param appPool The name of the app pool
+ * @param serverName The name of the server the app pool is configured on
+ * @param sleepPeriod The sleep period. IIS and WMI require a sleep period before responding to commands
+ * WARNING: This operation may fail by design if a sleep period is not provided, as the server may not be able to respond
+ * at the time that the command is issued.
+ */
+def recycleAppPool(
+    String appPool,
+    String server,
+    Integer sleepPeriod
+) {
+    println "Recycling app pool ${appPool} on ${server}"
+    def command = """
+    . C:\\BuildScripts\\BaseScripts\\IISMgmtScripts.ps1
+    try {
+        Start-Sleep -s ${sleepPeriod}
+        Recycle-AppPool "${appPool}" @("${server}")
+        Start-Sleep -s ${sleepPeriod}
+    } catch {
+        Exit -1
+    }
+    """
+    def status = powershell returnStatus: true, script: command
+    if (status != 0) {
+        error("Failed to recycle app pool ${appPool} on ${server}")
+    }
+}
+
+/**
+ * Stops a Windows Service
+ * @param service The name of the Windows Service
+ * @param serverName The name of the server the services is configured on
+ * @param sleepPeriod The sleep period. WMI requires a sleep period before responding to commands
+ * WARNING: This operation may fail by design if a sleep period is not provided, as the server may not be able to respond
+ * at the time that the command is issued.
+ */
+def stopService(
+    String service,
+    String server,
+    Integer sleepPeriod
+) {
+    println "Stopping service ${service} on ${server}"
+    def command = """
+    try {
+        Start-Sleep -s ${sleepPeriod}
+        Stop-Service -InputObject \$(Get-Service -ComputerName "${server}" -Name "${service}")
+        Start-Sleep -s ${sleepPeriod}
+    } catch {
+        Exit -1    
+    }
+    """
+    def status = powershell returnStatus: true, script: command
+    if (status != 0) {
+        error("Failed to stop service ${service} on ${server}")
+    }
+}
+
+/**
+ * Starts a Windows Service
+ * @param service The name of the Windows Service
+ * @param serverName The name of the server the services is configured on
+ * @param sleepPeriod The sleep period. WMI requires a sleep period before responding to commands
+ * WARNING: This operation may fail by design if a sleep period is not provided, as the server may not be able to respond
+ * at the time that the command is issued.
+ */
+def startService(
+    String service,
+    String server,
+    Integer sleepPeriod
+) {
+    println "Starting service ${service} on ${server}"
+    def command = """
+    try {
+        Start-Sleep -s ${sleepPeriod}
+        Start-Service -InputObject \$(Get-Service -ComputerName "${server}" -Name "${service}")
+        Start-Sleep -s ${sleepPeriod}
+    } catch {
+        Exit -1
+    }
+    """
+    def status = powershell returnStatus: true, script: command
+    if (status != 0) {
+        error("Failed to start service ${service} on ${server}")
+    }
+}
+
+/**
+ * Gets the name of the user who initiated a build
+ * @returns String The name of the user who initiated a job
+ */
+@NonCPS
+def getBuildUser() {
+    def user = currentBuild.rawBuild.getCause(Cause.UserIdCause).getUserName()
+    if (user == null) {
+        return "Anonymous"
+    }
+    return user
+}
+
+// classes
+
+/**
+ * Message structure for sending information to Webex Teams
+ */
+class TeamsMessage {
+    String[] message
+    
+    def private formatMessage(TicketInfos ticketInfos) {
+        def messages = ["**Build Server Deployment**",
+                        "Code/Project: ${ticketInfos.projectScriptHeader}",
+                        "Environment: ${ticketInfos.environment}",
+                        "Initiated By: ${ticketInfos.person}",
+                        "Tickets Updated: ${ticketInfos.getTicketNumbers()}"]
+        if (ticketInfos.userComment?.trim()) {
+            messages += "User Comment: ${ticketInfos.userComment}"
+        }
+        return messages
+    }
+
+    def private buildTeamsMessageJson(TicketInfos ticketInfos) {
+        def teamMessage = new TeamsMessage()
+        teamMessage.message = formatMessage(ticketInfos)
+        def jsonOutput = new JsonBuilder(teamMessage)
+        return jsonOutput.toPrettyString()
+    }
+
+    def sendToTeams(pipelineScope, ticketInfos) {
+        def request = new HttpRequest()
+        def json = buildTeamsMessageJson(ticketInfos)
+        request.json = json
+        request.requestUrl = "http://localhost:8001/message"
+        request.verb = "POST"
+        request.doHttpRequestWithJson(pipelineScope)
+    }
+}
+
+/**
+ * Parser for taking a string and getting a list of tickets
+ * Tokenization and syntactic validation is done via the regex, which will allow
+ * any valid JIRA ticket number with any amount of whitespace in between.
+ * WARNING: This method contains no semantic validation, so it
+ * will not be able to tell you if you entered a duplicate or have the wrong queue, etc.
+ */
+class TicketParser {
+    String ticketList
+
+    /**
+     * Parses the ticket list parameter into an array of tickets
+     */
+    def private parse() {
+        if (ticketList == null) {
+            return []
+        }
+        def regex = /([a-zA-Z0-9]+-[0-9]+)(?=,|\s)*/
+        def matcher = ticketList =~ regex
+        def result = []
+        while (matcher.find()) {
+            result += matcher.group()
+        }
+        return result
+    }
+
+    /**
+     * Constructs a TicketInfo object from a ticket parser
+     * @params projectScriptHeader Identifying information for the scripts
+     * @params environment The environment being deployed to
+     * @params person The person deploying the code
+     * @params userComment A comment that the user has added to the ticket during the deployment
+     */
+    def getTicketInfos(
+            String projectScriptHeader,
+            String environment,
+            String person,
+            String userComment) {
+        def parsed = parse()
+        def ticketInfos = new TicketInfos()
+        ticketInfos.projectScriptHeader = projectScriptHeader
+        ticketInfos.environment = environment
+        ticketInfos.person = person
+        ticketInfos.userComment = userComment
+        ticketInfos.ticketNumbers = parsed
+        return ticketInfos
+    }
+}
+
+/**
+ * Message structure for sending information to JIRA
+ */
+class TicketInfos {
+    String projectScriptHeader
+    String environment
+    String person
+    String[] ticketNumbers
+    String userComment
+
+    /**
+     * Check the ticket validity
+     * @params pipelineScope the pipeline scope where methods are run
+     */
+    def checkValidity(pipelineScope) {
+        if (ticketNumbers.size() == 0) {
+    		pipelineScope.error('You must supply (a) JIRA ticket number(s) before proceeding with the deployment')
+	    }
+	    for (ticket in ticketNumbers) {
+	    	try {
+	        	pipelineScope.jiraGetIssue idOrKey: ticket, site: 'support.acc.org'
+	    	}
+	    	catch(e) {
+	    		pipelineScope.error("JIRA ticket number ${ticket} supplied not a valid ticket in the system")
+	    	}
+	    }
+    }
+
+    /**
+     * Builds a JIRA message from the info contents as an array of markdown strings
+     */
+    private String buildJiraMessage() {
+        def message =
+                """h2. Build Server Deployment
+        *Code/Project*: ${projectScriptHeader}
+        *Environment*: ${environment}
+        *Initiated By*: ${person}
+        *Ticket Numbers*: ${ticketNumbers.join(", ")}
+        """
+        if (userComment?.trim()) {
+            message +=
+                    """
+        *User Comment*:
+        ${userComment}
+        """
+        }
+        return message
+    }
+
+    /**
+    * Send a message to JIRA that this ticket has been deployed
+    * @params pipelineScope the pipeline scope where methods are run
+    */
+    def sendToJira(pipelineScope) {
+        def message = buildJiraMessage()
+        for (ticketNumber in ticketNumbers) {
+            pipelineScope.jiraAddComment idOrKey: ticketNumber, comment: message, site: 'support.acc.org'
+        }
+    }
+
+    /**
+    * Send a message to Teams that this ticket has been deployed
+    * @params pipelineScope the pipeline scope where methods are run
+    */
+    def sendToTeams(pipelineScope, ticketInfos) {
+        def teamsMessage = new TeamsMessage()
+        teamsMessage.sendToTeams(pipelineScope, ticketInfos)
+    }
+}
+
+/**
+ * An HttpResponse message that follows an HttpRequest message
+ */
+class HttpResponse {
+    String body
+    String message
+    Integer statusCode
+    boolean failure = false
+
+    public HttpResponse(HttpURLConnection connection) {
+        this.statusCode = connection.responseCode
+        this.message = connection.responseMessage
+
+        if (statusCode == 200 || statusCode == 201) {
+            this.body = connection.content.text
+        } else {
+            this.failure = true
+            this.body = connection.getErrorStream().text
+        }
+        connection = null
+    }
+}
+
+/**
+ * An HttpRequest message
+ */
+class HttpRequest {
+    String json
+    String requestUrl
+    String verb
+
+    @NonCPS
+    HttpResponse doHttpRequestWithJson(pipelineScope) {
+        URL url = new URL(requestUrl)
+        HttpURLConnection connection = url.openConnection()
+
+        connection.setRequestMethod(verb)
+        connection.setRequestProperty("Content-Type", "application/json")
+        connection.doOutput = true
+
+        def writer = new OutputStreamWriter(connection.outputStream)
+        writer.write(json)
+        writer.flush()
+        writer.close()
+        connection.connect()
+
+        HttpResponse resp = new HttpResponse(connection)
+        if (resp.isFailure()) {
+            pipelineScope.error('''$verb to URL: $requestUrl
+             JSON: $json
+             HTTP Status: $resp.statusCode
+             Message: $resp.message
+             Response Body: $resp.body''')
+        }
+
+        println '''Request ($verb):
+            URL: $requestUrl 
+            JSON: $json'''
+
+        println '''Response:
+            HTTP Status: $resp.statusCode
+            Message: $resp.message
+            Response Body: $resp.body'''
+        return resp
+    }
+}
