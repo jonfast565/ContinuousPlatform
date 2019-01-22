@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/jobbuilder/Templates/SourceControlPipeline.hbs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobbuilder/Templates/SourceControlPipeline.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/Templates/SourceControlPipeline.hbs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,26 +25,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jobbuilder/Templates/SourceControlPipeline.hbs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="75" column="16" selection-start-line="75" selection-start-column="16" selection-end-line="75" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jobbuilder/Templates/DeployDefinition-JenkinsPipeline-XML.hbs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="29" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jobbuilder/Templates/BuildDefinition-JenkinsPipeline-XML.hbs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="26" column="28" lean-forward="true" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+            <state relative-caret-position="408">
+              <caret line="45" selection-start-line="45" selection-end-line="47" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -151,8 +133,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="183" />
-    <option name="y" value="294" />
+    <option name="x" value="285" />
+    <option name="y" value="289" />
     <option name="width" value="1026" />
     <option name="height" value="546" />
   </component>
@@ -172,12 +154,6 @@
               <item name="ContinuousPlatform" type="b2602c69:ProjectViewProjectNode" />
               <item name="ContinuousPlatform" type="462c0819:PsiDirectoryNode" />
               <item name="jobbuilder" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ContinuousPlatform" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ContinuousPlatform" type="462c0819:PsiDirectoryNode" />
-              <item name="jobbuilder" type="462c0819:PsiDirectoryNode" />
-              <item name="Templates" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -342,7 +318,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.18123667" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.18656716" />
       <window_info id="Structure" order="1" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info id="Favorites" order="2" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -408,7 +384,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="better but still sucking" />
     <MESSAGE value="added jenkins job check" />
     <MESSAGE value="prevent url changes" />
     <MESSAGE value="added validation messages." />
@@ -433,7 +408,8 @@
     <MESSAGE value="fix this inconsistent nonsense." />
     <MESSAGE value="controller simplification" />
     <MESSAGE value="add rate limiting utilities and hooks" />
-    <option name="LAST_COMMIT_MESSAGE" value="add rate limiting utilities and hooks" />
+    <MESSAGE value="added a source control pipeline script, need to regen for source control." />
+    <option name="LAST_COMMIT_MESSAGE" value="added a source control pipeline script, need to regen for source control." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -868,8 +844,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jobbuilder/Templates/SourceControlPipeline.hbs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="75" column="16" selection-start-line="75" selection-start-column="16" selection-end-line="75" selection-end-column="16" />
+        <state relative-caret-position="408">
+          <caret line="45" selection-start-line="45" selection-end-line="47" selection-end-column="9" />
         </state>
       </provider>
     </entry>

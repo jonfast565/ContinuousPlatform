@@ -18,37 +18,41 @@ BUILD DATA
 */
 
 // solution/project information
-def projectKey = "{{DashedCanonicalId}}"
+def sonarqubeProjectKey = "{{deliverable.Repository}}-" + env.BRANCH_NAME + "-{{solution.Name}}-{{project.Name}}"
 def projectScriptHeader = "{{deliverable.Repository}} -> " + env.BRANCH_NAME + " -> {{solution.Name}} -> {{project.Name}}"
-def solution = "{{solution.Name}}"
-def branch = env.BRANCH_NAME
-def project = "{{project.Name}}"
-def projectPath = "{{project.AbsolutePath}}"
-def projectFolder = removeLastPathComponent(projectPath)
 
+// branch information
+def branch = env.BRANCH_NAME
+
+// solution information
+def solution = "{{solution.Name}}"
 // reference solution information, for package restores
 // NOTE: Better to restore solutions across the entire repo, as it may be difficult to know which DLL
 // is referenced by which project
 // name: solution path key/value pairs, with the solution path starting at the root of the repository
 def referenceSolutions = [
-    {{#each Solutions}}
-        "{{this.Name}}": $/{{this.AbsolutePath}}/${{#unless @last}},{{/unless}}
-    {{/each}}
+{{#each Solutions}}
+    "{{this.Name}}": $/{{this.AbsolutePath}}/${{#unless @last}},{{/unless}}
+{{/each}}
 ]
 
-// build configuration and publishing
+// project information
+def project = "{{project.Name}}"
+def projectPath = "{{project.AbsolutePath}}"
+def projectFolder = removeLastPathComponent(projectPath)
+
+// build configuration and publishing information
 def targetFrameworks = [
-    {{#each TargetFrameworks}}
-        "{{this}}"{{#unless @last}},{{/unless}}
-    {{/each}}
+{{#each TargetFrameworks}}
+    "{{this}}"{{#unless @last}},{{/unless}}
+{{/each}}
 ]
 
-// publish profile information,
 // name : publishUrl key/value pairs, with the publish url starting at the root of the repository
 def publishProfiles = [
-    {{#each PublishProfiles}}
-        "{{this.Name}}": $/{{this.PublishUrl}}/${{#unless @last}},{{/unless}}
-    {{/each}}
+{{#each PublishProfiles}}
+    "{{this.Name}}": $/{{this.PublishUrl}}/${{#unless @last}},{{/unless}}
+{{/each}}
 ]
 
 // ensure this variable is a map, not a list
@@ -62,7 +66,6 @@ def isDotNetCoreProject = targetFrameworks.any()
 def folderProfileExists = publishProfiles.containsKey("FolderProfile.pubxml")
 
 // static script settings
-def enableSonarqubeAnalysis = false
 def numberOfCores = 16
 def artifactBaseFolder = 'C:/BuildArtifactsJenkins'
 def productionEnvironment = 'Production'
@@ -112,6 +115,9 @@ pipeline {
         booleanParam(name: 'DeleteWorkspaceAfterBuild',
                 description: 'Post-build, the workspace will be deleted. Otherwise, can be left alone for a post-mortem analysis of the files',
                 defaultValue: true)
+        booleanParam(name: 'RunCodeScan',
+                description: 'Runs code vulnerability scan using Sonarqube',
+                defaultValue: false)
         text(name: 'TicketNumbers',
              description: 'A list of whitespace, newline, or comma delimited JIRA ticket numbers that should have a comment as a result of this build (required)',
              defaultValue: '',
@@ -174,8 +180,8 @@ pipeline {
                 println "Building project: ${project}"
                 script {
                     // enable Sonarqube if necessary
-                    if (enableSonarqubeAnalysis) {
-                        invokeSonarqubeScan(projectKey)
+                    if (params.RunCodeScan) {
+                        invokeSonarqubeScan(sonarqubeProjectKey)
                     }
 
                     // if the app is a web app, publish it (which includes the build step)
@@ -202,8 +208,8 @@ pipeline {
                     }
 
                     // turn off Sonarqube after the build has finished, so that it can collect metrics
-                    if (enableSonarqubeAnalysis) {
-                        disinvokeSonarqubeScan(projectKey)
+                    if (params.RunCodeScan) {
+                        disinvokeSonarqubeScan(sonarqubeProjectKey)
                     }
                 }
             }
@@ -552,18 +558,18 @@ def buildPathFromTimestamp(
 /**
  * Starts a Sonarqube scan. A call to execute MsBuild should be made directly after this call.
  */
-def invokeSonarqubeScan(String projectKey) {
-    println "Invoke Sonarqube with project key: ${projectKey}"
+def invokeSonarqubeScan(String sonarqubeProjectKey) {
+    println "Invoke Sonarqube with project key: ${sonarqubeProjectKey}"
     def sonarQubePath = "C:/SonarMsBuild/SonarScanner.MSBuild.exe"
-    bat "\"${sonarQubePath}\" begin /k:${projectKey} /d:sonar.login=admin /d:sonar.password=admin"
+    bat "\"${sonarQubePath}\" begin /k:${sonarqubeProjectKey} /d:sonar.login=admin /d:sonar.password=admin"
 }
 
 /**
  * Ends the Sonarqube scan. The ending batch call tells Sonarqube to stop collecting metrics from MsBuild,
  * regardless of whether MsBuild has been closed or not (will recognize multiple processes)
  */
-def disinvokeSonarqubeScan(String projectKey) {
-    println "Disinvoke Sonarqube and run scan on ${projectKey}"
+def disinvokeSonarqubeScan(String sonarqubeProjectKey) {
+    println "Disinvoke Sonarqube and run scan on ${sonarqubeProjectKey}"
     def sonarQubePath = "C:/SonarMsBuild/SonarScanner.MSBuild.exe"
     bat "\"${sonarQubePath}\" end /d:sonar.login=admin /d:sonar.password=admin"
 }
