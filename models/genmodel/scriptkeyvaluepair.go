@@ -19,7 +19,7 @@ func (s ScriptKeyValuePair) GetDebugFilePath(debugPathBase string) string {
 	scriptPart := stringutil.ConcatMultipleWithSeparator("-", s.KeyElements...)
 	scriptNameExtension := scriptPart + "-" + s.Type + "." + s.Extension
 	scriptResultName := strings.Replace(scriptNameExtension, "/", "-", -1)
-	fileName := ".\\" + filepath.Join(debugPathBase, scriptResultName)
+	fileName := filepath.Join(debugPathBase, scriptResultName)
 	return fileName
 }
 

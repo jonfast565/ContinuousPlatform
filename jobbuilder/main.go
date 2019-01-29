@@ -95,7 +95,7 @@ func initializeJobDetailsList() jobmodel.JobDetailsList {
 		buildDeliverablesJob,
 		generateScriptsJob,
 		deployDebugScriptsJob,
-		deployJenkinsJobsJob,
+		// deployJenkinsJobsJob,
 	}
 	return jobs
 }

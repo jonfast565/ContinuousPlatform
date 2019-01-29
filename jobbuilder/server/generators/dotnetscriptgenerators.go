@@ -16,6 +16,7 @@ type DotNetScriptGenerator struct {
 	persistenceClient                persistenceclient.PersistenceClient
 	BuildScripts                     []genmodel.ScriptTemplate
 	DeployScripts                    []genmodel.ScriptTemplate
+	BuildDeployScripts               []genmodel.ScriptTemplate
 	EnvironmentInfrastructureScripts []genmodel.ScriptTemplate
 	ResourceList                     inframodel.ResourceList
 }
@@ -27,6 +28,7 @@ func NewDotNetScriptGenerator() *DotNetScriptGenerator {
 		persistenceClient:                persistenceclient.NewPersistenceClient(),
 		BuildScripts:                     []genmodel.ScriptTemplate{},
 		DeployScripts:                    []genmodel.ScriptTemplate{},
+		BuildDeployScripts:               []genmodel.ScriptTemplate{},
 		EnvironmentInfrastructureScripts: []genmodel.ScriptTemplate{},
 		ResourceList:                     inframodel.ResourceList{},
 	}
@@ -44,6 +46,9 @@ func NewDotNetScriptGenerator() *DotNetScriptGenerator {
 			break
 		case genmodel.Deploy:
 			scriptGenerator.DeployScripts = append(scriptGenerator.DeployScripts, template)
+			break
+		case genmodel.BuildDeploy:
+			scriptGenerator.BuildDeployScripts = append(scriptGenerator.BuildDeployScripts, template)
 			break
 		case genmodel.EnvironmentInfrastructure:
 			scriptGenerator.EnvironmentInfrastructureScripts = append(
@@ -130,6 +135,48 @@ func NewDotNetDeployScriptHeader(
 	}
 }
 
+type DotNetBuildDeployScriptHeader struct {
+	Deliverable            projectmodel.FlattenedDotNetDeliverable
+	Solution               projectmodel.MsBuildSolutionExport
+	Solutions              []*projectmodel.MsBuildSolutionReference
+	Project                projectmodel.MsBuildProjectExport
+	ProjectFolder          string
+	PublishProfiles        []*projectmodel.MsBuildPublishProfile
+	TargetFrameworks       []string
+	DefaultNamespace       string
+	SolutionConfigurations []string
+	Infrastructure    inframodel.ServerTypeMetadataList
+	Environments      []string
+	CanonicalId            string
+	DashedCanonicalId      string
+	Hash                   string
+	GeneratedDateTime      string
+}
+
+func NewDotNetBuildDeployScriptHeader(
+	dnd projectmodel.FlattenedDotNetDeliverable,
+	template genmodel.ScriptTemplate,
+	bim *inframodel.BuildInfrastructureMetadata) *DotNetBuildDeployScriptHeader {
+	uid, _ := uuid.NewV4()
+	return &DotNetBuildDeployScriptHeader{
+		Deliverable:            dnd,
+		Solution:               *dnd.Solution,
+		Solutions:              dnd.DependencySolutions,
+		Project:                *dnd.Project,
+		ProjectFolder:          dnd.Project.FolderPath,
+		PublishProfiles:        dnd.Project.PublishProfiles,
+		TargetFrameworks:       dnd.Project.TargetFrameworks,
+		DefaultNamespace:       dnd.Project.DefaultNamespace,
+		SolutionConfigurations: dnd.Solution.Configurations,
+		Infrastructure:    bim.Metadata,
+		Environments:      inframodel.ServerTypeMetadataList(bim.Metadata).GetEnvironments(),
+		CanonicalId:            dnd.GetScriptKeyString(template),
+		DashedCanonicalId:      dnd.GetScriptKeyString(template),
+		Hash:                   uid.String(),
+		GeneratedDateTime:      timeutil.GetCurrentTime(),
+	}
+}
+
 type DotNetEnvironmentInfrastructureScriptHeader struct {
 }
 
@@ -200,6 +247,45 @@ func (dnsg DotNetScriptGenerator) GenerateBuildInfrastructureScripts(
 			logging.LogInfoMultiline("Generated deploy script",
 				"Script: "+deployScript.Name,
 				"Script Key: "+flattenedDeliverable.GetScriptKeyString(deployScript))
+			results = append(results, result)
+			details.IncrementProgress()
+		}
+	}
+	return results
+}
+
+func (dnsg DotNetScriptGenerator) GenerateBuildDeployScripts(
+	dnd projectmodel.DotNetDeliverable,
+	details *jobmodel.JobDetails) []genmodel.ScriptKeyValuePair {
+	var results []genmodel.ScriptKeyValuePair
+	flattenedDeliverables := dnd.GetFlattenedDeliverables()
+	for _, flattenedDeliverable := range *flattenedDeliverables {
+		test := dnsg.InfrastructureExists(flattenedDeliverable)
+		if !test {
+			continue
+		}
+		buildInfrastructure, err := dnsg.persistenceClient.GetBuildInfrastructure(
+			flattenedDeliverable.GetRepositoryKey())
+		if err != nil {
+			panic(err)
+		}
+		for _, buildDeployScript := range dnsg.BuildDeployScripts {
+			scriptHeader := NewDotNetBuildDeployScriptHeader(
+				flattenedDeliverable,
+				buildDeployScript,
+				buildInfrastructure)
+			details.IncrementTotalProgress()
+			templateResult := buildDeployScript.GenerateScriptFromTemplate(scriptHeader)
+			result := genmodel.ScriptKeyValuePair{
+				KeyElements: flattenedDeliverable.GetScriptKey(buildDeployScript),
+				Value:       *templateResult,
+				Type:        string(buildDeployScript.Type),
+				Extension:   buildDeployScript.Extension,
+				ToolScope:   buildDeployScript.ToolScope,
+			}
+			logging.LogInfoMultiline("Generated build deploy script",
+				"Script: "+buildDeployScript.Name,
+				"Script Key: "+flattenedDeliverable.GetScriptKeyString(buildDeployScript))
 			results = append(results, result)
 			details.IncrementProgress()
 		}

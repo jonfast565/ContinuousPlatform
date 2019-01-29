@@ -17,12 +17,12 @@ BUILD DATA
 =================================
 */
 
-// solution/project information
-def sonarqubeProjectKey = "{{deliverable.Repository}}-" + env.BRANCH_NAME + "-{{solution.Name}}-{{project.Name}}"
-def projectScriptHeader = "{{deliverable.Repository}} -> " + env.BRANCH_NAME + " -> {{solution.Name}} -> {{project.Name}}"
-
 // branch information
 def branch = env.BRANCH_NAME
+
+// solution/project information
+def sonarqubeProjectKey = "{{deliverable.Repository}}-" + branch + "-{{solution.Name}}-{{project.Name}}"
+def projectScriptHeader = "{{deliverable.Repository}} -> " + branch + " -> {{solution.Name}} -> {{project.Name}}"
 
 // solution information
 def solution = "{{solution.Name}}"
@@ -76,16 +76,16 @@ def pipelineScope = this
 TicketInfos ticketInfos = null
 
 // deployment information
-// list, not map
-def deploymentFolders = [
+// list, not map, easier to add and remove entries
+def infrastructureMetadata = [
 {{#each infrastructure}}
     [
-    "Name": "{{ServerName}}",
-    "Group": "{{EnvironmentName}}",
-    "DeploymentLocations": [{{#each DeploymentLocations}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],
-    "AppPoolNames": [{{#each AppPoolNames}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],
-    "ServiceNames": [{{#each ServiceNames}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],
-    "TaskNames": [{{#each TaskNames}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}]
+        "Name": "{{ServerName}}",
+        "Group": "{{EnvironmentName}}",
+        "DeploymentLocations": [{{#each DeploymentLocations}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],
+        "AppPoolNames": [{{#each AppPoolNames}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],
+        "ServiceNames": [{{#each ServiceNames}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}],
+        "TaskNames": [{{#each TaskNames}}$/{{this}}/${{#unless @last}}, {{/unless}}{{/each}}]
     ]{{#unless @last}}, {{/unless}}
 {{/each}}
 ]
@@ -100,10 +100,15 @@ pipeline {
     agent any
 
     parameters {
-        choice(choices: [{{#each SolutionConfigurations}}'{{this}}'{{#unless @last}}, {{/unless}}{{/each}}],
+        // solution configuration determines which publish profile is used, except in the case of .NET Core
+        choice(choices: [{{#each SolutionConfigurations}}'{{this}}'{{#unless @last}},
+                         {{/unless}}{{/each}}
+                        ],
                description: 'Solution configuration (as selectable in Visual Studio)',
                name: 'SolutionConfiguration')
-        choice(choices: [{{#each Environments}}'{{this}}'{{#unless @last}}, {{/unless}}{{/each}}],
+        choice(choices: [{{#each Environments}}'{{this}}'{{#unless @last}},
+                         {{/unless}}{{/each}}
+						],
                description: 'The name of the environment that code should be deployed to',
                name: 'Environment')
         booleanParam(name: 'CanaryDeployment',
@@ -119,17 +124,15 @@ pipeline {
                 description: 'Runs code vulnerability scan using Sonarqube',
                 defaultValue: false)
         text(name: 'TicketNumbers',
-             description: 'A list of whitespace, newline, or comma delimited JIRA ticket numbers that should have a comment as a result of this build (required)',
-             defaultValue: '',
-             trim: false)
+             description: 'A list of whitespace, newline, or comma delimited JIRA ticket numbers that should have a comment as a result of this build (required). Please remove APPSUPPORT-6434 for non-CI builds.',
+             defaultValue: 'APPSUPPORT-6434')
         text(name: 'TicketComment',
              description: 'Additional free-text user-defined comments to add to the JIRA ticket if desired (optional)',
-             defaultValue: '',
-             trim: false)
+             defaultValue: 'CI Build')
     }
 
     stages {
-        stage ("Pre-Build Init") {
+        stage ("Pre-Build") {
             steps {
                 script {
                     // parse and validate ticket numbers
@@ -276,7 +279,7 @@ pipeline {
 					def latestArtifacts = latestBuildPath(artifactBaseFolder, branch, solution, project)
 
                     // get server information for deployment
-					def servers = filterServersByEnvironment(deploymentFolders, environment)
+					def servers = filterServersByEnvironment(infrastructureMetadata, environment)
 
                     // print a bunch of debug information
 					println "Latest artifacts exist here: " + latestArtifacts
@@ -303,7 +306,7 @@ pipeline {
 						}
 
                         // app pool stop for .NET Core applications
-						if (isDotNetCoreProject && 
+						if (isDotNetCoreProject &&
 							isWebProject &&
 							!isDisasterRecoveryServer) {
 							for (appPool in appPools) {
@@ -330,7 +333,7 @@ pipeline {
 						}
 
                         // .NET Core app pool start
-						if (isDotNetCoreProject && 
+						if (isDotNetCoreProject &&
 							isWebProject &&
 							!isDisasterRecoveryServer) {
 							for (appPool in appPools) {
@@ -351,7 +354,7 @@ pipeline {
 
                         // recycle app pool for .NET 4.x.x web applications
                         // TODO: wish that .NET core would allow this
-						if (!isDotNetCoreProject && 
+						if (!isDotNetCoreProject &&
 							isWebProject &&
 							!isDisasterRecoveryServer) {
 							for (appPool in appPools) {
@@ -578,7 +581,7 @@ def disinvokeSonarqubeScan(String sonarqubeProjectKey) {
 
 /**
  * Splits a path by '/' and gets anything after before the last slash delimiter
- * @param path A path 
+ * @param path A path
  * @returns String A path before the last item in it
  */
 @NonCPS
@@ -592,28 +595,28 @@ def removeLastPathComponent(String path) {
 
 /**
  * Filters servers based on a specified environment (or group parameter)
- * @param deploymentFolders The deployment folder variable
+ * @param infrastructureMetadata The deployment folder variable
  * @param environment The specified environment
  * @return List The deployment folders specific to an environment
  */
 @NonCPS
 def filterServersByEnvironment(
-    List deploymentFolders, 
+    List infrastructureMetadata,
     String environment) {
-    return deploymentFolders
+    return infrastructureMetadata
         .findAll{ it["Group"] == environment }
         .sort{ it["Name"] }
 }
 
 /**
- * Debug prints server names in order, so it is 
+ * Debug prints server names in order, so it is
  * easy to figure out which server you are deploying to
- * @param deploymentFolders The deployment folders for an environment (must be filtered first)
+ * @param infrastructureMetadata The deployment folders for an environment (must be filtered first)
  */
 def printServerNamesInOrder (
-    List deploymentFolders) {
+    List infrastructureMetadata) {
     def result = ""
-    for (server in deploymentFolders) {
+    for (server in infrastructureMetadata) {
         result += '- ' + server["Name"] + '\n'
     }
     println "Deploying to:\n${result}"
@@ -820,11 +823,15 @@ def startService(
  */
 @NonCPS
 def getBuildUser() {
-    def user = currentBuild.rawBuild.getCause(Cause.UserIdCause).getUserName()
-    if (user == null) {
-        return "Anonymous"
+	def cause = currentBuild.rawBuild.getCause(Cause.UserIdCause)
+	if (cause != null) {
+    	def user = cause.getUserName()
+    	if (user == null) {
+        	return "Anonymous"
+    	}
+    	return user
     }
-    return user
+    return "Anonymous"
 }
 
 // classes

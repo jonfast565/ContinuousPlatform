@@ -1,12 +1,21 @@
 {
   "Templates": [
     {
+      "Name": "Build Deploy Script (Jenkinsfile)",
+      "Framework": "DotNet",
+      "Type": "BuildDeploy",
+      "Extension": "Jenkinsfile",
+      "ContentsPath": "./Templates/SourceControlPipeline.hbs",
+      "Enabled": true,
+      "ToolScope": null
+    },
+    {
       "Name": "Environment Setup Script (Powershell)",
       "Framework": "DotNet",
       "Type": "EnvironmentInfrastructure",
       "Extension": "ps1",
       "ContentsPath": "./Templates/EnvironmentSetup-Script-PS.hbs",
-      "Enabled": true,
+      "Enabled": false,
       "ToolScope": null
     },
     {
@@ -15,7 +24,7 @@
       "Type": "Build",
       "Extension": "xml",
       "ContentsPath": "./Templates/BuildDefinition-JenkinsPipeline-XML.hbs",
-      "Enabled": true,
+      "Enabled": false,
       "ToolScope": [
         "Jenkins"
       ]
@@ -26,7 +35,7 @@
       "Type": "Deploy",
       "Extension": "xml",
       "ContentsPath": "./Templates/DeployDefinition-JenkinsPipeline-XML.hbs",
-      "Enabled": true,
+      "Enabled": false,
       "ToolScope": [
         "Jenkins"
       ]
@@ -37,7 +46,7 @@
       "Type": "EnvironmentInfrastructure",
       "Extension": "xml",
       "ContentsPath": "./Templates/EnvironmentSetupDefinition-JenkinsPipeline-XML.hbs",
-      "Enabled": true,
+      "Enabled": false,
       "ToolScope": [
         "Jenkins"
       ]

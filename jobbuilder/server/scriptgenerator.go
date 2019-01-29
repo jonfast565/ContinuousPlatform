@@ -50,8 +50,10 @@ func generateDotNetScripts(
 	for _, dotNetDeliverable := range deliverable.DotNetDeliverables {
 		buildScripts := dotNetScriptGenerator.GenerateBuildScripts(*dotNetDeliverable, details)
 		buildInfraScripts := dotNetScriptGenerator.GenerateBuildInfrastructureScripts(*dotNetDeliverable, details)
+		buildDeployScripts := dotNetScriptGenerator.GenerateBuildDeployScripts(*dotNetDeliverable, details)
 		scripts = append(scripts, buildScripts...)
 		scripts = append(scripts, buildInfraScripts...)
+		scripts = append(scripts, buildDeployScripts...)
 	}
 	return scripts
 }

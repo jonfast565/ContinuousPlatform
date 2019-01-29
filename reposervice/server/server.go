@@ -305,7 +305,8 @@ func getFileSystemMetadataFromList(
 }
 
 func isValidBranch(branch repomodel.TsGitRefsModel) bool {
-	return strings.Contains(branch.Name, constants.RefsHeadsConstants)
+	// TODO: Remove master restriction
+	return strings.Contains(branch.Name, constants.RefsHeadsConstants) && strings.Contains(branch.Name, "master")
 }
 
 func getCleanBranchName(branch repomodel.TsGitRefsModel) string {
