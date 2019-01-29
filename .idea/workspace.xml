@@ -64,7 +64,7 @@
       <replace>dndbc.LogInfoMultilineWithContext(</replace>
     </replaceStrings>
     <dirStrings>
-      <dir>C:\Users\***REMOVED***\Desktop\Repos\PlatformCI</dir>
+      <dir>C:\Users\jfast\Desktop\Repos\PlatformCI</dir>
     </dirStrings>
   </component>
   <component name="GOROOT" path="C:\Go" />
@@ -177,18 +177,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\PlatformCI\jobbuilder" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\jobbuilder" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\jobcontroller" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\persistenceservice" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\offlinetester" />
+      <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\jobbuilder" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\jobbuilder" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\jobcontroller" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\persistenceservice" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\offlinetester" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\PlatformCI\clients" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\PlatformCI\modelgenerator\models" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\models\jobmodel" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\models\repomodel" />
-      <recent name="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\models\persistmodel" />
+      <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\clients" />
+      <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\modelgenerator\models" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\jobmodel" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\repomodel" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\persistmodel" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -271,7 +271,7 @@
       <framework value="gotest" />
       <kind value="FILE" />
       <directory value="$PROJECT_DIR$/fileutil" />
-      <filePath value="C:\Users\***REMOVED***\Desktop\Repos\SystemCI\fileutil\filegraph.go|C:\Users\***REMOVED***\Desktop\Repos\SystemCI\fileutil\filegraph_test.go" />
+      <filePath value="C:\Users\jfast\Desktop\Repos\SystemCI\fileutil\filegraph.go|C:\Users\jfast\Desktop\Repos\SystemCI\fileutil\filegraph_test.go" />
       <output_directory value="$PROJECT_DIR$/fileutil" />
       <method v="2" />
     </configuration>

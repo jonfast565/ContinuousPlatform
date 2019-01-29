@@ -24,7 +24,7 @@ func DeployScriptsForDebugging(details *jobmodel.JobDetails) bool {
 		}
 
 		for _, script := range scripts.Scripts {
-			fileName := script.GetDebugFilePath("C:\\Users\\***REMOVED***\\Desktop\\Files\\Scripts")
+			fileName := script.GetDebugFilePath("C:\\Users\\jfast\\Desktop\\Files\\Scripts")
 			logging.LogInfo("Writing " + fileName + " to disk")
 			fileutil.WriteFile(fileName, script.Value)
 		}
