@@ -1,3 +1,4 @@
+// A logging package that wraps logging messages for servers/clients
 package logging
 
 import (

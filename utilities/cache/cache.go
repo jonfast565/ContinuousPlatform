@@ -1,3 +1,4 @@
+// a package for providing in memory caching
 package cache
 
 import (

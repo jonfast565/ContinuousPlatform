@@ -1,3 +1,4 @@
+// a small rate limiter package
 package limitutil
 
 import "golang.org/x/time/rate"

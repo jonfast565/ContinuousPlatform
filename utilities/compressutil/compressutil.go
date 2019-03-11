@@ -1,3 +1,4 @@
+// a small package for providing compression functionality
 package compressutil
 
 import (

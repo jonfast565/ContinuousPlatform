@@ -1,3 +1,4 @@
+// a small packages for wrapping common json operations
 package jsonutil
 
 import (
