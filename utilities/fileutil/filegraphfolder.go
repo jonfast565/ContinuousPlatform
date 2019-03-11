@@ -5,6 +5,7 @@ import (
 	"github.com/ahmetb/go-linq"
 )
 
+// A folder, implementation of an item
 type FileGraphFolder struct {
 	Name         string
 	ChildFolders []*FileGraphFolder
@@ -12,6 +13,7 @@ type FileGraphFolder struct {
 	Parent       *FileGraphFolder
 }
 
+// Creates a new child folder
 func (f *FileGraphFolder) NewChildFolder(name string) *FileGraphFolder {
 	childFolder := FileGraphFolder{
 		Name:         name,
@@ -23,6 +25,7 @@ func (f *FileGraphFolder) NewChildFolder(name string) *FileGraphFolder {
 	return &childFolder
 }
 
+// Navigates to a parent
 func (f FileGraphFolder) NavigateParent() (*FileGraphItem, error) {
 	if f.Parent == nil {
 		return nil, errors.New("Parent does not exist for '" + f.GetPathString() + "'")
@@ -31,10 +34,12 @@ func (f FileGraphFolder) NavigateParent() (*FileGraphItem, error) {
 	return &item, nil
 }
 
+// Get a name from the folder
 func (f FileGraphFolder) GetName() string {
 	return f.Name
 }
 
+// Navigate to a child folder
 func (f FileGraphFolder) NavigateChildFolder(name string) (*FileGraphItem, error) {
 	for _, folder := range f.ChildFolders {
 		if folder.Name == name {
@@ -46,6 +51,7 @@ func (f FileGraphFolder) NavigateChildFolder(name string) (*FileGraphItem, error
 	return nil, errors.New("Item '" + name + "' not found in '" + f.GetPathString() + "'")
 }
 
+// Navigate to a child file of a folder
 func (f FileGraphFolder) NavigateChildFile(name string) (*FileGraphItem, error) {
 	for _, file := range f.ChildFiles {
 		if file.Name == name {
@@ -57,6 +63,7 @@ func (f FileGraphFolder) NavigateChildFile(name string) (*FileGraphItem, error) 
 	return nil, errors.New("Item '" + name + "' not found in '" + f.GetPathString() + "'")
 }
 
+// Get a path string
 func (f FileGraphFolder) GetPathString() string {
 	var result string
 	currentNode := &f
@@ -81,6 +88,7 @@ func (f FileGraphFolder) GetPathString() string {
 	return result
 }
 
+// Create a new child folder and navigate to it automatically
 func (f *FileGraphFolder) NewChildFolderNavigate(name string) *FileGraphFolder {
 	// handle the two edge cases gloriously (not)
 	if name == "." {
@@ -109,6 +117,7 @@ func (f *FileGraphFolder) NewChildFolderNavigate(name string) *FileGraphFolder {
 	return childFolder
 }
 
+// Create a new chain of child folders and navigate to the last folder in the chain
 func (f *FileGraphFolder) NewChildFolderChain(pathFragments []string) *FileGraphFolder {
 	currentFolder := f
 	for _, fragment := range pathFragments {
@@ -117,6 +126,7 @@ func (f *FileGraphFolder) NewChildFolderChain(pathFragments []string) *FileGraph
 	return currentFolder
 }
 
+// Create a new child file
 func (f *FileGraphFolder) NewChildFile(name string, contents []byte) *FileGraphFile {
 	childFile := FileGraphFile{
 		Name:     name,

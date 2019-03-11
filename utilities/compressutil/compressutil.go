@@ -6,6 +6,7 @@ import (
 	"io"
 )
 
+// Uncompress a byte array and return an error if failed
 func Uncompress(inBytes []byte) ([]byte, error) {
 	b := bytes.NewBuffer(inBytes)
 
@@ -25,6 +26,7 @@ func Uncompress(inBytes []byte) ([]byte, error) {
 	return uncompressedData, nil
 }
 
+// Compress a byte array and return an error if failed
 func Compress(inBytes []byte) ([]byte, error) {
 	var b bytes.Buffer
 	writer := gzip.NewWriter(&b)

@@ -1,5 +1,6 @@
 package fileutil
 
+// interface for implementing an item child of the filegraph
 type FileGraphItem interface {
 	GetName() string
 	NavigateParent() (*FileGraphItem, error)

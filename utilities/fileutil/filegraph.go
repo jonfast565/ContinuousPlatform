@@ -1,3 +1,4 @@
+// A utility package for working with files and paths related to them
 package fileutil
 
 import (
@@ -7,10 +8,12 @@ import (
 	"reflect"
 )
 
+// A file graph struct, with root folder child
 type FileGraph struct {
 	Root FileGraphFolder
 }
 
+// Creates a new file graph
 func NewFileGraph() *FileGraph {
 	return &FileGraph{
 		Root: FileGraphFolder{
@@ -20,6 +23,7 @@ func NewFileGraph() *FileGraph {
 			Parent:       nil}}
 }
 
+// Validate a path from the root folder, determining if it is reachable or not
 func (f *FileGraph) ValidatePathsFromRoot(paths []string, soft bool) ([]string, error) {
 	var result []string
 	for _, path := range paths {
@@ -37,6 +41,7 @@ func (f *FileGraph) ValidatePathsFromRoot(paths []string, soft bool) ([]string, 
 	return result, nil
 }
 
+// Validate a path from another path that comes from the root folder
 func (f *FileGraph) ValidatePathsFromBasePath(basePath string, paths []string, soft bool) ([]string, error) {
 	var result []string
 	for _, path := range paths {
@@ -54,6 +59,7 @@ func (f *FileGraph) ValidatePathsFromBasePath(basePath string, paths []string, s
 	return result, nil
 }
 
+// Gets the parent path of a given path
 func (f *FileGraph) GetParentPath(path string) (*string, error) {
 	itemPath, err := f.GetItemByRootPath(path)
 	if err != nil {
@@ -67,16 +73,19 @@ func (f *FileGraph) GetParentPath(path string) (*string, error) {
 	return &result, nil
 }
 
+// Creates a new chain of child folders from a given array of path fragments
 func (f *FileGraph) NewChildFolders(pathFragments []string) {
 	f.Root.NewChildFolderChain(pathFragments)
 }
 
+// Gets a FileGraphItem by its path from the root
 func (f *FileGraph) GetItemByRootPath(basePath string) (*FileGraphItem, error) {
 	item := FileGraphItem(f.Root)
 	itemByRelativePath, err := GetItemByRelativePath(&item, basePath)
 	return itemByRelativePath, err
 }
 
+// Gets a FileGraphItem by its relative path from another FileGraphItem
 func GetItemByRelativePath(item *FileGraphItem, basePath string) (*FileGraphItem, error) {
 	pp := pathutil.NewPathParserFromString(basePath)
 	currentNode := item
@@ -122,6 +131,7 @@ func getParentOfCurrentNode(currentNode *FileGraphItem) (*FileGraphItem, error) 
 	return nodeForParent.NavigateParent()
 }
 
+// Adds a folder item to the graph by relative path from an existing item (could be the root)
 func AddFolderByRelativePath(item *FileGraphItem, basePath string) (*FileGraphItem, error) {
 	pp := pathutil.NewPathParserFromString(basePath)
 	currentNode := item
@@ -159,6 +169,7 @@ func AddFolderByRelativePath(item *FileGraphItem, basePath string) (*FileGraphIt
 	return currentNode, nil
 }
 
+// Gets an item by first getting the root, then getting the item relative to the root
 func (f *FileGraph) GetItemByRelativePath(basePath string, relativePath string) (*FileGraphItem, error) {
 	item, err := f.GetItemByRootPath(basePath)
 	if err != nil {
@@ -171,6 +182,7 @@ func (f *FileGraph) GetItemByRelativePath(basePath string, relativePath string) 
 	return item, nil
 }
 
+// Adds a folder relative to a root path
 func (f *FileGraph) AddFolderByRelativePath(basePath string, relativePath string) (*FileGraphItem, error) {
 	item, err := f.GetItemByRootPath(basePath)
 	if err != nil {

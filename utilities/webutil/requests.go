@@ -27,26 +27,34 @@ var windowsNewLinesByte = []byte{13, 10}
 var unixNewLines = "\n"
 var unixNewLinesByte = []byte{10}
 
+// Adds a JSON header to an HTTP request
 func AddJsonHeader(request *http.Request) {
 	request.Header.Add(ContentTypeHeader, ApplicationJsonHeaderContentType)
 }
 
+// Adds an Octet/Binary header to an HTTP request
 func AddOctetHeader(request *http.Request) {
 	request.Header.Add(ContentTypeHeader, OctetStreamHeaderContentType)
 }
 
+// Adds an XML header to an HTTP request
 func AddXmlHeader(request *http.Request) {
 	request.Header.Add(ContentTypeHeader, XmlHeaderContentType)
 }
 
+// Adds an unencoded form (X-WWW-FORM-URLENCODED) header to an HTTP request
+// In this case, form data must be passed in the URL using query parameters
 func AddFormHeader(request *http.Request) {
 	request.Header.Add(ContentTypeHeader, FormUnEncodedHeaderContentType)
 }
 
+// Adds a bearer token to an HTTP request
 func AddBearerToken(request *http.Request, bearerToken string) {
 	request.Header.Add(AuthorizationHeader, "Bearer "+bearerToken)
 }
 
+// Executes a request and populates its body via an interface
+// Returns an error if serdes fails, or in the case of a bad status
 func ExecuteRequestAndReadJsonBody(r *http.Request, object interface{}) error {
 	c := NewHttpClient()
 	response, err := c.Do(r)
@@ -69,6 +77,8 @@ func ExecuteRequestAndReadJsonBody(r *http.Request, object interface{}) error {
 	return nil
 }
 
+// Executes a request and returns a byte array with success or fail indicator
+// Returns an error if serdes fails, or in the case of a bad status
 func ExecuteRequestAndReadBinaryBody(r *http.Request) (*[]byte, error) {
 	c := NewHttpClient()
 	response, err := c.Do(r)
@@ -100,6 +110,8 @@ func ExecuteRequestAndReadBinaryBody(r *http.Request) (*[]byte, error) {
 	return &resultBytes, nil
 }
 
+// Executes a request and returns a string array with success or fail indicator
+// Returns an error if serdes fails, or in the case of a bad status
 func ExecuteRequestAndReadStringBody(r *http.Request, ignoreStatusCode bool) (*string, error) {
 	c := NewHttpClient()
 	response, err := c.Do(r)
@@ -139,6 +151,8 @@ func ExecuteRequestAndReadStringBody(r *http.Request, ignoreStatusCode bool) (*s
 	return &s, nil
 }
 
+// Executes a request and return success/fail with no resulting payload
+// Returns an error if serdes fails, or in the case of a bad status
 func ExecuteRequestWithoutRead(r *http.Request) error {
 	c := NewHttpClient()
 	response, err := c.Do(r)

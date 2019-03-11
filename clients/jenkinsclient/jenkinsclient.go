@@ -1,3 +1,4 @@
+// Client for the Jenkins service
 package jenkinsclient
 
 import (
@@ -16,21 +17,29 @@ var (
 	SettingsFilePath = "./jenkinsclient-settings.json"
 )
 
+// Configuration for the client that calls the Jenkins service
 type ClientConfiguration struct {
 	Hostname string `json:"hostname"`
 	Port     int    `json:"port"`
 }
 
+// Jenkins client with configuration
 type JenkinsClient struct {
 	configuration ClientConfiguration
 }
 
+// Creates a new Jenkins client,
+// requires configuration
 func NewJenkinsClient() JenkinsClient {
 	var config ClientConfiguration
 	jsonutil.DecodeJsonFromFile(SettingsFilePath, &config)
 	return JenkinsClient{configuration: config}
 }
 
+// Gets the Jenkins Crumb, used to validate subsequent requests to the Jenkins API,
+// and allows for CSRF protection
+// TODO: Should not use this API directly, should be called and cached on the server for performance
+// TODO: Above technique when used may present errors when there are none, say, if the crumb changes. Investigate.
 func (jc JenkinsClient) GetJenkinsCrumb() (*jenkinsmodel.JenkinsCrumb, error) {
 	// build service url
 	myUrl := webutil.NewEmptyUrl()
@@ -57,6 +66,7 @@ func (jc JenkinsClient) GetJenkinsCrumb() (*jenkinsmodel.JenkinsCrumb, error) {
 	return &value, nil
 }
 
+// Gets a tree of all Jenkins jobs
 func (jc JenkinsClient) GetJenkinsMetadata() (*jenkinsmodel.JenkinsJobMetadata, error) {
 	// build service url
 	myUrl := webutil.NewEmptyUrl()
@@ -83,6 +93,8 @@ func (jc JenkinsClient) GetJenkinsMetadata() (*jenkinsmodel.JenkinsJobMetadata, 
 	return &value, nil
 }
 
+// Creates a job
+// NOTE: This method is not idempotent.
 func (jc JenkinsClient) CreateJob(jobRequest jenkinsmodel.JenkinsJobRequest) (*string, error) {
 	// build service url
 	myUrl := webutil.NewEmptyUrl()
@@ -113,6 +125,7 @@ func (jc JenkinsClient) CreateJob(jobRequest jenkinsmodel.JenkinsJobRequest) (*s
 	return value, nil
 }
 
+// Updates a job idempotently
 func (jc JenkinsClient) UpdateJob(jobRequest jenkinsmodel.JenkinsJobRequest) (*string, error) {
 	// build service url
 	myUrl := webutil.NewEmptyUrl()
@@ -143,6 +156,8 @@ func (jc JenkinsClient) UpdateJob(jobRequest jenkinsmodel.JenkinsJobRequest) (*s
 	return value, nil
 }
 
+// Creates a Jenkins folder
+// NOTE: This is not idempotent
 func (jc JenkinsClient) CreateFolder(jobRequest jenkinsmodel.JenkinsJobRequest) (*string, error) {
 	// build service url
 	myUrl := webutil.NewEmptyUrl()
@@ -173,6 +188,7 @@ func (jc JenkinsClient) CreateFolder(jobRequest jenkinsmodel.JenkinsJobRequest) 
 	return value, nil
 }
 
+// Deletes a Jenkins item (most commonly a job of any type or folder)
 func (jc JenkinsClient) DeleteJobOrFolder(jobRequest jenkinsmodel.JenkinsJobRequest) (*string, error) {
 	// build service url
 	myUrl := webutil.NewEmptyUrl()
@@ -203,6 +219,7 @@ func (jc JenkinsClient) DeleteJobOrFolder(jobRequest jenkinsmodel.JenkinsJobRequ
 	return value, nil
 }
 
+// Check if a job exists, will return a string indicating a yes or no
 func (jc JenkinsClient) CheckJobExists(jobRequest jenkinsmodel.JenkinsJobRequest) (*bool, error) {
 	// build service url
 	myUrl := webutil.NewEmptyUrl()

@@ -1,3 +1,4 @@
+// Client for the MSBuild service
 package msbuildclient
 
 import (
@@ -16,21 +17,25 @@ var (
 	SettingsFilePath = "./msbuildclient-settings.json"
 )
 
+// Client configuration for the MSBuild services
 type ClientConfiguration struct {
 	Hostname string `json:"hostname"`
 	Port     int    `json:"port"`
 }
 
+// Client for the MSBuild service, with configuration
 type MsBuildClient struct {
 	configuration ClientConfiguration
 }
 
+// Constructor for an MsBuildClient
 func NewMsBuildClient() MsBuildClient {
 	var config ClientConfiguration
 	jsonutil.DecodeJsonFromFile(SettingsFilePath, &config)
 	return MsBuildClient{configuration: config}
 }
 
+// Gets the metadata from a solution when passed a file payload containing bytes corresponding to the solution file
 func (msbc MsBuildClient) GetSolution(
 	payload miscmodel.FilePayload) (*projectmodel.MsBuildSolution, error) {
 	// build service url
@@ -62,6 +67,7 @@ func (msbc MsBuildClient) GetSolution(
 	return &value, nil
 }
 
+// Gets the metadata from a project when passed a file payload containing bytes corresponding to the project file
 func (msbc MsBuildClient) GetProject(
 	payload miscmodel.FilePayload) (*projectmodel.MsBuildProject, error) {
 	// build service url
@@ -93,6 +99,8 @@ func (msbc MsBuildClient) GetProject(
 	return &value, nil
 }
 
+// Gets the metadata from a publish profile when passed a file payload containing bytes corresponding to the publish profile file
+// TODO: This is similar to obtaining a project, but having a different use case. Maybe endpoints could be merged?
 func (msbc MsBuildClient) GetPublishProfile(
 	payload miscmodel.FilePayload) (*projectmodel.MsBuildPublishProfile, error) {
 	// build service url
