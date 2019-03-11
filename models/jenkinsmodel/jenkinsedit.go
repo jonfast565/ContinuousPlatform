@@ -1,7 +1,7 @@
 package jenkinsmodel
 
 import (
-	"../../stringutil"
+	"github.com/jonfast565/continuous-platform/stringutil"
 )
 
 type JenkinsEdit struct {

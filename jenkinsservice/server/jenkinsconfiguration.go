@@ -1,6 +1,6 @@
 package server
 
-import "../../webutil"
+import "github.com/jonfast565/continuous-platform/webutil"
 
 type JenkinsConfiguration struct {
 	Port                       int    `json:"port"`

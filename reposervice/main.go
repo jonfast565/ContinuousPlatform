@@ -1,14 +1,14 @@
 package main
 
 import (
-	"../constants"
-	"../jsonutil"
-	"../limitutil"
-	"../logging"
-	"../models/repomodel"
-	"../networking"
-	"./server"
 	"github.com/gorilla/mux"
+	"github.com/jonfast565/continuous-platform/constants"
+	"github.com/jonfast565/continuous-platform/jsonutil"
+	"github.com/jonfast565/continuous-platform/limitutil"
+	"github.com/jonfast565/continuous-platform/logging"
+	"github.com/jonfast565/continuous-platform/models/repomodel"
+	"github.com/jonfast565/continuous-platform/networking"
+	"github.com/jonfast565/continuous-platform/reposervice/server"
 	"golang.org/x/time/rate"
 	"net/http"
 )

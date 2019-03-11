@@ -1,7 +1,7 @@
 package inframodel
 
 import (
-	"../../stringutil"
+	"github.com/jonfast565/continuous-platform/stringutil"
 	"sort"
 )
 

@@ -1,8 +1,8 @@
 package genmodel
 
 import (
-	"../../models/jenkinsmodel"
-	"../../stringutil"
+	"github.com/jonfast565/continuous-platform/models/jenkinsmodel"
+	"github.com/jonfast565/continuous-platform/stringutil"
 	"path/filepath"
 	"strings"
 )

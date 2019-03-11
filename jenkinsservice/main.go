@@ -1,13 +1,13 @@
 package main
 
 import (
-	"../constants"
-	"../jsonutil"
-	"../logging"
-	"../models/jenkinsmodel"
-	"../networking"
-	"./server"
 	"github.com/gorilla/mux"
+	"github.com/jonfast565/continuous-platform/constants"
+	"github.com/jonfast565/continuous-platform/jenkinsservice/server"
+	"github.com/jonfast565/continuous-platform/jsonutil"
+	"github.com/jonfast565/continuous-platform/logging"
+	"github.com/jonfast565/continuous-platform/models/jenkinsmodel"
+	"github.com/jonfast565/continuous-platform/networking"
 	"net/http"
 )
 

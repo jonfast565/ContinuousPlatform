@@ -1,13 +1,13 @@
 package msbuildclient
 
 import (
-	"../../constants"
-	"../../jsonutil"
-	"../../models/miscmodel"
-	"../../models/projectmodel"
-	"../../webutil"
 	"bytes"
 	"encoding/json"
+	"github.com/jonfast565/continuous-platform/constants"
+	"github.com/jonfast565/continuous-platform/jsonutil"
+	"github.com/jonfast565/continuous-platform/models/miscmodel"
+	"github.com/jonfast565/continuous-platform/models/projectmodel"
+	"github.com/jonfast565/continuous-platform/webutil"
 	"net/http"
 	"strconv"
 )

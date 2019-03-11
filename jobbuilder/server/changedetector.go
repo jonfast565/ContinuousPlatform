@@ -1,11 +1,11 @@
 package server
 
 import (
-	"../../clients/repoclient"
-	"../../logging"
-	"../../models/jobmodel"
-	"../../models/repomodel"
 	"github.com/ahmetb/go-linq"
+	"github.com/jonfast565/continuous-platform/clients/repoclient"
+	"github.com/jonfast565/continuous-platform/logging"
+	"github.com/jonfast565/continuous-platform/models/jobmodel"
+	"github.com/jonfast565/continuous-platform/models/repomodel"
 	"strconv"
 )
 

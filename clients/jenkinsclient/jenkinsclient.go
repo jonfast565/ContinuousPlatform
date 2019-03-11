@@ -1,13 +1,13 @@
 package jenkinsclient
 
 import (
-	"../../constants"
-	"../../jsonutil"
-	"../../models/jenkinsmodel"
-	"../../models/miscmodel"
-	"../../webutil"
 	"bytes"
 	"encoding/json"
+	"github.com/jonfast565/continuous-platform/constants"
+	"github.com/jonfast565/continuous-platform/jsonutil"
+	"github.com/jonfast565/continuous-platform/models/jenkinsmodel"
+	"github.com/jonfast565/continuous-platform/models/miscmodel"
+	"github.com/jonfast565/continuous-platform/webutil"
 	"net/http"
 	"strconv"
 )

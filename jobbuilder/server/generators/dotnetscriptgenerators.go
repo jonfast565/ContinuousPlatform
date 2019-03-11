@@ -1,14 +1,14 @@
 package generators
 
 import (
-	"../../../clients/persistenceclient"
-	"../../../logging"
-	"../../../models/genmodel"
-	"../../../models/inframodel"
-	"../../../models/jobmodel"
-	"../../../models/projectmodel"
-	"../../../timeutil"
 	"github.com/ahmetb/go-linq"
+	"github.com/jonfast565/continuous-platform/clients/persistenceclient"
+	"github.com/jonfast565/continuous-platform/logging"
+	"github.com/jonfast565/continuous-platform/models/genmodel"
+	"github.com/jonfast565/continuous-platform/models/inframodel"
+	"github.com/jonfast565/continuous-platform/models/jobmodel"
+	"github.com/jonfast565/continuous-platform/models/projectmodel"
+	"github.com/jonfast565/continuous-platform/timeutil"
 	"github.com/satori/go.uuid"
 )
 
@@ -145,8 +145,8 @@ type DotNetBuildDeployScriptHeader struct {
 	TargetFrameworks       []string
 	DefaultNamespace       string
 	SolutionConfigurations []string
-	Infrastructure    inframodel.ServerTypeMetadataList
-	Environments      []string
+	Infrastructure         inframodel.ServerTypeMetadataList
+	Environments           []string
 	CanonicalId            string
 	DashedCanonicalId      string
 	Hash                   string
@@ -168,8 +168,8 @@ func NewDotNetBuildDeployScriptHeader(
 		TargetFrameworks:       dnd.Project.TargetFrameworks,
 		DefaultNamespace:       dnd.Project.DefaultNamespace,
 		SolutionConfigurations: dnd.Solution.Configurations,
-		Infrastructure:    bim.Metadata,
-		Environments:      inframodel.ServerTypeMetadataList(bim.Metadata).GetEnvironments(),
+		Infrastructure:         bim.Metadata,
+		Environments:           inframodel.ServerTypeMetadataList(bim.Metadata).GetEnvironments(),
 		CanonicalId:            dnd.GetScriptKeyString(template),
 		DashedCanonicalId:      dnd.GetScriptKeyString(template),
 		Hash:                   uid.String(),

@@ -1,12 +1,12 @@
 package server
 
 import (
-	"../../constants"
-	"../../logging"
-	"../../webutil"
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/jonfast565/continuous-platform/constants"
+	"github.com/jonfast565/continuous-platform/logging"
+	"github.com/jonfast565/continuous-platform/webutil"
 	"io/ioutil"
 	"net/http"
 	"strings"

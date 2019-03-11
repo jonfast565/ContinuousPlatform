@@ -1,7 +1,7 @@
 package jenkinsmodel
 
 import (
-	"../../logging"
+	"github.com/jonfast565/continuous-platform/logging"
 	"net/url"
 	"sort"
 )

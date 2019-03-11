@@ -1,14 +1,14 @@
 package server
 
 import (
-	"../../clients/jenkinsclient"
-	"../../constants"
-	"../../logging"
-	"../../models/genmodel"
-	"../../models/jenkinsmodel"
-	"../../models/jobmodel"
-	"../../stringutil"
 	"github.com/ahmetb/go-linq"
+	"github.com/jonfast565/continuous-platform/clients/jenkinsclient"
+	"github.com/jonfast565/continuous-platform/constants"
+	"github.com/jonfast565/continuous-platform/logging"
+	"github.com/jonfast565/continuous-platform/models/genmodel"
+	"github.com/jonfast565/continuous-platform/models/jenkinsmodel"
+	"github.com/jonfast565/continuous-platform/models/jobmodel"
+	"github.com/jonfast565/continuous-platform/stringutil"
 	"sort"
 )
 

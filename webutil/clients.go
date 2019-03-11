@@ -1,7 +1,7 @@
 package webutil
 
 import (
-	"../constants"
+	"github.com/jonfast565/continuous-platform/constants"
 	"net/http"
 )
 

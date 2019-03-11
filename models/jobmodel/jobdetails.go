@@ -1,8 +1,8 @@
 package jobmodel
 
 import (
-	"../../logging"
 	"fmt"
+	"github.com/jonfast565/continuous-platform/logging"
 	"sync/atomic"
 )
 

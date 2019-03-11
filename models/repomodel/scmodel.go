@@ -1,6 +1,6 @@
 package repomodel
 
-import "../miscmodel"
+import "github.com/jonfast565/continuous-platform/models/miscmodel"
 
 type SourceControlEndpoint interface {
 	GetRepositories() ([]RepositoryMetadata, error)

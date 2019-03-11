@@ -1,13 +1,13 @@
 package main
 
 import (
-	"../databasemodels"
-	"../jsonutil"
-	"../logging"
-	"./importmodels"
 	"github.com/ahmetb/go-linq"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/jonfast565/continuous-platform/databasemodels"
+	"github.com/jonfast565/continuous-platform/dataloader/importmodels"
+	"github.com/jonfast565/continuous-platform/jsonutil"
+	"github.com/jonfast565/continuous-platform/logging"
 	"github.com/satori/go.uuid"
 )
 

@@ -1,14 +1,14 @@
 package main
 
 import (
-	"../constants"
-	"../jsonutil"
-	"../logging"
-	"../models/jobmodel"
-	"../networking"
-	"./server"
 	"github.com/ahmetb/go-linq"
 	"github.com/gorilla/mux"
+	"github.com/jonfast565/continuous-platform/constants"
+	"github.com/jonfast565/continuous-platform/jobbuilder/server"
+	"github.com/jonfast565/continuous-platform/jsonutil"
+	"github.com/jonfast565/continuous-platform/logging"
+	"github.com/jonfast565/continuous-platform/models/jobmodel"
+	"github.com/jonfast565/continuous-platform/networking"
 	"net/http"
 	"strconv"
 	"time"

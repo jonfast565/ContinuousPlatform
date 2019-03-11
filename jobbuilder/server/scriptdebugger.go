@@ -1,9 +1,9 @@
 package server
 
 import (
-	"../../fileutil"
-	"../../logging"
-	"../../models/jobmodel"
+	"github.com/jonfast565/continuous-platform/fileutil"
+	"github.com/jonfast565/continuous-platform/logging"
+	"github.com/jonfast565/continuous-platform/models/jobmodel"
 )
 
 // TODO: Enable when debugging

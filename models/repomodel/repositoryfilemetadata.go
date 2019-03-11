@@ -1,6 +1,6 @@
 package repomodel
 
-import "../filesysmodel"
+import "github.com/jonfast565/continuous-platform/models/filesysmodel"
 
 type RepositoryFileMetadata struct {
 	Repo   string

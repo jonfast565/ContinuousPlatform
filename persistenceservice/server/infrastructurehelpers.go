@@ -1,9 +1,9 @@
 package server
 
 import (
-	"../../databasemodels"
-	"../../models/inframodel"
 	"github.com/jinzhu/gorm"
+	"github.com/jonfast565/continuous-platform/databasemodels"
+	"github.com/jonfast565/continuous-platform/models/inframodel"
 	"github.com/satori/go.uuid"
 )
 

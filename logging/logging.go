@@ -1,11 +1,11 @@
 package logging
 
 import (
-	"../constants"
-	"../timeutil"
 	"encoding/json"
 	"fmt"
 	"github.com/go-errors/errors"
+	"github.com/jonfast565/continuous-platform/constants"
+	"github.com/jonfast565/continuous-platform/timeutil"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"io"
 	"log"

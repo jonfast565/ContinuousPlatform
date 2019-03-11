@@ -1,9 +1,9 @@
 package genmodel
 
 import (
-	"../../stringutil"
-	"../jenkinsmodel"
 	"github.com/ahmetb/go-linq"
+	"github.com/jonfast565/continuous-platform/models/jenkinsmodel"
+	"github.com/jonfast565/continuous-platform/stringutil"
 )
 
 type ScriptPackage struct {

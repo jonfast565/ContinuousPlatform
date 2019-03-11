@@ -1,17 +1,17 @@
 package builders
 
 import (
-	"../../../clients/msbuildclient"
-	"../../../clients/repoclient"
-	"../../../constants"
-	"../../../fileutil"
-	"../../../logging"
-	"../../../models/filesysmodel"
-	"../../../models/projectmodel"
-	"../../../models/repomodel"
-	"../../../pathutil"
-	"../../../stringutil"
 	"github.com/ahmetb/go-linq"
+	"github.com/jonfast565/continuous-platform/clients/msbuildclient"
+	"github.com/jonfast565/continuous-platform/clients/repoclient"
+	"github.com/jonfast565/continuous-platform/constants"
+	"github.com/jonfast565/continuous-platform/fileutil"
+	"github.com/jonfast565/continuous-platform/logging"
+	"github.com/jonfast565/continuous-platform/models/filesysmodel"
+	"github.com/jonfast565/continuous-platform/models/projectmodel"
+	"github.com/jonfast565/continuous-platform/models/repomodel"
+	"github.com/jonfast565/continuous-platform/pathutil"
+	"github.com/jonfast565/continuous-platform/stringutil"
 )
 
 type DotNetDeliverableBuildContext struct {

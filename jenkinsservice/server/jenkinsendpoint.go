@@ -1,14 +1,14 @@
 package server
 
 import (
-	"../../constants"
-	"../../jsonutil"
-	"../../logging"
-	"../../models/jenkinsmodel"
-	"../../models/miscmodel"
-	"../../templating"
-	"../../webutil"
 	"encoding/json"
+	"github.com/jonfast565/continuous-platform/constants"
+	"github.com/jonfast565/continuous-platform/jsonutil"
+	"github.com/jonfast565/continuous-platform/logging"
+	"github.com/jonfast565/continuous-platform/models/jenkinsmodel"
+	"github.com/jonfast565/continuous-platform/models/miscmodel"
+	"github.com/jonfast565/continuous-platform/templating"
+	"github.com/jonfast565/continuous-platform/webutil"
 	"net/http"
 	"strconv"
 	"strings"

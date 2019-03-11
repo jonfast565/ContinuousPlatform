@@ -1,8 +1,8 @@
 package projectmodel
 
 import (
-	"../genmodel"
-	"../inframodel"
+	"github.com/jonfast565/continuous-platform/models/genmodel"
+	"github.com/jonfast565/continuous-platform/models/inframodel"
 	"strings"
 )
 

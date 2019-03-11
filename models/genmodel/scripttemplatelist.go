@@ -1,7 +1,7 @@
 package genmodel
 
 import (
-	"../../jsonutil"
+	"github.com/jonfast565/continuous-platform/jsonutil"
 )
 
 const (

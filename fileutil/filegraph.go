@@ -1,9 +1,9 @@
 package fileutil
 
 import (
-	"../logging"
-	"../pathutil"
 	"github.com/go-errors/errors"
+	"github.com/jonfast565/continuous-platform/logging"
+	"github.com/jonfast565/continuous-platform/pathutil"
 	"reflect"
 )
 
