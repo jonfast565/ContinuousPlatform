@@ -1,7 +1,7 @@
 package jenkinsmodel
 
 import (
-	"github.com/jonfast565/continuous-platform/webutil"
+	"github.com/jonfast565/continuous-platform/utilities/webutil"
 )
 
 type JenkinsJobRequest struct {

@@ -4,11 +4,11 @@ import (
 	"github.com/ahmetb/go-linq"
 	"github.com/jonfast565/continuous-platform/clients/jenkinsclient"
 	"github.com/jonfast565/continuous-platform/constants"
-	"github.com/jonfast565/continuous-platform/logging"
 	"github.com/jonfast565/continuous-platform/models/genmodel"
 	"github.com/jonfast565/continuous-platform/models/jenkinsmodel"
 	"github.com/jonfast565/continuous-platform/models/jobmodel"
-	"github.com/jonfast565/continuous-platform/stringutil"
+	"github.com/jonfast565/continuous-platform/utilities/logging"
+	"github.com/jonfast565/continuous-platform/utilities/stringutil"
 	"sort"
 )
 

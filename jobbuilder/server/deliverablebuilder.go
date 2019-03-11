@@ -2,10 +2,10 @@ package server
 
 import (
 	"github.com/jonfast565/continuous-platform/jobbuilder/server/builders"
-	"github.com/jonfast565/continuous-platform/logging"
 	"github.com/jonfast565/continuous-platform/models/jobmodel"
 	"github.com/jonfast565/continuous-platform/models/projectmodel"
 	"github.com/jonfast565/continuous-platform/models/repomodel"
+	"github.com/jonfast565/continuous-platform/utilities/logging"
 	"runtime"
 	"sync"
 )

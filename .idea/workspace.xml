@@ -6,12 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cache/cache.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/cache/cache.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/clients/jenkinsclient/jenkinsclient.go" beforeDir="false" afterPath="$PROJECT_DIR$/clients/jenkinsclient/jenkinsclient.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/clients/msbuildclient/msbuildclient.go" beforeDir="false" afterPath="$PROJECT_DIR$/clients/msbuildclient/msbuildclient.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/clients/persistenceclient/persistenceclient.go" beforeDir="false" afterPath="$PROJECT_DIR$/clients/persistenceclient/persistenceclient.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/clients/repoclient/repoclient.go" beforeDir="false" afterPath="$PROJECT_DIR$/clients/repoclient/repoclient.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compressutil/compressutil.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/compressutil/compressutil.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dataloader/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fileutil/filegraph.go" beforeDir="false" afterPath="$PROJECT_DIR$/fileutil/filegraph.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fileutil/filegraph.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/fileutil/filegraph.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fileutil/filegraph_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/fileutil/filegraph_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fileutil/filegraphfile.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/fileutil/filegraphfile.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fileutil/filegraphfolder.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/fileutil/filegraphfolder.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fileutil/filegraphitem.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/fileutil/filegraphitem.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fileutil/filewriter.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/fileutil/filewriter.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jenkinsservice/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/jenkinsservice/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jenkinsservice/server/jenkinsconfiguration.go" beforeDir="false" afterPath="$PROJECT_DIR$/jenkinsservice/server/jenkinsconfiguration.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jenkinsservice/server/jenkinsendpoint.go" beforeDir="false" afterPath="$PROJECT_DIR$/jenkinsservice/server/jenkinsendpoint.go" afterDir="false" />
@@ -24,7 +31,9 @@
       <change beforePath="$PROJECT_DIR$/jobbuilder/server/persistencehelpers.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/persistencehelpers.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jobbuilder/server/scriptdebugger.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/scriptdebugger.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" beforeDir="false" afterPath="$PROJECT_DIR$/jobbuilder/server/scriptgenerator.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logging/logging.go" beforeDir="false" afterPath="$PROJECT_DIR$/logging/logging.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jsonutil/jsonutil.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/jsonutil/jsonutil.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/limitutil/limiter.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/limitutil/limiter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logging/logging.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/logging/logging.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/genmodel/scriptkeyvaluepair.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/genmodel/scriptkeyvaluepair.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/genmodel/scriptpackage.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/genmodel/scriptpackage.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/genmodel/scripttemplate.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/genmodel/scripttemplate.go" afterDir="false" />
@@ -35,18 +44,23 @@
       <change beforePath="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobmetadata.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobmetadata.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobrequest.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/jenkinsmodel/jenkinsjobrequest.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/jobmodel/jobdetails.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/jobmodel/jobdetails.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/projectmodel/dotnetdeliverable.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/projectmodel/dotnetdeliverable.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/repomodel/repositoryfilemetadata.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/repomodel/repositoryfilemetadata.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/repomodel/repositorymetadata.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/repomodel/repositorymetadata.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/repomodel/scmodel.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/repomodel/scmodel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/networking/networking.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/networking/networking.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pathutil/pathutil.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/pathutil/pathutil.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pathutil/pathutil_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/pathutil/pathutil_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/persistenceservice/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/persistenceservice/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/persistenceservice/server/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reposervice/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/reposervice/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reposervice/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/reposervice/server/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stringutil/alphabeticarray.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/stringutil/alphabeticarray.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stringutil/stringutil.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/stringutil/stringutil.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/teamsnotifier/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/teamsnotifier/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/teamsnotifier/server/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/teamsnotifier/server/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webutil/clients.go" beforeDir="false" afterPath="$PROJECT_DIR$/webutil/clients.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templating/templating.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/templating/templating.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/timeutil/timeutil.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/timeutil/timeutil.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webutil/clients.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/webutil/clients.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webutil/requests.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/webutil/requests.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webutil/urls.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/webutil/urls.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,61 +75,7 @@
     <favorites_list name="PlatformCI" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jenkinsservice/server/jenkinsendpoint.go">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistenceservice/main.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" selection-start-line="14" selection-end-line="14" />
-              <folding>
-                <element signature="e#14#212#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="47" selection-start-line="4" selection-start-column="47" selection-end-line="4" selection-end-column="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistenceservice/server/server.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="47" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/teamsnotifier/main.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="60" selection-start-line="7" selection-start-column="60" selection-end-line="7" selection-end-column="60" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/teamsnotifier/server/server.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="47" selection-start-line="5" selection-start-column="47" selection-end-line="5" selection-end-column="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -141,6 +101,7 @@
       <find>ticketnumber</find>
       <find>ticketInfos</find>
       <find>branch</find>
+      <find>./</find>
       <find>../</find>
     </findStrings>
     <replaceStrings>
@@ -257,19 +218,19 @@
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jfast\go\src\github.com\jonfast565\continuous-platform\utilities" />
+      <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\clients" />
+      <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\modelgenerator\models" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\jobmodel" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\repomodel" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\jobbuilder" />
       <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\jobbuilder" />
       <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\jobcontroller" />
       <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\persistenceservice" />
       <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\offlinetester" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\clients" />
-      <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\modelgenerator\models" />
-      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\jobmodel" />
-      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\repomodel" />
-      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\persistmodel" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -398,15 +359,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.12739871" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.24200426" />
       <window_info id="Structure" order="1" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info id="Favorites" order="2" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" sideWeight="0.49626866" visible="true" weight="0.52437705" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48827294" weight="0.20693392" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48789713" weight="0.4171181" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49626866" weight="0.3629469" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48827294" visible="true" weight="0.20693392" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48789713" weight="0.29252437" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32502708" />
@@ -466,7 +426,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="added validation messages." />
     <MESSAGE value="jenkins instrumentation appears to work, finally." />
     <MESSAGE value="simplify repeated code" />
     <MESSAGE value="fixed folder addition code" />
@@ -491,7 +450,8 @@
     <MESSAGE value="added a source control pipeline script, need to regen for source control." />
     <MESSAGE value="updated pipeline script" />
     <MESSAGE value="updated data loader data" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated data loader data" />
+    <MESSAGE value="updated import paths" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated import paths" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -507,12 +467,12 @@
           <option name="timeStamp" value="157" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/webutil/requests.go</url>
+          <url>file://$PROJECT_DIR$/utilities/webutil/requests.go</url>
           <line>115</line>
           <option name="timeStamp" value="175" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/webutil/requests.go</url>
+          <url>file://$PROJECT_DIR$/utilities/webutil/requests.go</url>
           <line>117</line>
           <option name="timeStamp" value="176" />
         </line-breakpoint>
@@ -581,13 +541,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/jobbuilder/configuration.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jobbuilder/appsettings.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -602,7 +555,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cache/cache.go">
+    <entry file="file://$PROJECT_DIR$/utilities/cache/cache.go">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="13" lean-forward="true" selection-start-column="13" selection-end-column="13" />
@@ -640,7 +593,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compressutil/compressutil.go">
+    <entry file="file://$PROJECT_DIR$/utilities/compressutil/compressutil.go">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <folding>
@@ -889,31 +842,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="47" selection-start-line="4" selection-start-column="47" selection-end-line="4" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/persistenceservice/server/server.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="47" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="47" />
+        <state relative-caret-position="255">
+          <caret line="15" column="47" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/teamsnotifier/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="60" selection-start-line="7" selection-start-column="60" selection-end-line="7" selection-end-column="60" />
+        <state relative-caret-position="153">
+          <caret line="9" column="60" selection-start-line="9" selection-start-column="60" selection-end-line="9" selection-end-column="60" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/teamsnotifier/server/server.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="47" selection-start-line="5" selection-start-column="47" selection-end-line="5" selection-end-column="47" />
+        <state relative-caret-position="-323">
+          <caret line="4" column="19" lean-forward="true" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/inframodel/environment.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="42" column="25" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistenceservice/server/infrastructurehelpers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6681">
+          <caret line="393" column="55" lean-forward="true" selection-start-line="393" selection-start-column="55" selection-end-line="393" selection-end-column="55" />
+          <folding>
+            <element signature="e#16#204#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

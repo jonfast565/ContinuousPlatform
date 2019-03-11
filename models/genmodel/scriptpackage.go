@@ -3,7 +3,7 @@ package genmodel
 import (
 	"github.com/ahmetb/go-linq"
 	"github.com/jonfast565/continuous-platform/models/jenkinsmodel"
-	"github.com/jonfast565/continuous-platform/stringutil"
+	"github.com/jonfast565/continuous-platform/utilities/stringutil"
 )
 
 type ScriptPackage struct {

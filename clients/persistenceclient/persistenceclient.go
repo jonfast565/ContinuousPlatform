@@ -3,12 +3,12 @@ package persistenceclient
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/jonfast565/continuous-platform/compressutil"
 	"github.com/jonfast565/continuous-platform/constants"
-	"github.com/jonfast565/continuous-platform/jsonutil"
 	"github.com/jonfast565/continuous-platform/models/inframodel"
 	"github.com/jonfast565/continuous-platform/models/persistmodel"
-	"github.com/jonfast565/continuous-platform/webutil"
+	"github.com/jonfast565/continuous-platform/utilities/compressutil"
+	"github.com/jonfast565/continuous-platform/utilities/jsonutil"
+	"github.com/jonfast565/continuous-platform/utilities/webutil"
 	"net/http"
 	"strconv"
 )

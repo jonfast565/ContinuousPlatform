@@ -1,7 +1,7 @@
 package genmodel
 
 import (
-	"github.com/jonfast565/continuous-platform/templating"
+	"github.com/jonfast565/continuous-platform/utilities/templating"
 	"io/ioutil"
 )
 

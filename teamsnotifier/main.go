@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/jonfast565/continuous-platform/constants"
-	"github.com/jonfast565/continuous-platform/jsonutil"
-	"github.com/jonfast565/continuous-platform/logging"
-	"github.com/jonfast565/continuous-platform/networking"
 	"github.com/jonfast565/continuous-platform/teamsnotifier/server"
+	"github.com/jonfast565/continuous-platform/utilities/jsonutil"
+	"github.com/jonfast565/continuous-platform/utilities/logging"
+	"github.com/jonfast565/continuous-platform/utilities/networking"
 	"net/http"
 )
 

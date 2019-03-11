@@ -3,12 +3,12 @@ package generators
 import (
 	"github.com/ahmetb/go-linq"
 	"github.com/jonfast565/continuous-platform/clients/persistenceclient"
-	"github.com/jonfast565/continuous-platform/logging"
 	"github.com/jonfast565/continuous-platform/models/genmodel"
 	"github.com/jonfast565/continuous-platform/models/inframodel"
 	"github.com/jonfast565/continuous-platform/models/jobmodel"
 	"github.com/jonfast565/continuous-platform/models/projectmodel"
-	"github.com/jonfast565/continuous-platform/timeutil"
+	"github.com/jonfast565/continuous-platform/utilities/logging"
+	"github.com/jonfast565/continuous-platform/utilities/timeutil"
 	"github.com/satori/go.uuid"
 )
 

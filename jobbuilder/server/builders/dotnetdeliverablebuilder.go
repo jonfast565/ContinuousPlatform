@@ -5,13 +5,13 @@ import (
 	"github.com/jonfast565/continuous-platform/clients/msbuildclient"
 	"github.com/jonfast565/continuous-platform/clients/repoclient"
 	"github.com/jonfast565/continuous-platform/constants"
-	"github.com/jonfast565/continuous-platform/fileutil"
-	"github.com/jonfast565/continuous-platform/logging"
 	"github.com/jonfast565/continuous-platform/models/filesysmodel"
 	"github.com/jonfast565/continuous-platform/models/projectmodel"
 	"github.com/jonfast565/continuous-platform/models/repomodel"
-	"github.com/jonfast565/continuous-platform/pathutil"
-	"github.com/jonfast565/continuous-platform/stringutil"
+	"github.com/jonfast565/continuous-platform/utilities/fileutil"
+	"github.com/jonfast565/continuous-platform/utilities/logging"
+	"github.com/jonfast565/continuous-platform/utilities/pathutil"
+	"github.com/jonfast565/continuous-platform/utilities/stringutil"
 )
 
 type DotNetDeliverableBuildContext struct {

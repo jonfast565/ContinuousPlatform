@@ -2,10 +2,10 @@ package server
 
 import (
 	"github.com/jonfast565/continuous-platform/jobbuilder/server/generators"
-	"github.com/jonfast565/continuous-platform/logging"
 	"github.com/jonfast565/continuous-platform/models/genmodel"
 	"github.com/jonfast565/continuous-platform/models/jobmodel"
 	"github.com/jonfast565/continuous-platform/models/projectmodel"
+	"github.com/jonfast565/continuous-platform/utilities/logging"
 )
 
 func GenerateScripts(details *jobmodel.JobDetails) bool {

@@ -5,10 +5,10 @@ import (
 	"encoding/gob"
 	"encoding/json"
 	"github.com/jonfast565/continuous-platform/clients/persistenceclient"
-	"github.com/jonfast565/continuous-platform/logging"
 	"github.com/jonfast565/continuous-platform/models/genmodel"
 	"github.com/jonfast565/continuous-platform/models/projectmodel"
 	"github.com/jonfast565/continuous-platform/models/repomodel"
+	"github.com/jonfast565/continuous-platform/utilities/logging"
 )
 
 func SetRepositoriesCache(repoPackage repomodel.RepositoryPackage) error {

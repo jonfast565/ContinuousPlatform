@@ -2,10 +2,10 @@ package repomodel
 
 import (
 	"fmt"
-	"github.com/jonfast565/continuous-platform/fileutil"
 	"github.com/jonfast565/continuous-platform/models/filesysmodel"
-	"github.com/jonfast565/continuous-platform/pathutil"
-	"github.com/jonfast565/continuous-platform/stringutil"
+	"github.com/jonfast565/continuous-platform/utilities/fileutil"
+	"github.com/jonfast565/continuous-platform/utilities/pathutil"
+	"github.com/jonfast565/continuous-platform/utilities/stringutil"
 )
 
 type RepositoryMetadata struct {

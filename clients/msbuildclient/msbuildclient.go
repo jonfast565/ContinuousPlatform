@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/jonfast565/continuous-platform/constants"
-	"github.com/jonfast565/continuous-platform/jsonutil"
 	"github.com/jonfast565/continuous-platform/models/miscmodel"
 	"github.com/jonfast565/continuous-platform/models/projectmodel"
-	"github.com/jonfast565/continuous-platform/webutil"
+	"github.com/jonfast565/continuous-platform/utilities/jsonutil"
+	"github.com/jonfast565/continuous-platform/utilities/webutil"
 	"net/http"
 	"strconv"
 )

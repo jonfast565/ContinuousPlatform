@@ -2,7 +2,7 @@ package jenkinsmodel
 
 import (
 	"github.com/jonfast565/continuous-platform/constants"
-	"github.com/jonfast565/continuous-platform/stringutil"
+	"github.com/jonfast565/continuous-platform/utilities/stringutil"
 )
 
 type JenkinsJobKeyList []JenkinsJobKey
