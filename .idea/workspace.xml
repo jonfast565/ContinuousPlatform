@@ -6,26 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ab4bc7b4-aa05-4e72-9ddc-6a4319037447" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clients/jenkinsclient/jenkinsclient.go" beforeDir="false" afterPath="$PROJECT_DIR$/clients/jenkinsclient/jenkinsclient.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clients/msbuildclient/msbuildclient.go" beforeDir="false" afterPath="$PROJECT_DIR$/clients/msbuildclient/msbuildclient.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/cache/cache.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/cache/cache.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/compressutil/compressutil.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/compressutil/compressutil.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/fileutil/filegraph.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/fileutil/filegraph.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/fileutil/filegraphfile.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/fileutil/filegraphfile.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/fileutil/filegraphfolder.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/fileutil/filegraphfolder.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/fileutil/filegraphitem.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/fileutil/filegraphitem.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/fileutil/filewriter.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/fileutil/filewriter.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/jsonutil/jsonutil.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/jsonutil/jsonutil.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/limitutil/limiter.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/limitutil/limiter.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/logging/logging.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/logging/logging.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/networking/networking.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/networking/networking.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/pathutil/pathutil.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/pathutil/pathutil.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/stringutil/alphabeticarray.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/stringutil/alphabeticarray.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/templating/templating.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/templating/templating.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/timeutil/timeutil.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/timeutil/timeutil.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/webutil/clients.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/webutil/clients.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/webutil/requests.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/webutil/requests.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/webutil/urls.go" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/webutil/urls.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,98 +20,7 @@
     <favorites_list name="PlatformCI" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utilities/logging/logging.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="118" column="16" selection-start-line="118" selection-start-column="16" selection-end-line="118" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utilities/limitutil/limiter.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="62" selection-start-line="9" selection-start-column="62" selection-end-line="9" selection-end-column="62" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utilities/jsonutil/jsonutil.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
-              <caret line="46" column="26" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utilities/fileutil/filegraph.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="69" selection-start-column="69" selection-end-column="69" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utilities/fileutil/filegraphfile.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" selection-start-line="4" selection-end-line="4" selection-end-column="36" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utilities/fileutil/filegraphfolder.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2125">
-              <caret line="128" column="26" selection-start-line="128" selection-start-column="26" selection-end-line="128" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utilities/fileutil/filegraphitem.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="60" selection-start-line="2" selection-start-column="51" selection-end-line="2" selection-end-column="60" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utilities/fileutil/filewriter.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="38" selection-start-line="4" selection-start-column="38" selection-end-line="4" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/utilities/compressutil/compressutil.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="28" column="54" selection-start-line="28" selection-start-column="54" selection-end-line="28" selection-end-column="54" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/utilities/cache/cache.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="16" column="52" selection-start-line="16" selection-start-column="52" selection-end-line="16" selection-end-column="52" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -223,14 +112,14 @@
         <option value="$PROJECT_DIR$/utilities/stringutil/alphabeticarray.go" />
         <option value="$PROJECT_DIR$/utilities/pathutil/pathutil.go" />
         <option value="$PROJECT_DIR$/utilities/networking/networking.go" />
-        <option value="$PROJECT_DIR$/utilities/logging/logging.go" />
-        <option value="$PROJECT_DIR$/utilities/limitutil/limiter.go" />
-        <option value="$PROJECT_DIR$/utilities/jsonutil/jsonutil.go" />
         <option value="$PROJECT_DIR$/utilities/fileutil/filegraph.go" />
         <option value="$PROJECT_DIR$/utilities/fileutil/filegraphfile.go" />
         <option value="$PROJECT_DIR$/utilities/fileutil/filegraphfolder.go" />
         <option value="$PROJECT_DIR$/utilities/fileutil/filegraphitem.go" />
         <option value="$PROJECT_DIR$/utilities/fileutil/filewriter.go" />
+        <option value="$PROJECT_DIR$/utilities/logging/logging.go" />
+        <option value="$PROJECT_DIR$/utilities/limitutil/limiter.go" />
+        <option value="$PROJECT_DIR$/utilities/jsonutil/jsonutil.go" />
         <option value="$PROJECT_DIR$/utilities/compressutil/compressutil.go" />
         <option value="$PROJECT_DIR$/utilities/cache/cache.go" />
       </list>
@@ -268,19 +157,12 @@
               <item name="continuous-platform" type="b2602c69:ProjectViewProjectNode" />
               <item name="continuous-platform" type="462c0819:PsiDirectoryNode" />
               <item name="clients" type="462c0819:PsiDirectoryNode" />
-              <item name="jenkinsclient" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="continuous-platform" type="b2602c69:ProjectViewProjectNode" />
-              <item name="continuous-platform" type="462c0819:PsiDirectoryNode" />
-              <item name="clients" type="462c0819:PsiDirectoryNode" />
-              <item name="msbuildclient" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="continuous-platform" type="b2602c69:ProjectViewProjectNode" />
-              <item name="continuous-platform" type="462c0819:PsiDirectoryNode" />
-              <item name="clients" type="462c0819:PsiDirectoryNode" />
               <item name="persistenceclient" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="continuous-platform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="continuous-platform" type="462c0819:PsiDirectoryNode" />
+              <item name="teamsnotifier" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="continuous-platform" type="b2602c69:ProjectViewProjectNode" />
@@ -303,7 +185,25 @@
               <item name="continuous-platform" type="b2602c69:ProjectViewProjectNode" />
               <item name="continuous-platform" type="462c0819:PsiDirectoryNode" />
               <item name="utilities" type="462c0819:PsiDirectoryNode" />
+              <item name="fileutil" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="continuous-platform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="continuous-platform" type="462c0819:PsiDirectoryNode" />
+              <item name="utilities" type="462c0819:PsiDirectoryNode" />
               <item name="jsonutil" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="continuous-platform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="continuous-platform" type="462c0819:PsiDirectoryNode" />
+              <item name="utilities" type="462c0819:PsiDirectoryNode" />
+              <item name="limitutil" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="continuous-platform" type="b2602c69:ProjectViewProjectNode" />
+              <item name="continuous-platform" type="462c0819:PsiDirectoryNode" />
+              <item name="utilities" type="462c0819:PsiDirectoryNode" />
+              <item name="logging" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -325,19 +225,19 @@
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\jfast\go\src\github.com\jonfast565\continuous-platform\utilities" />
-      <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\clients" />
-      <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\modelgenerator\models" />
-      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\jobmodel" />
-      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\repomodel" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\jobbuilder" />
       <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\jobbuilder" />
       <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\jobcontroller" />
       <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\persistenceservice" />
       <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\offlinetester" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jfast\go\src\github.com\jonfast565\continuous-platform\utilities" />
+      <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\clients" />
+      <recent name="C:\Users\jfast\Desktop\Repos\PlatformCI\modelgenerator\models" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\jobmodel" />
+      <recent name="C:\Users\jfast\Desktop\Repos\SystemCI\models\repomodel" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -466,7 +366,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49722221" visible="true" weight="0.20042644" />
       <window_info id="Structure" order="1" sideWeight="0.50277776" side_tool="true" weight="0.21785174" />
@@ -534,8 +433,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="simplify repeated code" />
-    <MESSAGE value="fixed folder addition code" />
     <MESSAGE value="added teams notifier to build script" />
     <MESSAGE value="small refac, publish profiles should now work correctly. added sanitization map for bad filenames" />
     <MESSAGE value="added better projectdir/solutiondir sanitization" />
@@ -559,7 +456,9 @@
     <MESSAGE value="updated data loader data" />
     <MESSAGE value="updated import paths" />
     <MESSAGE value="move utilities classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="move utilities classes" />
+    <MESSAGE value="document utilities" />
+    <MESSAGE value="package documentation for utils" />
+    <option name="LAST_COMMIT_MESSAGE" value="package documentation for utils" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -908,31 +807,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utilities/logging/logging.go">
+    <entry file="file://$PROJECT_DIR$/utilities/fileutil/filewriter.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="118" column="16" selection-start-line="118" selection-start-column="16" selection-end-line="118" selection-end-column="16" />
+        <state relative-caret-position="68">
+          <caret line="4" column="38" selection-start-line="4" selection-start-column="38" selection-end-line="4" selection-end-column="38" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utilities/limitutil/limiter.go">
+    <entry file="file://$PROJECT_DIR$/utilities/fileutil/filegraphitem.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="62" selection-start-line="9" selection-start-column="62" selection-end-line="9" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utilities/jsonutil/jsonutil.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="46" column="26" selection-start-line="46" selection-start-column="26" selection-end-line="46" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utilities/fileutil/filegraph.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="69" selection-start-column="69" selection-end-column="69" />
+        <state relative-caret-position="34">
+          <caret line="2" column="60" selection-start-line="2" selection-start-column="51" selection-end-line="2" selection-end-column="60" />
         </state>
       </provider>
     </entry>
@@ -950,31 +835,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utilities/fileutil/filegraphitem.go">
+    <entry file="file://$PROJECT_DIR$/utilities/logging/logging.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="60" selection-start-line="2" selection-start-column="51" selection-end-line="2" selection-end-column="60" />
+        <state>
+          <caret column="68" selection-start-column="68" selection-end-column="68" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utilities/fileutil/filewriter.go">
+    <entry file="file://$PROJECT_DIR$/utilities/limitutil/limiter.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="38" selection-start-line="4" selection-start-column="38" selection-end-line="4" selection-end-column="38" />
+        <state>
+          <caret column="31" selection-start-column="31" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utilities/jsonutil/jsonutil.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="55" selection-start-column="55" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utilities/fileutil/filegraph.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="69" selection-start-column="69" selection-end-column="69" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utilities/compressutil/compressutil.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="28" column="54" selection-start-line="28" selection-start-column="54" selection-end-line="28" selection-end-column="54" />
+        <state>
+          <caret column="58" selection-start-column="58" selection-end-column="58" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utilities/cache/cache.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="16" column="52" selection-start-line="16" selection-start-column="52" selection-end-line="16" selection-end-column="52" />
+        <state>
+          <caret column="30" selection-start-column="30" selection-end-column="30" />
         </state>
       </provider>
     </entry>
