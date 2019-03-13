@@ -9,6 +9,7 @@ import (
 	"strconv"
 )
 
+// Detects the changes in source control and aggregates them into a package (map/reduce)
 func DetectChanges(details *jobmodel.JobDetails) bool {
 	defer func() {
 		if r := recover(); r != nil {

@@ -1,3 +1,4 @@
+// repo service server
 package server
 
 import (
@@ -17,6 +18,7 @@ import (
 	"sync"
 )
 
+// Configuration for a Team Services (aka. Azure Devops) connection
 type TeamServicesConfiguration struct {
 	Port                int    `json:"port"`
 	CollectionUrl       string `json:"collectionUrl"`
@@ -25,16 +27,20 @@ type TeamServicesConfiguration struct {
 	PersonalAccessToken string `json:"personalAccessToken"`
 }
 
+// Endpoint for Team Services
 type TeamServicesEndpoint struct {
 	Configuration TeamServicesConfiguration
 }
 
+// Endpoint constructor
 func NewTeamServicesEndpoint(configuration TeamServicesConfiguration) *TeamServicesEndpoint {
 	result := new(TeamServicesEndpoint)
 	result.Configuration = configuration
 	return result
 }
 
+// Gets a package object containing a list of repositories, suitable for xfer over the wire.
+// If failed, returns an error.
 func (e TeamServicesEndpoint) GetRepositories() (*repomodel.RepositoryPackage, error) {
 	results := make([]repomodel.RepositoryMetadata, 0)
 	resultsChannel := make(chan repomodel.RepositoryMetadata)
@@ -130,6 +136,8 @@ func (e TeamServicesEndpoint) buildRepositoryMetadata(
 	}
 }
 
+// Gets a file by providing metadata about its repository and path. Returns the payload as an object containing
+// a bytestring. If failed, returns an error.
 func (e TeamServicesEndpoint) GetFile(file repomodel.RepositoryFileMetadata) (*miscmodel.FilePayload, error) {
 
 	if len(file.File.Path) == 0 {

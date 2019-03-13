@@ -11,6 +11,7 @@ import (
 	"github.com/jonfast565/continuous-platform/utilities/logging"
 )
 
+// Sets the repository cache
 func SetRepositoriesCache(repoPackage repomodel.RepositoryPackage) error {
 	client := persistenceclient.NewPersistenceClient()
 	var packageBuffer bytes.Buffer
@@ -27,6 +28,7 @@ func SetRepositoriesCache(repoPackage repomodel.RepositoryPackage) error {
 	return nil
 }
 
+// Gets the repository cache
 func GetRepositoriesCache() (*repomodel.RepositoryPackage, error) {
 	client := persistenceclient.NewPersistenceClient()
 	logging.LogInfo("Getting repositories...")
@@ -46,6 +48,7 @@ func GetRepositoriesCache() (*repomodel.RepositoryPackage, error) {
 	return &value, nil
 }
 
+// Sets the deliverable cache
 func SetDeliverablesCache(deliverablePackage projectmodel.DeliverablePackage) error {
 	client := persistenceclient.NewPersistenceClient()
 	logging.LogInfo("Persisting deliverables...")
@@ -60,6 +63,7 @@ func SetDeliverablesCache(deliverablePackage projectmodel.DeliverablePackage) er
 	return nil
 }
 
+// Gets the deliverable cache
 func GetDeliverablesCache() (*projectmodel.DeliverablePackage, error) {
 	client := persistenceclient.NewPersistenceClient()
 	logging.LogInfo("Getting deliverables...")
@@ -77,6 +81,7 @@ func GetDeliverablesCache() (*projectmodel.DeliverablePackage, error) {
 	return &value, nil
 }
 
+// Sets the script cache
 func SetScriptCache(scriptPackage genmodel.ScriptPackage) error {
 	client := persistenceclient.NewPersistenceClient()
 	logging.LogInfo("Persisting scripts...")
@@ -91,6 +96,7 @@ func SetScriptCache(scriptPackage genmodel.ScriptPackage) error {
 	return nil
 }
 
+// Gets the script cache
 func GetScriptCache() (*genmodel.ScriptPackage, error) {
 	client := persistenceclient.NewPersistenceClient()
 	logging.LogInfo("Getting scripts...")

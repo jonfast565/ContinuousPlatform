@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+// script properties used to initialize the metadata
 type ScriptKeyValuePair struct {
 	KeyElements []string
 	Value       string
@@ -15,6 +16,7 @@ type ScriptKeyValuePair struct {
 	ToolScope   []string
 }
 
+// gets a debug path used for dropping generated files
 func (s ScriptKeyValuePair) GetDebugFilePath(debugPathBase string) string {
 	scriptPart := stringutil.ConcatMultipleWithSeparator("-", s.KeyElements...)
 	scriptNameExtension := scriptPart + "-" + s.Type + "." + s.Extension
@@ -23,6 +25,7 @@ func (s ScriptKeyValuePair) GetDebugFilePath(debugPathBase string) string {
 	return fileName
 }
 
+// Gets a list of key elements that can be used to namespace a Jenkins Job
 func (s ScriptKeyValuePair) GetJenkinsKeyList() jenkinsmodel.JenkinsJobKeyList {
 	scriptMetadataKeys := make([]jenkinsmodel.JenkinsJobKey, 0)
 	for i := range s.KeyElements {

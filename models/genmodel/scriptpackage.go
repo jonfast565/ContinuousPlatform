@@ -6,10 +6,12 @@ import (
 	"github.com/jonfast565/continuous-platform/utilities/stringutil"
 )
 
+// package of scripts
 type ScriptPackage struct {
 	Scripts []ScriptKeyValuePair
 }
 
+// use a key to get script contents from a package, a simple lookup
 func (sp ScriptPackage) GetScriptContentsByKey(key jenkinsmodel.JenkinsJobKey) *string {
 	for _, script := range sp.Scripts {
 		myKeys := script.GetJenkinsKeyList()

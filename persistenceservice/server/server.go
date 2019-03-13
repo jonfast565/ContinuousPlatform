@@ -1,3 +1,4 @@
+// Persistence Service server
 package server
 
 import (
@@ -19,6 +20,7 @@ import (
 	"time"
 )
 
+// Persistence Service Configuration object
 type PersistenceServiceConfiguration struct {
 	Port      int
 	Username  string
@@ -29,6 +31,7 @@ type PersistenceServiceConfiguration struct {
 	EnableSsl bool
 }
 
+// Creates a valid postgres connection string from a configuration object
 func (c PersistenceServiceConfiguration) GetPostgresConnectionString() string {
 	enableSslResult := "enable"
 	if c.EnableSsl == false {
@@ -43,21 +46,25 @@ func (c PersistenceServiceConfiguration) GetPostgresConnectionString() string {
 		enableSslResult)
 }
 
+// Gets a valid Gorm (ORM) connection from a Postgres connection string
 func (c *PersistenceServiceConfiguration) GetConnection() (*gorm.DB, error) {
 	connStr := c.GetPostgresConnectionString()
 	return gorm.Open(constants.DatabaseDriver, connStr)
 }
 
+// Service endpoint
 type PersistenceServiceEndpoint struct {
 	Configuration PersistenceServiceConfiguration
 }
 
+// Service endpoint constructor
 func NewPersistenceServiceEndpoint(configuration PersistenceServiceConfiguration) *PersistenceServiceEndpoint {
 	result := new(PersistenceServiceEndpoint)
 	result.Configuration = configuration
 	return result
 }
 
+// Set the key value cache based on a request
 func (p *PersistenceServiceEndpoint) SetKeyValueCache(
 	setRequest *persistmodel.KeyValueRequest) error {
 
@@ -113,6 +120,7 @@ func (p *PersistenceServiceEndpoint) SetKeyValueCache(
 	return nil
 }
 
+// Get the key value cache based on a request
 func (p *PersistenceServiceEndpoint) GetKeyValueCache(
 	getRequest *persistmodel.KeyRequest) (*persistmodel.KeyValueResult, error) {
 	logging.LogInfo("Getting cache value: " + getRequest.Key)
@@ -139,6 +147,7 @@ func (p *PersistenceServiceEndpoint) GetKeyValueCache(
 	return &persistmodel.KeyValueResult{Value: result.Value}, nil
 }
 
+// Sets a log record in the database (for use with logging libraries and not directly)
 func (p *PersistenceServiceEndpoint) SetLogRecord(logRecord *loggingmodel.LogRecord) error {
 
 	fmt.Printf("Getting cache value: %s", stringutil.PartialMessage(logRecord.Message))
@@ -180,6 +189,7 @@ func (p *PersistenceServiceEndpoint) SetLogRecord(logRecord *loggingmodel.LogRec
 	return nil
 }
 
+// Gets a list of resources that can be extracted from the database (i.e. servers, apps, sites, etc.)
 func (p *PersistenceServiceEndpoint) GetResourceCache() (*inframodel.ResourceList, error) {
 	logging.LogInfo("Getting resource cache")
 
@@ -208,6 +218,7 @@ func (p *PersistenceServiceEndpoint) GetResourceCache() (*inframodel.ResourceLis
 	return &result, nil
 }
 
+// Gets the infrastructure for a given resource
 func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.ResourceKey) (
 	*inframodel.BuildInfrastructureMetadata, error) {
 	logging.LogInfo("Getting infrastructure metadata: " + key.String())
@@ -226,6 +237,7 @@ func (p *PersistenceServiceEndpoint) GetBuildInfrastructure(key inframodel.Resou
 
 	resource := getResource(key, db)
 	sites := getIisSites(resource.IisSites, db)
+	// TODO: Remove, is it required
 	// allSiteParts := getAllIisSiteParts(db)
 	allSites := getAllIisSites(db)
 	applications := getIisApplications(resource.IisApplications, db)

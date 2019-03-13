@@ -8,6 +8,7 @@ import (
 	"github.com/jonfast565/continuous-platform/utilities/logging"
 )
 
+// Generates scripts that will be turned into Jenkins jobs
 func GenerateScripts(details *jobmodel.JobDetails) bool {
 	defer func() {
 		if r := recover(); r != nil {

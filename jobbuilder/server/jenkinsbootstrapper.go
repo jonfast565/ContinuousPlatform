@@ -12,6 +12,7 @@ import (
 	"sort"
 )
 
+// Deploys jobs to jenkins based on what scripts have been generated
 func DeployJenkinsJobs(details *jobmodel.JobDetails) bool {
 	defer func() {
 		if r := recover(); r != nil {

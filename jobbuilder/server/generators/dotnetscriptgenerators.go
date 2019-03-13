@@ -12,6 +12,8 @@ import (
 	"github.com/satori/go.uuid"
 )
 
+// Dotnet script generator object
+// Contains all generated scripts
 type DotNetScriptGenerator struct {
 	persistenceClient                persistenceclient.PersistenceClient
 	BuildScripts                     []genmodel.ScriptTemplate
@@ -21,6 +23,7 @@ type DotNetScriptGenerator struct {
 	ResourceList                     inframodel.ResourceList
 }
 
+// Script generator constructor
 func NewDotNetScriptGenerator() *DotNetScriptGenerator {
 	templateList := genmodel.NewScriptTemplateList()
 

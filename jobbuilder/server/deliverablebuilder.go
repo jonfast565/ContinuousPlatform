@@ -10,6 +10,9 @@ import (
 	"sync"
 )
 
+// Builds deliverables from a file in source control
+// A deliverable is a buildable unit, something that will represent a build in the future
+// This step allows for additional data to be collected from the source control in the construction of a build
 func BuildDeliverables(details *jobmodel.JobDetails) bool {
 	defer func() {
 		if r := recover(); r != nil {

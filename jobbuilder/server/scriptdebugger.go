@@ -9,6 +9,8 @@ import (
 // TODO: Enable when debugging
 var DEBUG_SCRIPTS = true
 
+// Allows scripts to be deployed with extensions to the file system
+// This is useful for debugging them before they go to Jenkins
 func DeployScriptsForDebugging(details *jobmodel.JobDetails) bool {
 	defer func() {
 		if r := recover(); r != nil {
